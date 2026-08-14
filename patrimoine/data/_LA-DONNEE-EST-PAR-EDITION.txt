@@ -1,0 +1,5 @@
+Le socle est GÉNÉRIQUE : il ne contient PAS de base patrimoine.
+La donnée INP (inp_sites.json + inp_classes.json) est RELATIVE À CHAQUE PAYS
+et vit dans l'édition (ex. THE = Tunisie, source : Référence-et-Bibliographie/
+INP-Tunisie-monuments-classes/). config.js pointe vers data/inp_sites.json &
+data/inp_classes.json — à fournir par l'édition. Règle « un fichier, un pays ».

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="joaillerie.titre"></title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;white-space:nowrap;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:2px;font-size:17px;text-align:center;}
+main{max-width:760px;margin:0 auto;padding:20px 20px 64px;}
+/* .gal-* (titre, cartes, images, crédits, frise) sont injectés par brique-galerie.js — page autoportée */
+.gal-body h3{font-family:'Cormorant Garamond',serif;}
+.gal-head h2{font-family:'Cormorant Garamond',serif;}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a>
+  <span class="t" data-i18n="joaillerie.titre"></span>
+  <span style="width:40px"></span>
+</div>
+
+<main>
+  <section data-brique="galerie" data-src="brique-joaillerie.data.json"></section>
+</main>
+
+<script src="brique-galerie.js" defer></script>
+<script src="the-footer.js" defer></script>
+<script src="analytics.js"></script>
+</body>
+</html>

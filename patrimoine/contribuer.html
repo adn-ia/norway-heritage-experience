@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="patrimoine.contrib.titre">Contribuer</title>
+<script src="config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--peril:#a5432f;}
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(38,32,26,.97);color:var(--ivory);
+  padding:11px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .brand{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:16px;text-transform:uppercase;}
+main{max-width:640px;margin:0 auto;padding:26px 20px 70px;}
+.kicker{font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:0 0 6px;}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.05;margin:0 0 8px;}
+.lead{font-style:italic;color:var(--stone);margin:0 0 24px;font-size:16.5px;}
+section{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:20px;margin:0 0 16px;box-shadow:0 3px 12px rgba(43,35,24,.05);}
+label{display:block;font-size:14px;color:var(--stone);letter-spacing:.3px;margin:0 0 5px;}
+label .req{color:var(--peril);}
+input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--ivory);
+  border:1px solid var(--line);border-radius:8px;padding:11px 12px;margin:0 0 15px;}
+textarea{min-height:110px;resize:vertical;}
+.row2{display:flex;gap:14px;flex-wrap:wrap;}
+.row2>div{flex:1;min-width:200px;}
+.note{background:#fbf3e8;border-left:3px solid var(--gold-soft);padding:11px 14px;border-radius:6px;font-size:14px;color:#5a4d3a;margin:0 0 16px;}
+.btn{display:block;width:100%;text-align:center;background:var(--gold);color:#fff;border:none;border-radius:9px;
+  padding:14px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;}
+.btn.off{opacity:.5;cursor:not-allowed;}
+.msg{text-align:center;font-size:14px;color:var(--peril);min-height:20px;margin-top:10px;}
+h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin:0 0 14px;}
+.ctx{background:#eef3ea;border-left:3px solid var(--green,#5c7a52);padding:11px 14px;border-radius:6px;font-size:14.5px;color:#3f5238;margin:0 0 14px;}
+input[readonly]{background:#efe9db;color:#6f6350;cursor:not-allowed;}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="index.html" data-i18n="patrimoine.contrib.retour">‹ Retour</a>
+    <span class="brand" data-i18n="patrimoine.marque">Patrimoine</span>
+  </div>
+
+  <main>
+    <p class="kicker" data-i18n="patrimoine.kicker">Veille citoyenne du patrimoine</p>
+    <h1 data-i18n="patrimoine.contrib.h1">Signaler · veiller sur un site</h1>
+    <p class="lead" data-i18n="patrimoine.contrib.lead"></p>
+
+    <div class="ctx" id="ctx" hidden></div>
+    <div class="note" data-i18n="patrimoine.contrib.public"></div>
+
+    <form id="form" novalidate>
+      <section>
+        <h2 data-i18n="patrimoine.contrib.sec.site">Le site</h2>
+        <label data-i18n="patrimoine.contrib.site">Site concerné</label>
+        <input id="fSite" type="text" data-i18n-ph="patrimoine.contrib.site.ph">
+        <label data-i18n="patrimoine.contrib.etat">État observé</label>
+        <select id="fEtat"></select>
+        <label data-i18n="patrimoine.contrib.obs">Ce que vous observez <span class="req">*</span></label>
+        <textarea id="fObs" data-i18n-ph="patrimoine.contrib.obs.ph"></textarea>
+        <label data-i18n="patrimoine.contrib.photo">Photo — lien (URL)</label>
+        <input id="fPhoto" type="url" data-i18n-ph="patrimoine.contrib.photo.ph">
+        <label data-i18n="patrimoine.contrib.credit">Crédit / source de la photo</label>
+        <input id="fCredit" type="text" data-i18n-ph="patrimoine.contrib.credit.ph">
+        <label class="chkline"><input id="fRights" type="checkbox" style="width:auto;margin:0 8px 0 0"> <span data-i18n="patrimoine.contrib.droits">J'atteste détenir les droits de cette photo (ou libre de droits).</span></label>
+      </section>
+
+      <section>
+        <h2 data-i18n="patrimoine.contrib.vous">Vous</h2>
+        <div class="row2">
+          <div>
+            <label data-i18n="patrimoine.contrib.prenom">Prénom <span class="req">*</span></label>
+            <input id="fPrenom" type="text" autocomplete="given-name">
+          </div>
+          <div>
+            <label data-i18n="patrimoine.contrib.nom">Nom <span class="req">*</span></label>
+            <input id="fNom" type="text" autocomplete="family-name">
+          </div>
+        </div>
+        <label data-i18n="patrimoine.contrib.email">Email <span class="req">*</span></label>
+        <input id="fMail" type="email" autocomplete="email">
+      </section>
+
+      <button class="btn" id="send" type="submit" data-i18n="patrimoine.contrib.envoyer">Envoyer ma contribution</button>
+      <p class="msg" id="msg"></p>
+    </form>
+  </main>
+
+  <!-- Firebase (SDK compat) — sert UNIQUEMENT à patrimoine. Inerte si config vide. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="i18n/engine.js"></script>
+  <script src="contribuer.js"></script>
+</body>
+</html>

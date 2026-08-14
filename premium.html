@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="premium.pays.heritage.le.premium"></title>
+<link rel="manifest" href="manifest.json">
+  <script src="the-pass.js"></script>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
+main{max-width:680px;margin:0 auto;padding:24px 22px 60px;}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(28px,7vw,40px);line-height:1.05;margin:6px 0 4px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.soon{font-family:'EB Garamond',serif;font-size:13px;font-weight:400;letter-spacing:1px;text-transform:uppercase;background:var(--gold);color:#fff;border-radius:20px;padding:3px 12px;}
+.lead{font-style:italic;color:var(--stone);margin:0 0 22px;font-size:16.5px;}
+section{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;box-shadow:0 4px 14px rgba(43,35,24,.06);}
+section h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:0 0 12px;}
+.feat{display:flex;gap:13px;align-items:flex-start;margin:13px 0;}
+.feat .ic{font-size:25px;flex:0 0 auto;line-height:1.2;}
+.feat .ft{font-weight:600;font-size:16px;}
+.feat .fs{font-size:14.5px;color:#5a4d3a;}
+.price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ink);}
+.price b{color:var(--gold);}
+.btn{display:inline-block;background:var(--gold);color:#fff;text-decoration:none;border:none;padding:12px 20px;border-radius:8px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:10px;}
+.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink);}
+.btn.cafe{background:#f6e8cf;border:1.5px solid var(--gold);color:#6b5426;font-weight:700;}
+.cafebox{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);}
+.cafebox .lead2{font-size:14px;color:#5a4d3a;margin-bottom:6px;}
+.fineprint{font-size:12.5px;color:var(--stone);font-style:italic;margin-top:10px;}
+.note{background:#fbf3e8;border-left:3px solid var(--gold-soft);padding:10px 13px;border-radius:6px;font-size:14.5px;margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="premium.le.premium"></span></div>
+<main>
+  <h1 data-i18n-html="premium.rich.le.premium"></h1>
+  <p class="lead" data-i18n="premium.toute.l.application.est"></p>
+
+  <section>
+    <h2 data-i18n="premium.ce.que.le.premium"></h2>
+    <div class="feat"><span class="ic">📔</span><div><div class="ft" data-i18n="premium.album.souvenir.passeport.livre"></div><div class="fs" data-i18n="premium.exportez.votre.voyage.en"></div></div></div>
+    <div class="feat"><span class="ic">🎧</span><div><div class="ft" data-i18n="premium.guide.audio.des.lieux"></div><div class="fs" data-i18n="premium.ecoutez.la.narration.des"></div></div></div>
+    <div class="feat"><span class="ic">🧭</span><div><div class="ft" data-i18n="premium.itineraires.sur.mesure"></div><div class="fs" data-i18n="premium.composez.des.parcours.100"></div></div></div>
+    <div class="feat"><span class="ic">🔗</span><div><div class="ft" data-i18n="premium.lien.partageable"></div><div class="fs" data-i18n="premium.partagez.vos.itineraires.d"></div></div></div>
+    <div class="feat"><span class="ic">🍽️</span><div><div class="ft" data-i18n="premium.theme.gastronomie"></div><div class="fs" data-i18n="premium.un.fil.rouge.dedie"></div></div></div>
+    <div class="feat"><span class="ic">🗺️</span><div><div class="ft" data-i18n="premium.tous.les.circuits.prets"></div><div class="fs" data-i18n="premium.accedez.a.l.ensemble"></div></div></div>
+    <div class="feat"><span class="ic">📖</span><div><div class="ft" data-i18n="premium.focus.thematiques"></div><div class="fs" data-i18n="premium.des.dossiers.approfondis.sur"></div></div></div>
+  </section>
+
+  <section id="buy">
+    <h2 data-i18n="premium.debloquer.le.premium"></h2>
+    <p class="price" data-i18n-html="premium.rich.prix.an"></p>
+    <p class="fs" style="color:#5a4d3a" data-i18n="premium.essai.2.semaines"></p>
+    <div id="buyStore" style="display:none"></div>
+    <div id="buyWeb" style="display:none"></div>
+    <!-- Mentions abo + liens LÉGAUX obligatoires DANS le flux d'achat (Apple 3.1.2(c)) :
+         EULA + Confidentialité. TOUJOURS visibles (jamais .ios-hide). -->
+    <p class="fineprint" data-i18n="premium.abo.legal.disclosure"></p>
+    <p class="fineprint">
+      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener" data-i18n="premium.conditions.utilisation"></a>
+      &nbsp;·&nbsp;
+      <a href="confidentialite.html" data-i18n="footer.confidentialite"></a>
+    </p>
+  </section>
+
+  <section class="ios-hide" id="codebox">
+    <h2 data-i18n="premium.code.titre"></h2>
+    <p class="fs" style="color:#5a4d3a" data-i18n="premium.code.desc"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+      <input id="codeInput" type="text" autocapitalize="characters" spellcheck="false" placeholder="EE-XXXX-XXXX" style="flex:1;min-width:160px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:15px">
+      <button class="btn" id="codeBtn" type="button" style="margin-top:0" data-i18n="premium.activer"></button>
+    </div>
+    <p id="codeMsg" class="fineprint" style="min-height:1.1em;margin-top:8px"></p>
+  </section>
+</main>
+<script src="the-i18n.js"></script>
+<script>
+  var P = window.THEPass || {};
+  function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?String(s).replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
+  var store = P.isStoreApp ? P.isStoreApp() : (P.isIOS && P.isIOS());
+
+  function render(){
+    // Déjà premium PAYANT ou par CODE → message + retour app.
+    // (Essai en cours → on NE s'arrête PAS ici : on laisse le bouton « S'abonner » s'afficher,
+    //  pour la conversion ET pour que la review Apple puisse trouver l'achat.)
+    var _pi=(P.info&&P.info())||{active:false};
+    if(P.isActive && P.isActive() && _pi.active && !_pi.trial){
+      var b=document.getElementById('buyWeb'); if(b){ b.style.display='block';
+        var _cd=(_pi.daysLeft!=null && _pi.daysLeft>0) ? '<div class="fineprint">'+_pi.daysLeft+' <span data-i18n="premium.jours.restants"></span></div>' : '';
+        b.innerHTML='<div class="note">'+uiT('premium.premium.actif')+'</div>'+_cd+'<a class="btn" href="bienvenue.html">'+uiT('premium.ouvrir.l.app')+'</a>'; }
+      return;
+    }
+    // Bandeau « essai en cours » — à afficher AU-DESSUS du bouton d'abonnement.
+    var _trialNote=(_pi.active && _pi.trial && _pi.daysLeft!=null)
+      ? '<div class="note">✦ '+_pi.daysLeft+' <span data-i18n="premium.jours.restants"></span> · <span data-i18n="premium.essai.abonnez"></span></div>' : '';
+    // App de store : achat NATIF uniquement — JAMAIS Lemon Squeezy ici (Apple 3.1.1 / Play Billing).
+    if(store){
+      var s=document.getElementById('buyStore'); s.style.display='block';
+      var apple = P.isIOS && P.isIOS() && P.hasIAPBridge && P.hasIAPBridge();   // StoreKit dispo (iOS)
+      if(apple){
+        s.innerHTML=_trialNote+'<button class="btn" id="buyApple" type="button" style="font-size:16px">'+uiT('premium.s.abonner')+' — '+((P.PRICE&&P.PRICE.an)||'14,99 €')+' / '+uiT('premium.an')+'</button>'
+          +'<a class="btn ghost" id="restoreApple" type="button" style="margin-top:8px">'+uiT('premium.restaurer')+'</a>';
+        var ba=document.getElementById('buyApple'); if(ba) ba.onclick=function(){ if(P.buyIOS) P.buyIOS('an'); };
+        var ra=document.getElementById('restoreApple'); if(ra) ra.onclick=function(){ if(P.restoreIOS) P.restoreIOS(); };
+      } else if(P.isAndroidApp && P.isAndroidApp() && P.hasPlayBridge && P.hasPlayBridge()){
+        // App Android avec Google Play Billing (Digital Goods) : achat Play. JAMAIS Lemon Squeezy ni Apple.
+        s.innerHTML=_trialNote+'<button class="btn" id="buyPlay" type="button" style="font-size:16px">'+uiT('premium.s.abonner')+' — '+((P.PRICE&&P.PRICE.an)||'14,99 €')+' / '+uiT('premium.an')+'</button>'
+          +'<a class="btn ghost" id="restorePlay" type="button" style="margin-top:8px">'+uiT('premium.restaurer')+'</a>';
+        var bp=document.getElementById('buyPlay'); if(bp) bp.onclick=function(){ if(P.buyAndroid) P.buyAndroid('an'); };
+        var rp=document.getElementById('restorePlay'); if(rp) rp.onclick=function(){ if(P.restoreAndroid) P.restoreAndroid(); };
+      } else {
+        // Android sans billing actif ou iOS sans pont : bientôt — jamais l'achat Apple ni LS
+        s.innerHTML=_trialNote+'<div class="note">'+uiT('premium.abo.bientot.app')+'</div>';
+      }
+      return;
+    }
+    // Web : portes de paiement — abonnement Lemon Squeezy + App Store + Google Play + café
+    var web=document.getElementById('buyWeb'); web.style.display='block';
+    var parts=[], lemon=!!(P.CHECKOUT&&P.CHECKOUT.an);
+    if(lemon) parts.push('<button class="btn" id="buyLS" type="button" style="font-size:16px">'+uiT('premium.s.abonner')+' — '+((P.PRICE&&P.PRICE.an)||'14,99 €')+' / '+uiT('premium.an')+'</button>');
+    if(P.APPSTORE_URL) parts.push('<a class="btn ghost" href="'+P.APPSTORE_URL+'" target="_blank" rel="noopener">'+uiT('premium.aussi.app.store')+'</a>');
+    if(P.PLAYSTORE_URL) parts.push('<a class="btn ghost" href="'+P.PLAYSTORE_URL+'" target="_blank" rel="noopener">'+uiT('premium.aussi.google.play')+'</a>');
+    var _tip=(window.HConf&&HConf.tip)||''; // café = lien direct Lemon Squeezy (encart dédié, plus visible)
+    if(_trialNote) parts.unshift(_trialNote);
+    else if(!lemon && !P.APPSTORE_URL && !P.PLAYSTORE_URL) parts.unshift('<div class="note">'+uiT('premium.abo.bientot.web')+'</div>');
+    var _cafe = _tip ? '<div class="cafebox"><div class="lead2">'+uiT('premium.cafe.intro')+'</div><a class="btn cafe" href="'+_tip+'" target="_blank" rel="noopener">'+uiT('premium.payer.un.cafe')+'</a></div>' : '';
+    web.innerHTML=parts.join(' ')+_cafe;
+    var ls=document.getElementById('buyLS'); if(ls) ls.onclick=function(){ if(P.buy) P.buy('an'); };
+  }
+  // Rendre APRÈS le chargement i18n, sinon uiT() sort les clés brutes (boutons/prix).
+  if(window.THEi18n && THEi18n.ready && THEi18n.ready.then){ THEi18n.ready.then(render); } else { render(); }
+
+  // Champ code / clé (offert ou clé de licence Lemon Squeezy)
+  var inp=document.getElementById('codeInput'), cbtn=document.getElementById('codeBtn'), msg=document.getElementById('codeMsg');
+  if(cbtn) cbtn.onclick=function(){
+    var v=(inp.value||'').trim(); if(!v) return;
+    msg.textContent=uiT('premium.verification');
+    var done=function(ok){ msg.textContent = ok ? uiT('premium.acces.active') : uiT('premium.code.invalide'); if(ok) setTimeout(function(){ location.href='bienvenue.html'; }, 900); };
+    (P.redeem?P.redeem(v):Promise.resolve(false)).then(function(ok){ if(ok) return done(true); return (P.redeemLicense?P.redeemLicense(v):Promise.resolve(false)).then(done); });
+  };
+  if(inp) inp.addEventListener('keydown',function(e){ if(e.key==='Enter'&&cbtn) cbtn.click(); });
+</script>
+  <script>/* Apps de store (iOS 3.1.1 / Google Play Billing) : masquer tout paiement externe (Lemon Squeezy/café/code) dans l'app iOS ET Android */
+  (function(){var u=navigator.userAgent||'';
+   var iOS=/iPad|iPhone|iPod/.test(u)||((/Mac/.test(u)||navigator.platform==='MacIntel'||navigator.platform==='iPad')&&(navigator.maxTouchPoints>1||'ontouchend' in document));
+   var andr=/Android/.test(u)&&((new URLSearchParams(location.search)).get('app')==='play'||(document.referrer||'').indexOf('android-app://')===0||(function(){try{return sessionStorage.getItem('the_store_app')==='1';}catch(e){return false;}})());
+   if(andr){try{sessionStorage.setItem('the_store_app','1');}catch(e){}}
+   if(iOS||andr){var e=document.querySelectorAll('.ios-hide');for(var k=0;k<e.length;k++)e[k].style.display='none';}})();</script>
+  <script src="analytics.js"></script>
+</body>
+</html>

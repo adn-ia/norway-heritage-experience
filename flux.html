@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title data-i18n="flux.pays.heritage.schema.des"></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+  :root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);
+    background:linear-gradient(160deg,#2b2318,#3a2f22 40%,#5a4a33);padding:24px 14px 70px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  h1{font-family:'Cormorant Garamond',serif;text-align:center;color:var(--ivory);font-size:30px;letter-spacing:3px;margin:0 0 4px;}
+  .sub{text-align:center;color:#ece1cf;font-style:italic;margin:0 0 26px;}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 18px 22px;margin-bottom:20px;box-shadow:0 8px 26px rgba(0,0,0,.22);}
+  .card > h2{font-family:'Cormorant Garamond',serif;font-size:22px;margin:0 0 4px;color:var(--ink);}
+  .card > .lead{font-size:13.5px;color:var(--stone);margin:0 0 16px;}
+
+  .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;}
+  .col{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:14px;
+    text-align:center;min-width:84px;line-height:1.25;}
+  .box .t{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;display:block;}
+  .box small{color:var(--stone);font-size:11.5px;}
+  .box.start{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
+  .box.start .t{color:var(--ivory);}
+  .box.gold{background:#f7efde;border-color:var(--gold-soft);}
+  .box.green{background:#e8efe2;border-color:#9db58f;}
+  .box.opt{border-style:dashed;background:#fbf6ec;}
+  .arr{color:var(--gold);font-size:20px;line-height:1;padding:0 2px;}
+  .arrd{color:var(--gold);font-size:20px;line-height:1;}
+  .stage-lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);text-align:center;margin:14px 0 6px;}
+  .fan{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .note{font-size:12.5px;color:#6b5a39;background:#fbf3e8;border:1px solid #e8d6b4;border-left:4px solid var(--gold);
+    border-radius:6px;padding:9px 11px;margin-top:14px;line-height:1.5;}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;color:#ece1cf;font-size:12.5px;margin-top:6px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .sw{width:22px;height:14px;border-radius:3px;border:1px solid var(--line);display:inline-block;}
+  .foot{text-align:center;color:var(--gold-soft);font-size:11.5px;margin-top:18px;line-height:1.7;}
+  @media(max-width:560px){ .arr{transform:rotate(90deg);} }
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <h1 data-i18n="flux.pays.heritage.schema.des.2"></h1>
+  <p class="sub" data-i18n="flux.prototype.carto.historique.vue"></p>
+
+  <div class="legend">
+    <span><i class="sw" style="background:#2b2318"></i> <span data-i18n="flux.ecran.page"></span></span>
+    <span><i class="sw" style="background:#f7efde"></i> <span data-i18n="flux.histoire"></span></span>
+    <span><i class="sw" style="background:#e8efe2"></i> <span data-i18n="flux.nature"></span></span>
+    <span><i class="sw" style="background:#fbf6ec;border-style:dashed"></i> <span data-i18n="soutien.optionnel"></span></span>
+    <span data-i18n="flux.reste.sur.l.appareil"></span>
+  </div>
+
+  <!-- A. NAVIGATION -->
+  <div class="card" style="margin-top:18px">
+    <h2 data-i18n="flux.a.navigation.generale"></h2>
+    <p class="lead" data-i18n="flux.du.splash.au.menu"></p>
+    <div class="row">
+      <div class="box start"><span class="t" data-i18n="flux.bienvenue"></span><small data-i18n="flux.splash"></small></div>
+      <span class="arr">→</span>
+      <div class="box start"><span class="t" data-i18n="flux.accueil"></span><small data-i18n="flux.le.menu"></small></div>
+      <span class="arr">→</span>
+      <div class="col">
+        <div class="box gold"><span class="t" data-i18n="flux.creer.un.itineraire"></span><small data-i18n="flux.en.tete.de.menu"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.carte.du.patrimoine"></span><small data-i18n="flux.index.html.408.142"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.decouvrir"></span><small data-i18n="flux.recit.des.civilisations"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.voyage.immersif"></span></div>
+        <div class="box"><span class="t" data-i18n="flux.musee"></span><small data-i18n="flux.scan.qr.fiche.objet"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.sources.credits"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B. ITINERAIRE -->
+  <div class="card">
+    <h2 data-i18n-html="flux.rich.b.creer.un.itineraire"></h2>
+    <p class="lead" data-i18n="flux.un.entonnoir.de.choix"></p>
+
+    <div class="stage-lbl" data-i18n="flux.l.entonnoir.5.questions"></div>
+    <div class="row">
+      <div class="box"><span class="t" data-i18n="flux.1.depart"></span><small data-i18n="flux.gps.ou.region"></small></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.2.duree"></span><small data-i18n="flux.j.2.sem"></small></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.3.perimetre"></span><small data-i18n="flux.ville.region.pays"></small></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.4.theme"></span><small data-i18n="flux.12.themes.ou"></small></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.5.genre"></span><small data-i18n="flux.villes.monuments.musees.nature"></small></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.6.forme"></span><small data-i18n="flux.aller.simple.boucle.aller"></small></div>
+    </div>
+
+    <div class="stage-lbl" data-i18n="flux.ou.un.circuit.pret"></div>
+    <div class="row">
+      <div class="box gold"><span class="t" data-i18n="flux.circuits.prets"></span><small><span data-i18n="flux.tours.json.cures.pepites"></span><br><span data-i18n="flux.ex.sur.les.pas"></span></small></div>
+    </div>
+
+    <div class="arrd" style="text-align:center;margin:6px 0">↓</div>
+
+    <div class="row">
+      <div class="box gold" style="min-width:200px"><span class="t" data-i18n="flux.resultat.l.itineraire"></span>
+        <small><span data-i18n="flux.resume.etapes.km.duree"></span> <i><span data-i18n="flux.indicative"></span></i><span data-i18n="flux.carte.leaflet.etapes.numerotees"></span></small></div>
+    </div>
+
+    <div class="stage-lbl" data-i18n="flux.sur.chaque.troncon"></div>
+    <div class="row">
+      <div class="box green" style="min-width:260px"><span class="t" data-i18n="flux.a.voir.en.chemin"></span><small data-i18n="flux.pepites.sourcees.proches.de"></small></div>
+    </div>
+
+    <div class="stage-lbl" data-i18n="flux.depuis.le.resultat.actions"></div>
+    <div class="fan">
+      <div class="box opt"><span class="t" data-i18n="flux.ajouter.un.lieu"></span><small data-i18n="flux.nos.donnees.ou.geocodage"></small></div>
+      <div class="box opt"><span class="t" data-i18n="flux.carnet.photo"></span><small data-i18n="flux.par.etape.local"></small></div>
+      <div class="box opt"><span class="t" data-i18n="flux.album.souvenir"></span><small data-i18n="flux.section.c"></small></div>
+      <div class="box opt"><span class="t" data-i18n="flux.imprimer.pdf"></span><small data-i18n="flux.format.visuel.exportable"></small></div>
+      <div class="box opt"><span class="t" data-i18n="flux.voir.sur.la.grande"></span><small data-i18n="flux.section.d"></small></div>
+      <div class="box opt"><span class="t" data-i18n="flux.recommencer"></span></div>
+    </div>
+    <div class="note">🔒 <b data-i18n="flux.local.first"></b> <span data-i18n="flux.itineraire.photos.et.legendes"></span></div>
+  </div>
+
+  <!-- C. SOUVENIR -->
+  <div class="card">
+    <h2 data-i18n="flux.c.souvenir.carnet.album"></h2>
+    <p class="lead" data-i18n="flux.transformer.les.photos.du"></p>
+    <div class="row">
+      <div class="box opt"><span class="t" data-i18n="flux.photos.par.etape"></span><small data-i18n="flux.indexeddb.local"></small></div>
+      <span class="arr">→</span>
+      <div class="box gold"><span class="t" data-i18n="flux.album"></span><small><span data-i18n="flux.style.baroudeur"></span><br><span data-i18n="flux.ou.passeport"></span><br><span data-i18n="flux.legende.editable"></span></small></div>
+      <span class="arr">→</span>
+      <div class="col">
+        <div class="box"><span class="t" data-i18n="flux.pdf.imprimer"></span></div>
+        <div class="box"><span class="t" data-i18n="flux.whatsapp"></span><small data-i18n="flux.texte"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.e.mail"></span><small data-i18n="flux.texte"></small></div>
+        <div class="box"><span class="t" data-i18n="flux.partage.natif"></span><small data-i18n="flux.fichiers.photos"></small></div>
+        <div class="box opt"><span class="t" data-i18n="flux.publier.sur.le.site"></span><small data-i18n="flux.opt.in.explicite.a"></small></div>
+      </div>
+    </div>
+    <div class="note"><span data-i18n="flux.les.sorties.partagent.par"></span> <b data-i18n="flux.texte"></b> <span data-i18n="flux.de.l.itineraire.les"></span> <b data-i18n="flux.sur.accord.explicite"></b>.</div>
+  </div>
+
+  <!-- D. CARTE -->
+  <div class="card">
+    <h2 data-i18n="flux.d.aller.retour.itineraire"></h2>
+    <p class="lead" data-i18n="flux.la.carte.des.550"></p>
+    <div class="row">
+      <div class="box gold"><span class="t" data-i18n="flux.itineraire"></span></div>
+      <span class="arr">→</span>
+      <div class="box"><span class="t" data-i18n="flux.grande.carte"></span><small><span data-i18n="flux.index.html.route"></span><br><span data-i18n="flux.uniquement.vos.lieux.cadrage"></span></small></div>
+      <span class="arr">→</span>
+      <div class="box opt"><span class="t" data-i18n="flux.voir.toute.la.carte"></span><small data-i18n="flux.enleve.le.filtre.550"></small></div>
+    </div>
+    <div class="note" data-i18n="flux.la.grande.carte.garde"></div>
+  </div>
+
+  <div class="foot">
+    <span data-i18n="flux.pays.heritage.experience.schema"></span><br>
+    <span data-i18n="flux.methode.du.plus.simple"></span>
+  </div>
+</div>
+  <script src="analytics.js"></script>
+</body>
+</html>

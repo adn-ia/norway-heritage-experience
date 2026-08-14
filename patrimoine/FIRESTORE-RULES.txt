@@ -1,0 +1,76 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║  RÈGLES DE SÉCURITÉ FIRESTORE — sous-app « Veille citoyenne du         ║
+║  Patrimoine ». À coller dans : Firebase console → Firestore Database   ║
+║  → onglet « Règles » → remplacer tout → Publier.                        ║
+║                                                                        ║
+║  Modération DYNAMIQUE : la Mère (ton e-mail, ci-dessous) gère la liste ║
+║  des modérateurs depuis le dashboard (collection `moderators`). Plus    ║
+║  besoin de modifier ces règles pour ajouter/retirer un modérateur.     ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Mère = TOI (e-mail codé en dur = de confiance). Change l'e-mail si besoin. ───
+    function estMere() {
+      return request.auth != null
+        && request.auth.token.email == 'helmymekaoui@gmail.com';
+    }
+    // ─── Modérateur = présent dans la collection `moderators` (doc = son e-mail), ajouté par la Mère. ───
+    function estModerateur() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/moderators/$(request.auth.token.email));
+    }
+    // ─── Privilégié = Mère OU modérateur (peut valider / rejeter / éditer / supprimer). ───
+    function estPrivilegie() { return estMere() || estModerateur(); }
+
+    function champsSoumissionOk() {
+      let d = request.resource.data;
+      return d.nom is string && d.nom.size() > 1
+        && d.prenom is string && d.prenom.size() > 0
+        && d.email is string && d.email.matches('.+@.+[.].+')
+        && d.obs is string && d.obs.size() > 2
+        && d.status == 'pending'                 // le public ne peut créer QUE du 'pending'
+        && d.createdAt == request.time;          // horodatage serveur imposé
+    }
+
+    match /submissions/{id} {
+      allow read: if true;                        // feed (l'app masque déjà le non-validé au public)
+      allow create: if champsSoumissionOk();      // public : soumettre (nominatif, pending)
+      allow update, delete: if estPrivilegie();   // Mère / modérateurs : valider / éditer / supprimer
+
+      match /comments/{cid} {
+        allow read: if true;
+        allow create: if request.resource.data.nom is string
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.createdAt == request.time;
+        allow update: if false;                   // pas d'édition de commentaire
+        allow delete: if estPrivilegie();         // modération : suppression
+      }
+    }
+
+    // ─── Liste des modérateurs (doc ID = e-mail). ───
+    //  • La Mère lit toute la liste + ajoute/retire (write).
+    //  • Chacun peut lire SON propre doc (pour savoir s'il est modérateur au login).
+    match /moderators/{email} {
+      allow get:   if estMere() || (request.auth != null && request.auth.token.email == email);
+      allow list:  if estMere();
+      allow write: if estMere();
+    }
+
+    // ─── Corrections de fiche (couche par-dessus la base INP). doc ID = siteId. ───
+    //  • Lecture publique (le corrigé s'affiche pour tous).
+    //  • Écriture réservée aux privilégiés (Mère / modérateurs).
+    match /corrections/{siteId} {
+      allow read:  if true;
+      allow write: if estPrivilegie();
+    }
+  }
+}
+
+──────────────────────────────────────────────────────────────────────────
+NOTE : le champ `email` du doc est en minuscules et sert d'ID → la fonction
+estModerateur() le retrouve directement. Le collège d'experts (compte propre)
+et le durcissement de la LECTURE des soumissions en attente = étapes suivantes.

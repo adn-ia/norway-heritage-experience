@@ -1,0 +1,294 @@
+{
+  "_note": "Plugin de contenu (thème « joaillerie viking ») rendu par le moteur générique brique-galerie.js. SA donnée, SES langues fr/en/nb, SES libellés, SON ornement (_config.frise). Contenu SOURCÉ (musées) ; photos d'objets réels en licence libre créditées.",
+  "_config": {
+    "premium": false,
+    "frise": {
+      "texte": "ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛟ ᛞ",
+      "font": "img/joaillerie/runic.ttf",
+      "family": "JoaRunic",
+      "_note": "Ornement de CE thème ; retirer la clé = aucun ornement."
+    }
+  },
+  "labels": {
+    "titre": {
+      "fr": "Joaillerie viking",
+      "en": "Viking jewellery",
+      "nb": "Vikingsmykker"
+    },
+    "sous": {
+      "fr": "Bijoux et parures de l'âge viking",
+      "en": "Jewellery and sets from the Viking Age",
+      "nb": "Smykker og smykkesett fra vikingtiden"
+    },
+    "intro": {
+      "fr": "Broches, pendentifs, anneaux : les bijoux vikings n'étaient pas que décoratifs. Ils disaient le rang, la croyance et la richesse — et servaient parfois de monnaie.",
+      "en": "Brooches, pendants, rings: Viking jewellery was not merely decorative. It signified status, faith and wealth — and was sometimes used as currency.",
+      "nb": "Brosjer, anheng, ringer: Vikingenes smykker var ikke bare til pynt. De var et uttrykk for rang, tro og rikdom – og ble noen ganger brukt som betalingsmiddel."
+    },
+    "avert": {
+      "fr": "Photos d'objets réels de musées. Méfiance envers les légendes modernes : tout bracelet n'est pas un « anneau de serment », et le marteau de Thor « anti-chrétien » reste une interprétation, pas un fait établi.",
+      "en": "Photos of real artefacts from museums. Be wary of modern myths: not every bracelet is a ‘vow ring’, and Thor’s ‘anti-Christian’ hammer remains an interpretation, not an established fact.",
+      "nb": "Bilder av ekte gjenstander fra museer. Vær skeptisk til moderne myter: Ikke alle armbånd er en «løftering», og Thors «antikristne» hammer er fortsatt bare en tolkning, ikke et fastslått faktum."
+    },
+    "sources": {
+      "fr": "Sources",
+      "en": "Sources",
+      "nb": "Kilder"
+    },
+    "image": {
+      "fr": "Image",
+      "en": "Image",
+      "nb": "Bilde"
+    },
+    "domaine": {
+      "fr": "domaine public",
+      "en": "public domain",
+      "nb": "allmennheten"
+    }
+  },
+  "items": [
+    {
+      "id": "broche_ovale",
+      "nom": {
+        "fr": "Les broches ovales",
+        "en": "Oval brooches",
+        "nb": "De ovale brosjene"
+      },
+      "sous": {
+        "fr": "parure féminine",
+        "en": "ladies’ jewellery set",
+        "nb": "dametilbehør"
+      },
+      "texte": {
+        "fr": "Portées par paires, les broches ovales fermaient les bretelles de la robe-tablier des femmes ; une chaîne de perles courait souvent de l'une à l'autre. Coulées en bronze, parfois dorées, elles ornaient tout le monde scandinave et servent aujourd'hui à reconnaître une sépulture féminine nordique.",
+        "en": "Worn in pairs, these oval brooches fastened the straps of women’s apron-dresses; a string of beads often ran from one to the other. Cast in bronze, and sometimes gilded, they were worn throughout the Scandinavian world and are now used to identify a Nordic female burial.",
+        "nb": "De ovale brosjene, som ble båret parvis, festet skulderstroppene på kvinnenes forklekjoler; ofte gikk det en perlekjede fra den ene til den andre. De var støpt i bronse, noen ganger forgylt, og prydet hele den skandinaviske verden; i dag brukes de til å identifisere nordiske kvinnegravfunn."
+      },
+      "source": {
+        "fr": "National Museum of Denmark ; World History Encyclopedia",
+        "en": "National Museum of Denmark; World History Encyclopedia",
+        "nb": "Danmarks nasjonalmuseum; World History Encyclopedia"
+      },
+      "image": "img/joaillerie/broche_ovale.jpg",
+      "credit": "The Swedish History Museum, Stockholm from Sweden",
+      "license": "CC BY 2.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Object_from_the_exhibition_We_call_them_Vikings_produced_by_The_Swedish_History_Museum_(13622560464).jpg"
+    },
+    {
+      "id": "broche_trefle",
+      "nom": {
+        "fr": "La broche trilobée",
+        "en": "The trilobite brooch",
+        "nb": "Den trefløyede brosjen"
+      },
+      "sous": {
+        "fr": "fermer le manteau",
+        "en": "do up the coat",
+        "nb": "lukke kåpen"
+      },
+      "texte": {
+        "fr": "La broche trilobée retenait châle ou manteau. Sa forme dérive des garnitures d'épée franques du IXᵉ siècle : un objet étranger que les artisans scandinaves ont réinterprété à leur goût.",
+        "en": "The trilobed brooch was used to fasten a shawl or cloak. Its shape is derived from 9th-century Frankish sword fittings: a foreign design that Scandinavian craftsmen reinterpreted to suit their own tastes.",
+        "nb": "Den trefløyede broschen ble brukt til å feste et sjal eller en kappe. Formen stammer fra frankiske sverdbeslag fra det 9. århundre: et fremmed element som de skandinaviske håndverkerne tolket på sin egen måte."
+      },
+      "source": {
+        "fr": "National Museum of Denmark ; Museum of Cultural History, Oslo",
+        "en": "National Museum of Denmark; Museum of Cultural History, Oslo",
+        "nb": "Danmarks nasjonalmuseum; Kulturhistorisk museum, Oslo"
+      },
+      "image": "img/joaillerie/broche_trefle.jpg",
+      "credit": "Unknown author",
+      "license": "CC BY-SA 4.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Terslev-style_brooch.jpg"
+    },
+    {
+      "id": "broche_penannulaire",
+      "nom": {
+        "fr": "La broche pénannulaire",
+        "en": "The penannular brooch",
+        "nb": "Den ringformede spydet"
+      },
+      "sous": {
+        "fr": "l'agrafe de cape",
+        "en": "the cape clip",
+        "nb": "kappefestet"
+      },
+      "texte": {
+        "fr": "Cette broche à anneau ouvert, d'origine celtique et insulaire, gagna la Norvège au début du IXᵉ siècle pour agrafer les capes. Son usage a évolué : d'abord féminine, on la retrouve ensuite chez des hommes d'élite.",
+        "en": "This open-ring brooch, of Celtic and insular origin, found its way to Norway in the early 9th century, where it was used to fasten cloaks. Its use evolved: initially worn by women, it was later found amongst men of the elite.",
+        "nb": "Denne broschen med åpen ring, som har keltisk og øyisk opprinnelse, kom til Norge i begynnelsen av det 9. århundre for å feste kappene. Bruken av den utviklet seg: Først var den forbeholdt kvinner, men senere ble den også brukt av menn i eliten."
+      },
+      "source": {
+        "fr": "Glørstad, Norwegian Archaeological Review, 2012",
+        "en": "Glørstad, *Norwegian Archaeological Review*, 2012",
+        "nb": "Glørstad, Norwegian Archaeological Review, 2012"
+      },
+      "image": "img/joaillerie/broche_penannulaire.jpg",
+      "credit": "Eamonn O'Mahony",
+      "license": "CC0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Silver_brooch_in_thistle_pattern_detail.jpg"
+    },
+    {
+      "id": "mjolnir",
+      "nom": {
+        "fr": "Le marteau de Thor",
+        "en": "Thor’s hammer",
+        "nb": "Thors hammer"
+      },
+      "sous": {
+        "fr": "amulette de protection",
+        "en": "protective amulet",
+        "nb": "beskyttelsesamulett"
+      },
+      "texte": {
+        "fr": "Plus de mille pendentifs en forme de marteau de Thor ont été retrouvés : une amulette de protection et un signe d'identité païenne, un peu comme la croix pour les chrétiens. Celui de Købelev, au Danemark, porte même une inscription runique : « ceci est un marteau ».",
+        "en": "Over a thousand pendants in the shape of Thor’s hammer have been found: a protective amulet and a symbol of pagan identity, much like the cross is for Christians. The one found at Købelev, in Denmark, even bears a runic inscription: ‘this is a hammer’.",
+        "nb": "Over tusen anheng i form av Thors hammer er blitt funnet: en beskyttelsesamulett og et symbol på hedensk tro, omtrent som korset er for kristne. Det som ble funnet i Købelev i Danmark har til og med en runeskrift som lyder: «Dette er en hammer»."
+      },
+      "source": {
+        "fr": "National Museum of Denmark ; The Collector",
+        "en": "National Museum of Denmark; The Collector",
+        "nb": "Danmarks nasjonalmuseum; Samleren"
+      },
+      "image": "img/joaillerie/mjolnir.jpg",
+      "credit": "The Portable Antiquities Scheme, Dot Boughton, 2008-03-06 11:18:01",
+      "license": "CC BY-SA 2.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:LANCUM-_,_Early_Medieval_silver_pendant_%27Mjolnir%27_(FindID_211837).jpg"
+    },
+    {
+      "id": "anneau_bras",
+      "nom": {
+        "fr": "L'anneau de bras",
+        "en": "The arm ring",
+        "nb": "Armringen"
+      },
+      "sous": {
+        "fr": "bijou, monnaie et serment",
+        "en": "jewellery, currency and oath",
+        "nb": "smykke, mynt og ed"
+      },
+      "texte": {
+        "fr": "L'anneau de bras était à la fois parure et portefeuille : on le pliait et le brisait en fragments d'argent (hacksilver) échangés au poids. Les sagas lui prêtent aussi un rôle de serment prêté sur l'anneau d'un temple — mais tout bracelet n'était pas un anneau sacré.",
+        "en": "The arm ring served both as an ornament and a purse: it could be folded and broken into pieces of silver (hacksilver) that were traded by weight. The sagas also attribute to it a role in oaths sworn on a temple ring — but not every bracelet was a sacred ring.",
+        "nb": "Armbåndet var både smykke og lommebok: man brettet det sammen og knuste det til sølvfragmenter (hacksilver) som ble byttet etter vekt. I sagaene tilskrives den også en rolle som edsavleggelse på en ring i et tempel – men ikke alle armbånd var hellige ringer."
+      },
+      "source": {
+        "fr": "World History Encyclopedia ; Landnámabók",
+        "en": "World History Encyclopaedia; Landnámabók",
+        "nb": "World History Encyclopedia; Landnámabók"
+      },
+      "image": "img/joaillerie/anneau_bras.jpg",
+      "credit": "Wolfgang Sauber",
+      "license": "CC BY-SA 4.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:LSR_Wikinger_-_Armring.jpg"
+    },
+    {
+      "id": "perles",
+      "nom": {
+        "fr": "Perles et colliers",
+        "en": "Beads and necklaces",
+        "nb": "Perler og halskjeder"
+      },
+      "sous": {
+        "fr": "verre, ambre et commerce",
+        "en": "glass, amber and trade",
+        "nb": "glass, rav og handel"
+      },
+      "texte": {
+        "fr": "Entre les broches pendaient des colliers de perles : verre coloré, ambre de la Baltique, cornaline et cristal importés d'Orient. Porter ces matières lointaines signalait l'accès aux plus grandes routes commerciales.",
+        "en": "Hanging from the brooches were strings of beads: coloured glass, Baltic amber, carnelian and crystal imported from the East. Wearing these materials from faraway lands signalled access to the major trade routes.",
+        "nb": "Mellom brosjene hang perlekjeder: farget glass, baltisk rav, karneol og krystall importert fra Orienten. Å bære disse eksotiske materialene var et tegn på tilgang til de største handelsrutene."
+      },
+      "source": {
+        "fr": "National Museum of Denmark ; The Collector",
+        "en": "National Museum of Denmark; The Collector",
+        "nb": "Danmarks nasjonalmuseum; Samleren"
+      },
+      "image": "img/joaillerie/perles.jpg",
+      "credit": "JC Merriman",
+      "license": "CC BY 2.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Vikings_jewellery_glass_beads_Gotland_Sweden_-_25795296152_Swedish_History_Museum_(Historiska_museet)_MuseumsPartner_exhibition_%22Vikings_Beyond_the_legend%22_Australian_National_Maritime_Museum_Sydney_2013.jpg"
+    },
+    {
+      "id": "torque",
+      "nom": {
+        "fr": "Le collier rigide",
+        "en": "The rigid collar",
+        "nb": "Det stive halsbåndet"
+      },
+      "sous": {
+        "fr": "signe de rang",
+        "en": "rank symbol",
+        "nb": "rangtegn"
+      },
+      "texte": {
+        "fr": "Fait d'une ou plusieurs tiges d'argent torsadées, le collier rigide se portait au cou comme marque de rang et de richesse. On en connaît aussi en bronze : ce n'était donc pas un insigne réservé aux seuls rois.",
+        "en": "Made from one or more twisted silver rods, the rigid necklace was worn around the neck as a symbol of status and wealth. Examples made of bronze are also known: it was therefore not an insignia reserved solely for kings.",
+        "nb": "Det stive halsbåndet, som besto av én eller flere tvinnede sølvtråder, ble båret rundt halsen som et tegn på rang og rikdom. Det finnes også eksemplarer i bronse: det var altså ikke et symbol som var forbeholdt kun konger."
+      },
+      "source": {
+        "fr": "World History Encyclopedia",
+        "en": "World History Encyclopaedia",
+        "nb": "Verdenshistorisk leksikon"
+      },
+      "image": "img/joaillerie/torque.jpg",
+      "credit": "Anonymous (Vikings)Unknown author",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Viking_-_Neck_Ring_-_Walters_571599.jpg"
+    },
+    {
+      "id": "style_animalier",
+      "nom": {
+        "fr": "Les styles animaliers",
+        "en": "Animal-print styles",
+        "nb": "Dyremønstre"
+      },
+      "sous": {
+        "fr": "Oseberg, Borre, Urnes…",
+        "en": "Oseberg, Borre, Urnes…",
+        "nb": "Oseberg, Borre, Urnes…"
+      },
+      "texte": {
+        "fr": "L'art viking se lit dans une succession de styles aux dates qui se chevauchent : Oseberg, Borre, Jellinge, Mammen, Ringerike puis Urnes — des entrelacs de bêtes toujours plus fins. Trois portent le nom de sites norvégiens. Ici, la broche de Pitney, de style Urnes.",
+        "en": "Viking art can be seen as a succession of styles spanning overlapping periods: Oseberg, Borre, Jellinge, Mammen, Ringerike and then Urnes — with ever more intricate interlacing patterns featuring animals. Three of these are named after Norwegian sites. Here is the Pitney brooch, in the Urnes style.",
+        "nb": "Vikingkunsten kan leses som en rekke stilarter med overlappende tidsperioder: Oseberg, Borre, Jellinge, Mammen, Ringerike og deretter Urnes – med stadig mer raffinerte dyremotiver i flettverk. Tre av disse bærer navn etter norske funnsteder. Her ser vi Pitney-broschen, i Urnes-stil."
+      },
+      "source": {
+        "fr": "World History Encyclopedia (Viking Art)",
+        "en": "World History Encyclopaedia (Viking Art)",
+        "nb": "World History Encyclopedia (Viking Art)"
+      },
+      "image": "img/joaillerie/style_animalier.jpg",
+      "credit": "Unknown author",
+      "license": "CC BY-SA 4.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Pitney_brooch.jpg"
+    },
+    {
+      "id": "tresor",
+      "nom": {
+        "fr": "Les trésors d'argent",
+        "en": "Silver treasures",
+        "nb": "Sølvskattene"
+      },
+      "sous": {
+        "fr": "enfouir sa fortune",
+        "en": "to bury one’s fortune",
+        "nb": "gjemme bort formuen sin"
+      },
+      "texte": {
+        "fr": "Les Vikings enfouissaient argent et bijoux en trésors. La Norvège en garde de fameux : le trésor de Hoen et, mis au jour en 2026, celui de Rena — près de trois mille pièces d'argent — tous deux au Musée d'histoire culturelle d'Oslo.",
+        "en": "The Vikings buried silver and jewellery as treasure. Norway is home to some famous examples: the Hoen hoard and, unearthed in 2026, the Rena hoard — comprising nearly three thousand silver coins — both of which are housed at the Museum of Cultural History in Oslo.",
+        "nb": "Vikingene gravde ned sølv og smykker som skatter. Norge har noen berømte eksempler på dette: Hoen-skatten og Rena-skatten – som ble avdekket i 2026 – med nesten tre tusen sølvmynter – begge utstilt på Kulturhistorisk museum i Oslo."
+      },
+      "source": {
+        "fr": "Museum of Cultural History, Oslo",
+        "en": "Museum of Cultural History, Oslo",
+        "nb": "Kulturhistorisk museum, Oslo"
+      },
+      "image": "img/joaillerie/tresor.jpg",
+      "credit": "Portable Antiquities Scheme from London, England",
+      "license": "CC BY 2.0",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Viking_silver_hoard_from_Bedale_area,_North_Yorkshire.jpg"
+    }
+  ]
+}

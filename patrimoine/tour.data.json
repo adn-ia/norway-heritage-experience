@@ -1,0 +1,11 @@
+{
+  "steps": [
+    { "id": "intro",      "target": null },
+    { "id": "stats",      "target": "#stats" },
+    { "id": "filtres",    "target": ".filters" },
+    { "id": "carte",      "target": "#openMap" },
+    { "id": "liste",      "target": "#list" },
+    { "id": "communaute", "target": ".dash-right" },
+    { "id": "apropos",    "target": ".pat-foot" }
+  ]
+}

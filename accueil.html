@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#26201a">
+  <title data-i18n="accueil.pays.heritage.pays.heritage"></title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+    *{box-sizing:border-box;}
+    body{margin:0;min-height:100vh;font-family:'EB Garamond',Georgia,serif;color:var(--ink);
+      background:linear-gradient(160deg,#2b2318 0%,#3a2f22 38%,#5a4a33 100%);}
+    .wrap{max-width:680px;margin:0 auto;padding:46px 22px 60px;}
+    .hero{text-align:center;color:var(--ivory);}
+    .hero .mark{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,7vw,44px);letter-spacing:2px;line-height:1;margin-left:10px;}
+    .hero .full{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-soft);margin-top:10px;}
+    .rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:22px auto 18px;max-width:280px;}
+    .hero .tagline{font-size:18px;font-style:italic;color:#ece1cf;line-height:1.5;max-width:460px;margin:0 auto;}
+    .hero .stat{margin-top:16px;font-size:13px;letter-spacing:1px;color:var(--gold-soft);}
+
+    .cards{margin-top:34px;display:flex;flex-direction:column;gap:14px;}
+    .card{display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);
+      border-radius:6px;padding:18px 18px;text-decoration:none;color:var(--ink);
+      box-shadow:0 6px 22px rgba(0,0,0,0.22);transition:transform .15s,box-shadow .15s;}
+    .card:active{transform:scale(.99);}
+    .card .ic{width:50px;height:50px;flex:0 0 50px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:24px;background:#f1e7d5;border:1px solid var(--line);}
+    .card.nat .ic{background:#e8efe2;}
+    .card .tx{flex:1;}
+    .card .tt{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;line-height:1.05;}
+    .card .ds{font-size:14px;color:var(--stone);margin-top:3px;line-height:1.35;}
+    .card .ar{color:var(--gold);font-size:20px;}
+    .pchips{display:flex;flex-wrap:wrap;gap:8px;margin:-2px 2px 0;}
+    .pchips .lbl{width:100%;color:var(--gold-soft);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:0 2px 2px;}
+    .pchip{background:rgba(255,253,248,.94);border:1px solid var(--line);border-radius:18px;padding:7px 13px;
+      text-decoration:none;color:var(--ink);font-size:13.5px;box-shadow:0 3px 12px rgba(0,0,0,.16);}
+    .pchip:active{transform:scale(.98);}
+
+    .foot{margin-top:30px;text-align:center;color:var(--gold-soft);font-size:11px;line-height:1.7;letter-spacing:.5px;}
+    .foot .soon{color:#cdbfa6;}
+  </style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="mark" data-i18n-html="accueil.pays.mark"></div>
+      <div class="rule"></div>
+      <div class="tagline" data-i18n="accueil.apprendre.a.lire.ce"></div>
+      <div class="stat" id="stat"><span data-i18n="accueil.lieux.references"></span></div>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="itineraire.html">
+        <div class="ic">🧭</div>
+        <div class="tx"><div class="tt" data-i18n="accueil.creer.un.itineraire"></div><div class="ds" data-i18n="accueil.dites.d.ou.vous"></div></div>
+        <div class="ar">›</div>
+      </a>
+      <div class="pchips" id="presetChips" style="display:none"></div>
+      <a class="card" href="a-propos.html">
+        <div class="ic">💡</div>
+        <div class="tx"><div class="tt" data-i18n="accueil.a.quoi.sert.cette"></div><div class="ds" data-i18n="accueil.son.contenu.son.but"></div></div>
+        <div class="ar">›</div>
+      </a>
+      <a class="card" href="decouvrir.html">
+        <div class="ic">📖</div>
+        <div class="tx"><div class="tt" data-i18n="accueil.decouvrir.l.pays"></div><div class="ds" data-i18n="accueil.l.histoire.du.pays"></div></div>
+        <div class="ar">›</div>
+      </a>
+      <a class="card" href="index.html">
+        <div class="ic">🗺️</div>
+        <div class="tx"><div class="tt" data-i18n="accueil.explorer.la.carte"></div><div class="ds" data-i18n="accueil.sites.historiques.et.naturels"></div></div>
+        <div class="ar">›</div>
+      </a>
+      
+      
+      
+    </div>
+
+    <div class="foot">
+      <span data-i18n="accueil.contenu.verifie.et.source"></span><br>
+      <a href="a-propos.html" style="color:#cdbfa6" data-i18n="accueil.a.quoi.sert.l"></a> · <a href="sources-credits.html" style="color:#cdbfa6" data-i18n="accueil.sources.credits"></a> · <a href="decouvrir.html" style="color:#cdbfa6" data-i18n="accueil.decouvrir"></a><br>
+      <span class="soon" data-i18n="accueil.prochainement.itineraires.de.randonnee"></span>
+    </div>
+  </div>
+
+  <script>
+    // Compte total de lieux (Histoire + Nature)
+    Promise.all([
+      fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+      fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]}))
+    ]).then(([h,n])=>{
+      const tot=(h.features?.length||0)+(n.features?.length||0);
+      if(tot){ const setStat=()=>{ document.getElementById('stat').textContent = tot + uiT('accueil.lieux.references.2'); };
+        (window.THEi18n&&THEi18n.ready&&THEi18n.ready.then)? THEi18n.ready.then(setStat) : setStat(); }
+    });
+
+    // Circuits prêts (depuis tours.json) → accès direct
+    fetch(window.THEi18n?THEi18n.data('tours'):'tours.json').then(r=>r.json()).then(t=>{
+      const ids=Object.keys(t||{}).filter(id=>!t[id].premium); if(!ids.length) return;  // circuits premium non listés ici
+      const box=document.getElementById('presetChips');
+      box.innerHTML='<div class="lbl">'+uiT('accueil.ou.suivez.un.circuit.pret')+'</div>'+
+        ids.map(id=>'<a class="pchip" href="itineraire.html?tour='+id+'">✨ '+t[id].titre+'</a>').join('');
+      box.style.display='flex';
+    }).catch(()=>{});
+  </script>
+  <script src="the-footer.js" defer></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#26201a">
+  <title data-i18n="accueil.pays.heritage.pays.heritage"></title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{margin:0;min-height:100vh;font-family:'EB Garamond',Georgia,serif;color:var(--ivory);
+      background:linear-gradient(160deg,#241d13 0%,#3a2f22 42%,#5a4a33 100%);
+      display:flex;flex-direction:column;}
+    .stage{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+      text-align:center;padding:42px 24px;max-width:600px;margin:0 auto;width:100%;}
+
+    .logo{animation:rise .8s ease both;}
+    .logo .logo-img{width:118px;height:118px;border-radius:20px;background:#fff;padding:7px;box-sizing:border-box;
+      box-shadow:0 8px 26px rgba(0,0,0,.38);margin:0 auto 16px;display:block;}
+    .logo .mark{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(22px,6.5vw,46px);
+      letter-spacing:clamp(2px,1.5vw,14px);line-height:1.05;margin-left:0;max-width:100%;overflow-wrap:break-word;}
+    .logo .full{font-size:clamp(11px,3vw,13px);letter-spacing:6px;text-transform:uppercase;color:var(--gold-soft);margin-top:12px;}
+    .rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:26px auto;max-width:240px;width:60%;}
+
+    .intro{font-size:clamp(16px,4.4vw,19px);line-height:1.6;color:#ece1cf;max-width:440px;margin:0 auto;
+      animation:rise .8s .15s ease both;}
+    .intro .lede{font-style:italic;font-size:clamp(18px,5vw,22px);color:var(--ivory);margin:0 0 14px;}
+    .intro .more{margin:14px 0 0;}
+    .intro .more a{color:var(--gold-soft);text-decoration:none;font-size:14px;letter-spacing:.5px;border-bottom:1px solid rgba(201,173,121,.4);padding-bottom:1px;}
+
+    .actions{margin-top:34px;width:100%;max-width:340px;animation:rise .8s .3s ease both;}
+    .enter{display:block;width:100%;background:var(--gold);color:#2b2318;border:none;border-radius:8px;
+      padding:15px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;letter-spacing:3px;
+      text-transform:uppercase;cursor:pointer;box-shadow:0 6px 22px rgba(0,0,0,.3);transition:transform .15s,filter .15s;}
+    .enter:hover{filter:brightness(1.05);}
+    .enter:active{transform:scale(.98);}
+    .enter[disabled]{opacity:.7;cursor:default;}
+
+    .geo{display:flex;align-items:flex-start;gap:9px;justify-content:center;text-align:left;
+      margin-top:18px;font-size:13px;line-height:1.45;color:var(--gold-soft);}
+    .geo .pin{flex:0 0 auto;font-size:15px;line-height:1.2;margin-top:1px;}
+    .geo b{color:#ece1cf;font-weight:600;}
+
+    .foot{padding:0 24px 26px;text-align:center;color:var(--stone);font-size:11px;line-height:1.7;letter-spacing:.5px;
+      animation:rise .8s .45s ease both;}
+    .foot a{color:var(--gold-soft);text-decoration:none;}
+
+    .langpick{display:flex;gap:8px;justify-content:center;margin:0 0 16px;animation:rise .8s .25s ease both;}
+    .langpick button{background:rgba(255,255,255,.08);border:1.5px solid transparent;border-radius:9px;padding:6px 11px;font-size:22px;line-height:1;cursor:pointer;transition:border-color .15s,background .15s;}
+    .langpick button:hover{background:rgba(255,255,255,.16);}
+    .langpick button.on{border-color:var(--gold);background:rgba(201,173,121,.22);}
+    .langpick-lbl{display:block;text-align:center;font-size:12px;letter-spacing:1px;color:var(--gold-soft);margin-bottom:7px;}
+    @keyframes rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+    @media (prefers-reduced-motion:reduce){*{animation:none !important;}}
+      .promo{margin:18px auto 0;animation:rise .8s .2s ease both;}
+    .promo a{display:inline-flex;align-items:center;gap:7px;color:var(--gold-soft);text-decoration:none;border:1px solid rgba(201,173,121,.35);border-radius:9px;padding:8px 14px;font-size:13px;transition:background .15s,border-color .15s;}
+    .promo a:hover{background:rgba(201,173,121,.2);border-color:var(--gold);}
+    .promo .promo-t{font-style:italic;color:#ece1cf;}
+    .promo .promo-star{color:var(--gold-soft);}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+  <div class="stage">
+    <div class="logo">
+      <img class="logo-img" src="logo-the.png" data-i18n-alt="bienvenue.logo.alt" alt="Logo Heritage" width="120" height="120">
+      <div class="mark" data-i18n-html="accueil.pays.mark"></div>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="intro">
+      <p class="lede" data-i18n="bienvenue.apprendre.a.lire.ce"></p>
+      <p data-i18n-html="bienvenue.rich.sites.antiques.monuments.et"></p>
+      <p class="more"><a href="a-propos.html" data-i18n="bienvenue.a.quoi.sert.cette"></a></p>
+      <p class="promo"><a href="premium.html"><span class="promo-star">✨</span> <span class="promo-t" id="promoT" data-i18n="bienvenue.promo.premium"></span> ›</a></p>
+    </div>
+
+    <div class="actions">
+      <span class="langpick-lbl" data-i18n="bienvenue.langue.language"></span>
+      <!-- Drapeaux GÉNÉRÉS par the-i18n.js depuis les langues dispo (FR + EN + langNatCode de HConf).
+           Aucun drapeau en dur : « un fichier, un pays ». Conteneur vide volontairement. -->
+      <div class="langpick" id="langPick"></div>
+      <button class="enter" id="enter" data-i18n="enter"></button>
+      <div class="geo">
+        <span class="pin">📍</span>
+        <span><span data-i18n="bienvenue.pour.un.meilleur.rendu"></span> <b data-i18n="bienvenue.activez.la.localisation"></b> <span data-i18n="bienvenue.la.carte.vous.situe"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span data-i18n="bienvenue.contenu.verifie.et.source"></span><br>
+    <a href="sources-credits.html" data-i18n="accueil.sources.credits"></a> · <a href="confidentialite.html#charte" data-i18n="bienvenue.charte.d.utilisation"></a>
+  </div>
+
+  <script>
+    // « Entrer » : on amorce la permission de localisation (une fois pour toute l'appli,
+    // la permission persiste sur l'origine.
+    const NEXT = 'decouvrir.html';
+    const btn = document.getElementById('enter');
+    let going = false;
+    function go(){ if(going) return; going = true; window.location.href = NEXT; }
+    btn.addEventListener('click', () => {
+      btn.disabled = true;
+      btn.textContent = ((window.THEi18n&&THEi18n.ui('bienvenue.un.instant'))||'Un instant…');
+      if (navigator.geolocation) {
+        // On demande la position pour amorcer la permission, sans bloquer : on enchaîne
+        // dès la réponse (accord ou refus) ou après un court délai de sécurité.
+        let done = false;
+        const next = () => { if(!done){ done = true; go(); } };
+        navigator.geolocation.getCurrentPosition(next, next, { enableHighAccuracy:true, timeout:8000, maximumAge:600000 });
+        setTimeout(next, 10000);   // filet de sécurité long : on nuiT('bienvenue.enchaine.que.si.l')utilisateur ne répond pas du tout (sinon la navigation attend sa réponse à la demande de position)
+      } else {
+        go();
+      }
+    });
+  </script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(r){try{r.update();}catch(e){}}).catch(function(){});}</script>
+  <script>(function(){function set(){try{var P=window.THEPass,el=document.getElementById('promoT');if(!P||!el||!P.info)return;var t=function(k){return (window.THEi18n&&THEi18n.ui&&THEi18n.ui(k))||k;};var inf=P.info();if(inf.active&&inf.trial)el.textContent='🎁 '+t('bienvenue.essai.reste')+' '+inf.daysLeft+' '+t('bienvenue.jours');else if(inf.active&&(inf.paid||inf.invite))el.textContent='✅ '+t('bienvenue.premium.actif');}catch(e){}}if(window.THEi18n&&THEi18n.ready)THEi18n.ready.then(set);else set();})();</script>
+  <script src="the-footer.js" defer></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

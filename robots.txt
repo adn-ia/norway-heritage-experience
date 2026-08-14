@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# GABARIT SOCLE : remplacer __DOMAINE__ par le domaine du pays.
+Sitemap: https://__DOMAINE__/sitemap.xml

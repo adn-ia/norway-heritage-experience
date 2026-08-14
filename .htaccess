@@ -1,0 +1,18 @@
+# Page de garde par défaut à la racine
+DirectoryIndex bienvenue.html
+
+# Fallback : toute requête vers la racine "/" sert la garde
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^$ bienvenue.html [L]
+</IfModule>
+
+# Cache : HTML pas caché (pour recevoir les mises à jour), assets cachés
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|json)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|svg|js|css|webp)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,193 @@
+{
+ "chemin-des-vikings": {
+  "titre": "The Vikings’ Trail",
+  "soustitre": "From birth to Valhalla: the life of a Viking, from the farm to the great royal burial mounds",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Avaldsnes (Karmøy)",
+   "coord": [
+    5.2911,
+    59.3553
+   ]
+  },
+  "forme": "line",
+  "note": "A narrative that traces a Viking’s life, step by step. It all begins on the farm and in the chieftain’s great hall (such as the reconstructed one at Borg in the Lofoten Islands): there one is born and grows up between the mountain pastures and the sea. Then comes manhood — the thing, the assembly where justice is administered — followed by trade at the market in Kaupang, and power at Avaldsnes, the royal seat controlling the Nordvegen, ‘the Northern Way’, which gave the country its name. Then the sea calls: one sets sail on ships like those of Oseberg and Gokstad, now on display at the Viking Ship Museum in Oslo (Vikingskipshuset). At the end of the journey lay death and the passage to Valhalla, marked by the great royal burial mounds — Borre, Oseberg, Gokstad, Raknehaugen, Herlaugshaugen — seven of which are now nominated for inclusion on the UNESCO World Heritage List. All these sites are geolocated within the app.",
+  "etapes": [
+   {
+    "nom": "Avaldsnes kirke",
+    "note": "Power. The royal seat on Nordvegen, the maritime route that gave Norway its name; Harald Fairhair is said to have reigned there."
+   },
+   {
+    "nom": "Storhaugmyrå",
+    "note": "Trade and the sea. In the Karmøy region, the Storhaug burial mounds are a reminder of the rich boat burials of the Viking West."
+   },
+   {
+    "nom": "Borre kirke",
+    "note": "The royal lineage. Borre is home to the largest concentration of monumental burial mounds in Scandinavia — the necropolis of a dynasty."
+   },
+   {
+    "nom": "Oseberghaugen",
+    "note": "The Great Departure. The Oseberg burial mound yielded the world’s best-preserved Viking ship (834 AD), along with two women of high rank."
+   },
+   {
+    "nom": "Gokstadhaugen",
+    "note": "The warship. The perfectly preserved Gokstad longship epitomises Viking shipbuilding; a replica crossed the Atlantic in 1893."
+   },
+   {
+    "nom": "Raknehaugen",
+    "note": "The Colossus. The largest burial mound in Northern Europe (approx. 95 m in diameter), built around 550 AD, at the dawn of the Viking Age."
+   },
+   {
+    "nom": "Herlaugshaugen",
+    "note": "Valhalla, at the far end of the kingdom. In the far north, this burial mound, linked to the saga of King Herlaug, is one of seven sites nominated for World Heritage status."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "There are few spectacular monuments: mainly burial mounds, ship burials and reconstructed longhouses. At Avaldsnes, the first royal seat on the Nordvegen; at Borre, the largest group of monumental burial mounds in Scandinavia; at Oseberg and Gokstad, the large burial mounds whose ships are now in the Viking Ship Museum in Oslo (closed for renovation until around the end of 2027).",
+  "pepites": [
+   {
+    "nom": "Tjuvenborgen"
+   },
+   {
+    "nom": "Vigsteinen"
+   }
+  ],
+  "evocation": "Imagine. You are born amidst the smoke of a long market hall, between the sea and the mountain pastures. You grow up, you take up the oar; one day the thing makes you a man, the trading post makes you a merchant, the king makes you a warrior. The sea calls to you: you set sail on a ship with its prow raised, towards nameless lands. And when your time comes, you are buried beneath a great mound, your ship your final voyage — towards Valhalla."
+ },
+ "art-rupestre": {
+  "titre": "Rock art: 10,000 years of engravings",
+  "soustitre": "From the hunters of Alta to Bronze Age ships",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Alta (Finnmark)",
+   "coord": [
+    23.1836,
+    69.9481
+   ]
+  },
+  "forme": "line",
+  "note": "Norway is home to one of the richest collections of rock art in Europe. In Alta, in the far north, thousands of rock carvings (5000–2000 BC) — reindeer, bears, boats, hunting scenes — are listed as a UNESCO World Heritage Site. Further south, the Bronze Age has left behind ships and sun discs. This tour connects the country’s major sites of rock carvings (helleristninger) and rock paintings.",
+  "etapes": [
+   {
+    "nom": "Alta",
+    "note": "The main site: rock carvings listed by UNESCO, an open-air museum on the shores of the fjord."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Rock carvings: reindeer, elk, boats, hunting scenes. Alta, a World Heritage Site, is the jewel in the crown, but the collection spans the whole country, from Stone Age hunters to Bronze Age ships.",
+  "pepites": [
+   {
+    "nom": "Helleristningene på Ekeberg"
+   },
+   {
+    "nom": "Helleristningene ved Møllerstufossen"
+   },
+   {
+    "nom": "Fluberget"
+   }
+  ],
+  "evocation": "Seven thousand years ago, someone knelt on the rock, smoothed by the ice, and carved a reindeer. To call the hunt, to give thanks, or simply to say ‘we were here’. Line by line, generation after generation, the stone becomes a record of memory. To follow these carvings is to place one’s hand where others have placed theirs to express the world, long before writing existed."
+ },
+ "stavkirker": {
+  "titre": "Stave churches (stavkirker)",
+  "soustitre": "Drakkars turned skywards: the Norwegian medieval masterpiece",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Urnes (Vestland)",
+   "coord": [
+    7.3226,
+    61.2986
+   ]
+  },
+  "forme": "line",
+  "note": "Of the nearly one thousand stave churches built in the Middle Ages, around thirty still stand. Their doorways, carved with dragons, blend Christian art with pagan imagery. Urnes is a World Heritage Site; Borgund, Heddal (the largest), Lom and Hopperstad are among the finest. This tour takes in the surviving stave churches.",
+  "etapes": [
+   {
+    "nom": "Urnes stavkyrkje",
+    "note": "The oldest, a World Heritage Site: the famous ‘Urnes-style’ carvings."
+   },
+   {
+    "nom": "Borgund stavkyrkje",
+    "note": "The best-preserved example, with its iconic tiered silhouette."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Timber-framed structures and gates carved with dragons, where Christian art blends with pagan imagery. Urnes, a World Heritage Site, and Borgund are among the best-preserved examples.",
+  "pepites": [
+   {
+    "nom": "Heddal stavkirke"
+   },
+   {
+    "nom": "Nore stavkirke"
+   }
+  ],
+  "evocation": "Step into the dim light of the woods. The smell of tar, the filtered light, the carved dragons standing guard over the gateway — half-Christian, half-pagan, as if the old faith had not quite let go. These structures, which have stood for eight centuries, have weathered plagues, reforms and storms. They look like longships turned skywards."
+ },
+ "fjords-alpages": {
+  "titre": "Fjords, farms and mountain pastures",
+  "soustitre": "Norway: Mountains and Water",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Geirangerfjord",
+   "coord": [
+    7.2054,
+    62.101
+   ]
+  },
+  "forme": "line",
+  "note": "The Western Fjords — Geirangerfjord and Nærøyfjord, both World Heritage Sites — are lined with farms clinging to the hillsides and waterfalls. In summer, livestock were taken up to the mountain pastures (seter). This route links fjords, traditional farmsteads (gårdstun) and mountain pastures, offering a glimpse into rural Norwegian life.",
+  "etapes": [
+   {
+    "nom": "Geirangerfjord",
+    "note": "A UNESCO-listed fjord, mountain farms and the Seven Sisters waterfalls."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Mountain slopes plunging into the water, farms clinging to the hillside, waterfalls; in summer, livestock were taken up to the mountain pastures (seter). The Geirangerfjord, a World Heritage Site, is the quintessential example of this.",
+  "pepites": [
+   {
+    "nom": "Vestnorsk fjordlandskap"
+   },
+   {
+    "nom": "Nærøyfjorden"
+   }
+  ],
+  "evocation": "Head up to the mountain pastures in late spring, when the snow has melted from the slopes. Down below, the fjord lies dormant, black and deep; up above, the bells of the cattle and silence. Here, life revolves around the water and the mountains, between the farmhouse clinging to the hillside and the summer pastures. Listen: the waterfall, the wind, and nothing else."
+ },
+ "sapmi": {
+  "titre": "Sápmi: the Sámi homeland",
+  "soustitre": "On the lands of the indigenous people of the Far North",
+  "duree": "plusieurs jours",
+  "echelle": "region",
+  "depart": {
+   "label": "Karasjok (Finnmark)",
+   "coord": [
+    25.5116,
+    69.472
+   ]
+  },
+  "forme": "line",
+  "note": "In the north live the indigenous Sámi people (Sápmi), reindeer herders and guardians of the joik and duodji (crafts). This feature explores their places: places of worship, settlements, graves and institutions (the Sámi Parliament in Karasjok). A unique, cross-border heritage to be explored with respect.",
+  "etapes": [
+   {
+    "nom": "Karasjok",
+    "note": "The cultural heart of the Sámi: the Sámi Parliament (Sámediggi) and museums."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "The sites of the Sámi people: places of worship, settlements, burial grounds, and the Sámi Parliament in Karasjok. A living heritage to be treated with respect.",
+  "pepites": [
+   {
+    "nom": "Mortensnes kulturminneområde"
+   },
+   {
+    "nom": "Bølareinen"
+   }
+  ],
+  "evocation": "The herd moves on, and with it an entire people. For millennia, the Sámi have read the snow, the wind and the movement of the reindeer. The joik is not a song about something — it IS the person, the place, the animal it calls. To walk on these lands is to enter into a body of knowledge that has never needed our borders."
+ }
+}

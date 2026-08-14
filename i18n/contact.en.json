@@ -1,0 +1,10 @@
+{
+ "contact.titre": "🐛 Found a bug or an error?",
+ "contact.texte": "A bug, wrong information, an idea? <b>Write to us</b> — every bit of feedback helps improve the app. Thank you!",
+ "contact.btn.bug": "Report / contact us",
+ "contact.par.email": "Sent by e-mail.",
+ "contact.sujet.bug": "{app} — Report / suggestion",
+ "contact.corps.bug": "Describe the problem or your idea:\n\n(page concerned, what happened…)\n\n",
+ "contact.aucune.appli.mail": "No e-mail app detected. Write to us at",
+ "contact.adresse.copiee": "(address copied)"
+}

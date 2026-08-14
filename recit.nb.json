@@ -1,0 +1,305 @@
+{
+  "titre": "Oppdag Norge",
+  "sous_titre": "Ti tusen år med historie, fra steinalderens jegere til oljenasjonen — datoer, slag og regimer som har formet landet.",
+  "intro": "Norge har utviklet seg langs kysten, mellom fjell og fjorder. Denne fortellingen følger den kronologiske rekkefølgen: fra de første jegerne (ca. 9500 f.Kr.) til vikingtiden (793–1066), fra kristningen til fire århundrer med dansk herredømme (1380–1814), deretter svensk (1814–1905), helt frem til uavhengigheten, okkupasjonen (1940–1945) og oljeæraen (fra 1969). Hver viktig dato, hvert slag, hvert styresett har etterlatt seg steder – alle geolokalisert i appen.",
+  "chapitres": [
+    {
+      "titre": "Rundt 9500 f.Kr. — De første nordmennene",
+      "texte": "Når isbreene trekker seg tilbake, beveger jeger- og samlerfolk seg oppover kysten som nå er frigjort fra isen. De etterlater seg et av Europas rikeste samlinger av bergkunst: i Alta (Finnmark) finnes tusenvis av helleristninger fra perioden 5000–2000 f.Kr. — reinsdyr, bjørner, båter, jaktscener – er oppført på UNESCOs verdensarvliste. Lenger sør, i bronsealderen (1700–500 f.Kr.), ble det gravert inn skip og solskiver: havet og solen sto allerede sentralt i troen.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Helleristninger%20Strand%20Gjessing%201936.png",
+      "credit": {
+        "auteur": "Gutorm Gjessing (1906–1979)",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+    },
+    {
+      "titre": "Omkring 5000–500 f.Kr. — Gravørene fra Alta",
+      "texte": "I Arktis, ved bredden av Altafjorden, har jegere og samlere risset inn i fjellet i tusenvis av år — de eldste figurene er datert til rundt 4200 f.Kr., de siste til rundt 500 f.Kr. Reinsdyr, elg, bjørn, båter og jaktscener: over 6 000 helleristninger, den største samlingen av forhistorisk jaktkunst i Nord-Europa. Stedet ble oppdaget i 1973 og var det første norske forhistoriske stedet som ble oppført på UNESCOs verdensarvliste i 1985. Ristningene dateres ut fra høyden de befinner seg på: bakken stiger etter at isen smeltet, og de eldste finnes høyest oppe.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/1992.08.08%20Helleristninger%20i%20Alta%20II.jpg",
+      "credit": {
+        "auteur": "Hans Olav Lien",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+    },
+    {
+      "titre": "1700–500 f.Kr. — Bronse, skip og solen",
+      "texte": "Den nordiske verden går inn i bronsealderen. Siden det ikke finnes kobber og tinn i området, skaffes metallet gjennom omfattende handelsutveksling – rav fra Østersjøen transporteres helt til Middelhavet. Skipet dominerer helleristningene (nærmere 10 000 båter er risset inn i Skandinavia), og solen blir tilbedt, båret gjennom himmelen av en vogn, slik som den berømte solvognen fra Trundholm. De døde ble begravet under gravhauger. (Vognen fra Trundholm og en del av disse skattene stammer fra nabolandet Danmark: det er den samme nordiske kulturen.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trundholm%20sun%20chariot%20Nationalmuseet.jpg",
+      "credit": {
+        "auteur": "Marie-Lan Nguyen",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+    },
+    {
+      "titre": "Jernalderen — Gårder, høvdinger og de første krigene",
+      "texte": "I de første århundrene e.Kr. ble landskapet fylt av gårder, gravhauger og høyborg. Høvdinger ble rike på jern fra myrene, pelsverk og slipesteiner, og kjempet om makten. Nord-Europas største gravhaug, Raknehaugen, ble reist rundt år 550 e.Kr. Det krigerske og hierarkiske samfunnet som skulle gi opphav til vikingene, var allerede på plass.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandegga%2C%20Sandeggen%2C%20Hedmark%20-%20Riksantikvaren-T116%2001%200081.jpg",
+      "credit": {
+        "auteur": "Halvor Vreim",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+    },
+    {
+      "titre": "600–800 — Borre og de første kongene",
+      "texte": "Før vikingtiden oppsto det maktsentre i den merovingiske epoken. I Borre i Vestfold ligger Skandinavias største samling av monumentale gravhauger: syv store gravhauger – opptil 45 m brede og 6 m høye – og tjueen mindre, som var i bruk i nesten fire århundrer. Her har man nylig utgravd store kongelige haller. Det var her, på 800-tallet, at «Borre-stilen» og dens «klorende dyr» oppsto, en kunstform med dyremotiver i flettverk som skulle spre seg over hele vikingverdenen.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/BORREHAUGENE%20Borreparken%20Borre%20Burial%20Mounds%20HORTEN%20Oslofjorden%20Norway%20Steinst%C3%B8tte%20Velkommen%20til%20Parken%20Hauger%20tr%C3%A6r%20sommer%20gress%20etc%202021-07-08%20IMG%208233.jpg",
+      "credit": {
+        "auteur": "Wolfmann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+    },
+    {
+      "titre": "793–1066 — Vikingtiden: fra gården til Valhall",
+      "texte": "I 793 innledet angrepet på Lindisfarne vikingtiden. Men før angrepet var det livet: man ble født på gården, vokste opp mellom seter og havet, og rettferdighet ble skipet på tinget. Rundt 872 gjorde slaget ved Hafrsfjord det mulig for Harald Hårfagre å forene Norge for første gang. Skipene fra Oseberg (834) og Gokstad, mesterverk som er bevart i Oslo, er innbegrepet av skipsbyggingskunst; de store kongelige gravhaugene – Borre, Gjellestad, Herlaugshaugen – førte den avdøde til Valhall. Syv av disse gravhaugene er foreslått som verdensarv. Vår rundreise «Vikingenes vei» følger denne livsveien.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vikingskipshuset%20november%202016.jpg",
+      "credit": {
+        "auteur": "Peulle",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+    },
+    {
+      "titre": "Omkring 872 — Hafrsfjord og kongedømmets opprinnelse",
+      "texte": "Ifølge tradisjonen var det rundt år 872, i et sjøslag i Hafrsfjorden nær Stavanger, at Harald Hårfagre beseiret de siste småkongene og la grunnlaget for et forent rike. Historikerne er imidlertid forsiktige: datoen stammer fra sagaene, som ble skrevet fire århundrer senere, og som plasserer hendelsen mellom 872 og 900; «foreningen» gjaldt i første omgang bare vest og sørvest. I Hafrsfjord står tre gigantiske sverd plantet i fjellet — Sverd i fjell, 1983 — som et minnesmerke over hendelsen.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Danmarks%2C%20Norges%20og%20Sverigs%20Historie%20-%20Harald%20Fairhair%20cuts%20hair%20of%20Rognvald%20Eysteinsson.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+    },
+    {
+      "titre": "870–1021 — Fra Island til Vinland",
+      "texte": "Drevet av havet spredte nordmennene seg vestover: til Island allerede på 870-tallet, deretter til Grønland, som ble grunnlagt av Erik den Røde rundt år 985. Rundt år 1000 nådde hans sønn Leif Erikson et land han kalte Vinland – Amerika. Disse reisene ble lenge ansett som en legende, men er nå bevist: ved L'Anse aux Meadows på Newfoundland (UNESCO 1978) er en vikingleir datert til 1021, nesten fem århundrer før Columbus. (Beretningene stammer fra sagaene, og dette stedet er ikke nødvendigvis det «Vinland» som beskrives der.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christian-krohg-leiv-eriksson.jpg",
+      "credit": {
+        "auteur": "Christian Krohg",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+    },
+    {
+      "titre": "995–1030 — Kristendommens innføring og slaget ved Stiklestad",
+      "texte": "Misjonskongene Olav Tryggvason (995–1000) og deretter Olav Haraldsson innførte kristendommen. I 1030 falt Olav i slaget ved Stiklestad; etter å ha blitt helgenkåret ble Sankt Olav Norges evige skytshelgen, og Nidaros (Trondheim) ble Nordens store pilegrimssted. Da oppstår et unikt mesterverk: stavkirken, den stående trekirken med drageportaler – Urnes (verdensarv), Borgund, Heddal.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Haugerud%20kirke%20nord.jpg",
+      "credit": {
+        "auteur": "Vidariv",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+    },
+    {
+      "titre": "1030–1537 — Nidaros, i fotsporene til St. Olav",
+      "texte": "I Nidaros – dagens Trondheim – hviler den hellige Olav, kongen som ble drept på Stiklestad i 1030 og helgenkåret allerede året etter. På hans grav står, fra ca. 1070 til 1300, verdens nordligste gotiske katedral; den ble sete for et erkebispedømme i 1152 og utviklet seg til Nord-Europas viktigste pilegrimsmål. Folk kom dit fra svært fjerne steder og gikk tre ganger rundt bygningen før de gikk inn. Pilegrimsreisen varte i nesten fem århundrer, helt fram til reformasjonen i 1537; i dag er Olavsveien gjenåpnet.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nidaros%20Cathedral%2C%20Trondheim%20-%20pano-1.jpg",
+      "credit": {
+        "auteur": "Daderot",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+    },
+    {
+      "titre": "1100- og 1200-tallet — Stående trekirker",
+      "texte": "Det norske trehåndverket kommer til uttrykk i stavkirkene, de middelalderske kirkene bygget av «stående tre». Av de nesten 1 300 som en gang fantes, er det i dag 28 igjen. Den eldste, Urnes (treverket hugget rundt 1130, UNESCO 1979), kombinerer keltisk kunst, vikingarv og romansk arkitektur; dens flettverk av dyr har gitt navn til «Urnes-stilen». Heddal er den største, Borgund den best bevarte. Utskårne portaler og trappetrinnsformede tak: en hel steinarkitektur gjengitt i tre.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stavkirken%20Borgund%20%28R%C3%B8rbye%29.JPG",
+      "credit": {
+        "auteur": "Martinus Rørbye",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+    },
+    {
+      "titre": "1130–1319 — Borgerkriger og deretter middelalderens storhetstid",
+      "texte": "Et århundre med borgerkriger (1130–1240) splittet kongeriket i striden om tronfølgen, inntil Håkon IV gjenopprettet et sterkt monarki: Dette var middelalderens høydepunkt, da Norge hersket over Island, Grønland, Orknøyene og Shetlandsøyene. Hovedstaden Bergen levde av stokfisk fra Lofoten, som ble handlet over hele Europa. I 1319, på grunn av mangel på arvinger, innledes dynastiske allianser med Sverige og deretter Danmark.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Akershus%20slottskirke%2020090503-01.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+    },
+    {
+      "titre": "1300- til 1500-tallet — Bergen, Hansa og tørrfisk",
+      "texte": "I Bergen, som ble grunnlagt før 1070, ble Bryggen rundt 1350 et av Hansaforbundets viktigste handelssteder. Her dominerte tyske kjøpmenn handelen med stokfisk – tørket torsk fra Lofoten – som ble byttet mot korn fra fastlandet. Bergen var en av Hansaforbundets fire utenlandske handelssteder, sammen med Novgorod, Brugge og London, og det eneste som har overlevd. Handelsstedet ble stengt i 1754; til tross for brannene står de fargerike trefasadene, som ble oppført på UNESCOs verdensarvliste i 1979, fortsatt ved fjordkanten.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bryggen%20in%20Bergen%2C%20Norway%20%286949770002%29.jpg",
+      "credit": {
+        "auteur": "Swedish National Heritage Board from Sweden",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+    },
+    {
+      "titre": "1349–1397 — Svartedauden og Kalmarunionen",
+      "texte": "I 1349 tok svartedauden kanskje livet av halvparten av befolkningen: forlatte landsbyer, ruinert adel, et svekket land. I 1397 forente Kalmarunionen Danmark, Sverige og Norge under én krone. Sverige trakk seg senere ut av unionen, mens Norge forble knyttet til Danmark i over fire århundrer – et avgjørende vendepunkt.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sand%C3%A5%20stoppested.jpg",
+      "credit": {
+        "auteur": "Jan-Tore Egge",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+    },
+    {
+      "titre": "1537–1814 — Det danske styret og reformasjonen",
+      "texte": "I 1537 ble den lutherske reformasjonen innført, og Norge ble en provins i kongeriket Danmark-Norge, styrt fra København. Hansestaden i Bergen, Bryggen, ble gjenoppbygd etter brannene (verdensarv). Kobberutvinningen førte til oppkomsten av Røros (verdensarv), en by med svartmalte trehus. Fire «danske» århundrer la grunnlaget for forvaltningen og skriftspråket.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bekkelaget%20kirke%2020081026-3.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+    },
+    {
+      "titre": "1600-tallet — Bålene i Finnmark",
+      "texte": "Den danske perioden har sin mørke side, helt i nord. I Finnmark, samenes hjemland, utvikler frykten for hekseri seg til forfølgelse: rundt 140 rettssaker mellom 1601 og 1692, og nesten 91 henrettelser i løpet av hele århundret – den verste heksejakten i norsk historie. Alt eskalerer etter en dødelig storm i 1617, som tilskrives trolldom; den store Vardø-rettssaken vinteren 1662–1663 fører til at atten kvinner blir brent på bålet. Minnesmerket på Steilneset (Peter Zumthor og Louise Bourgeois, 2011) hedrer ofrene.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Steilneset%20Memorial%20in%20Vard%C3%B8%20seen%20from%20above.jpg",
+      "credit": {
+        "auteur": "Frankemann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+    },
+    {
+      "titre": "1814 — Kiel, Eidsvoll og 17. mai",
+      "texte": "Danmark, som ble beseiret sammen med Napoleon, avsto Norge til Sverige gjennom Kiel-traktaten (januar 1814). Men nordmennene gjorde opprør: Samlet på Eidsvoll vedtok de 17. mai 1814 en av Europas mest liberale grunnlover – en dag som fortsatt feires som nasjonaldag. Selv om Norge likevel ble tvunget til union med Sverige, beholdt landet sin grunnlov, sitt parlament (Stortinget) og sin selvstendighet.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Eidsvoll%20kirke.jpg",
+      "credit": {
+        "auteur": "Mahlum",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+    },
+    {
+      "titre": "1814–1905 — Nasjonal oppvåkning og uavhengighet",
+      "texte": "Det 19. århundret formet identiteten: Ibsen, Grieg, Munch og eventyrene til Asbjørnsen og Moe, som foreviget troll og huldre. Språket ble delt i bokmål (arvet fra dansk) og nynorsk (gjenoppbygget av Ivar Aasen). I 1905 bryter Stortinget på fredelig vis unionen med Sverige; en folkeavstemning gir monarkiet et overveldende flertall, og den danske prinsen Carl blir kong Haakon VII. Norge er igjen fullt ut uavhengig.",
+      "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Bergen%202011%20344%20Byparken%20rk%20108714.JPG",
+      "credit": {
+        "auteur": "Bjoertvedt",
+        "licence": "CC BY-SA 3.0 no",
+        "url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+    },
+    {
+      "titre": "1825–1920 — Den store utvandringen til Amerika",
+      "texte": "På 1800-tallet var det trangt på den norske landsbygda: Befolkningen, som nå fikk bedre mat, doblet seg, men det var mangel på jord og avlinger. Mellom 1825 og 1920 reiste rundt 800 000 nordmenn – nesten en tredjedel av landets befolkning – til Amerika, den nest største utvandringen fra Europa etter Irland. De bosatte seg hovedsakelig i Midtvesten – Minnesota, Wisconsin, Iowa, Dakota – der de store slettene og den gratis jorden i henhold til Homestead Act minnet dem om hjemlandet de hadde forlatt. Hele Norge ble gjenoppbygget på den andre siden av Atlanterhavet.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%282%29%20-%20609%20-%20Leaving%20old%20home%20and%20friends%20-%20waving%20goodbyes%20to%20emigrants%20starting%20for%20America%2C%20Christiania%2C%20Norway%20stereofotografi%20-%20no-nb%20digifoto%2020160622%2000178%20bldsa%20stereo%200142.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+    },
+    {
+      "titre": "1800- og 1900-tallet — Ibsen, Grieg, Munch",
+      "texte": "Når Norge blir en nasjon, får landet stemmer som når langt ut. Henrik Ibsen revolusjonerer teateret: Hans «Dukkehjemmet» (1879), der Nora smeller med døren, skaper skandale i hele Europa. Edvard Grieg setter landet til musikk – med klaverkonserten og «Peer Gynt» med «Morgen» og «I fjellkongens hule». Edvard Munch, på sin side, maler den moderne angsten i «Skriket» (1893). Fra realisme til tidlig ekspresjonisme gir tre kunstnere det lille kongeriket en verdensomspennende aura.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Edvard%20Munch%2C%201893%2C%20The%20Scream%2C%20oil%2C%20tempera%20and%20pastel%20on%20cardboard%2C%2091%20x%2073%20cm%2C%20National%20Gallery%20of%20Norway.jpg",
+      "credit": {
+        "auteur": "Edvard Munch",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+    },
+    {
+      "titre": "1888–1947 — Erobringen av polene",
+      "texte": "Havet fører nordmennene helt ut til isen. Fridtjof Nansen krysset Grønland på ski i 1888, og lot deretter skipet sitt, Fram, drive med isen (1893–1896); han mottok Nobels fredspris for sin innsats for flyktninger. Roald Amundsen krysset Nordvestpassasjen og var den første til å heise flagget på Sydpolen 14. desember 1911, før Scott. Senere krysset Thor Heyerdahl Stillehavet på flåten Kon-Tiki (1947). En nasjon av oppdagelsesreisende.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Roald%20Amundsen%20LOC%2007622u.jpg",
+      "credit": {
+        "auteur": "—",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+    },
+    {
+      "titre": "1940–1945 — Okkupasjonen og motstandsbevegelsen",
+      "texte": "Den 9. april 1940 invaderte Nazi-Tyskland Norge; kongen og regjeringen gikk i eksil i London, mens Vidkun Quisling innførte et kollaborasjonsregime som senere ble synonymt med forræderi. Fem år med okkupasjon, motstandsbevegelse (sabotasjen av tungtvannet i Rjukan, som bremset det tyske atomprogrammet) og undertrykkelse, frem til frigjøringen i 1945. Erfaringene befester landets forpliktelse til demokrati og felles forsvar.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hjelmkollen%2C%20kanonbunker.jpg",
+      "credit": {
+        "auteur": "Tommy Gildseth",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+    },
+    {
+      "titre": "Etter 1945 – NATO ja, Europa nei",
+      "texte": "Etter at okkupasjonen tok slutt, begynte Norge å gjenoppbygge seg – med utgangspunkt i det nedbrente Finnmark – og opprettet en sosialdemokratisk velferdsstat. I 1949 var landet et av grunnleggerne av NATO. Men landet holder fast ved sin egenart: To ganger, i 1972 (53,5 %) og deretter i 1994 (52,2 %), sier velgerne «nei» til EU-medlemskap. Snart skulle oljen fra Nordsjøen forvandle landet til en av verdens mest velstående nasjoner.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Storting%20building.jpg",
+      "credit": {
+        "auteur": "Christian David",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+    },
+    {
+      "titre": "Fjorder, fjellenger og sameland",
+      "texte": "Utover selve datoene finnes det en levende kulturarv: fjordene i vest – Geirangerfjorden og Nærøyfjorden, som er oppført på verdensarvlisten – omgitt av gårder og fosser; setrene der man drev opp buskapen om sommeren; fiskeværene og fyrtårnene. I nord bor det urfolket samene (Sápmi), som driver reindrift og er voktere av joik og duodji, og som lenge har vært utsatt for «norskifisering» — en særegen kulturarv som vår utgave setter søkelyset på i et eget tema.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/B%C3%B8kfjord%20lighthouse%20in%20S%C3%B8r%20Varanger.tif",
+      "credit": {
+        "auteur": "Danckert Monrad-Krohn, Riksantikvaren.",
+        "licence": "CC BY 2.5",
+        "url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+    },
+    {
+      "titre": "Sápmi – landet, reinen, joiken",
+      "texte": "Lenge før landegrensene ble trukket, var Nord-Norge Sápmi, det samiske folket sitt land, som strekker seg over fire land. I Norge omfatter det Finnmark, Troms og Nordland. Reindrift, joik og duodji-håndverk preger identiteten. I lang tid påtvang staten «norskifisering»: fra 1898 til 1959 foregikk skolegangen utelukkende på norsk. Alta-konflikten, som dreide seg om et vannkraftverk (1979–1982), vekket den samiske saken til live; dette førte til loven av 1987 og, i 1989, åpningen av det samiske parlamentet, Sametinget, i Karasjok.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sami%20people%20north%20of%20Arctic%20Circle%2C%20Norway.jpg",
+      "credit": {
+        "auteur": "Preus museum",
+        "licence": "CC BY 2.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+    },
+    {
+      "titre": "Havet og det fjerne nord",
+      "texte": "Alt her har sin opprinnelse i havet. Hver vinter i tusen år har skrei-torsken vandret opp fra de arktiske havene til Lofoten; tørket i vinden på rister blir den til stokfisk, som via Bergen skapte rikdom i landet i fem århundrer – allerede i 1432 tok en forlist venetiansk kjøpmann den med seg tilbake til Italia. I 1893 innviet Hurtigruten kystlinjen som forbinder kysten helt opp til det store nord. Der oppe hersker midnattssolen, polarnatten og nordlysene – og helt ytterst ligger Svalbard.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lofoten%2C%20t%C3%B8rrfisk%20-%20no-nb%20digifoto%2020150210%2000064%20NB%20MIT%20FNR%2016856.jpg",
+      "credit": {
+        "auteur": "Jac Brun",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+    },
+    {
+      "titre": "Siden 1969 – Oljealderen og det moderne Norge",
+      "texte": "Vannkraften hadde allerede elektrifisert landet og ført til opprettelsen av fabrikkbyer som Rjukan og Notodden (på UNESCOs verdensarvliste for industri). I 1969 endret funnet av Ekofisk-feltet i Nordsjøen alt: olje og gass gjorde Norge til et av verdens mest velstående land, med et enormt statlig fond. Men nasjonen forblir trofast mot sine gårder, trekirker og fjorder – en kulturarv den verner om, og som denne appen inviterer deg til å utforske, kart for kart.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/VemorkHydroelectricPlant.jpg",
+      "credit": {
+        "auteur": "MiSi at German Wikipedia",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+    }
+  ],
+  "sources": "Teksten er basert på verifiserte, åpent tilgjengelige kilder (UNESCO, Riksantikvaren, Store norske leksikon, Wikipedia). Datoer og hendelser er kryssjekket. Stedene som nevnes er geolokalisert i appen; bilder og krediteringer er hentet fra Wikimedia Commons."
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26201a">
+<meta name="robots" content="noindex">
+<title data-i18n="soutien.confidentialite.rgpd"></title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:16px;}
+main{max-width:720px;margin:0 auto;padding:22px 22px 70px;}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,6vw,36px);line-height:1.08;margin:6px 0 4px;}
+.upd{font-size:12.5px;color:var(--stone);font-style:italic;margin:0 0 18px;}
+section{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0;box-shadow:0 4px 14px rgba(43,35,24,.06);}
+section h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin:0 0 8px;}
+section p,li{font-size:15px;margin:7px 0;color:#332a1d;}
+ul{margin:6px 0;padding-left:20px;}
+a.txtlink,a.cMail{color:var(--gold);}
+.fineprint{font-size:12px;color:var(--stone);font-style:italic;margin-top:8px;}
+.privacy-key{background:#26201a;color:var(--ivory);border-color:#26201a;}
+.privacy-key h2,.privacy-key p,.privacy-key li{color:var(--ivory);}
+.privacy-key b{color:var(--gold-soft);}
+</style>
+<script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="topbar"><a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="soutien.confidentialite.rgpd"></span></div>
+<main>
+<h1 data-i18n="confid.h1"></h1>
+<p class="upd" data-i18n-html="confid.maj"></p>
+
+<!-- Résumé rassurant (i18n, clés partagées avec l'ancienne page soutien) -->
+<section class="privacy-key">
+  <h2 data-i18n="soutien.confidentialite.rgpd"></h2>
+  <ul>
+    <li data-i18n-html="soutien.rich.rien.n.est.envoye"></li>
+    <li data-i18n-html="soutien.rich.jamais.a.personne"></li>
+    <li data-i18n-html="soutien.rich.les.seules.informations.conservees"></li>
+    <li data-i18n-html="soutien.rich.le.paiement.est.lemon"></li>
+    <li data-i18n-html="soutien.rich.refuser.de.partager.vos"></li>
+  </ul>
+</section>
+
+<!-- Politique RGPD formelle (i18n confid.*) -->
+<section><h2 data-i18n="confid.s1.t"></h2><p data-i18n-html="confid.s1.c"></p></section>
+<section><h2 data-i18n="confid.s2.t"></h2><p data-i18n-html="confid.s2.c"></p></section>
+<section><h2 data-i18n="confid.s3.t"></h2><div data-i18n-html="confid.s3.c"></div></section>
+<section><h2 data-i18n="confid.s4.t"></h2><p data-i18n-html="confid.s4.c"></p></section>
+<section><h2 data-i18n="confid.s5.t"></h2><p data-i18n-html="confid.s5.c"></p></section>
+<section><h2 data-i18n="confid.s6.t"></h2><p data-i18n-html="confid.s6.c"></p></section>
+
+<!-- Charte d'utilisation (i18n, clés partagées) -->
+<section id="charte">
+  <h2 data-i18n="soutien.charte.d.utilisation.responsabilite"></h2>
+  <p data-i18n-html="soutien.rich.cette.application.est.un"></p>
+  <p data-i18n-html="soutien.rich.du.contenu.que.vous"></p>
+  <p data-i18n-html="soutien.rich.il.est.d.utiliser"></p>
+  <ul>
+    <li data-i18n="soutien.du.contenu.illegal.ou"></li>
+    <li data-i18n="soutien.du.contenu.humiliant.diffamatoire"></li>
+    <li data-i18n="soutien.du.contenu.portant.atteinte"></li>
+    <li data-i18n-html="soutien.rich.des.photos.videos.ou"></li>
+  </ul>
+  <p data-i18n-html="soutien.rich.ces.regles.s.appliquent"></p>
+  <p data-i18n-html="soutien.rich.l.editeur.n.ayant"></p>
+  <p data-i18n-html="soutien.rich.si.vous.choisissez.d"></p>
+  <p class="fineprint" data-i18n="soutien.en.utilisant.l.application"></p>
+</section>
+</main>
+<script>
+  // Injection dynamique (rien en dur, règle « un fichier, un pays ») :
+  // marque via HConf.marque, e-mail de contact via HConf.support. Rejoué après rendu i18n.
+  function fillConfid(){
+    var m = (window.HConf && HConf.marque) || 'Heritage Experience';
+    var mail = (window.HConf && HConf.support) || '';
+    try { document.title = m + ' — ' + ((window.THEi18n&&THEi18n.ui('soutien.confidentialite.rgpd'))||'Confidentialité'); } catch(e){}
+    var apps = document.querySelectorAll('.cApp'); for (var i=0;i<apps.length;i++) apps[i].textContent = m;
+    var mails = document.querySelectorAll('a.cMail'); for (var j=0;j<mails.length;j++){
+      if(mail){ mails[j].href = 'mailto:'+mail; mails[j].textContent = mail; }
+      else { mails[j].removeAttribute('href'); mails[j].textContent = '—'; }
+    }
+  }
+  if (window.THEi18n && THEi18n.ready) THEi18n.ready.then(fillConfid); else fillConfid();
+</script>
+<script src="the-footer.js" defer></script>
+<script src="analytics.js"></script>
+</body>
+</html>

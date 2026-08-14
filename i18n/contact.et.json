@@ -1,0 +1,10 @@
+{
+ "contact.titre": "🐛 Kas leidsid vea?",
+ "contact.texte": "Viga, vale teave või idee? <b>Kirjuta meile</b> — iga tagasiside aitab rakendust parandada. Aitäh!",
+ "contact.btn.bug": "Teata / võta ühendust",
+ "contact.par.email": "Saadetakse e-postiga.",
+ "contact.sujet.bug": "{app} — Teade / ettepanek",
+ "contact.corps.bug": "Kirjelda probleemi või oma ideed:\n\n(asjaomane leht, mis juhtus…)\n\n",
+ "contact.aucune.appli.mail": "E-posti rakendust ei leitud. Kirjuta meile aadressil",
+ "contact.adresse.copiee": "(aadress kopeeritud)"
+}

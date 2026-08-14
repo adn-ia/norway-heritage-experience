@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="patrimoine.apropos.titre">À propos · Comment ça marche</title>
+<script src="config.js?v=ffd1f0c9"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:'EB Garamond',Georgia,serif;line-height:1.6;}
+.ap{max-width:760px;margin:0 auto;padding:26px clamp(16px,4vw,40px) 70px;}
+.ap-back{display:inline-block;color:var(--gold);text-decoration:none;font-size:15px;margin:0 0 18px;}
+.ap-back:hover{text-decoration:underline;}
+.ap h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(28px,5vw,38px);line-height:1.08;margin:0 0 6px;}
+.ap h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:30px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+.ap-inp{background:#fbf3e8;border-left:3px solid var(--gold);border-radius:9px;padding:13px 15px;font-size:14px;line-height:1.5;color:#5a4d3a;margin:14px 0 4px;}
+.ap-inp b{color:#3a3226;}
+.ap-mech p{margin:0 0 14px;font-size:16px;color:#3a3226;}
+.ap-mech b,.ap-legal b{color:var(--ink);font-weight:700;}
+.ap-legal{margin:0;padding:0;list-style:none;counter-reset:l;}
+.ap-legal li{position:relative;padding:0 0 13px 30px;margin:0 0 12px;font-size:15px;color:#4a4030;border-bottom:1px solid var(--line);counter-increment:l;}
+.ap-legal li:last-child{border-bottom:none;}
+.ap-legal li::before{content:counter(l);position:absolute;left:0;top:1px;width:21px;height:21px;line-height:21px;text-align:center;font-size:12px;font-weight:700;color:#fff;background:var(--gold-soft);border-radius:50%;font-family:'EB Garamond',serif;}
+.ap-legal a{color:var(--gold);}
+.ap-foot{margin-top:30px;font-size:13px;color:var(--stone);}
+[dir="rtl"] .ap-back{}
+[dir="rtl"] .ap-legal li{padding:0 30px 13px 0;}
+[dir="rtl"] .ap-legal li::before{left:auto;right:0;}
+[dir="rtl"] .ap-inp{border-left:none;border-right:3px solid var(--gold);}
+</style>
+</head>
+<body>
+  <main class="ap">
+    <a class="ap-back" href="index.html" data-i18n="patrimoine.apropos.retour">‹ Retour au patrimoine</a>
+    <h1 data-i18n="patrimoine.apropos.titre">À propos · Comment ça marche</h1>
+    <div class="ap-inp" id="apInp"></div>
+    <h2 data-i18n="patrimoine.apropos.comment">Comment ça marche</h2>
+    <div class="ap-mech" id="apMech"></div>
+    <h2 data-i18n="patrimoine.legal.titre">Mentions &amp; responsabilités</h2>
+    <ol class="ap-legal" id="apLegal"></ol>
+  </main>
+
+  <script src="i18n/engine.js?v=ffd1f0c9"></script>
+  <script>
+    (function(){
+      function fill(){
+        var T = PATi18n.uiT;
+        document.getElementById('apInp').innerHTML = T('patrimoine.intro.inp');
+        var mech = ['m1','m2','m3','m4','m5','m6','m7'].map(function(m){ return '<p>'+T('patrimoine.apropos.'+m)+'</p>'; }).join('');
+        document.getElementById('apMech').innerHTML = mech;
+        var contact = ((window.PAT && window.PAT.contactEmail) || '').trim();
+        var cLink = contact ? '<a href="mailto:'+contact+'">'+contact+'</a>' : '—';
+        var legal = [];
+        for (var i=1;i<=9;i++){ legal.push('<li>'+T('patrimoine.legal.l'+i).replace('{contact}', cLink)+'</li>'); }
+        document.getElementById('apLegal').innerHTML = legal.join('');
+      }
+      if (window.PATi18n && PATi18n.boot) PATi18n.boot().then(fill);
+      else document.addEventListener('DOMContentLoaded', fill);
+    })();
+  </script>
+</body>
+</html>

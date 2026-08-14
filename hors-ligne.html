@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="soutien.sauvegarder.transferer.mes.donnees"></title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
+main{max-width:680px;margin:0 auto;padding:24px 22px 60px;}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(28px,7vw,40px);line-height:1.05;margin:6px 0 4px;}
+.lead{font-style:italic;color:var(--stone);margin:0 0 22px;}
+section{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px 18px;margin:14px 0;box-shadow:0 4px 14px rgba(43,35,24,.06);}
+section h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+section p{font-size:15.5px;margin:8px 0;color:#332a1d;}
+.btn{display:inline-block;background:var(--gold);color:#2b2318;text-decoration:none;border:none;padding:12px 20px;border-radius:8px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;}
+.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink);}
+.fineprint{font-size:12px;color:var(--stone);font-style:italic;margin-top:8px;}
+.todo{font-size:11px;color:#9a5a2a;background:#fbf0e2;border:1px dashed #e0b88c;border-radius:5px;padding:2px 6px;}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="topbar"><a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="soutien.sauvegarder.transferer.mes.donnees"></span></div>
+<main>
+  <h1 data-i18n="soutien.vos.donnees.votre.voyage"></h1>
+  <p class="lead" data-i18n="soutien.sobre.par.choix.on"></p>
+
+  <!-- Brique auto-portée « Disponible hors-ligne » (télécharger voix/photos + poids) -->
+  <section data-brique="hors-ligne"></section>
+
+  <section>
+    <h2 data-i18n="soutien.sauvegarder.transferer.mes.donnees"></h2>
+    <p data-i18n-html="soutien.rich.vos.itineraires.et.votre"></p>
+    <button class="btn" id="bkExport" type="button" data-i18n="soutien.sauvegarder.mes.donnees"></button>
+    <button class="btn ghost" id="bkImport" type="button" data-i18n="soutien.restaurer.depuis.un.fichier"></button>
+    <input type="file" id="bkFile" accept="application/json,.json" style="display:none">
+    <div class="fineprint" id="bkStatus"><span data-i18n="soutien.le.fichier.reste.sur"></span> <span class="todo" data-i18n="soutien.a.venir.comptes.synchro"></span></div>
+  </section>
+</main>
+<script>
+  // helper i18n (renvoie la clé si pas de THEi18n — cas générique FR-seul)
+  function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?s.replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
+
+  // ---------- Sauvegarder / restaurer mes données ----------
+  document.getElementById('bkExport').onclick=async function(){
+    var st=document.getElementById('bkStatus');
+    try{ st.textContent=uiT('soutien.preparation'); var r=await THEBackup.download(); st.textContent=uiT('soutien.sauvegarde.telechargee')+r.itineraires+uiT('soutien.itineraire.s')+r.photos+uiT('soutien.media.s.du.carnet.gardez'); }
+    catch(e){ st.textContent='⚠️ '+(e&&e.message||'erreur'); }
+  };
+  document.getElementById('bkImport').onclick=function(){ document.getElementById('bkFile').click(); };
+  document.getElementById('bkFile').onchange=async function(e){
+    var f=e.target.files[0]; if(!f) return;
+    if(!confirm(uiT('soutien.restaurer.ce.fichier.vos.itineraires'))){ e.target.value=''; return; }
+    var st=document.getElementById('bkStatus');
+    try{ st.textContent=uiT('soutien.restauration'); var r=await THEBackup.importFile(f); st.textContent=uiT('soutien.restaure')+r.photos+uiT('soutien.media.s.du.carnet.vos'); }
+    catch(err){ st.textContent='⚠️ '+(err&&err.message||'erreur'); }
+    e.target.value='';
+  };
+</script>
+<script src="the-backup.js"></script>
+<script src="the-footer.js" defer></script>
+  <script src="analytics.js"></script>
+<script src="brique-hors-ligne.js" defer></script>
+</body>
+</html>

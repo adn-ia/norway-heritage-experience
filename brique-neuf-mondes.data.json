@@ -1,0 +1,348 @@
+{
+  "_note": "Plugin AUTO-PORTÉ STRICT « Les Neuf Mondes » (cosmologie nordique). Embarque SA donnée, SES langues (fr/en/nb), SES libellés. Zéro dépendance hôte (ni the-i18n.js, ni sites.geojson, ni HConf). Langue = the_lang → repli anglais. Contenu SOURCÉ (Eddas, Snorri) ; images = domaine public créditées. Ornement décoratif = _config.frise (par édition, jamais codé en dur dans le .js). NE PAS mettre dans ui.*.json.",
+  "_config": {
+    "premium": false,
+    "frise": {
+      "texte": "ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛟ ᛞ",
+      "font": "img/neuf-mondes/runic.ttf",
+      "family": "NMRunic",
+      "_note": "Ornement de CETTE édition (Elder Futhark, décoratif, non traduit). Une autre édition met SA frise ici — ou retire la clé pour n'avoir aucun ornement."
+    }
+  },
+  "labels": {
+    "titre": {
+      "fr": "Les Neuf Royaumes",
+      "en": "The Nine Realms",
+      "nb": "De ni rikene"
+    },
+    "sous": {
+      "fr": "La cosmologie nordique",
+      "en": "Norse cosmology",
+      "nb": "Nordisk kosmologi"
+    },
+    "intro": {
+      "fr": "Selon la mythologie nordique, neuf royaumes s'articulent autour de l'arbre-monde Yggdrasil, reliés par ses racines et par le pont Bifröst.",
+      "en": "According to Norse mythology, nine realms are centred around the world tree Yggdrasil, connected by its roots and by the bridge Bifröst.",
+      "nb": "Ifølge norrøn mytologi er ni riker samlet rundt verdens treet Yggdrasil, forbundet gjennom dets røtter og broen Bifröst."
+    },
+    "avert": {
+      "fr": "Aucune source ancienne ne donne LA liste des neuf royaumes : le nombre neuf est attesté, mais la liste précise est une reconstruction moderne, et bien des détails viennent de Snorri Sturluson (XIIIᵉ siècle, chrétien). À lire comme un héritage vivant, pas comme un dogme.",
+      "en": "No ancient source provides *THE* list of the nine realms: the number nine is attested, but the specific list is a modern reconstruction, and many of the details come from Snorri Sturluson (13th century, Christian). It should be read as a living legacy, not as dogma.",
+      "nb": "Ingen eldre kilder gir DEN liste over de ni rikene: tallet ni er bekreftet, men den konkrete listen er en moderne rekonstruksjon, og mange detaljer stammer fra Snorri Sturluson (1200-tallet, kristen). Dette bør leses som en levende arv, ikke som et dogme."
+    },
+    "sources": {
+      "fr": "Sources",
+      "en": "Sources",
+      "nb": "Kilder"
+    },
+    "image": {
+      "fr": "Image",
+      "en": "Image",
+      "nb": "Bilde"
+    },
+    "domaine": {
+      "fr": "domaine public",
+      "en": "public domain",
+      "nb": "allmennheten"
+    }
+  },
+  "mondes": [
+    {
+      "id": "yggdrasil",
+      "nom": {
+        "fr": "Yggdrasil",
+        "en": "Yggdrasil",
+        "nb": "Yggdrasil"
+      },
+      "sous": {
+        "fr": "l'arbre-monde",
+        "en": "the world tree",
+        "nb": "verdenstreet"
+      },
+      "texte": {
+        "fr": "Au centre de tout se dresse Yggdrasil, un frêne immense dont les branches et les racines relient les neuf royaumes. Son nom signifie « le cheval d'Yggr » (Odin), en écho au sacrifice d'Odin, pendu à l'arbre pour obtenir les runes. Un aigle veille à sa cime, le dragon Níðhöggr ronge ses racines, et l'écureuil Ratatoskr colporte leurs insultes.",
+        "en": "At the centre of it all stands Yggdrasil, a vast ash tree whose branches and roots connect the nine realms. Its name means ‘Yggr’s horse’ (Odin), echoing Odin’s sacrifice, when he was hung from the tree to obtain the runes. An eagle watches over its crown, the dragon Níðhöggr gnaws at its roots, and the squirrel Ratatoskr carries their insults back and forth.",
+        "nb": "I sentrum av det hele står Yggdrasil, en enorm ask hvor grenene og røttene forbinder de ni rikene. Navnet betyr «Yggs hest» (Odin), som en henvisning til Odins offer, da han ble hengt i treet for å skaffe seg runene. En ørn holder vakt i toppen, dragen Níðhöggr gnager på røttene, og ekornet Ratatoskr sprer deres fornærmelser."
+      },
+      "source": {
+        "fr": "Völuspá, Grímnismál, Edda de Snorri",
+        "en": "Völuspá, Grímnismál, Snorri’s Edda",
+        "nb": "Völuspá, Grímnismál, Snoris Edda"
+      },
+      "image": "img/neuf-mondes/yggdrasil.jpg",
+      "credit": "Oluf Bagge",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Yggdrasil.jpg"
+    },
+    {
+      "id": "bifrost",
+      "nom": {
+        "fr": "Bifröst",
+        "en": "Bifröst",
+        "nb": "Bifröst"
+      },
+      "sous": {
+        "fr": "le pont arc-en-ciel",
+        "en": "the rainbow bridge",
+        "nb": "Regnbuebroen"
+      },
+      "texte": {
+        "fr": "Bifröst est le pont flamboyant, souvent décrit comme un arc-en-ciel, qui relie Asgard, le monde des dieux, à Midgard, celui des hommes. Le dieu Heimdallr le garde sans jamais dormir. Selon Snorri, au Ragnarök, les fils de Muspell le franchissent et il se brise sous leur poids.",
+        "en": "Bifröst is the flaming bridge, often described as a rainbow, which connects Asgard, the world of the gods, to Midgard, the world of men. The god Heimdallr guards it without ever sleeping. According to Snorri, at Ragnarök, the sons of Muspell cross it and it breaks under their weight.",
+        "nb": "Bifröst er den flammende broen, som ofte beskrives som en regnbue, og som forbinder Asgard, gudenes verden, med Midgard, menneskenes verden. Guden Heimdallr vokter den uten noensinne å sove. Ifølge Snorri krysser Muspells sønner den under Ragnarök, og den bryter sammen under deres vekt."
+      },
+      "source": {
+        "fr": "Grímnismál, Edda de Snorri",
+        "en": "Grímnismál, Snorri’s Edda",
+        "nb": "Grímnismál, Snoris Edda"
+      },
+      "image": "img/neuf-mondes/bifrost.jpg",
+      "credit": "Emil Doepler",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Heimdall_an_der_Himmelsbr%C3%BCcke_by_E._Doepler.jpg"
+    },
+    {
+      "id": "asgard",
+      "nom": {
+        "fr": "Asgard",
+        "en": "Asgard",
+        "nb": "Asgard"
+      },
+      "sous": {
+        "fr": "le monde des Ases",
+        "en": "the world of the Aesir",
+        "nb": "Asenes verden"
+      },
+      "texte": {
+        "fr": "Asgard est la citadelle des Ases, les dieux menés par Odin, Thor et Baldr. On y trouve la Valhöll, où sont accueillis les guerriers tombés au combat. Un géant bâtisseur en éleva la muraille, jusqu'à ce que Loki fasse échouer le marché.",
+        "en": "Asgard is the citadel of the Aesir, the gods led by Odin, Thor and Baldr. It is home to Valhalla, where warriors who have fallen in battle are welcomed. A giant builder erected its walls, until Loki caused the deal to fall through.",
+        "nb": "Asgard er festningen til asene, gudene ledet av Odin, Tor og Balder. Der ligger Valhall, hvor krigere som har falt i kamp blir tatt imot. En byggende kjempe reiste muren der, helt til Loke fikk avtalen til å mislykkes."
+      },
+      "source": {
+        "fr": "Edda de Snorri (Gylfaginning), Völuspá",
+        "en": "Snorri’s Edda (Gylfaginning), Völuspá",
+        "nb": "Snoris Edda (Gylfaginning), Völuspá"
+      },
+      "image": "img/neuf-mondes/asgard.jpg",
+      "credit": "Emil Doepler",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Walhall_by_Emil_Doepler.jpg"
+    },
+    {
+      "id": "midgard",
+      "nom": {
+        "fr": "Midgard",
+        "en": "Midgard",
+        "nb": "Midgard"
+      },
+      "sous": {
+        "fr": "le monde des hommes",
+        "en": "the world of men",
+        "nb": "mennenes verden"
+      },
+      "texte": {
+        "fr": "Midgard, « l'enclos du milieu », est la terre des humains, façonnée selon Snorri à partir du corps du géant Ymir. Elle est ceinte par l'océan où sommeille le serpent Jörmungandr, mordant sa propre queue. C'est le seul des neuf royaumes qui nous soit familier.",
+        "en": "Midgard, ‘the middle enclosure’, is the land of humans, fashioned, according to Snorri, from the body of the giant Ymir. It is surrounded by the ocean, where the serpent Jörmungandr slumbers, biting its own tail. It is the only one of the nine realms with which we are familiar.",
+        "nb": "Midgard, «den midterste innhegningen», er menneskenes verden, som ifølge Snorri ble skapt av kjempen Ymirs kropp. Den er omgitt av havet, der slangen Jörmungandr slumrer og biter seg selv i halen. Det er den eneste av de ni rikene som vi kjenner til."
+      },
+      "source": {
+        "fr": "Edda de Snorri, Grímnismál",
+        "en": "Snorri’s Edda, Grímnismál",
+        "nb": "Snorris Edda, Grímnismál"
+      },
+      "image": "img/neuf-mondes/midgard.jpg",
+      "credit": "Henry Fuseli",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Johann_Heinrich_Fussli-Tor_and_Jormundgandr.jpg"
+    },
+    {
+      "id": "vanaheim",
+      "nom": {
+        "fr": "Vanaheim",
+        "en": "Vanaheim",
+        "nb": "Vanaheim"
+      },
+      "sous": {
+        "fr": "le monde des Vanes",
+        "en": "The World of the Vanes",
+        "nb": "Vanes’ verden"
+      },
+      "texte": {
+        "fr": "Vanaheim est la patrie des Vanes, dieux de la fertilité et de la magie comme Njörðr, Freyr et Freyja. Au terme de la guerre qui les opposa aux Ases, des otages furent échangés entre les deux familles divines. Les textes anciens n'en disent presque rien : une seule strophe le mentionne vraiment.",
+        "en": "Vanaheim is the homeland of the Vanir, gods of fertility and magic such as Njörðr, Freyr and Freyja. At the end of the war between them and the Aesir, hostages were exchanged between the two divine families. The ancient texts say almost nothing about this: only a single stanza actually mentions it.",
+        "nb": "Vanaheim er hjemlandet til vanene, fruktbarhets- og magigudene som Njörðr, Freyr og Freyja. Etter at krigen mellom dem og asene var over, ble det utvekslet gisler mellom de to gudeklanene. De gamle tekstene sier nesten ingenting om dette: bare én strofe nevner det egentlig."
+      },
+      "source": {
+        "fr": "Vafþrúðnismál 39, Edda de Snorri",
+        "en": "Vafþrúðnismál 39, Snorri’s Edda",
+        "nb": "Vafþrúðnismál 39, Snoris Edda"
+      },
+      "image": "img/neuf-mondes/vanaheim.jpg",
+      "credit": "Eduard Ade / After Johannes Gehrts",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Freyr_by_Johannes_Gehrts.jpg"
+    },
+    {
+      "id": "alfheim",
+      "nom": {
+        "fr": "Alfheim",
+        "en": "Alfheim",
+        "nb": "Alfheim"
+      },
+      "sous": {
+        "fr": "le monde des elfes de lumière",
+        "en": "The World of the Light Elves",
+        "nb": "lysalvenes verden"
+      },
+      "texte": {
+        "fr": "Alfheim est le séjour des elfes de lumière, « plus beaux que le soleil », offert au dieu Freyr en cadeau. Snorri les oppose aux elfes sombres, « plus noirs que la poix » — mais cette distinction lui est propre et reste discutée.",
+        "en": "Alfheim is the realm of the light elves, ‘more beautiful than the sun’, given to the god Freyr as a gift. Snorri contrasts them with the dark elves, ‘blacker than pitch’ — but this distinction is his own and remains a matter of debate.",
+        "nb": "Alfheim er hjemmet til lysalvene, «vakrere enn solen», som ble gitt i gave til guden Freyr. Snorri stiller dem opp mot mørkealvene, «svartere enn bek» — men dette skillet er hans eget og er fortsatt omstridt."
+      },
+      "source": {
+        "fr": "Grímnismál 5, Edda de Snorri",
+        "en": "Grímnismál 5, Snorri’s Edda",
+        "nb": "Grímnismál 5, Snoris Edda"
+      },
+      "image": "img/neuf-mondes/alfheim.jpg",
+      "credit": "August Malmström",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:August_Malmstr%C3%B6m_-_Dancing_Fairies_-_Google_Art_Project.jpg"
+    },
+    {
+      "id": "jotunheim",
+      "nom": {
+        "fr": "Jötunheim",
+        "en": "Jötunheim",
+        "nb": "Jötunheim"
+      },
+      "sous": {
+        "fr": "le monde des géants",
+        "en": "The World of Giants",
+        "nb": "gigantenes verden"
+      },
+      "texte": {
+        "fr": "Jötunheim est le pays des jötnar, les géants, situé « à l'est » au-delà de barrières infranchissables. Thor y multiplie les expéditions, et c'est de là que le géant Þrymr déroba le marteau Mjöllnir. Les poèmes en parlent souvent au pluriel : plusieurs terres plutôt qu'un seul monde.",
+        "en": "Jötunheim is the land of the jötnar, the giants, situated ‘to the east’ beyond impassable barriers. Thor undertakes many expeditions there, and it was from there that the giant Þrymr stole the hammer Mjöllnir. The poems often refer to them in the plural: several lands rather than a single world.",
+        "nb": "Jötunheim er jøtnenes land, og ligger «i øst» på den andre siden av uoverstigelige hindringer. Thor drar ofte på ekspedisjoner dit, og det var derfra kjempen Þrymr stjal hammeren Mjöllnir. I diktene omtales det ofte i flertall: flere landområder snarere enn én enkelt verden."
+      },
+      "source": {
+        "fr": "Þrymskviða, Skírnismál, Edda de Snorri",
+        "en": "Þrymskviða, Skírnismál, Snorri’s Edda",
+        "nb": "Þrymskviða, Skírnismál, Snorris Edda"
+      },
+      "image": "img/neuf-mondes/jotunheim.jpg",
+      "credit": "Mårten Eskil Winge",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:M%C3%A5rten_Eskil_Winge_-_Tor%27s_Fight_with_the_Giants_-_Google_Art_Project.jpg"
+    },
+    {
+      "id": "svartalfheim",
+      "nom": {
+        "fr": "Svartalfheim",
+        "en": "Svartalfheim",
+        "nb": "Svartalfheim"
+      },
+      "sous": {
+        "fr": "le monde des nains",
+        "en": "the world of dwarves",
+        "nb": "dvergene sin verden"
+      },
+      "texte": {
+        "fr": "Sous la terre s'étend le royaume sombre des nains, forgerons sans égal, éclairé par leurs forges. C'est là que furent façonnés les plus grands trésors des dieux, dont le marteau de Thor. On l'appelle Svartalfheim ou Niðavellir — deux noms qu'une confusion tardive a rapprochés.",
+        "en": "Beneath the earth lies the dark realm of the dwarves, blacksmiths without equal, lit by their forges. It was there that the greatest treasures of the gods were forged, including Thor’s hammer. It is called Svartalfheim or Niðavellir — two names that a later confusion has brought together.",
+        "nb": "Under jorden strekker dvergene sitt mørke rike seg, disse uovertrufne smedene, opplyst av smiene sine. Det var der de største av gudenes skatter ble smidd, blant annet Thors hammer. Stedet kalles Svartalfheim eller Niðavellir – to navn som senere er blitt forvekslet med hverandre."
+      },
+      "source": {
+        "fr": "Edda de Snorri (Gylfaginning, Skáldskaparmál), Völuspá",
+        "en": "Snorri’s Edda (Gylfaginning, Skáldskaparmál), Völuspá",
+        "nb": "Snoris Edda (Gylfaginning, Skáldskaparmál), Völuspá"
+      },
+      "image": "img/neuf-mondes/svartalfheim.jpg",
+      "credit": "Elmer Boyd Smith (1860 - 1943)",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:The_third_gift_%E2%80%94_an_enormous_hammer_by_Elmer_Boyd_Smith.jpg"
+    },
+    {
+      "id": "muspelheim",
+      "nom": {
+        "fr": "Muspelheim",
+        "en": "Muspelheim",
+        "nb": "Muspelheim"
+      },
+      "sous": {
+        "fr": "le monde du feu",
+        "en": "the world of fire",
+        "nb": "ildens verden"
+      },
+      "texte": {
+        "fr": "Muspelheim est le royaume brûlant du feu, au sud, gardé par le géant Surtr et son épée flamboyante. Sa chaleur, rencontrant la glace, donna naissance au premier être, le géant Ymir. Au Ragnarök, Surtr embrasera le monde.",
+        "en": "Muspelheim is the blazing realm of fire in the south, guarded by the giant Surtr and his flaming sword. Its heat, meeting the ice, gave rise to the first being, the giant Ymir. At Ragnarök, Surtr will set the world ablaze.",
+        "nb": "Muspelheim er ildens brennende rike i sør, bevoktet av kjempen Surtr og hans flammende sverd. Da varmen fra dette riket møtte isen, ble det første vesenet, kjempen Ymir, skapt. Under Ragnarök vil Surtr sette verden i brann."
+      },
+      "source": {
+        "fr": "Edda de Snorri, Völuspá",
+        "en": "Snorri’s Edda, Völuspá",
+        "nb": "Snoris Edda, Völuspá"
+      },
+      "image": "img/neuf-mondes/muspelheim.jpg",
+      "credit": "John Charles Dollman",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:The_giant_with_the_flaming_sword_by_Dollman.jpg"
+    },
+    {
+      "id": "niflheim",
+      "nom": {
+        "fr": "Niflheim",
+        "en": "Niflheim",
+        "nb": "Niflheim"
+      },
+      "sous": {
+        "fr": "le monde de brume et de glace",
+        "en": "the world of mist and ice",
+        "nb": "en verden av tåke og is"
+      },
+      "texte": {
+        "fr": "Niflheim est le monde primordial de la brume et du froid, où sourd la source Hvergelmir, mère de tous les fleuves. Avec Muspelheim le feu, il compte parmi les deux mondes originels. Le nom vient surtout de Snorri ; les poèmes disent plutôt Niflhel.",
+        "en": "Niflheim is the primordial world of mist and cold, where the spring Hvergelmir—mother of all rivers—wells up. Together with Muspelheim, the world of fire, it is one of the two original worlds. The name is derived chiefly from Snorri; the poems tend to refer to it as Niflhel.",
+        "nb": "Niflheim er den urverdenen preget av tåke og kulde, der kilden Hvergelmir, mor til alle elver, springer ut. Sammen med Muspelheim, ildens verden, regnes den som en av de to opprinnelige verdenene. Navnet stammer hovedsakelig fra Snorri; i diktene kalles den snarere Niflhel."
+      },
+      "source": {
+        "fr": "Edda de Snorri",
+        "en": "Snorri’s Edda",
+        "nb": "Snorris Edda"
+      },
+      "image": "img/neuf-mondes/niflheim.jpg",
+      "credit": "Nicolai Abildgaard",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Audhumla_by_Abildgaard.jpg"
+    },
+    {
+      "id": "helheim",
+      "nom": {
+        "fr": "Helheim",
+        "en": "Helheim",
+        "nb": "Helheim"
+      },
+      "sous": {
+        "fr": "le monde des morts",
+        "en": "the world of the dead",
+        "nb": "dødsriket"
+      },
+      "texte": {
+        "fr": "Sous une racine d'Yggdrasil s'ouvre Hel, le séjour de ceux qui meurent de maladie ou de vieillesse, gouverné par la déesse Hel, fille de Loki. Pour y descendre, il faut franchir la rivière Gjöll et son pont gardé. « Helheim » est une forme moderne : les anciens disaient simplement Hel.",
+        "en": "Beneath one of Yggdrasil’s roots lies Hel, the realm of those who die of illness or old age, ruled by the goddess Hel, daughter of Loki. To descend there, one must cross the river Gjöll and its guarded bridge. ‘Helheim’ is a modern form: in ancient times, it was simply called Hel.",
+        "nb": "Under en rot av Yggdrasil ligger Hel, oppholdsstedet for dem som dør av sykdom eller alderdom, styrt av gudinnen Hel, datter av Loki. For å komme dit må man krysse elven Gjöll og den bevoktede broen over den. «Helheim» er en moderne betegnelse: i gamle tider sa man ganske enkelt Hel."
+      },
+      "source": {
+        "fr": "Baldrs draumar, Grímnismál, Edda de Snorri",
+        "en": "Baldr’s Dreams, Grímnismál, Snorri’s Edda",
+        "nb": "Baldrs drømmer, Grímnismál, Snoris Edda"
+      },
+      "image": "img/neuf-mondes/helheim.jpg",
+      "credit": "John Charles Dollman",
+      "license": "Public domain",
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Hermod_before_Hela.jpg"
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2b2318">
+<title data-i18n="liste.pays.heritage.tous.les"></title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.55;}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(43,35,24,.97);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
+.topbar a.map{color:var(--gold-soft);text-decoration:none;font-size:13px;}
+
+.filters{position:sticky;top:46px;z-index:18;background:var(--ivory);border-bottom:1px solid var(--line);padding:10px 14px;}
+.filters .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;max-width:900px;margin:0 auto;}
+#q{flex:1;min-width:180px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:15px;background:#fff;}
+.filters select{border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.seg button{border:none;background:#fff;padding:9px 12px;font-family:inherit;font-size:13.5px;cursor:pointer;color:var(--stone);}
+.seg button.on{background:var(--gold);color:#fff;font-weight:600;}
+.chk{display:flex;align-items:center;gap:5px;font-size:13.5px;color:var(--stone);cursor:pointer;}
+.count{max-width:900px;margin:6px auto 0;font-size:12.5px;color:var(--stone);letter-spacing:.5px;}
+
+.list{max-width:900px;margin:14px auto 60px;padding:0 14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.list{grid-template-columns:1fr;}}
+.card{display:flex;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;
+  box-shadow:0 4px 14px rgba(44,33,26,.07);transition:transform .12s,box-shadow .12s;text-align:left;position:relative;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(44,33,26,.12);}
+.card .th{width:96px;flex:0 0 96px;background:#efe6d4 center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold-soft);}
+.card .bd{padding:11px 12px 12px;min-width:0;flex:1;}
+.card .nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;line-height:1.1;margin:0;}
+.card .st{font-size:12.5px;color:var(--gold);font-style:italic;margin:2px 0;}
+.card .mt{font-size:12px;color:var(--stone);letter-spacing:.3px;}
+.empty{max-width:900px;margin:40px auto;text-align:center;color:var(--stone);font-style:italic;}
+.card .pick{position:absolute;top:8px;right:8px;width:22px;height:22px;cursor:pointer;z-index:2;accent-color:var(--gold);}
+.selbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#2b2318;color:var(--ivory);display:none;align-items:center;gap:10px;padding:11px 16px;box-shadow:0 -4px 18px rgba(0,0,0,.3);flex-wrap:wrap;justify-content:center;}
+.selbar.on{display:flex;}
+.selbar b{font-size:14px;}
+.selbar button{border:none;border-radius:8px;padding:11px 17px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;background:var(--gold);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.selbar button.sec{background:#f0e4d0;color:#2b2318;}
+.selbar button.x{background:transparent;color:var(--gold-soft);padding:10px 6px;}
+
+/* fiche modale */
+.sheet-ov{position:fixed;inset:0;background:rgba(30,20,12,.55);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+.sheet-ov.on{display:flex;}
+.sheet{background:var(--ivory);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.3);}
+@media(min-width:680px){.sheet-ov{align-items:center;}.sheet{border-radius:14px;}}
+.sheet .sh-img{width:100%;height:230px;object-fit:cover;display:block;background:#efe6d4;}
+.sheet .sh-bd{padding:20px 22px 26px;}
+.sheet .sh-close{position:absolute;top:14px;right:16px;background:rgba(0,0,0,.4);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;z-index:2;}
+.sheet h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:27px;margin:0 0 2px;}
+.sheet .sh-st{color:var(--gold);font-style:italic;font-size:15px;margin-bottom:4px;}
+.sheet .sh-mt{font-size:12.5px;color:var(--stone);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.sheet p.desc{font-size:16.5px;color:#33271c;margin:10px 0;}
+.sheet .info{font-size:14.5px;margin:7px 0;color:#3a2c20;}
+.sheet .info b{color:var(--gold);}
+.sheet .amb{font-style:italic;background:#fbf3e8;border-left:3px solid var(--gold-soft);padding:9px 12px;border-radius:6px;margin-top:10px;font-size:15px;}
+.sheet .leg{background:#f3eefb;border-left:3px solid #8a6fb0;padding:9px 12px;border-radius:6px;margin-top:10px;font-size:15px;}
+.sheet .leg .ln{font-size:11.5px;color:#8a7c9a;font-style:italic;}
+.sheet .det{background:#eef6f0;border-left:3px solid #6f9c7a;padding:9px 12px;border-radius:6px;margin-top:10px;font-size:15px;}
+.sheet .warn{background:#fbf0e2;border:1px solid #e0b88c;border-radius:8px;padding:9px 11px;font-size:13.5px;margin-top:10px;}
+.sheet .src{font-size:11.5px;color:var(--stone);font-style:italic;margin-top:14px;}
+.sheet .sh-act{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.sheet .sh-act a{flex:1;text-align:center;text-decoration:none;background:var(--gold);color:#fff;padding:11px;border-radius:8px;font-weight:600;font-size:14px;}
+.sheet .sh-act a.sec{background:#efe6d4;color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="liste.tous.les.lieux"></span><a class="map" href="index.html" data-i18n="liste.carte"></a></div>
+
+<div class="filters">
+  <div class="row">
+    <input id="q" type="search" data-i18n-placeholder="liste.rechercher.un.lieu" autocomplete="off">
+    <select id="region"><option value="" data-i18n="index.toutes.les.regions"></option></select>
+    <select id="type"><option value="" data-i18n="index.tout"></option></select>
+    <label class="chk"><input type="checkbox" id="withPhoto"> <span data-i18n="liste.avec.photo"></span></label>
+    <label class="chk"><input type="checkbox" id="withLeg"> <span data-i18n="liste.legendes"></span></label>
+    <button id="aroundBtn" class="seg" style="padding:9px 12px;cursor:pointer;color:var(--ink)" data-i18n="index.autour.de.moi"></button>
+  </div>
+  <div class="row" id="radiusRow" style="display:none;margin-top:8px;">
+    <span class="chk"><span data-i18n="liste.rayon"></span> <b id="radiusVal">30</b> km</span>
+    <input type="range" id="radius" min="2" max="150" value="30" style="flex:1;min-width:140px;accent-color:var(--gold)">
+    <button id="aroundOff" class="seg" style="padding:9px 11px;cursor:pointer;color:var(--stone)" data-i18n="liste.position"></button>
+  </div>
+  <div class="count" id="count"></div>
+</div>
+
+<div class="list" id="list"></div>
+<div class="empty" id="empty" style="display:none" data-i18n="liste.aucun.lieu.ne.correspond"></div>
+
+<div class="selbar" id="selbar">
+  <b id="selcount"></b>
+  <button id="selNew" data-i18n="liste.nouvel.itineraire"></button>
+  <button id="selAdd" class="sec" data-i18n="liste.ajouter.au.parcours.en"></button>
+  <button id="selClear" class="x">✕</button>
+</div>
+
+<div class="sheet-ov" id="sheetOv"><div class="sheet" id="sheet" style="position:relative;"></div></div>
+
+<script src="the-i18n.js"></script>
+<script src="the-pass.js"></script>
+<script>
+function isPremium(){ try{return window.THEPass ? THEPass.isActive() : false;}catch(e){return false;} }
+let ALL=[];
+function getPicks(){ try{ return JSON.parse(localStorage.getItem('the_picks')||'[]'); }catch(e){ return []; } }
+function setPicks(a){ try{ localStorage.setItem('the_picks', JSON.stringify(a)); }catch(e){} }
+function togglePick(nm){ var p=getPicks(); if(p.indexOf(nm)>=0) p=p.filter(function(x){return x!==nm;}); else p.push(nm); setPicks(p); }
+function norm(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?s.replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// traduction du CONTENU (calage i18n : contenu par lieu dans i18n/<lang>.json, labels via lblI)
+function trSite(p){ return (window.THEi18n) ? THEi18n.site(p.vkey) : null; }  // clé UNIQUE par lieu (vkey), plus par nom (qui collisionne)
+function trCat(v){ return (window.THEi18n && !THEi18n.isFr()) ? THEi18n.cat(v) : v; }
+function lblI(key){ var FR={avoir:'À voir',conseil:'Conseil'};
+  if(!window.THEi18n || THEi18n.isFr()) return FR[key];
+  var M={avoir:{en:'See',it:'Da vedere',de:'Sehenswert',ar:'للمشاهدة'},conseil:{en:'Tip',it:'Consiglio',de:'Tipp',ar:'نصيحة'}};
+  return (M[key]&&M[key][THEi18n.lang()])||FR[key]; }
+// nature = genre OU categorie (la nature est marquée par `categorie` (ou le genre))
+function gen(s){ return (s.genre==='nature'||s.categorie==='nature')?'nature':'histoire'; }
+function emoji(p){
+  const h=norm((p.type||'')+' '+(p.nom||''));
+  const has=(...k)=>k.some(x=>h.includes(x));
+  if(gen(p)==='nature') return '🌿';
+  if(has('festival'))return'🎪'; if(has('marche'))return has('puces','kirbu')?'🛍️':'🛒';
+  if(has('synagogue'))return'✡️'; if(has('mosquee','minaret'))return'🕌';
+  if(has('eglise','cathedrale','basilique','chapelle','abbaye','monastere','cloitre','sanctuaire'))return'⛪';
+  if(has('chateau','fort','forteresse','citadelle','tour','donjon'))return'🏰';
+  if(has('rempart','muraille','enceinte','bastion'))return'🏰'; if(has('fontaine','bassin'))return'⛲';
+  if(has('amphitheatre','theatre','colisee','thermes','forum','capitole','temple','site antique','romain'))return'🏛️';
+  if(has('palais','manoir','villa'))return'🏛️'; if(has('musee','galerie'))return'🖼️';
+  if(has('pont'))return'🌉'; if(has('moulin'))return'🌾'; if(has('jardin','parc'))return'🌳'; if(has('phare'))return'🗼';
+  return '📍';
+}
+Promise.all([
+  fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+  fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+  (window.THEi18n?THEi18n.ready:Promise.resolve())
+]).then(([h,n])=>{
+  const take=(d)=>(d.features||[]).map(f=>({...f.properties, _c:f.geometry.coordinates}));
+  ALL=take(h).concat(take(n));
+  ALL.sort((a,b)=>(a.nom||'').localeCompare(b.nom||'','fr'));
+  const regs=[...new Set(ALL.map(s=>s.region).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'fr'));
+  const rsel=document.getElementById('region'); regs.forEach(r=>rsel.add(new Option(r,r)));
+  // filtre par type REGROUPÉ en 6 catégories propres (au lieu des 12 types bruts) — comme l'itinéraire
+  const tsel=document.getElementById('type');
+  // menu THÈME unifié : Nature (transversal genre) puis CAT_DEFS (musée/marché/patrimoine), dynamiques
+  if(ALL.some(s=>gen(s)==='nature')) tsel.add(new Option(uiT('theme.nature'),'nature'));
+  CAT_DEFS.forEach(c=>{ if(ALL.filter(s=>inCat(s,c.id)).length>=3) tsel.add(new Option(uiT(c.label), c.id)); });   // seuil ≥3 : un thème vide ne s'affiche pas
+  render();
+});
+// Catégories dérivées du champ `type` (référence FR).
+// TRANSVERSAUX = valables dans toutes les éditions, ils restent dans le code générique.
+// Le vocabulaire PROPRE AU PAYS vient de `HConf.themes` (heritage.config.js) — un seul
+// fichier à éditer pour cloner. Priorité `pri` : le plus petit gagne (types composés).
+const CAT_TRANSVERSAUX=[
+  {id:'musee',     label:'theme.musee',      kw:['musee','galerie'],          pri:0},
+  {id:'marche',    label:'theme.marche',     kw:['marche'],                   pri:0},
+  {id:'festival',  label:'theme.festival',   kw:['festival'],                 pri:0},
+];
+const CAT_DEFS=CAT_TRANSVERSAUX.concat(
+  (window.HConf && Array.isArray(HConf.themes)) ? HConf.themes : []
+);
+// `type` OU `epoque` : certaines éditions thématisent par époque (Tunisie)
+function catOf(p){ const src=(p&&typeof p==='object')?((p.type||'')+' '+(p.epoque||'')):(p||'');
+  const t=src.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(); let best=null;
+  CAT_DEFS.forEach(c=>{ if(c.kw && c.kw.some(k=>t.includes(k))){ if(!best||c.pri<best.pri) best=c; } }); return best?best.id:null; }
+// un lieu appartient à une catégorie s'il en porte le slug dans `themes` (donnée) OU si son type matche
+function inCat(s,id){ return (Array.isArray(s.themes) && s.themes.indexOf(id)>=0) || catOf(s)===id; }
+let F={g:'all',q:'',region:'',type:'',photo:false,legonly:false,around:false,center:null,radius:30,registre:false};
+function hav(a,b){ const R=6371,r=Math.PI/180,x=Math.sin((b[1]-a[1])*r/2)**2+Math.cos(a[1]*r)*Math.cos(b[1]*r)*Math.sin((b[0]-a[0])*r/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
+function pass(s){
+  if(s.keep===0 && !F.registre) return false;   // registre masqué par défaut (croisé photo/guide/texte/nature)
+  if(F.region && s.region!==F.region) return false;
+  if(F.type==='nature'){ if(gen(s)!=='nature') return false; }
+  else if(F.type){ if(!inCat(s,F.type)) return false; }
+  if(F.photo && !((s.photo||'').trim()!=='')) return false;
+  if(F.legonly && !(window.BriqueLegende&&BriqueLegende.hasSync(s.nom))) return false;  // filtre = donnée de la brique
+  if(F.around && F.center){ if(!s._c) return false; if(hav(F.center,s._c)>F.radius) return false; }
+  if(F.q){ const q=norm(F.q); if(!norm(s.nom).includes(q) && !norm(s.region).includes(q) && !norm(s.type).includes(q)) return false; }
+  return true;
+}
+function render(){
+  const list=document.getElementById('list'); const res=ALL.filter(pass);
+  if(F.around && F.center) res.sort((a,b)=>hav(F.center,a._c)-hav(F.center,b._c));
+  document.getElementById('count').textContent=res.length+' '+(res.length>1?uiT('index.lieux.2'):uiT('index.lieu'))+' · '+uiT('liste.cliquez.la.fiche.cochez.pour');
+  document.getElementById('empty').style.display=res.length?'none':'block';
+  list.innerHTML=res.map(s=>{
+    const idx=ALL.indexOf(s);
+    const th=((s.photo||'').trim()!=='')?`<div class="th" style="background-image:url('${esc(s.photo)}')"></div>`:`<div class="th">${emoji(s)}</div>`;
+    const sub=s.sous_titre?`<div class="st">${esc(s.sous_titre)}</div>`:'';
+    return `<div class="card" data-i="${idx}" role="button" tabindex="0">${th}<div class="bd"><p class="nm">${esc(s.nom)}</p>${sub}<div class="mt">${esc(s.region||'')}${trCat(s.type)?' · '+esc(trCat(s.type)):''}${(F.around&&F.center&&s._c)?' · ◎ '+Math.round(hav(F.center,s._c))+' km':''}</div></div><input type="checkbox" class="pick" data-i="${idx}" title="${uiT('liste.selectionner.pour.un.itineraire')}"></div>`;
+  }).join('');
+  [...list.querySelectorAll('.card')].forEach(c=>c.onclick=e=>{ if(e.target.classList.contains('pick'))return; openSheet(ALL[+c.dataset.i]); });
+  const _pk=getPicks();
+  [...list.querySelectorAll('.pick')].forEach(cb=>{ const nm=ALL[+cb.dataset.i].nom; cb.checked=_pk.indexOf(nm)>=0; cb.onchange=()=>{ togglePick(nm); updateBar(); }; });
+  updateBar();
+}
+function openSheet(s){
+  const tr=trSite(s);
+  const img=((s.photo||'').trim()!=='')?`<img class="sh-img" src="${esc(s.photo)}" alt="">`:`<div class="sh-img" style="display:flex;align-items:center;justify-content:center;font-size:60px;color:var(--gold-soft)">${emoji(s)}</div>`;
+  const mt=[s.region,trCat(s.type),trCat(s.epoque)].filter(Boolean).join(' · ');
+  let h=`<button class="sh-close" onclick="closeSheet()">✕</button>${img}<div class="sh-bd">`;
+  if(s.sous_titre) h+=`<div class="sh-st">${esc(s.sous_titre)}</div>`;
+  h+=`<h2>${esc(s.nom)}</h2><div class="sh-mt">${esc(mt)}</div>`;
+  const desc=(tr&&tr.d)||s.description; if(desc){ h+=`<p class="desc">${desc}</p>`; if(window.THEFicheAudio) h+=THEFicheAudio.html(s.vkey,uiT('index.ecouter.ce.lieu')); }
+  const av=(tr&&tr.a)||s.a_voir; if(av) h+=`<p class="info">👁️ <b>${lblI('avoir')}</b> : ${av}</p>`;
+  const cons=(tr&&tr.c)||s.conseil; if(cons) h+=`<p class="info">💡 <b>${lblI('conseil')}</b> : ${cons}</p>`;
+  if(s.acces) h+=`<div class="warn">⚠️ ${esc(s.acces)}</div>`;
+  if(s.ambiance) h+=`<div class="amb">✨ <b style="font-style:normal">${uiT('liste.instant')}</b> — ${esc(s.ambiance)}</div>`;
+  const an=(tr&&tr.an)||s.anecdote;
+  h+=`<div data-brique="legende" data-site="${esc(s.nom)}"></div>`;   // brique auto-portée « légende »
+  if(an) h+= isPremium() ? `<div class="det">👁️ <b>${uiT('fiche.detail')}</b> — ${an}</div>` : `<div class="det" onclick="location.href='premium.html'" style="cursor:pointer">👁️ <b>${uiT('fiche.detail')}</b> — ${String(an).replace(/<[^>]*>/g,'').slice(0,45).trim()}… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">${uiT('premium.badge')}</span></div>`;
+  if(s.source) h+=`<div class="src">${uiT('liste.source')}${esc(s.source)}</div>`;
+  if(s.photo_credit) h+=`<div class="src">📷 ${THEcredit.html(s.photo_credit)}</div>`;
+  const en=encodeURIComponent(s.nom);
+  h+=`<div class="sh-act"><a href="index.html?route=${en}&from=liste">${uiT('fiche.situer')}</a><a href="itineraire.html?picks=${en}&from=liste">${uiT('fiche.newItin')}</a><a class="sec" href="itineraire.html?picks=${en}&add=1&from=liste">${uiT('fiche.addItin')}</a><a class="sec" id="sh-pc" href="javascript:void(0)">${uiT('fiche.cartePostale')}</a></div>`;
+  h+=`</div>`;
+  document.getElementById('sheet').innerHTML=h; var _sp=document.getElementById('sh-pc'); if(_sp)_sp.onclick=function(){if(window.THEPostcard)THEPostcard.open(s.nom,s.region||'');}; var _sp=document.getElementById('sh-pc'); if(_sp)_sp.onclick=function(){if(window.THEPostcard)THEPostcard.open(s.nom,s.region||'');};
+  if(window.THEi18n&&!THEi18n.isFr()&&THEi18n.applyUI) THEi18n.applyUI(document.getElementById('sheet'));
+  document.getElementById('sheetOv').classList.add('on');
+}
+function closeSheet(){document.getElementById('sheetOv').classList.remove('on');}
+document.getElementById('sheetOv').onclick=e=>{if(e.target.id==='sheetOv')closeSheet();};
+document.getElementById('q').oninput=e=>{F.q=e.target.value;render();};
+document.getElementById('region').onchange=e=>{F.region=e.target.value;render();};
+document.getElementById('type').onchange=e=>{F.type=e.target.value;render();};
+document.getElementById('withPhoto').onchange=e=>{F.photo=e.target.checked;render();};
+document.getElementById('withLeg').onchange=e=>{ if(!isPremium()){ e.target.checked=false; location.href='premium.html'; return; } F.legonly=e.target.checked; if(window.BriqueLegende){BriqueLegende.ready().then(render);} else render();};
+function updateBar(){ const n=getPicks().length; document.getElementById('selcount').textContent=n+' '+(n>1?uiT('index.lieux.2'):uiT('index.lieu'))+' '+(n>1?uiT('liste.selectionnes'):uiT('liste.selectionne')); document.getElementById('selbar').classList.toggle('on',n>0); }
+function selNames(){ return getPicks().map(encodeURIComponent).join('|'); }
+document.getElementById('selNew').onclick=()=>{ if(getPicks().length) location.href='itineraire.html?picks='+selNames()+'&from=liste'; };
+document.getElementById('selAdd').onclick=()=>{ if(getPicks().length) location.href='itineraire.html?picks='+selNames()+'&add=1&from=liste'; };
+document.getElementById('selClear').onclick=()=>{ setPicks([]); render(); };
+function activateAround(){
+  const b=document.getElementById('aroundBtn');
+  if(!navigator.geolocation){ alert(uiT('liste.geolocalisation.indisponible.sur.cet.appareil')); return; }
+  b.textContent='📍 '+uiT('liste.localisation');
+  navigator.geolocation.getCurrentPosition(pos=>{
+    F.around=true; F.center=[pos.coords.longitude,pos.coords.latitude];
+    b.textContent='📍 '+uiT('decouvrir.autour.de.moi')+' ✓'; b.style.background='var(--gold)'; b.style.color='#fff';
+    document.getElementById('radiusRow').style.display='flex'; render();
+  }, ()=>{ b.textContent='📍 '+uiT('decouvrir.autour.de.moi'); alert(uiT('liste.localisation.refusee.ou.indisponible')); });
+}
+document.getElementById('aroundBtn').onclick=activateAround;
+document.getElementById('radius').oninput=e=>{ F.radius=+e.target.value; document.getElementById('radiusVal').textContent=e.target.value; render(); };
+document.getElementById('aroundOff').onclick=()=>{ F.around=false; F.center=null; document.getElementById('radiusRow').style.display='none'; const b=document.getElementById('aroundBtn'); b.textContent='📍 '+uiT('decouvrir.autour.de.moi'); b.style.background=''; b.style.color='var(--ink)'; render(); };
+if(new URLSearchParams(location.search).get('around')==='1') activateAround();
+</script>
+  <script src="analytics.js"></script>
+<script src="the-postcard.js" defer></script>
+<script src="the-fiche-audio.js" defer></script>
+<script src="brique-legende.js" defer></script>
+</body>
+</html>

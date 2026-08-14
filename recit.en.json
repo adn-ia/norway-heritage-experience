@@ -1,0 +1,305 @@
+{
+  "titre": "Discover Norway",
+  "sous_titre": "Ten thousand years of history, from Stone Age hunters to the oil-rich nation — the dates, battles and regimes that have shaped the country.",
+  "intro": "Norway has developed along the coast, nestled between mountains and fjords. This account follows a chronological order: from the earliest hunters (around 9500 BC) to the Viking Age (793–1066), from Christianisation to four centuries of union with Denmark (1380–1814), then under Swedish rule (1814–1905), right up to independence, the occupation (1940–1945) and the oil era (from 1969 onwards). Every key date, every battle and every regime has left its mark on places — all of which are geotagged in the app.",
+  "chapitres": [
+    {
+      "titre": "Around 9500 BC — The first Norwegians",
+      "texte": "As the glaciers retreated, hunter-gatherers moved up the coastline that had been freed from the ice. They leave behind one of Europe’s richest collections of rock art: in Alta (Finnmark), thousands of engravings dating from 5000 to 2000 BC — reindeer, bears, boats and hunting scenes — are listed as a UNESCO World Heritage Site. Further south, during the Bronze Age (1700–500 BC), ships and sun discs were carved: the sea and the sun were already central to their beliefs.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Helleristninger%20Strand%20Gjessing%201936.png",
+      "credit": {
+        "auteur": "Gutorm Gjessing (1906–1979)",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+    },
+    {
+      "titre": "Around 5000–500 BC — The Alta engravers",
+      "texte": "In the Arctic, on the shores of the Alta Fjord, hunter-gatherers carved into the rock for millennia — the oldest figures dating from around 4200 BC, the latest from around 500 BC. Reindeer, elk, bears, boats and hunting scenes: over 6,000 engravings, the largest concentration of hunter-gatherer rock art in Northern Europe. Discovered in 1973, the site was the first Norwegian prehistoric site to be inscribed on the UNESCO World Heritage List, in 1985. The rock panels are dated by their altitude: the ground has been rising since the ice melted, and the oldest ones are found at the highest points.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/1992.08.08%20Helleristninger%20i%20Alta%20II.jpg",
+      "credit": {
+        "auteur": "Hans Olav Lien",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+    },
+    {
+      "titre": "1700–500 BC — Bronze, ships and the sun",
+      "texte": "The Nordic world enters the Bronze Age. With no local sources of copper or tin, the metal is obtained through long-distance trade — Baltic amber is traded as far as the Mediterranean. Ships dominate rock art (with nearly 10,000 boats carved in Scandinavia) and the sun is worshipped, carried across the sky by a chariot, such as the famous Trundholm sun chariot. The dead were buried beneath burial mounds. (The Trundholm chariot and some of these treasures come from neighbouring Denmark: this is the same Nordic culture.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trundholm%20sun%20chariot%20Nationalmuseet.jpg",
+      "credit": {
+        "auteur": "Marie-Lan Nguyen",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+    },
+    {
+      "titre": "The Iron Age — Farms, Chiefs and the First Wars",
+      "texte": "In the early centuries AD, the landscape was dotted with farms, burial mounds and hill forts (bygdeborg). Chieftains grew rich from iron extracted from the marshes, furs and whetstones, and vied for power. Raknehaugen, the largest burial mound in Northern Europe, was erected around 550 AD. The warlike, hierarchical society that would give rise to the Vikings was already in place.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandegga%2C%20Sandeggen%2C%20Hedmark%20-%20Riksantikvaren-T116%2001%200081.jpg",
+      "credit": {
+        "auteur": "Halvor Vreim",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+    },
+    {
+      "titre": "600–800 — Borre and the first kings",
+      "texte": "Before the Vikings, the Merovingian period saw the emergence of centres of power. At Borre, in Vestfold, stands Scandinavia’s largest complex of monumental burial mounds: seven large tumuli — up to 45 metres wide and 6 metres high — and twenty-one smaller ones, in use for nearly four centuries. Extensive royal halls have recently been excavated there. It was here, in the 9th century, that the ‘Borre style’ and its ‘clinging beast’ – an art form featuring interlaced animal motifs – originated, going on to influence the entire Viking world.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/BORREHAUGENE%20Borreparken%20Borre%20Burial%20Mounds%20HORTEN%20Oslofjorden%20Norway%20Steinst%C3%B8tte%20Velkommen%20til%20Parken%20Hauger%20tr%C3%A6r%20sommer%20gress%20etc%202021-07-08%20IMG%208233.jpg",
+      "credit": {
+        "auteur": "Wolfmann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+    },
+    {
+      "titre": "793-1066 — The Viking Age: from the farm to Valhalla",
+      "texte": "In 793, the raid on Lindisfarne marked the beginning of the Viking Age. But before the raid, there was everyday life: people were born on farms, grew up between mountain pastures (seter) and the sea, and justice was administered at the thing. Around 872, the Battle of Hafrsfjord enabled Harald Fairhair to unify Norway for the first time. The Oseberg (834) and Gokstad ships, masterpieces now preserved in Oslo, epitomise nautical art; the great royal burial mounds — Borre, Gjellestad, Herlaugshaugen — guided the deceased to Valhalla. Seven of these mounds have been nominated for World Heritage status. Our ‘Viking Trail’ tour follows this life journey.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vikingskipshuset%20november%202016.jpg",
+      "credit": {
+        "auteur": "Peulle",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+    },
+    {
+      "titre": "Around 872 — Hafrsfjord and the founding of the kingdom",
+      "texte": "According to tradition, it was around 872, in a naval battle in the Hafrsfjord near Stavanger, that Harald Fairhair defeated the last of the petty kings and laid the foundations for a unified kingdom. Historians remain cautious: the date is taken from the sagas, written four centuries later, which place the event between 872 and 900; the ‘unification’ initially concerned only the west and south-west. At Hafrsfjord, three giant swords embedded in the rock — Sverd i fjell, 1983 — serve as a memorial to this event.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Danmarks%2C%20Norges%20og%20Sverigs%20Historie%20-%20Harald%20Fairhair%20cuts%20hair%20of%20Rognvald%20Eysteinsson.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+    },
+    {
+      "titre": "870–1021 — From Iceland to Vinland",
+      "texte": "Driven by the sea, the Norwegians spread westwards: to Iceland as early as the 870s, then to Greenland, founded by Erik the Red around 985. Around the year 1000, his son Leif Erikson reached a land which he named Vinland — America. Long thought to be mere legend, these voyages have been proven: at L’Anse aux Meadows in Newfoundland (UNESCO 1978), a Viking settlement has been dated to 1021, nearly five centuries before Columbus. (The accounts come from the sagas, and this site is not necessarily the ‘Vinland’ they describe.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christian-krohg-leiv-eriksson.jpg",
+      "credit": {
+        "auteur": "Christian Krohg",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+    },
+    {
+      "titre": "995–1030 — Christianisation and the Battle of Stiklestad",
+      "texte": "The missionary kings Olav Tryggvason (995–1000) and, later, Olav Haraldsson established Christianity. In 1030, Olav fell at the Battle of Stiklestad; after being canonised, Saint Olav became the eternal patron saint of Norway, and Nidaros (Trondheim) became the great pilgrimage site of the North. This gave rise to a unique masterpiece: the stavkirke, the wooden stave church with its dragon-carved doorways — Urnes (a World Heritage Site), Borgund and Heddal.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Haugerud%20kirke%20nord.jpg",
+      "credit": {
+        "auteur": "Vidariv",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+    },
+    {
+      "titre": "1030–1537 — Nidaros, in the footsteps of Saint Olav",
+      "texte": "In Nidaros — now Trondheim — lies Saint Olav, the king who was slain at Stiklestad in 1030 and canonised the following year. Built over his tomb between around 1070 and 1300, it is the world’s northernmost Gothic cathedral; established as an archbishopric in 1152, it became the foremost pilgrimage destination in Northern Europe. People travelled from far and wide to visit it, walking three times round the building before entering. The pilgrimage lasted for nearly five centuries, until the Reformation of 1537; the St Olav Way has now been reopened.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nidaros%20Cathedral%2C%20Trondheim%20-%20pano-1.jpg",
+      "credit": {
+        "auteur": "Daderot",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+    },
+    {
+      "titre": "12th–13th centuries — Stilted wooden churches",
+      "texte": "Norwegian woodworking craftsmanship is epitomised by the stavkirker, the ‘stave churches’ of the Middle Ages. Of the nearly 1,300 that once stood, only twenty-eight remain. The oldest, Urnes (timber felled around 1130, UNESCO 1979), blends Celtic art, Viking heritage and Romanesque design; its interlaced animal motifs gave their name to the ‘Urnes style’. Heddal is the largest, Borgund the best preserved. Carved doorways and tiered roofs: an entire style of stone architecture rendered in wood.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stavkirken%20Borgund%20%28R%C3%B8rbye%29.JPG",
+      "credit": {
+        "auteur": "Martinus Rørbye",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+    },
+    {
+      "titre": "1130–1319 — Civil wars, followed by the medieval heyday",
+      "texte": "A century of civil wars (1130–1240) tore the kingdom apart over the question of succession, until Håkon IV re-established a strong monarchy: this marked the height of the medieval period, with Norway ruling over Iceland, Greenland, the Orkney Islands and the Shetland Islands. Bergen, the capital, thrived on stockfish (dried cod) from the Lofoten Islands, which was traded throughout Europe. In 1319, in the absence of an heir, dynastic unions began with Sweden and then Denmark.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Akershus%20slottskirke%2020090503-01.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+    },
+    {
+      "titre": "14th–16th centuries — Bergen, the Hanseatic League and stockfish",
+      "texte": "In Bergen, founded before 1070, the Bryggen quay became one of the major trading posts of the Hanseatic League around 1350. German merchants dominated the trade in stockfisch — dried cod from the Lofoten Islands — which was exchanged for grain from the mainland. Bergen was one of the Hanseatic League’s four foreign trading posts, alongside Novgorod, Bruges and London, and the only one to survive. The trading post closed in 1754; despite the fires, its colourful wooden façades, listed by UNESCO in 1979, still stand on the edge of the fjord.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bryggen%20in%20Bergen%2C%20Norway%20%286949770002%29.jpg",
+      "credit": {
+        "auteur": "Swedish National Heritage Board from Sweden",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+    },
+    {
+      "titre": "1349–1397 — The Black Death and the Kalmar Union",
+      "texte": "In 1349, the Black Death may have wiped out half the population: villages were abandoned, the nobility was ruined, and the country was weakened. In 1397, the Kalmar Union united Denmark, Sweden and Norway under a single crown. Sweden would eventually break away; Norway, however, remained linked to Denmark for more than four centuries — a decisive turning point.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sand%C3%A5%20stoppested.jpg",
+      "credit": {
+        "auteur": "Jan-Tore Egge",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+    },
+    {
+      "titre": "1537–1814 — Danish rule and the Reformation",
+      "texte": "In 1537, the Lutheran Reformation was imposed and Norway became a province of the Kingdom of Denmark-Norway, governed from Copenhagen. The Hanseatic trading post in Bergen, Bryggen, was rebuilt following a series of fires (World Heritage Site). Copper mining gave rise to Røros (World Heritage Site), a town of blackened timber. Four ‘Danish’ centuries established the administrative system and the written language.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bekkelaget%20kirke%2020081026-3.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+    },
+    {
+      "titre": "17th century — The pyres of Finnmark",
+      "texte": "The Danish period had its dark side in the far north. In Finnmark, the land of the Sami people, fear of witchcraft turned into persecution: around 140 trials between 1601 and 1692, and nearly 91 executions over the course of the century — the worst witch hunt in Norwegian history. Things came to a head following a deadly storm in 1617, which was attributed to witchcraft; the great trial at Vardø, in the winter of 1662–1663, saw eighteen women sent to the stake. The Steilneset Memorial (Peter Zumthor and Louise Bourgeois, 2011) honours the victims.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Steilneset%20Memorial%20in%20Vard%C3%B8%20seen%20from%20above.jpg",
+      "credit": {
+        "auteur": "Frankemann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+    },
+    {
+      "titre": "1814 — Kiel, Eidsvoll and 17 May",
+      "texte": "Defeated alongside Napoleon, Denmark ceded Norway to Sweden under the Treaty of Kiel (January 1814). But the Norwegians rose up: meeting at Eidsvoll, on 17 May 1814 they adopted one of the most liberal constitutions in Europe — a day that is still celebrated as a national holiday. Although forced into a union with Sweden, Norway retained its Constitution, its Parliament (Storting) and its autonomy.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Eidsvoll%20kirke.jpg",
+      "credit": {
+        "auteur": "Mahlum",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+    },
+    {
+      "titre": "1814–1905 — National awakening and independence",
+      "texte": "The nineteenth century shaped the nation’s identity: Ibsen, Grieg, Munch, and the fairy tales of Asbjørnsen and Moe, which immortalised trolls and huldres. The language split into Bokmål (derived from Danish) and Nynorsk (reconstructed by Ivar Aasen). In 1905, the Storting peacefully severed the union with Sweden; a referendum overwhelmingly endorsed the monarchy, and the Danish Prince Carl became King Haakon VII. Norway was once again fully independent.",
+      "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Bergen%202011%20344%20Byparken%20rk%20108714.JPG",
+      "credit": {
+        "auteur": "Bjoertvedt",
+        "licence": "CC BY-SA 3.0 no",
+        "url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+    },
+    {
+      "titre": "1825–1920 — The great exodus to America",
+      "texte": "In the 19th century, the Norwegian countryside was under pressure: as people were better fed, the population doubled, but there was a shortage of land and crops. Between 1825 and 1920, around 800,000 Norwegians — nearly a third of the country’s population — set off for America, the second-largest exodus from Europe after Ireland. They settled mainly in the Midwest — Minnesota, Wisconsin, Iowa and the Dakotas — where the vast plains and the free land provided by the Homestead Act reminded them of the country they had left behind. An entire nation was rebuilt on the other side of the Atlantic.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%282%29%20-%20609%20-%20Leaving%20old%20home%20and%20friends%20-%20waving%20goodbyes%20to%20emigrants%20starting%20for%20America%2C%20Christiania%2C%20Norway%20stereofotografi%20-%20no-nb%20digifoto%2020160622%2000178%20bldsa%20stereo%200142.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+    },
+    {
+      "titre": "19th–20th centuries — Ibsen, Grieg, Munch",
+      "texte": "Having become a nation, Norway produced voices that resonated far and wide. Henrik Ibsen revolutionised the theatre: his *A Doll’s House* (1879), in which Nora slams the door, caused a scandal throughout Europe. Edvard Grieg set the country to music — the Piano Concerto, and *Peer Gynt* with its ‘Morning’ and ‘In the Hall of the Mountain King’. Edvard Munch, for his part, captured modern angst in *The Scream* (1893). From realism to early expressionism, three artists gave the small kingdom a global reputation.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Edvard%20Munch%2C%201893%2C%20The%20Scream%2C%20oil%2C%20tempera%20and%20pastel%20on%20cardboard%2C%2091%20x%2073%20cm%2C%20National%20Gallery%20of%20Norway.jpg",
+      "credit": {
+        "auteur": "Edvard Munch",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+    },
+    {
+      "titre": "1888–1947 — The conquest of the poles",
+      "texte": "The sea took the Norwegians out onto the ice. Fridtjof Nansen crossed Greenland on skis in 1888, then left his ship, the Fram, to drift amongst the pack ice (1893–1896); he was awarded the Nobel Peace Prize for his work helping refugees. Roald Amundsen crossed the Northwest Passage, then, on 14 December 1911, was the first to plant his flag at the South Pole, beating Scott to it. Later, Thor Heyerdahl crossed the Pacific on the Kon-Tiki raft (1947). A nation of explorers.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Roald%20Amundsen%20LOC%2007622u.jpg",
+      "credit": {
+        "auteur": "—",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+    },
+    {
+      "titre": "1940–1945 — The Occupation and the Resistance",
+      "texte": "On 9 April 1940, Nazi Germany invaded Norway; the king and the government went into exile in London, whilst Vidkun Quisling established a collaborationist regime whose name would become synonymous with treason. Five years of occupation, resistance (including the sabotage of the heavy water plant at Rjukan, which set back the German nuclear programme) and repression, until liberation in 1945. The experience cemented the country’s commitment to democracy and collective defence.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hjelmkollen%2C%20kanonbunker.jpg",
+      "credit": {
+        "auteur": "Tommy Gildseth",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+    },
+    {
+      "titre": "After 1945 — NATO yes, Europe no",
+      "texte": "Having emerged from the occupation, Norway set about rebuilding itself — starting with the fire-ravaged Finnmark region — and established a social-democratic welfare state. In 1949, it became a founding member of NATO. But it is keen to retain its distinct identity: on two occasions, in 1972 (53.5 per cent) and then in 1994 (52.2 per cent), voters said ‘no’ to EU membership. Soon, North Sea oil would transform the country into one of the world’s most prosperous nations.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Storting%20building.jpg",
+      "credit": {
+        "auteur": "Christian David",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+    },
+    {
+      "titre": "Fjords, mountain pastures and Sámi country",
+      "texte": "Beyond the dates, a living heritage: the Western Fjords — Geirangerfjord and Nærøyfjord, both World Heritage Sites — lined with farms and waterfalls; the mountain pastures (seter) where livestock were taken up in summer; the fishing villages and their lighthouses. In the north live the indigenous Sámi people (Sápmi), reindeer herders and guardians of joik and duodji, who were long subjected to ‘Norwegianisation’ — a unique heritage that this edition highlights in a dedicated feature.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/B%C3%B8kfjord%20lighthouse%20in%20S%C3%B8r%20Varanger.tif",
+      "credit": {
+        "auteur": "Danckert Monrad-Krohn, Riksantikvaren.",
+        "licence": "CC BY 2.5",
+        "url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+    },
+    {
+      "titre": "Sápmi — the land, the reindeer, the joik",
+      "texte": "Long before national borders were drawn, the North was Sápmi, the land of the Sámi people, spanning four countries. In Norway, it covers Finnmark, Troms and Nordland. Reindeer herding, joik singing and duodji crafts define its identity. For a long time, the state imposed ‘Norwegianisation’: from 1898 to 1959, schooling was conducted exclusively in Norwegian. The Alta conflict, centred on a dam (1979–1982), reignited the Sami cause; this was followed by the 1987 Act and, in 1989, the opening of the Sami Parliament, the Sameting, in Karasjok.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sami%20people%20north%20of%20Arctic%20Circle%2C%20Norway.jpg",
+      "credit": {
+        "auteur": "Preus museum",
+        "licence": "CC BY 2.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+    },
+    {
+      "titre": "The Sea and the Far North",
+      "texte": "Everything here comes back to the sea. Every winter for a thousand years, skrei cod has migrated from the Arctic seas to the Lofoten Islands; dried in the wind on racks, it becomes stockfisch, which, via Bergen, brought wealth to the country for five centuries — as early as 1432, a shipwrecked Venetian merchant brought some back to Italy. In 1893, Hurtigruten launched the coastal express service linking the coast to the Far North. Up there, the midnight sun, the polar night and the northern lights reign — and, at the very far end, Svalbard.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lofoten%2C%20t%C3%B8rrfisk%20-%20no-nb%20digifoto%2020150210%2000064%20NB%20MIT%20FNR%2016856.jpg",
+      "credit": {
+        "auteur": "Jac Brun",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+    },
+    {
+      "titre": "Since 1969 — The Oil Age and Modern Norway",
+      "texte": "Hydropower had already electrified the country and given rise to industrial towns such as Rjukan and Notodden (a World Heritage Site of Industrial Heritage). In 1969, the discovery of the Ekofisk field in the North Sea changed everything: oil and gas made Norway one of the world’s most prosperous countries, with a vast sovereign wealth fund. But the nation remains true to its farms, its wooden churches and its fjords — a heritage it protects and which this app invites you to explore, one map at a time.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/VemorkHydroelectricPlant.jpg",
+      "credit": {
+        "auteur": "MiSi at German Wikipedia",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+    }
+  ],
+  "sources": "This account is based on verified open-source material (UNESCO, Riksantikvaren, Store norske leksikon, Wikipedia). Dates and events have been cross-checked. The locations mentioned are geotagged in the app; images and credits have been added from Wikimedia Commons."
+}

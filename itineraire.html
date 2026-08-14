@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#26201a">
+  <title data-i18n="itineraire.pays.heritage.creer.un"></title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+    *{box-sizing:border-box;}
+    body{margin:0;min-height:100vh;font-family:'EB Garamond',Georgia,serif;color:var(--ink);
+      background:linear-gradient(160deg,#2b2318 0%,#3a2f22 38%,#5a4a33 100%);}
+    .wrap{max-width:720px;margin:0 auto;padding:22px 18px 70px;}
+    .top{display:flex;align-items:center;justify-content:space-between;color:var(--ivory);margin-bottom:8px;}
+    .top a{color:var(--gold-soft);text-decoration:none;font-size:14px;letter-spacing:1px;}
+    .top .mark{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;letter-spacing:2px;line-height:1.05;text-align:center;}
+    .lead{text-align:center;color:var(--ivory);margin:6px 0 22px;}
+    .lead h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;margin:0 0 6px;}
+    .lead p{color:#ece1cf;font-style:italic;margin:0;font-size:16px;line-height:1.45;}
+
+    .panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:20px 18px;
+      box-shadow:0 8px 26px rgba(0,0,0,0.22);}
+    .q{margin-bottom:18px;}
+    .q:last-of-type{margin-bottom:8px;}
+    .q .lbl{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:19px;margin-bottom:9px;display:flex;gap:8px;align-items:center;}
+    .q .lbl .n{width:24px;height:24px;flex:0 0 24px;border-radius:50%;background:var(--gold);color:#fff;
+      font-size:13px;display:flex;align-items:center;justify-content:center;font-family:'EB Garamond';}
+    select{width:100%;padding:11px 12px;font-family:inherit;font-size:16px;color:var(--ink);
+      background:#fff;border:1px solid var(--line);border-radius:6px;}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;}
+    .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:8px 14px;font-size:14px;
+      cursor:pointer;color:var(--ink);user-select:none;transition:.12s;}
+    .chip:hover{border-color:var(--gold-soft);}
+    .chip.on{background:var(--gold);color:#fff;border-color:var(--gold);}
+    .actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+    .btn{flex:1;min-width:160px;border:none;border-radius:6px;padding:14px 16px;font-family:'Cormorant Garamond',serif;
+      font-weight:700;font-size:18px;cursor:pointer;}
+    .btn.go{background:var(--ink);color:var(--ivory);}
+    .btn.surprise{background:#f1e7d5;color:var(--ink);border:1px solid var(--line);}
+    .hint{font-size:12.5px;color:var(--stone);margin-top:6px;line-height:1.4;}
+
+    /* Résultat */
+    #result{display:none;margin-top:18px;}
+    .rsum{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-bottom:14px;
+      box-shadow:0 8px 26px rgba(0,0,0,0.22);}
+    .rsum h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:0 0 4px;}
+    .rsum .meta{font-size:14px;color:var(--stone);}
+    .rsum .meta b{color:var(--ink);}
+    .advis{margin-top:12px;font-size:13.5px;line-height:1.5;background:#fbf3e8;border:1px solid #e8d6b4;
+      border-left:4px solid var(--gold);border-radius:6px;padding:10px 12px;color:#6b5a39;}
+    .tnote{margin-top:10px;font-size:12.5px;color:var(--stone);}
+    .tnote summary{cursor:pointer;color:var(--gold);}
+    .tnote div{margin-top:6px;line-height:1.5;}
+    .saved-row{display:flex;gap:8px;margin-bottom:8px;}
+    .saved-open{flex:1;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:11px 13px;font-family:inherit;font-size:15px;color:var(--ink);cursor:pointer;}
+    .saved-open:hover{background:#f6f0e4;border-color:var(--gold-soft);}
+    .saved-open small{color:var(--stone);font-size:12px;}
+    .saved-del{border:1px solid var(--line);background:#fff;border-radius:8px;padding:0 12px;cursor:pointer;font-size:15px;}
+    .saved-del:hover{background:#f3eee3;}
+    .stop .head{position:relative;}
+    .rm-step{position:absolute;top:0;right:0;border:1px solid var(--line);background:#fff;color:var(--stone);
+      border-radius:6px;width:26px;height:26px;line-height:1;cursor:pointer;font-size:13px;}
+    .rm-step:hover{background:#fbecec;color:#b3402f;border-color:#e3b6ad;}
+    #map{height:330px;border-radius:8px;border:1px solid var(--line);margin-bottom:14px;box-shadow:0 8px 26px rgba(0,0,0,0.22);}
+    .leaflet-control-attribution{font-size:9px;}
+    .num-pin{color:#fff;border:2px solid #fff;border-radius:50%;width:26px;height:26px;
+      display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;
+      box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:'EB Garamond';}
+    .num-pin.hist{background:var(--gold);}
+    .num-pin.nat{background:var(--green);}
+    .num-pin.dep{background:var(--ink);font-size:14px;}
+
+    .stop{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:15px 16px;margin-bottom:12px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.18);}
+    .stop.nat{border-left:4px solid var(--green);}
+    .stop.perso{border-left:4px solid var(--stone);}
+    #addbox{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:4px;box-shadow:0 6px 20px rgba(0,0,0,0.18);}
+    .addlbl{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:18px;margin-bottom:8px;}
+    .addrow{display:flex;gap:8px;}
+    .addrow input{flex:1;padding:10px 12px;font-family:inherit;font-size:15px;border:1px solid var(--line);border-radius:6px;background:#fff;}
+    .addrow button{border:none;background:var(--ink);color:var(--ivory);border-radius:6px;padding:0 18px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;cursor:pointer;}
+    .stop .head{display:flex;gap:12px;align-items:flex-start;}
+    .stop .idx{width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:var(--ink);color:var(--ivory);
+      display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;}
+    .stop.nat .idx{background:var(--green);}
+    .stop .nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;line-height:1.1;}
+    .stop .sub{font-size:13px;color:var(--stone);margin-top:2px;}
+    .badge{display:inline-block;font-size:11px;letter-spacing:.5px;border:1px solid var(--line);border-radius:4px;
+      padding:1px 7px;color:#8a6d3a;background:#f7efde;margin-top:6px;}
+    .stop.nat .badge{color:#46603c;background:#e8efe2;}
+    .stop p{font-size:14.5px;line-height:1.5;margin:9px 0 0;}
+    .stop .kv{font-size:13.5px;margin-top:7px;}
+    .stop .kv.acc{background:#f3f6ef;border:1px solid #d6e2cc;border-radius:6px;padding:7px 9px;line-height:1.45;}
+    .stop .kv.food{background:#fff4e8;border:1px solid #f0d3ad;border-radius:6px;padding:8px 10px;line-height:1.5;}
+    .chip-pass::after{content:' ✦';color:var(--gold);font-size:11px;}
+    body.is-premium .chip-pass::after{content:'';}
+    .pchip.locked{opacity:.6;}
+    .pchip.locked::after{content:' 🔒';font-size:11px;}
+    .halte-types{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+    .halte-types .htype{border:1px solid var(--line);background:#fff;border-radius:18px;padding:7px 12px;cursor:pointer;font-size:14px;color:var(--ink);user-select:none;}
+    .halte-types .htype.on{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
+    #halteName{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:inherit;font-size:15px;box-sizing:border-box;}
+    .stop.halte{border-left:3px solid var(--gold);background:#fffaf0;}
+    .stop .badge.halte-badge{background:var(--gold);color:#2b2318;}
+    .modes{display:flex;gap:10px;margin-bottom:18px;}
+    .mode-card{flex:1;display:flex;flex-direction:column;gap:3px;align-items:flex-start;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;font-family:inherit;transition:border-color .12s,transform .08s,box-shadow .12s;}
+    .mode-card:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(43,35,24,.1);transform:translateY(-1px);}
+    .mode-card .mc-ic{font-size:26px;}
+    .mode-card .mc-t{font-weight:700;font-size:16px;color:var(--ink);}
+    .mode-card .mc-s{font-size:12.5px;color:var(--stone);line-height:1.3;}
+    @media(max-width:560px){.modes{flex-direction:column;} .mode-card{flex-direction:row;align-items:center;gap:12px;} .mode-card .mc-s{flex:1;}}
+    .the-guide{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(10px);background:#2b2318;color:#f5ecd8;padding:13px 18px;border-radius:12px;font-size:14px;line-height:1.45;max-width:92%;box-shadow:0 8px 26px rgba(0,0,0,.32);z-index:11000;opacity:0;transition:opacity .25s,transform .25s;text-align:center;}
+    .the-guide.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    [dir="rtl"] .stop, [dir="rtl"] .rsum, [dir="rtl"] .kv{ text-align:right; }
+    .the-guide b{color:var(--gold-soft,#c9ad79);}
+    .stop .kv b{color:var(--ink);}
+    .dayhdr{display:flex;align-items:baseline;gap:8px;margin:18px 2px 8px;padding-bottom:5px;border-bottom:2px solid var(--gold-soft);
+      font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;color:var(--ivory);}
+    .dayhdr span{font-family:'EB Garamond';font-weight:400;font-size:12.5px;color:var(--gold-soft);}
+    .times{font-size:12.5px;color:var(--stone);margin-top:7px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
+    .vis-select{font-family:inherit;font-size:12.5px;border:1px solid var(--gold-soft);border-radius:6px;padding:3px 6px;background:#fff;color:var(--ink);cursor:pointer;font-weight:600;}
+    .nuit{margin-top:10px;background:#eef3fb;border:1px solid #c7d6ea;border-left:4px solid #5a78a8;border-radius:6px;padding:9px 11px;font-size:13.5px;color:#3a4a63;line-height:1.45;}
+    .nuit-note{margin-top:3px;}
+    a.lodging{display:inline-block;margin-top:6px;color:#3a5a8a;font-size:13px;text-decoration:underline;}
+    .tnote{margin-top:9px;font-size:13px;color:#6b5a39;background:#fbf3e8;border:1px solid #e8d6b4;border-radius:6px;padding:7px 10px;line-height:1.45;}
+    .svc{font-size:13px;margin-top:9px;padding:8px 10px;border-radius:6px;border:1px dashed var(--line);background:#faf6ee;color:#5c5341;}
+    .svc.iso{background:#fbf2ec;}
+    .src{font-size:12px;margin-top:8px;}
+    .src a{color:var(--gold);}
+    .tag-ind{font-size:10px;color:#a08a5e;border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-left:4px;}
+    /* À voir en chemin (sérendipité sourcée) */
+    .enchemin{background:#f3f6ef;border:1px dashed #9db58f;border-radius:8px;padding:10px 12px;margin:0 0 12px 16px;}
+    .enchemin .ec-h{font-size:12.5px;color:#5c7a52;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+    .ec-item{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid #e1ead9;}
+    .ec-item:first-of-type{border-top:none;}
+    .ec-main{flex:1;min-width:0;}
+    .ec-nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15.5px;line-height:1.15;}
+    .ec-meta{font-size:12px;color:var(--stone);margin-top:1px;}
+    .ec-note{font-size:13px;margin-top:3px;line-height:1.4;}
+    .ec-pin{font-size:10px;color:#8a6d3a;border:1px solid var(--gold-soft);border-radius:3px;padding:0 5px;background:#f7efde;margin-left:5px;}
+    .ec-vp{font-size:10px;color:#46603c;border:1px solid #9db58f;border-radius:3px;padding:0 5px;background:#e8efe2;margin-left:5px;}
+    .ec-add{border:1px solid var(--green);background:#fff;color:#46603c;border-radius:6px;padding:7px 11px;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;align-self:center;}
+    .ec-add:hover{background:#eef4e9;}
+    .ec-item[role=button]{cursor:pointer;border-radius:6px;transition:background .12s;}
+    .ec-item[role=button]:hover{background:#eaf1e4;}
+    .ec-go{align-self:center;color:#46603c;font-size:13px;font-weight:600;white-space:nowrap;}
+    /* Modal détour */
+    .modal{position:fixed;inset:0;z-index:1000;background:rgba(33,27,18,.55);display:flex;align-items:flex-end;justify-content:center;padding:0;}
+    .modal-card{background:var(--paper,#fffdf8);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:14px 14px 0 0;
+      padding:22px 20px 18px;position:relative;box-shadow:0 -8px 34px rgba(0,0,0,.35);animation:slideup .22s ease;}
+    @keyframes slideup{from{transform:translateY(24px);opacity:.6;}to{transform:none;opacity:1;}}
+    @media(min-width:600px){ .modal{align-items:center;} .modal-card{border-radius:14px;} }
+    .modal-x{position:absolute;top:10px;right:12px;border:none;background:transparent;font-size:20px;color:var(--stone);cursor:pointer;line-height:1;}
+    .md-kick{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--green,#5c7a52);margin-bottom:4px;}
+    .md-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:25px;line-height:1.1;margin:0 0 6px;}
+    .md-meta{font-size:13px;color:var(--stone);margin-bottom:10px;}
+    #detourBody p{font-size:15.5px;line-height:1.55;margin:10px 0;}
+    .md-note{font-style:italic;color:#46603c;}
+    .md-kv{font-size:14.5px;margin:7px 0;line-height:1.45;}
+    .modal-acts{display:flex;gap:10px;margin-top:16px;position:sticky;bottom:0;background:linear-gradient(transparent,var(--paper,#fffdf8) 24%);padding-top:10px;}
+    .md-add{flex:1;border:none;background:var(--green,#5c7a52);color:#fff;border-radius:8px;padding:13px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+    .md-add:hover{filter:brightness(1.05);}
+    .md-reject{border:1px solid var(--line);background:#fff;color:var(--stone);border-radius:8px;padding:13px 16px;font-family:inherit;font-size:14px;cursor:pointer;white-space:nowrap;}
+    .md-reject:hover{background:#f3eee3;color:var(--ink);}
+    .nav-list{display:flex;flex-direction:column;gap:9px;margin-top:6px;}
+    .nav-opt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;width:100%;
+      border:1px solid var(--line);background:#fff;border-radius:9px;padding:12px 14px;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
+    .nav-opt:hover{background:#f6f0e4;border-color:var(--gold-soft);}
+    .nav-opt b{font-size:16px;color:var(--ink);}
+    .nav-opt span{font-size:12.5px;color:var(--stone);}
+    /* Scanner QR */
+    #scanStage{position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:1/1;max-height:54vh;margin:4px auto 0;}
+    #scanVideo{width:100%;height:100%;object-fit:cover;display:block;}
+    .scan-frame{position:absolute;inset:18%;border:3px solid rgba(255,255,255,.85);border-radius:12px;box-shadow:0 0 0 100vmax rgba(0,0,0,.25);}
+    .scan-status{position:absolute;left:0;right:0;bottom:8px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 4px #000;}
+    #scanResult{background:#f6f0e4;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:8px;}
+    #scanResult .sr-link{font-size:13px;word-break:break-all;color:#5b4a2a;}
+    #scanResult a.sr-open{display:inline-block;margin-top:8px;color:var(--gold);font-weight:600;text-decoration:none;}
+    #scanResult select{width:100%;margin-top:10px;padding:9px;border:1px solid var(--line);border-radius:6px;font-family:inherit;background:#fff;}
+    #scanResult .sr-go{width:100%;margin-top:10px;border:none;background:var(--green,#5c7a52);color:#fff;border-radius:8px;padding:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+    .vu-badge{display:inline-block;font-size:10px;letter-spacing:.5px;color:#2f6a3a;background:#e3f0e3;border:1px solid #bcd9bc;border-radius:4px;padding:1px 6px;vertical-align:middle;}
+    .ec-foot{font-size:11px;color:var(--stone);margin-top:6px;font-style:italic;}
+    /* Carnet photo (I5) — 100% local */
+    .photos{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;}
+    .ph-head{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;color:var(--ink);
+      margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .ph-count{font-family:'EB Garamond';font-size:12px;color:var(--stone);font-weight:400;}
+    .ph-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+    .ph-thumb{position:relative;width:74px;height:74px;border-radius:6px;overflow:hidden;border:1px solid var(--line);background:#f1ece0;}
+    .ph-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+    .ph-del{position:absolute;top:2px;right:2px;width:20px;height:20px;border:none;border-radius:50%;
+      background:rgba(43,35,24,.78);color:#fff;font-size:14px;line-height:1;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;padding:0;}
+    .ph-add{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--gold);
+      border:1px dashed var(--gold-soft);border-radius:6px;padding:7px 12px;background:#fdf8ee;}
+    .ph-add:hover{background:#faf1dd;}
+    .ph-empty{font-size:12.5px;color:var(--stone);font-style:italic;}
+    .ph-priv{font-size:11.5px;color:var(--stone);margin-top:6px;}
+    /* carte photo enrichie : note + bande son par photo */
+    .ph-card{width:158px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;display:flex;flex-direction:column;}
+    .pc-top{position:relative;}
+    .pc-top img{width:100%;height:112px;object-fit:cover;display:block;}
+    .pc-top video{width:100%;height:112px;object-fit:cover;display:block;background:#000;}
+    .pc-note{border:none;border-top:1px solid var(--line);font-family:inherit;font-size:12.5px;
+      padding:6px 8px;resize:vertical;width:100%;color:var(--ink);background:#fffdf8;box-sizing:border-box;}
+    .pc-note:focus{outline:none;background:#fff;}
+    .pc-audio{display:flex;align-items:center;gap:6px;padding:6px 8px;border-top:1px solid var(--line);flex-wrap:wrap;}
+    .pc-audio audio{width:100%;height:32px;}
+    .pc-arec{border:1px solid var(--gold-soft);background:#fdf8ee;color:#8a6d3a;border-radius:6px;
+      padding:5px 9px;font-size:12px;cursor:pointer;font-family:inherit;}
+    .pc-arec.on{background:#f7d9d2;border-color:#c0584c;color:#8a2f25;}
+    /* légende/voix de photo dans l'album */
+    .pic-cap{font-size:11.5px;line-height:1.3;margin-top:4px;max-width:158px;}
+    .pic audio{width:148px;height:30px;margin-top:4px;display:block;}
+    .restart{display:block;text-align:center;margin:18px auto 0;color:var(--gold-soft);text-decoration:underline;
+      background:none;border:none;font-family:inherit;font-size:15px;cursor:pointer;}
+    .foot{margin-top:26px;text-align:center;color:var(--gold-soft);font-size:11.5px;line-height:1.7;text-wrap:pretty;}
+
+    /* Export visuel / impression (I5b) */
+    .exp{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+    .exp-group{margin-top:14px;}
+    .exp-group .exp-lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:2px;}
+    .exp-group .exp{margin-top:6px;}
+    .exp button{border:1px solid var(--gold-soft);background:#fdf8ee;color:#8a6d3a;border-radius:6px;
+      padding:12px 20px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;cursor:pointer;}
+    .exp button:hover{background:#faf1dd;}
+    .print-head{display:none;}
+
+    /* Album souvenir (I6) */
+    #album{display:none;}
+    .album-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;
+      background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:14px;
+      box-shadow:0 8px 26px rgba(0,0,0,.22);}
+    .album-bar .tpl{border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 14px;cursor:pointer;font-size:14px;color:var(--ink);}
+    .album-bar .tpl.on{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
+    .album-bar .ab{border:none;border-radius:6px;padding:9px 14px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;cursor:pointer;background:#f1e7d5;color:var(--ink);}
+    .album-bar .ab.go{background:var(--ink);color:var(--ivory);}
+    .album-doc{border-radius:8px;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.22);}
+    .album-cover{padding:42px 26px;text-align:center;}
+    .album-cover .ac-brand{letter-spacing:5px;font-size:13px;opacity:.8;}
+    .album-cover h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:34px;margin:10px 0 6px;}
+    .album-cover .ac-meta{font-size:14px;opacity:.85;}
+    .album-page{padding:20px 22px;}
+    .album-page .pg-nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:23px;margin:0;}
+    .album-page .pg-sub{font-size:13px;color:var(--stone);margin:2px 0 8px;}
+    .album-cap{width:100%;border:1px dashed var(--line);border-radius:6px;background:rgba(255,255,255,.65);
+      font-family:inherit;font-size:14px;padding:8px 10px;resize:vertical;min-height:42px;margin:4px 0 12px;color:var(--ink);box-sizing:border-box;}
+    .album-ph{display:flex;flex-wrap:wrap;gap:12px;}
+    .album-empty{font-style:italic;color:var(--stone);font-size:13.5px;}
+    .share-panel{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px;box-shadow:0 6px 20px rgba(0,0,0,.18);}
+    .share-panel .sp-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+    .share-panel button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:10px 16px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink);}
+    .share-panel button:hover{border-color:var(--gold-soft);}
+    .share-note{font-size:12px;color:var(--stone);text-align:center;margin-top:10px;line-height:1.5;}
+
+    /* Thème BAROUDEUR — carnet de voyage kraft */
+    .tpl-baroudeur .album-doc{background:#e4d6b8;color:#3a2c18;}
+    .tpl-baroudeur .album-cover{background:#d8c39b;border-bottom:3px double #8a6d3a;}
+    .tpl-baroudeur .album-page{border-bottom:1px dashed #b59b6e;}
+    .tpl-baroudeur .pg-sub{color:#7a6644;}
+    .tpl-baroudeur .pic{background:#fff;padding:7px 7px 22px;box-shadow:0 4px 12px rgba(0,0,0,.28);transform:rotate(-1.6deg);border:1px solid #e7d8b8;}
+    .tpl-baroudeur .pic:nth-child(even){transform:rotate(1.7deg);}
+    .tpl-baroudeur .pic img,.tpl-baroudeur .pic video{width:148px;height:148px;object-fit:cover;display:block;}
+
+    /* Thème PASSEPORT — vrai LIVRE, pages en vis-à-vis */
+    .tpl-passeport .album-doc{background:#0f1b33;padding:14px;}
+    .tpl-passeport .album-cover{background:linear-gradient(160deg,#15233f,#0b1428);color:#cbb06a;border:2px solid #b89b54;border-radius:8px;padding:46px 26px;}
+    .tpl-passeport .album-cover .ac-brand{color:#cbb06a;}
+    .tpl-passeport .album-cover::before{content:'\2726';display:block;font-size:30px;color:#b89b54;margin-bottom:8px;}
+    .pp-book{display:flex;flex-wrap:wrap;justify-content:center;margin-top:12px;}
+    .pp-page{position:relative;flex:0 0 50%;max-width:330px;min-height:400px;box-sizing:border-box;
+      background:#f4eeda;background-image:repeating-linear-gradient(0deg,rgba(120,100,60,.05) 0 1px,transparent 1px 24px),radial-gradient(circle at 28% 18%,rgba(150,120,70,.07),transparent 60%);
+      border:1px solid #d8c9a4;padding:22px 22px 32px;}
+    .pp-page:nth-child(odd){border-radius:6px 0 0 6px;box-shadow:inset -16px 0 22px -12px rgba(80,60,30,.4);}
+    .pp-page:nth-child(even){border-radius:0 6px 6px 0;box-shadow:inset 16px 0 22px -12px rgba(80,60,30,.4);}
+    .pp-nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;color:#2a3a5c;margin:0 0 2px;line-height:1.1;}
+    .pp-sub{font-size:11px;color:#7a6a44;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+    .pp-photo{display:block;width:100%;max-height:215px;object-fit:cover;border:5px solid #fff;box-shadow:0 3px 11px rgba(0,0,0,.28);margin-bottom:8px;}
+    .pp-photo2{width:48%;max-height:100px;object-fit:cover;border:4px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.22);}
+    .pp-stamp{position:absolute;top:16px;right:16px;border:2.5px solid #9a5042;color:#9a5042;border-radius:8px;
+      padding:7px 10px;font-size:9.5px;line-height:1.3;text-align:center;text-transform:uppercase;letter-spacing:1px;
+      transform:rotate(-11deg);opacity:.8;font-weight:700;}
+    .pp-stamp .pp-st-big{font-size:12px;display:block;letter-spacing:2px;margin-bottom:1px;}
+    .pp-note{width:100%;border:none;border-bottom:1px dashed #c3b083;background:transparent;font-family:'EB Garamond',serif;font-style:italic;font-size:15px;color:#33425e;padding:6px 2px;resize:vertical;min-height:40px;box-sizing:border-box;}
+    .pp-media{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0;}
+    .pp-media audio{height:30px;width:160px;}
+    .pp-no{position:absolute;bottom:10px;font-size:10.5px;color:#9a865c;letter-spacing:2px;}
+    .pp-page:nth-child(odd) .pp-no{left:22px;} .pp-page:nth-child(even) .pp-no{right:22px;}
+    .pp-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#7a5e34;opacity:.07;pointer-events:none;z-index:0;}
+    .pp-wm svg{width:60%;max-width:190px;transform:rotate(-6deg);}
+    .pp-page>*:not(.pp-wm){position:relative;z-index:1;}
+    @media(max-width:680px){.pp-page{flex-basis:100%;max-width:none;min-height:auto;}}
+
+    /* Thème DÉPLIANT — leporello horizontal qui retrace le trajet */
+    .tpl-depliant .album-doc{background:#efe6d2;}
+    .depliant-strip{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:8px 6px 18px;-webkit-overflow-scrolling:touch;}
+    .depliant-strip .album-cover{flex:0 0 auto;width:200px;display:flex;flex-direction:column;justify-content:center;background:#d8c39b;border-right:3px double #8a6d3a;border-radius:8px 0 0 8px;}
+    .depliant-strip .dep-hint{font-size:12px;color:#7a6644;margin-top:10px;font-style:italic;}
+    .dep-panel{flex:0 0 auto;display:flex;align-items:stretch;}
+    .dep-connect{flex:0 0 auto;width:44px;display:flex;align-items:center;justify-content:center;position:relative;}
+    .dep-connect::before{content:'';position:absolute;left:0;right:0;top:50%;height:3px;background:repeating-linear-gradient(90deg,#b08a4a 0 7px,transparent 7px 13px);}
+    .dep-connect .dep-km{position:relative;background:#efe6d2;color:#7a5e34;font-size:10.5px;padding:1px 5px;border-radius:8px;white-space:nowrap;z-index:1;}
+    .dep-connect.dep-start::before{left:50%;}
+    .dep-card{flex:0 0 auto;width:236px;background:#fbf5e7;border:1px solid #d9c7a0;border-radius:10px;padding:14px 14px 12px;position:relative;box-shadow:0 4px 14px rgba(80,60,30,.14);}
+    .dep-card .dep-no{position:absolute;top:-12px;left:14px;width:26px;height:26px;border-radius:50%;background:#2b2318;color:#f3e7cf;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+    .dep-card .dep-nm{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;line-height:1.1;margin:8px 0 0;color:#3a2c18;}
+    .dep-card .dep-sub{font-size:12px;color:#8a7252;margin:2px 0 0;}
+    .dep-card .dep-when{font-size:12px;color:#9a6a2e;margin:6px 0;}
+    .dep-photos{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;}
+    .dep-th{width:68px;height:68px;object-fit:cover;border-radius:4px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(-1.5deg);}
+    .dep-th:nth-child(even){transform:rotate(1.6deg);}
+    .dep-cap{width:100%;border:1px dashed #cdb98c;background:rgba(255,255,255,.6);border-radius:5px;padding:6px;font-size:13px;font-family:inherit;resize:vertical;min-height:42px;color:#3a2c18;}
+
+    /* Diaporama / Projection du carnet */
+    #projOv{display:none;position:fixed;inset:0;z-index:10000;background:#0b0a08;}
+    #projStage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .proj-media{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+    #projTop{position:absolute;top:16px;left:18px;color:#fff;font-size:13px;letter-spacing:1px;opacity:.85;z-index:2;}
+    #projCtl{position:absolute;top:12px;right:12px;display:flex;gap:6px;z-index:3;}
+    #projCtl button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:8px;width:44px;height:40px;font-size:16px;cursor:pointer;}
+    #projCtl button:hover{background:rgba(255,255,255,.30);}
+    #projClose{background:rgba(190,55,40,.62);font-weight:700;}
+    #projClose:hover{background:rgba(190,55,40,.9);}
+    #projCap{position:absolute;left:0;right:0;bottom:0;padding:26px 28px 32px;z-index:2;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.85));}
+    #projCap .pc-stop{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;line-height:1.12;}
+    #projCap .pc-sub{font-size:13px;opacity:.82;letter-spacing:.5px;margin-top:2px;}
+    #projCap .pc-note2{font-size:16px;margin-top:9px;max-width:780px;line-height:1.5;}
+    #projCap .pc-cap2{font-size:15px;font-style:italic;opacity:.92;margin-top:6px;max-width:780px;}
+
+    @media print{
+      @page{margin:14mm;}
+      body{background:#fff !important;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+      .wrap{max-width:none;padding:0;}
+      .top,.lead,#builder,#addbox,.restart,.exp,.exp-group,.foot,.ph-add,.ph-del,.ph-priv,
+      .album-bar,.share-panel,.leaflet-control-container,.leaflet-popup-pane{display:none !important;}
+      #result{margin:0;}
+      .album-cap{border:none !important;background:transparent !important;padding:0 !important;}
+      .album-cover{break-after:page;page-break-after:always;}
+      .album-page{break-inside:avoid;page-break-inside:avoid;}
+      .tpl-passeport .pp-book{display:block;}
+      .pp-page{break-inside:avoid;page-break-inside:avoid;box-shadow:none !important;border:1px solid #d8c9a4;margin-bottom:8mm;min-height:auto;flex:none;max-width:none;}
+      .pp-wm{opacity:.05 !important;}
+      .tpl-depliant .depliant-strip{display:block;overflow:visible;}
+      .tpl-depliant .album-cover{break-after:avoid;page-break-after:avoid;width:auto;}
+      .tpl-depliant .dep-panel{break-inside:avoid;page-break-inside:avoid;}
+      .dep-th{transform:none !important;}
+      .print-head{display:block;text-align:center;margin:0 0 12px;}
+      .print-head .b{font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:6px;font-size:24px;color:#000;}
+      .print-head .s{font-size:12.5px;color:#555;margin-top:2px;}
+      .rsum,.stop,#map{box-shadow:none !important;border:1px solid #ccc;}
+      .rsum h2{color:#000;}
+      .stop{break-inside:avoid;page-break-inside:avoid;}
+      #map{height:280px;}
+      .photos{break-inside:avoid;}
+      .src a{color:#000;text-decoration:underline;}
+    }
+  </style>
+  <script src="the-pass.js"></script>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a href="decouvrir.html" id="backNav" data-i18n="a.propos.menu"></a>
+      <div class="mark" data-i18n-html="accueil.pays.mark"></div>
+      <a href="index.html" data-i18n="itineraire.carte"></a>
+    </div>
+    <div class="lead">
+      <h1 data-i18n="lead_h1"></h1>
+      <p data-i18n="lead_p"></p>
+    </div>
+
+    <!-- ENTONNOIR -->
+    <div class="panel" id="builder">
+      <div class="modes">
+        <button class="mode-card" id="mGo" type="button"><span class="mc-ic">🧭</span><span class="mc-t" data-i18n="m_go_t"></span><span class="mc-s" data-i18n="m_go_s"></span></button>
+        <button class="mode-card" id="mSurprise" type="button"><span class="mc-ic">🎲</span><span class="mc-t" data-i18n="m_su_t"></span><span class="mc-s" data-i18n="m_su_s"></span></button>
+        <button class="mode-card" id="mLibre" type="button"><span class="mc-ic">🆓</span><span class="mc-t" data-i18n="m_li_t"></span><span class="mc-s" data-i18n="m_li_s"></span></button>
+      </div>
+
+      <div class="q" id="savedBox" style="display:none">
+        <div class="lbl" data-i18n="itineraire.mon.voyage"></div>
+        <div id="savedList"></div>
+      </div>
+
+      <div class="q" id="presetsBox" style="display:none">
+        <div class="lbl"><span data-i18n="flux.circuits.prets"></span> <span style="font-weight:400;font-size:14px;color:var(--stone)" data-i18n="itineraire.a.decouvrir.tels.quels"></span></div>
+        <div class="chips" id="presets"></div>
+        <div class="hint"><span data-i18n="itineraire.des.parcours.cures.avec"></span> <b data-i18n="itineraire.pepites.a.voir.en"></b><span data-i18n="itineraire.ou.composez.le.votre"></span></div>
+      </div>
+
+      <div class="q" id="critStart">
+        <div class="lbl"><span class="n">1</span> <span data-i18n="itineraire.vous.partez.d.ou"></span></div>
+        <select id="origin"><option value="gps" data-i18n="itineraire.ma.position.gps"></option></select>
+        <div class="hint" data-i18n="itineraire.choisissez.ma.position.sur"></div>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">2</span> <span data-i18n="itineraire.vous.avez.combien.de"></span></div>
+        <select id="duree">
+          <option value="demi" data-i18n="itineraire.une.demi.journee"></option>
+          <option value="jour" data-i18n="itineraire.une.journee"></option>
+          <option value="weekend" data-i18n="itineraire.quelques.jours.week.end"></option>
+          <option value="semaine" data-i18n="itineraire.environ.une.semaine"></option>
+          <option value="deuxsem" data-i18n="itineraire.environ.deux.semaines"></option>
+        </select>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">3</span> <span data-i18n="itineraire.vous.voulez.aller.jusqu"></span></div>
+        <select id="perimetre">
+          <option value="ville" data-i18n="itineraire.rester.sur.place.la"></option>
+          <option value="region" data-i18n="itineraire.explorer.la.region.autour"></option>
+          <option value="pays" selected data-i18n="itineraire.parcourir.tout.le.pays"></option>
+        </select>
+        <div class="hint"><span data-i18n="itineraire.les.deux.se.combinent"></span> <i><span data-i18n="itineraire.plusieurs.jours.dans.une"></span></i><span data-i18n="itineraire.ou.traverser.le.pays"></span></div>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">4</span> <span data-i18n="itineraire.quel.fil.rouge"></span> <span style="font-weight:400;font-size:14px;color:var(--stone)" data-i18n="itineraire.theme"></span></div>
+        <div class="chips" id="themes"></div>
+        <div class="hint"><span data-i18n="itineraire.un.ou.plusieurs.themes"></span> <b data-i18n="itineraire.cumulables"></b> <span data-i18n="itineraire.melangez.les.ou.laissez"></span></div>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">5</span> <span data-i18n="itineraire.quel.genre.de.lieux"></span></div>
+        <select id="genre">
+          <option value="all" data-i18n="itineraire.un.peu.de.tout"></option>
+          <option value="ville" data-i18n="itineraire.villes.centres.historiques"></option>
+          <option value="monument" data-i18n="itineraire.monuments.sites.historiques"></option>
+          <option value="musee" data-i18n="a.propos.musees"></option>
+          <option value="nature" data-i18n="itineraire.nature.balades"></option>
+        </select>
+        <div class="hint" id="genreHint" style="display:none" data-i18n="itineraire.nature.balades.ouvre.les"></div>
+      </div>
+
+      <div class="q">
+        <div class="lbl"><span class="n">6</span> <span data-i18n="itineraire.quelle.forme.de.trajet"></span></div>
+        <select id="forme">
+          <option value="oneway" data-i18n="itineraire.aller.simple.se.termine"></option>
+          <option value="boucle" data-i18n="itineraire.grande.boucle.retour.au"></option>
+          <option value="allerretour" data-i18n="itineraire.aller.retour.meme.chemin"></option>
+        </select>
+        <div class="hint" data-i18n="itineraire.le.detail.du.retour"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn go" id="generate">🧭 <span data-i18n="gen"></span></button>
+      </div>
+      <div class="hint" style="margin-top:10px"><span data-i18n="itineraire.tous.les.lieux.proposes"></span> <b data-i18n="itineraire.indicatives"></b>.</div>
+    </div>
+
+    <!-- RESULTAT -->
+    <div id="result">
+      <div class="print-head" id="printhead"></div>
+      <div class="rsum" id="rsum"></div>
+      <div id="map"></div>
+      <div id="stops"></div>
+      <div id="addbox">
+        <div class="addlbl" data-i18n="itineraire.ajouter.un.lieu.a"></div>
+        <div class="addrow">
+          <input id="addinput" type="text" data-i18n-placeholder="itineraire.commencez.a.taper.un" autocomplete="off" list="placeList">
+          <datalist id="placeList"></datalist>
+          <button id="addbtn" type="button" data-i18n="itineraire.ajouter"></button>
+        </div>
+        <div class="hint" id="addmsg"><span data-i18n="itineraire.cherche.d.abord.dans"></span></div>
+      </div>
+      <div class="exp-group">
+        <div class="exp-lbl" data-i18n="itineraire.sur.place"></div>
+        <div class="exp">
+          <button id="haltebtn" type="button">📍 <span data-i18n="halte_btn"></span></button>
+          <button id="gmapsbtn" type="button" data-i18n="itineraire.naviguer.gps"></button>
+          <button id="scanbtn" type="button" data-i18n="itineraire.scanner.un.qr"></button>
+          <button id="mapbtn" type="button" data-i18n="flux.voir.sur.la.grande"></button>
+        </div>
+      </div>
+      <div class="exp-group">
+        <div class="exp-lbl" data-i18n="itineraire.garder.partager"></div>
+        <div class="exp">
+          <button id="savebtn" type="button" data-i18n="itineraire.enregistrer"></button>
+          <button id="sharebtn" type="button" data-i18n="itineraire.partager.le.lien"></button>
+          <button id="albumbtn" type="button" data-i18n="flux.album.souvenir"></button>
+          <button id="printbtn" type="button" data-i18n="flux.pdf.imprimer"></button>
+        </div>
+      </div>
+      <div class="hint" id="gmapshint" style="margin-top:-4px"><span data-i18n="itineraire.naviguer.ouvre.votre.itineraire"></span> <b data-i18n="itineraire.fichier.gpx.hors.ligne"></b> <span data-i18n="itineraire.osmand.organicmaps.sur.googlemaps"></span><b data-i18n="itineraire.entree.officielle"></b> <span data-i18n="itineraire.des.sites.au.dela"></span></div>
+      <button class="restart" id="restart" data-i18n="itineraire.recommencer.avec.d.autres"></button>
+    </div>
+
+    <!-- MODAL DÉTAIL D'UN DÉTOUR -->
+    <div id="detourModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="aria.detail.detour">
+      <div class="modal-card">
+        <button class="modal-x" id="detourX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
+        <div id="detourBody"></div>
+        <div class="modal-acts">
+          <button class="md-reject" id="detourReject" type="button" data-i18n="itineraire.pas.pour.moi"></button>
+          <button class="md-add" id="detourAdd" type="button" data-i18n="itineraire.ajouter.a.mon.itineraire"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODALE CONFIRMATION CIRCUIT PRÉSÉLECTIONNÉ -->
+    <div id="tourModal" class="modal" style="display:none" role="dialog" aria-modal="true" aria-label="Circuit">
+      <div class="modal-card">
+        <button class="modal-x" id="tourX" type="button" aria-label="Fermer">✕</button>
+        <div id="tourBody"></div>
+        <div class="modal-acts">
+          <button class="md-reject" id="tourCancel" type="button"></button>
+          <button class="md-add" id="tourConfirm" type="button"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL CHOIX DE NAVIGATION -->
+    <div id="navModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.choisir.une.application.de.navigation" aria-label="Choisir une application de navigation">
+      <div class="modal-card">
+        <button class="modal-x" id="navX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
+        <div class="md-kick" data-i18n="itineraire.ouvrir.l.itineraire.dans"></div>
+        <h3 class="md-title" data-i18n="itineraire.navigation.gps"></h3>
+        <div class="nav-list">
+          <button class="nav-opt" type="button" data-nav="google"><b data-i18n="itineraire.google.maps"></b><span data-i18n="itineraire.multi.arrets.vise.l"></span></button>
+          <button class="nav-opt" type="button" data-nav="osm"><b data-i18n="itineraire.openstreetmap"></b><span data-i18n="itineraire.libre.open.source.multi"></span></button>
+          <button class="nav-opt" type="button" data-nav="apple"><b data-i18n="itineraire.apple.plans"></b><span data-i18n="itineraire.iphone.mac"></span></button>
+          <button class="nav-opt" type="button" data-nav="gpx"><b data-i18n="itineraire.telecharger.un.fichier.gpx"></b><span data-i18n="itineraire.osmand.organic.maps.garmin"></span></button>
+          <button class="nav-opt" type="button" data-nav="waze"><b data-i18n="itineraire.waze"></b><span data-i18n="itineraire.premier.arret.seulement.pas"></span></button>
+        </div>
+        <div class="hint" style="margin-top:12px" data-i18n="itineraire.hors.google.maps.les"></div>
+      </div>
+    </div>
+
+    <!-- MODALE SCANNER QR -->
+    <div id="scanModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.scanner.un.qr.code" aria-label="Scanner un QR code">
+      <div class="modal-card">
+        <button class="modal-x" id="scanX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
+        <div class="md-kick" data-i18n="itineraire.scanner.un.qr.sur"></div>
+        <h3 class="md-title" data-i18n="itineraire.musee.monument"></h3>
+        <div id="scanStage">
+          <video id="scanVideo" playsinline muted></video>
+          <div class="scan-frame"></div>
+          <div class="scan-status" id="scanStatus"><span data-i18n="itineraire.visez.le.qr.code"></span></div>
+        </div>
+        <div id="scanResult" style="display:none"></div>
+        <div class="hint" style="margin-top:10px"><span data-i18n="itineraire.pays.heritage.ne.copie"></span> <b data-i18n="itineraire.visite"></b> <span data-i18n="itineraire.dans.votre.itineraire.et"></span></div>
+      </div>
+    </div>
+
+    <!-- HALTE / CAPTURE : un moment non planifié du voyage -->
+    <div id="halteModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.ajouter.une.halte" aria-label="Ajouter une halte">
+      <div class="modal-card">
+        <button class="modal-x" id="halteX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
+        <div class="md-kick" data-i18n="itineraire.halte.du.voyage"></div>
+        <h3 class="md-title" data-i18n="itineraire.un.moment.non.prevu"></h3>
+        <p style="color:var(--stone);font-size:13.5px;margin:0 0 12px" data-i18n-html="itineraire.rich.marquez.un.arret.non"></p>
+        <div class="halte-types" id="halteTypes"></div>
+        <input id="halteName" type="text" data-i18n-placeholder="itineraire.un.mot.facultatif.vue" autocomplete="off">
+        <button class="md-add" id="halteGo" type="button" style="width:100%;margin-top:10px" data-i18n="itineraire.enregistrer.cette.halte.ma"></button>
+        <button class="md-reject" id="halteLater" type="button" style="width:100%;margin-top:8px" data-i18n="itineraire.annuler"></button>
+        <div class="hint" id="halteMsg" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <!-- PAYWALL : le passe -->
+    <div id="passModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.le.passe.premium" aria-label="Le passe premium">
+      <div class="modal-card">
+        <button class="modal-x" id="passX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
+        <div class="md-kick" data-i18n="itineraire.le.passe.premium"></div>
+        <h3 class="md-title" id="passTitle"><span data-i18n="itineraire.fonction.du.passe"></span></h3>
+        <p id="passWhy" style="color:var(--stone);font-size:14px;margin:0 0 12px"></p>
+        <div style="font-size:14.5px;line-height:1.95"><span data-i18n="itineraire.tous.les.circuits.prets"></span><br><span data-i18n="itineraire.album.souvenir.baroudeur.passeport"></span><br><span data-i18n="itineraire.diaporama.projection.du.carnet"></span><br><span data-i18n="itineraire.theme.gastronomie"></span><br><span data-i18n="itineraire.lien.d.itineraire.partageable"></span><br><span data-i18n="itineraire.guide.audio.hors.ligne"></span><br><span data-i18n="itineraire.sans.publicite"></span></div>
+        <div style="background:#f6f0e4;border:1px solid var(--line);border-radius:8px;padding:11px;margin:13px 0;font-size:14px">
+          <b data-i18n="itineraire.le.passe"></b> <span data-i18n="itineraire.1.semaine"></span> <b>4,90 €</b> <span data-i18n="itineraire.1.mois"></span> <b>9,90 €</b><br>
+          <span style="color:var(--stone);font-size:12.5px"><span data-i18n="itineraire.paiement.delegue.lemonsqueezy.aucune"></span> <b data-i18n="itineraire.tout.ce.que.vous"></b></span>
+        </div>
+        <button class="md-add" id="passWeek" type="button" style="width:100%" data-i18n="itineraire.passe.1.semaine.4"></button>
+        <button class="md-add" id="passMonth" type="button" style="width:100%;margin-top:8px" data-i18n="itineraire.passe.1.mois.9"></button>
+        <button class="md-reject" id="passLater" type="button" style="width:100%;margin-top:8px" data-i18n="itineraire.plus.tard"></button>
+        <p id="passDemoNote" style="font-size:11px;color:var(--stone);font-style:italic;margin-top:8px" data-i18n="itineraire.demonstration.activation.simulee.tant"></p>
+      </div>
+    </div>
+
+    <!-- DIAPORAMA / PROJECTION du carnet (multimédia : photo/vidéo + note + voix) -->
+    <div id="projOv" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.diaporama.du.carnet" aria-label="Diaporama du carnet">
+      <div id="projStage"></div>
+      <div id="projTop"><span id="projCount"></span></div>
+      <div id="projCtl">
+        <button id="projPrev" type="button" data-i18n-title="itineraire.precedent">⏮</button>
+        <button id="projPlay" type="button" data-i18n-title="itineraire.lecture.pause">⏸</button>
+        <button id="projNext" type="button" data-i18n-title="itineraire.suivant">⏭</button>
+        <button id="projFs" type="button" data-i18n-title="itineraire.plein.ecran">⛶</button>
+        <button id="projClose" type="button" data-i18n-title="index.fermer">✕</button>
+      </div>
+      <div id="projCap"></div>
+    </div>
+
+    <!-- ALBUM SOUVENIR (I6) -->
+    <div id="album">
+      <div class="album-bar">
+        <span style="font-size:14px;color:var(--stone)" data-i18n="itineraire.style"></span>
+        <div class="tpl" data-tpl="baroudeur" data-i18n="itineraire.baroudeur"></div>
+        <div class="tpl" data-tpl="passeport" data-i18n="itineraire.passeport"></div>
+        <div class="tpl" data-tpl="depliant" data-i18n="itineraire.depliant"></div>
+        <button class="ab go" id="albumproject" type="button" data-i18n="itineraire.projeter.diaporama"></button>
+        <button class="ab" id="albumprint" type="button" data-i18n="flux.pdf.imprimer"></button>
+        <button class="ab" id="albumshare" type="button" data-i18n="itineraire.partager"></button>
+        <button class="ab" id="albumback" type="button" data-i18n="itineraire.itineraire"></button>
+      </div>
+      <div class="album-doc" id="albumdoc"></div>
+      <div class="share-panel" id="sharepanel" style="display:none">
+        <div class="sp-row">
+          <button id="shwhatsapp" type="button" data-i18n="flux.whatsapp"></button>
+          <button id="shemail" type="button" data-i18n="flux.e.mail"></button>
+          <button id="shnative" type="button" data-i18n="itineraire.partager.photos"></button>
+          <button id="shpublish" type="button" data-i18n="flux.publier.sur.le.site"></button>
+        </div>
+        <div class="share-note"><span data-i18n="itineraire.whatsapp.et.e.mail"></span> <b data-i18n="flux.texte"></b> <span data-i18n="itineraire.de.l.itineraire.partager"></span> <b data-i18n="itineraire.que.sur.votre.accord"></b> <span data-i18n="itineraire.par.defaut.tout.reste"></span></div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span data-i18n="itineraire.donnees.carto.historique"></span><br>
+      <span data-i18n="itineraire.carnet.photo.le.long"></span><br>
+      <span data-i18n="itineraire.bientot.export.en.album"></span>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+  // ---------- utilitaires ----------
+  const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  // détection « point de vue » dans les descriptions sourcées (pour la pépite 📷 belle vue)
+  const VIEW_RE = /point de vue|panoram|belvedere|vue imprenable|vue magnifique|vue splendide|vue superbe|vue sur /;
+  const isViewpoint = p => VIEW_RE.test(norm((p.description||'')+' '+(p.a_voir||'')));
+  function haversine(a,b){ // [lon,lat]
+    const R=6371, t=Math.PI/180;
+    const dLat=(b[1]-a[1])*t, dLon=(b[0]-a[0])*t;
+    const x=Math.sin(dLat/2)**2 + Math.cos(a[1]*t)*Math.cos(b[1]*t)*Math.sin(dLon/2)**2;
+    return 2*R*Math.asin(Math.sqrt(x));
+  }
+
+  // ---------- carnet photo : stockage 100% LOCAL (IndexedDB), aucun upload ----------
+  // Ligne rouge privacy du projet : les photos ne quittent jamais l'appareil.
+  const DB_NAME='the-carnet', STORE='photos';
+  let _db=null;
+  function db(){
+    if(_db) return Promise.resolve(_db);
+    return new Promise((res,rej)=>{
+      const rq=indexedDB.open(DB_NAME,1);
+      rq.onupgradeneeded=e=>{
+        const d=e.target.result;
+        if(!d.objectStoreNames.contains(STORE)){
+          const os=d.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});
+          os.createIndex('place','place',{unique:false});
+        }
+      };
+      rq.onsuccess=e=>{ _db=e.target.result; res(_db); };
+      rq.onerror=e=>rej(e.target.error);
+    });
+  }
+  function store(mode){ return db().then(d=>d.transaction(STORE,mode).objectStore(STORE)); }
+  function addPhoto(place,name,blob){
+    return store('readwrite').then(os=>new Promise((res,rej)=>{
+      const rq=os.add({place,name,blob,ts:Date.now()});
+      rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
+    }));
+  }
+  function photosFor(place){
+    return store('readonly').then(os=>new Promise((res,rej)=>{
+      const out=[], rq=os.index('place').openCursor(IDBKeyRange.only(place));
+      rq.onsuccess=e=>{ const c=e.target.result; if(c){ out.push(c.value); c.continue(); } else res(out); };
+      rq.onerror=()=>rej(rq.error);
+    }));
+  }
+  function delPhoto(id){
+    return store('readwrite').then(os=>new Promise((res,rej)=>{
+      const rq=os.delete(id); rq.onsuccess=()=>res(); rq.onerror=()=>rej(rq.error);
+    }));
+  }
+  // mettre à jour une photo (note texte, bande son…) sans la recréer
+  function updatePhoto(id, patch){
+    return store('readwrite').then(os=>new Promise((res,rej)=>{
+      const g=os.get(id);
+      g.onsuccess=()=>{ const v=g.result; if(!v){ res(); return; } Object.assign(v,patch);
+        const u=os.put(v); u.onsuccess=()=>res(); u.onerror=()=>rej(u.error); };
+      g.onerror=()=>rej(g.error);
+    }));
+  }
+  function countAll(){
+    return store('readonly').then(os=>new Promise(res=>{
+      const rq=os.count(); rq.onsuccess=()=>res(rq.result); rq.onerror=()=>res(0);
+    })).catch(()=>0);
+  }
+  // clé stable d'un lieu (nom + position arrondie) : les photos suivent le lieu d'un itinéraire à l'autre
+  const placeKey = s => norm(s.p.nom)+'@'+s.c[0].toFixed(4)+','+s.c[1].toFixed(4);
+  let PHOTO_URLS=[];  // object URLs à révoquer entre deux rendus (évite les fuites mémoire)
+
+  async function loadPhotos(phEl){
+    const grid=phEl.querySelector('.ph-grid'), cnt=phEl.querySelector('.ph-count');
+    let list=[];
+    try{ list=await photosFor(phEl.dataset.place); }catch(e){ grid.innerHTML='<span class="ph-empty">'+uiT('itineraire.carnet.indisponible.sur.ce.navigateur')+'</span>'; return; }
+    list.sort((a,b)=>a.ts-b.ts);
+    cnt.textContent = list.length ? uiT('itin.n.souvenirs',{n:list.length}) : '';
+    grid.innerHTML = list.length ? '' : '<span class="ph-empty">'+uiT('itineraire.aucun.souvenir.ici.pour.l')+'</span>';
+    list.forEach(ph=>{
+      const url=URL.createObjectURL(ph.blob); PHOTO_URLS.push(url);
+      const isVid=(ph.blob.type||'').startsWith('video');
+      const media=isVid?'<video src="'+url+'" controls playsinline></video>'
+                       :'<img src="'+url+'" alt="'+uiT('itin.alt.souvenir',{name:phEl.dataset.name.replace(/"/g,'')})+'">';
+      const card=document.createElement('div'); card.className='ph-card';
+      card.innerHTML='<div class="pc-top">'+media+
+        '<button class="ph-del" type="button" title="'+uiT('itin.supprimer.souvenir')+'">×</button></div>'+
+        '<textarea class="pc-note" rows="2" placeholder="'+uiT('itin.inspiration.moment')+'"></textarea>'+
+        '<div class="pc-audio"></div>';
+      const ta=card.querySelector('.pc-note'); ta.value=ph.caption||'';
+      ta.addEventListener('input',()=>updatePhoto(ph.id,{caption:ta.value}));
+      card.querySelector('.ph-del').onclick=async()=>{
+        if(confirm(uiT('itineraire.supprimer.cette.photo.sa.note'))){ await delPhoto(ph.id); loadPhotos(phEl); updateCarnetTotal(); }
+      };
+      photoAudioUI(card.querySelector('.pc-audio'), ph, phEl);
+      grid.appendChild(card);
+    });
+  }
+
+  // ---------- bande son par photo (MediaRecorder, 100% local) ----------
+  let ACTIVE_REC=null;
+  function photoAudioUI(box, ph, phEl){
+    box.innerHTML='';
+    if(ph.audio){
+      const aurl=URL.createObjectURL(ph.audio); PHOTO_URLS.push(aurl);
+      const au=document.createElement('audio'); au.controls=true; au.src=aurl; box.appendChild(au);
+      const del=document.createElement('button'); del.className='pc-arec'; del.type='button'; del.textContent='🗑 son';
+      del.onclick=async()=>{ await updatePhoto(ph.id,{audio:null}); photoAudioUI(box,{...ph,audio:null},phEl); };
+      box.appendChild(del);
+    } else {
+      const rec=document.createElement('button'); rec.className='pc-arec'; rec.type='button'; rec.textContent=uiT('itineraire.enregistrer.un.mot');
+      rec.onclick=()=>startRec(rec, ph, box, phEl);
+      box.appendChild(rec);
+    }
+  }
+  async function startRec(btn, ph, box){
+    if(ACTIVE_REC){ try{ ACTIVE_REC.stop(); }catch(e){} return; }
+    if(!navigator.mediaDevices || !window.MediaRecorder){ alert(uiT('itineraire.enregistrement.audio.non.disponible.sur')); return; }
+    let stream;
+    try{ stream=await navigator.mediaDevices.getUserMedia({audio:true}); }
+    catch(e){ alert(uiT('carnet.micro.refuse.ou.indisponible')); return; }
+    const mr=new MediaRecorder(stream), chunks=[]; ACTIVE_REC=mr;
+    mr.ondataavailable=e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+    mr.onstop=async()=>{ stream.getTracks().forEach(t=>t.stop()); ACTIVE_REC=null;
+      const blob=new Blob(chunks,{type:mr.mimeType||'audio/webm'});
+      try{ await updatePhoto(ph.id,{audio:blob}); }catch(e){}
+      photoAudioUI(box,{...ph,audio:blob});
+    };
+    mr.start(); btn.textContent=uiT('itineraire.arreter'); btn.classList.add('on');
+    btn.onclick=()=>{ if(mr.state!=='inactive') mr.stop(); };
+  }
+  async function updateCarnetTotal(){
+    const el=document.getElementById('carnet-total'); if(!el) return;
+    const n=await countAll();
+    el.textContent = n ? ' · 📷 '+n+uiT('itineraire.souvenir')+(n>1?'s':'')+uiT('itineraire.dans.votre.carnet') : '';
+  }
+
+  // ---------- thèmes DÉRIVÉS DU CHAMP RÉELLEMENT REMPLI DU PAYS ----------
+  // Le vocabulaire est DONNÉE DE PAYS : il vit dans `HConf.themes` (heritage.config.js),
+  // le seul fichier qu'on édite pour cloner. Le code ci-dessous est 100 % générique :
+  // il ne connaît aucun mot-clé, il applique la mécanique (priorité, seuil ≥3).
+  // Un site matche un thème s'il porte son slug dans `properties.themes` OU si son
+  // `type` (référence FR) contient l'un des `kw`. `pri` tranche les types composés.
+  const THEMES = (window.HConf && Array.isArray(HConf.themes)) ? HConf.themes.slice() : [];
+  // chaque type est rangé dans UNE seule catégorie (la plus prioritaire qui correspond)
+  // le pays remplit `type` OU `epoque` selon l'édition (la Tunisie thématise par ÉPOQUE) :
+  // on cherche les mots-clés dans les DEUX, sinon 14 thèmes sur 14 ne matchent rien.
+  function champsThematiques(p){ return (p && typeof p==='object') ? ((p.type||'')+' '+(p.epoque||'')) : (p||''); }
+  function themeIdOf(p){
+    const t=norm(champsThematiques(p)); let best=null;
+    THEMES.forEach(th=>{ if(th.kw && th.kw.length && th.kw.some(k=>t.includes(norm(k)))){ if(!best || th.pri<best.pri) best=th; } });
+    return best ? best.id : null;
+  }
+  function matchTheme(props, theme){
+    if(theme.legend) return !!(props.legende && String(props.legende).trim());
+    if(Array.isArray(props.themes) && props.themes.indexOf(theme.id)>=0) return true;   // thème porté par la donnée
+    return themeIdOf(props)===theme.id;   // sinon : dérivé du type, exclusif
+  }
+  // un thème ne s'affiche que s'il a du contenu réel dans CE pays (≥3 sites) — seuls les transversaux SANS mots-clés (Légende, Gastronomie) sont exemptés ; Cinéma doit mériter ses ≥3
+  function themeViable(t){ return t.legend || t.food || SITES.filter(s=>matchTheme(s.p,t)).length >= 3; }
+
+  // ---------- variables indépendantes : durée (nb d'étapes) × périmètre (rayon) ----------
+  const DUREE = {
+    demi:    {max:4,  lib:'choix.demi'},
+    jour:    {max:6,  lib:'choix.jour'},
+    weekend: {max:10, lib:'choix.weekend'},
+    semaine: {max:16, lib:'choix.semaine'},
+    deuxsem: {max:24, lib:'choix.deuxsem'},
+  };
+  const PERIM = {
+    ville:   {radius:9,     lib:'choix.ville'},
+    region:  {radius:120,   lib:'choix.region'},
+    pays:    {radius:99999, lib:uiT('itin.a.travers.le.pays')},   // clé NEUTRE (générique, jamais un nom de pays)
+  };
+  const CPKEY = Object.keys(PERIM).find(k=>k!=='ville'&&k!=='region')||'region';   // clé périmètre « pays » (dynamique par édition)
+
+  let SITES=[];            // [{p, c:[lon,lat], layer, genre}]
+  let GOUV={};             // région -> centroïde [lon,lat]
+  let GASTRO=null;         // spécialités culinaires par région (gastronomie.json)
+  fetch('gastronomie.json').then(r=>r.json()).then(d=>{ GASTRO=d; }).catch(()=>{});
+  // chefs-lieux des régions (SOURCÉ Wikidata) : le départ se choisit par la VILLE, pas par la subdivision administrative
+  let CHEFS={};
+  fetch('chefs-lieux.json').then(r=>r.json()).then(d=>{ CHEFS=(d&&d.chefs_lieux)||{}; relabelOrigins(); }).catch(()=>{});
+  function relabelOrigins(){ var sel=document.getElementById('origin'); if(!sel) return;
+    [].forEach.call(sel.options,function(o){ if(o.value.indexOf('g:')===0){ var g=o.value.slice(2), cl=CHEFS[g];
+      o.textContent = uiT('itineraire.depuis')+' '+(cl?cl.ville+' ('+g+')':g); } }); }
+  let selectedThemes=new Set();   // plusieurs thèmes cumulables (mix)
+  let mapObj=null;
+  let LASTORIGIN=null, LASTRES=null;   // dernier itinéraire (pour ajout de lieu)
+  let ENTRY='funnel';                  // provenance : 'funnel' | 'tour' | 'picks' → règle le bouton « retour »
+  const REJECTED=new Set();            // détours « pas pour moi » : ne plus les re-proposer
+  const VU=new Set((function(){ try{ return JSON.parse(localStorage.getItem('the_vu')||'[]'); }catch(e){ return []; } })());  // lieux marqués « vu » (scan QR)
+  function saveVu(){ try{ localStorage.setItem('the_vu', JSON.stringify([...VU])); }catch(e){} }
+
+  const isMusee = p => norm(p.nom).includes('musee');
+  function genreOf(p, layer){
+    if(layer==='nature') return 'nature';
+    if(isMusee(p)) return 'musee';
+    return norm(p.type)==='ville' ? 'ville' : 'monument';
+  }
+
+  // ---------- chargement données (histoire + nature) ----------
+  Promise.all([
+    fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+    fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+    (window.THEi18n ? THEi18n.ready : Promise.resolve())   // traductions chargées avant le rendu
+  ]).then(([hist,nat])=>{
+    const take=(geo,layer)=>geo.features
+      .filter(f=>f.geometry && f.geometry.type==='Point')
+      .filter(f=>f.properties.keep!==0)   // le registre (keep=0) n'entre pas dans les itinéraires proposés
+      .map(f=>({p:f.properties, c:f.geometry.coordinates, layer, genre:genreOf(f.properties,layer)}));
+    SITES = take(hist,'histoire').concat(take(nat,'nature'));
+    computeLandmasses();
+    renderThemeChips();   // SITES charge -> les themes historiques/typologiques deviennent viables (fix rendu 0 chip)
+    // centroïdes par région (toutes couches)
+    const acc={};
+    SITES.forEach(s=>{ const g=s.p.region||'—'; (acc[g]=acc[g]||[]).push(s.c); });
+    const sel=document.getElementById('origin');
+    Object.keys(acc).sort((a,b)=>a.localeCompare(b,'fr')).forEach(g=>{
+      const cs=acc[g];
+      GOUV[g]=[ cs.reduce((t,c)=>t+c[0],0)/cs.length, cs.reduce((t,c)=>t+c[1],0)/cs.length ];
+      const o=document.createElement('option'); o.value='g:'+g; o.textContent=uiT('itineraire.depuis')+' '+g; sel.appendChild(o);
+    });
+    relabelOrigins();   // si les chefs-lieux sont déjà chargés, on affiche la ville
+
+    initPresets();
+    renderSaved();   // affiche « Mes itinéraires enregistrés » s'il y en a
+    // autocomplétion du champ « ajouter un lieu » : suggestions sur tous les lieux sourcés
+    const dl=document.getElementById('placeList');
+    if(dl){ const seen=new Set();
+      SITES.forEach(s=>{ const n=s.p.nom; if(n && !seen.has(n)){ seen.add(n); const o=document.createElement('option'); o.value=n; dl.appendChild(o); } }); }
+    const params=new URLSearchParams(location.search);
+    const picksParam=params.get('picks'), tourId=params.get('tour'), tripParam=params.get('trip');
+    let ret=false; try{ ret=sessionStorage.getItem('the_return')==='1'; }catch(e){}
+    if(tripParam) loadTrip(tripParam);                 // lien partagé reçu d'un ami → on charge son itinéraire
+    else if(picksParam) loadPicks(picksParam, params.get('add')==='1');
+    else if(tourId){ (function w(){ if(TOURS) loadTour(tourId); else setTimeout(w,80); })(); }   // attendre que TOURS (async) soit chargé
+    else if(ret){ try{ sessionStorage.removeItem('the_return'); }catch(e){} renderRecord(readCurrent()); }  // retour de la grande carte → on restaure
+  });
+
+  // ---------- chips thèmes ----------
+  const chipsEl=document.getElementById('themes');
+  function renderThemeChips(){
+    chipsEl.innerHTML='';
+    THEMES.filter(themeViable).forEach(t=>{
+    const c=document.createElement('div'); c.className='chip'; c.dataset.id=t.id;
+    c.textContent=t.ic+' '+((window.THEi18n&&THEi18n.ui(t.label))||t.label);
+    if(t.food) c.classList.add('chip-pass');
+    c.onclick=()=>{
+      if(t.food && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('premium.theme.gastronomie'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
+      if(t.legend && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('itin.mythes.legendes'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
+      if(t.id==='cinema' && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('itin.decors.de.cinema'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
+      if(selectedThemes.has(t.id)) selectedThemes.delete(t.id); else selectedThemes.add(t.id);
+      [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); };
+    chipsEl.appendChild(c);
+    });
+    [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id)));
+  }
+  renderThemeChips();
+
+  // ---------- #5 : l'avertissement « Nature & balades » ne concerne QUE le genre nature ----------
+  // (sinon il s'affiche sous « Un peu de tout » et affirme à tort « le thème historique ne s'applique pas »)
+  const genreSel=document.getElementById('genre'), genreHint=document.getElementById('genreHint');
+  function syncGenreHint(){ if(genreHint) genreHint.style.display = genreSel.value==='nature' ? '' : 'none'; }
+  genreSel.addEventListener('change', syncGenreHint);
+  syncGenreHint();
+
+  // ---------- résolution du point de départ ----------
+  function resolveOrigin(silent){
+    const v=document.getElementById('origin').value;
+    if(v.startsWith('g:')){ const g=v.slice(2), cl=CHEFS[g]; return Promise.resolve({coord:(cl&&cl.c)||GOUV[g], label:(cl?cl.ville:g)}); }
+    return new Promise(res=>{
+      if(!navigator.geolocation){ if(!silent) alert(uiT('itineraire.geolocalisation.indisponible.choisissez.un.point')); res(null); return; }
+      navigator.geolocation.getCurrentPosition(
+        pos=>res({coord:[pos.coords.longitude,pos.coords.latitude], label:'itin.votre.position'}),
+        ()=>{ if(!silent) alert(uiT('itineraire.position.refusee.indisponible.choisissez.un')); res(null); },
+        {enableHighAccuracy:true, timeout:8000}
+      );
+    });
+  }
+
+  // ---------- génération ----------
+  // ordre de visite : plus proche voisin depuis l'origine (max=null => sans plafond)
+  function nearestOrder(originCoord, items, max){
+    const route=[]; let cur=originCoord; const pool=items.slice();
+    while((!max || route.length<max) && pool.length){
+      let bi=0,bd=Infinity;
+      for(let i=0;i<pool.length;i++){ const d=haversine(cur,pool[i].c); if(d<bd){bd=d;bi=i;} }
+      const next=pool.splice(bi,1)[0]; next.fromPrev=bd; route.push(next); cur=next.c;
+    }
+    return route;
+  }
+  // ---------- masses terrestres : un itinéraire auto ne traverse jamais la mer (île = destination en soi) ----------
+  let MAINLAND=null; const LAND_NAME={};
+  const SEA_GAP=150;   // km — au-delà de ce saut, plus de lien routier : masse terrestre distincte
+  function computeLandmasses(){
+    const n=SITES.length, par=Array.from({length:n},(_,i)=>i);
+    const find=x=>{ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; };
+    const cell=SEA_GAP/111, grid={};
+    SITES.forEach((s,i)=>{ const k=Math.floor(s.c[0]/cell)+':'+Math.floor(s.c[1]/cell); (grid[k]=grid[k]||[]).push(i); });
+    SITES.forEach((s,i)=>{ const cx=Math.floor(s.c[0]/cell), cy=Math.floor(s.c[1]/cell);
+      for(let dx=-1;dx<=1;dx++) for(let dy=-1;dy<=1;dy++){ const arr=grid[(cx+dx)+':'+(cy+dy)]; if(!arr) continue;
+        for(const j of arr){ if(j>i && haversine(s.c,SITES[j].c)<=SEA_GAP) par[find(i)]=find(j); } } });
+    SITES.forEach((s,i)=>{ s._land=find(i); });
+    // masse principale (continent) = la plus peuplée ; nom d'une masse = région dominant (sourcé)
+    const cnt={}, gov={};
+    SITES.forEach(s=>{ cnt[s._land]=(cnt[s._land]||0)+1; (gov[s._land]=gov[s._land]||{}); const g=s.p.region||''; if(g) gov[s._land][g]=(gov[s._land][g]||0)+1; });
+    MAINLAND=+Object.keys(cnt).reduce((a,b)=>cnt[b]>cnt[a]?b:a);
+    Object.keys(gov).forEach(id=>{ const gg=gov[id], k=Object.keys(gg); LAND_NAME[id]= k.length? k.reduce((a,b)=>gg[b]>gg[a]?b:a):''; });
+  }
+  function landOf(coord){ let bd=Infinity,bl=null; for(const s of SITES){ const d=haversine(coord,s.c); if(d<bd){ bd=d; bl=s._land; } } return bl; }
+  function buildItinerary(origin, themeIds, genreFilter, dureeKey, perimKey, forme){
+    const dur=DUREE[dureeKey], per=PERIM[perimKey];
+    const ids=Array.isArray(themeIds)?themeIds:(themeIds?[themeIds]:[]);   // accepte 1 id ou une liste
+    const themes=ids.map(id=>THEMES.find(t=>t.id===id)).filter(Boolean);
+    const foodOn=themes.some(t=>t.food);                  // gastronomie = couche, ne filtre pas
+    const filterT=themes.filter(t=>!t.food);
+    const useTheme = filterT.length>0 && genreFilter!=='nature';
+    let cand=SITES.slice();
+    if(genreFilter!=='all') cand=cand.filter(s=>s.genre===genreFilter);
+    if(useTheme) cand=cand.filter(s=>filterT.some(th=>matchTheme(s.p,th)));   // mix = union des thèmes (sur le type)
+    cand=cand.filter(s=>haversine(origin.coord,s.c)<=per.radius);
+    const _oLand=landOf(origin.coord);           // île = destination en soi : jamais de traversée maritime auto
+    if(_oLand!=null) cand=cand.filter(s=>s._land===_oLand);
+    const themeLbl = themes.length===0?null : (themes.length===1?themes[0]:{ic:'🎯',label:themes.map(t=>t.label).join(' + ')});
+    const _island=(_oLand!=null && _oLand!==MAINLAND)?(LAND_NAME[_oLand]||null):null;
+    return {route:nearestOrder(origin.coord, cand, dur.max), theme:themeLbl, food:foodOn, dur, per, forme:forme||'oneway', island:_island};
+  }
+
+  // ---------- « À voir en chemin » : pépites sourcées près d'un tronçon A→B ----------
+  // Couloir approximé par la ligne A-B (pas de routier hors-ligne) → étiqueté indicatif.
+  function legSuggestions(A, B, exclude){
+    const dAB=haversine(A,B);
+    if(dAB<3) return [];                              // tronçon trop court : pas de détour pertinent
+    const latRef=(A[1]+B[1])/2*Math.PI/180;
+    const KX=111.32*Math.cos(latRef), KY=110.57;     // km par degré (équirectangulaire local)
+    const ax=A[0]*KX, ay=A[1]*KY, vx=(B[0]-A[0])*KX, vy=(B[1]-A[1])*KY, vv=vx*vx+vy*vy;
+    const out=[];
+    for(const s of SITES){
+      if(exclude.has(norm(s.p.nom))) continue;
+      const px=s.c[0]*KX, py=s.c[1]*KY;
+      const t=((px-ax)*vx+(py-ay)*vy)/vv;
+      if(t<=0.08 || t>=0.92) continue;               // doit être « entre » A et B
+      const perp=Math.hypot(px-(ax+t*vx), py-(ay+t*vy));
+      out.push({s, perp, detour:haversine(A,s.c)+haversine(s.c,B)-dAB});
+    }
+    return out;
+  }
+
+  // ---------- planification réaliste en journées (vaut pour TOUT itinéraire) ----------
+  function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?s.replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
+  function trCat(v){ return (window.THEi18n && !THEi18n.isFr()) ? THEi18n.cat(v) : v; }
+  function fmtDur(m){ m=Math.round(m); if(m<60) return m+' min'; const h=Math.floor(m/60), r=m%60; return r? h+'h'+(r<10?'0'+r:r) : h+'h'; }
+  function visitMin(s){
+    const p=s.p, nm=norm(p.nom), t=norm(p.type);
+    if(s.genre==='nature') return ({parc:90,montagne:90,foret:75,ile:75,cote:45,lac:30,grotte:30,source:30})[p.type]||45;
+    if(s.genre==='musee' || /musee|ecomusee/.test(nm)) return 60;
+    if(t==='ville') return 80;        // grande ville / centre historique
+    if(t==='cinema') return 30;
+    if(t==='evenement') return 15;
+    if(t==='route') return 20;
+    if(/amphith|theatre|forteresse|fort|citadelle|basilique|capitole|thermes|palais|cathedrale|synagogue|eglise|chapelle|mosquee|temple|musee|chateau/.test(nm)) return 45;
+    return 25;                        // monument courant
+  }
+  // annote chaque étape (_day,_tv,_vis,_sleep) ; respecte les nuits curées (presets), sinon découpe à la journée
+  // ---------- durée de visite : recommandation + choix de l'utilisateur ----------
+  const VIS_BUCKETS=[30,45,60,90,120,180,240,300];
+  function getVOvr(){ try{ return JSON.parse(localStorage.getItem('the_visit_ovr')||'{}'); }catch(e){ return {}; } }
+  function setVOvr(o){ try{ localStorage.setItem('the_visit_ovr', JSON.stringify(o)); }catch(e){} }
+  function nearestBucket(m){ return VIS_BUCKETS.reduce((a,b)=>Math.abs(b-m)<Math.abs(a-m)?b:a); }
+  function visSelectHtml(s){
+    const recoB=nearestBucket(visitMin(s)), curB=nearestBucket(s._vis||visitMin(s));
+    let opts=''; VIS_BUCKETS.forEach(b=>{ opts+='<option value="'+b+'"'+(b===curB?' selected':'')+'>'+fmtDur(b)+(b===recoB?' ✓':'')+'</option>'; });
+    return '<select class="vis-select" data-nom="'+norm(s.p.nom).replace(/"/g,'&quot;')+'" title="'+uiT('itin.combien.de.temps.voulez.vous')+'">'+opts+'</select>';
+  }
+  function planDays(route, walking){
+    const speed=walking?4.5:45, roadf=walking?1.2:1.3, budget=walking?300:420; // min utiles/jour
+    const hasExplicit=route.some(s=>s.nuit);
+    let day=1, acc=0; const dayTotals={}, dayKm={};
+    const OVR=getVOvr();
+    route.forEach(s=>{
+      const _ov=OVR[norm(s.p.nom)], tv=s.fromPrev*roadf/speed*60, vis=(_ov!=null)?_ov:visitMin(s);
+      if(!hasExplicit && acc>0 && acc+tv+vis>budget){ day++; acc=0; }
+      s._day=day; s._tv=tv; s._vis=vis;
+      dayTotals[day]=(dayTotals[day]||0)+tv+vis; dayKm[day]=(dayKm[day]||0)+s.fromPrev; acc+=tv+vis;
+      if(hasExplicit && s.nuit){ day++; acc=0; }
+    });
+    if(!hasExplicit) for(let i=0;i<route.length-1;i++){ if(route[i]._day!==route[i+1]._day) route[i]._sleep=true; }
+    const dayCount=route.length?Math.max(...route.map(s=>s._day)):1;
+    return {dayCount, dayTotals, dayKm, hasExplicit};
+  }
+
+  // insérer un lieu connu (objet SITES) dans le parcours, replacé par proximité
+  function removeStep(i){
+    if(!LASTRES || LASTRES.route.length<=1){ alert(uiT('itineraire.gardez.au.moins.une.etape')); return; }
+    LASTRES.route.splice(i,1);
+    let prev=LASTORIGIN.coord; LASTRES.route.forEach(s=>{ s.fromPrev=haversine(prev,s.c); prev=s.c; });
+    render(LASTORIGIN, LASTRES);
+  }
+  function insertStop(stop){
+    if(!LASTRES) return;
+    if(LASTRES.route.some(s=>norm(s.p.nom)===norm(stop.p.nom))) return;
+    const items=LASTRES.route.concat([{...stop}]).map(s=>({...s}));
+    render(LASTORIGIN, {...LASTRES, route:nearestOrder(LASTORIGIN.coord, items, null)});
+  }
+
+  // ---------- Halte / Capture : un moment non planifié, à la position GPS ----------
+  const HALTE_TYPES=[
+    {k:'dejeuner',ic:'🍽️',l:uiT('itin.dejeuner')},{k:'vue',ic:'🌄',l:uiT('itin.point.de.vue')},{k:'pause',ic:'☕',l:uiT('itin.pause')},
+    {k:'invitation',ic:'🫖',l:uiT('itin.invitation')},{k:'balade',ic:'🚶',l:uiT('itin.balade')},{k:'rencontre',ic:'✨',l:uiT('itin.rencontre')},{k:'evenement',ic:'🎉',l:uiT('itin.evenement')}];
+  function tUI(s){ return (window.THEi18n&&THEi18n.ui(s))||s; }
+  function halteLabel(k){ const t=HALTE_TYPES.find(x=>x.k===k); return tUI(t?t.l:'Halte'); }
+  let halteType='vue';
+  function initHalteTypes(){
+    const box=document.getElementById('halteTypes'); box.innerHTML='';
+    HALTE_TYPES.forEach(t=>{ const c=document.createElement('div'); c.className='htype'+(t.k===halteType?' on':''); c.dataset.k=t.k; c.textContent=t.ic+' '+tUI(t.l);
+      c.onclick=()=>{ halteType=t.k; [...box.children].forEach(x=>x.classList.toggle('on',x.dataset.k===halteType)); };
+      box.appendChild(c); });
+  }
+  function openHalte(){ if(!LASTRES) return; halteType='vue'; initHalteTypes();
+    document.getElementById('halteName').value=''; document.getElementById('halteMsg').textContent='';
+    document.getElementById('halteModal').style.display='flex'; }
+  function closeHalte(){ document.getElementById('halteModal').style.display='none'; }
+  function addHalte(lon,lat){
+    const t=HALTE_TYPES.find(x=>x.k===halteType)||HALTE_TYPES[0];
+    const name=(document.getElementById('halteName').value||'').trim();
+    const label=t.ic+' '+t.l+(name?' — '+name:'');
+    const stop={ c:[lon,lat], layer:'perso', genre:'perso', halte:true, htype:t.k,
+      p:{ nom:label, type:'Halte', région:'', description:'', source:uiT('itin.halte.ajoutee.pendant.votre.voyage'), a_voir:'', conseil:'' } };
+    const items=LASTRES.route.concat([stop]).map(s=>({...s}));   // pas de dédup : les haltes sont distinctes par position
+    closeHalte();
+    render(LASTORIGIN, {...LASTRES, route:nearestOrder((LASTORIGIN&&LASTORIGIN.coord)||[lon,lat], items, null)});
+    showGuide(uiT('itin.halte.ajoutee.a.votre.voyage'), 8000);
+  }
+  document.getElementById('haltebtn').onclick=openHalte;
+  document.getElementById('halteX').onclick=closeHalte;
+  document.getElementById('halteLater').onclick=closeHalte;
+  document.getElementById('halteModal').onclick=e=>{ if(e.target.id==='halteModal') closeHalte(); };
+  document.getElementById('halteGo').onclick=()=>{
+    const msg=document.getElementById('halteMsg');
+    if(!navigator.geolocation){ msg.textContent=uiT('itineraire.gps.non.disponible.sur.cet'); return; }
+    msg.textContent=uiT('itin.localisation.en.cours');
+    navigator.geolocation.getCurrentPosition(
+      p=>{ addHalte(p.coords.longitude, p.coords.latitude); },
+      ()=>{ msg.textContent=uiT('itineraire.position.indisponible.refusee.activez.la'); },
+      { enableHighAccuracy:true, timeout:10000, maximumAge:60000 });
+  };
+
+  // ---------- circuits preset (tours.json) ----------
+  let TOURS=null;
+  function initPresets(){
+    fetch(window.THEi18n?THEi18n.data('tours'):'tours.json').then(r=>r.json()).then(t=>{
+      TOURS=t; const box=document.getElementById('presets'); const ids=Object.keys(t);
+      if(!ids.length) return;
+      box.innerHTML='';                       // re-render propre (ex. après activation du passe)
+      const FREE_TOURS=4;                      // freemium « généreux » : 4 circuits offerts
+      ids.forEach((id,i)=>{ const c=document.createElement('div'); c.className='chip pchip'; c.textContent='✨ '+t[id].titre;
+        const hardLock = t[id].premium===true && (function(){ try{ return localStorage.getItem('the_premium')!=='1'; }catch(e){ return true; } })();
+        if(hardLock){ c.classList.add('locked'); c.textContent='🔒 '+t[id].titre; c.onclick=()=>alert(uiT('itineraire.ce.circuit.est.un.module')); }
+        else if(i>=FREE_TOURS && !isPremium()){ c.classList.add('locked'); c.onclick=()=>requirePass(uiT('premium.tous.les.circuits.prets'), ()=>confirmTour(id)); }
+        else c.onclick=()=>confirmTour(id);
+        box.appendChild(c); });
+      document.getElementById('presetsBox').style.display='';
+    }).catch(()=>{});
+  }
+  // Modale de confirmation : au clic d'un circuit, on montre son résumé + Suivre/Annuler.
+  function confirmTour(id){
+    const t=(TOURS||{})[id]; if(!t) return;
+    const e2=s=>String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+    const et=(t.etapes||[]).map(e=>(typeof e==='string')?e:(e&&e.nom)||'');
+    const list=et.filter(Boolean).map(nm=>'<li>'+e2(nm)+'</li>').join('');
+    document.getElementById('tourBody').innerHTML=
+      (t.soustitre?'<div class="md-kick">✨ '+e2(t.soustitre)+'</div>':'')+
+      '<h3 class="md-title">'+e2(t.titre||'')+'</h3>'+
+      '<div class="hint">'+(t.duree?e2(t.duree)+' · ':'')+et.length+' '+uiT('itineraire.circuit.etapes')+'</div>'+
+      (t.note?'<p style="margin:12px 0 6px">'+e2(t.note)+'</p>':'')+
+      (t.quoi_voir?'<p style="margin:8px 0 6px;font-size:14px;color:#5a4d3a"><b>'+uiT('itineraire.quoi.voir')+'</b> '+e2(t.quoi_voir)+'</p>':'')+
+      '<ol style="margin:6px 0 0 18px;padding:0;line-height:1.7">'+list+'</ol>'+
+      ((t.pepites&&t.pepites.length)?'<p style="margin:8px 0 6px;font-size:13px;color:#8a7c66"><b>'+uiT('itineraire.pepites.hors.circuit')+'</b> '+t.pepites.map(p=>e2(p&&p.nom||'')).filter(Boolean).join(' · ')+'</p>':'')+
+      (t.evocation?'<div style="margin-top:12px;padding:10px 12px;background:#f3eefb;border-left:3px solid #8a6fb0;border-radius:8px"><div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a6fb0;font-weight:700;margin-bottom:4px">✍ '+uiT('itineraire.evocation.titre')+'</div><p style="margin:0;font-style:italic;font-size:14px;color:#4a3d5a">'+e2(t.evocation)+'</p></div>':'')+
+      '<div class="hint" style="margin-top:12px">'+uiT('itineraire.circuit.editable')+'</div>';
+    document.getElementById('tourCancel').textContent=uiT('itineraire.circuit.annuler');
+    document.getElementById('tourConfirm').textContent=uiT('itineraire.circuit.suivre');
+    document.getElementById('tourConfirm').onclick=()=>{ closeTourModal(); loadTour(id); };
+    document.getElementById('tourModal').style.display='flex';
+  }
+  function closeTourModal(){ document.getElementById('tourModal').style.display='none'; }
+  document.getElementById('tourX').onclick=closeTourModal;
+  document.getElementById('tourCancel').onclick=closeTourModal;
+  document.getElementById('tourModal').addEventListener('click',e=>{ if(e.target.id==='tourModal') closeTourModal(); });
+
+  function loadTour(id){
+    const t=(TOURS||{})[id]; if(!t || !SITES.length){ return; }
+    ENTRY='tour';
+    const byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
+    const route=[]; let prev=t.depart.coord;
+    (t.etapes||[]).forEach(e=>{
+      const o = (typeof e==='string') ? {nom:e} : (e||{});
+      let st=null;
+      const found = o.nom ? byName.get(norm(o.nom)) : null;
+      if(found){ st={...found, fromPrev:haversine(prev,found.c)}; }
+      else if(o.coord){ // étape libre (ville-nuit sans fiche dédiée)
+        st={ p:{nom:o.label||o.nom||uiT('itin.etape.defaut'), type:o.type||uiT('itin.etape.defaut'), région:o.region||'', description:o.note||'', source:o.source||'', a_voir:'', conseil:''},
+             c:o.coord, layer:'perso', genre:'perso', fromPrev:haversine(prev,o.coord) };
+      }
+      if(!st) return;
+      st.nuit=!!o.nuit; st.sejour=o.sejour||''; st.tnote=o.note||''; st.ville=o.ville||'';
+      route.push(st); prev=st.c;
+    });
+    if(!route.length){ return; }
+    const pepites=(t.pepites||[]).map(p=>{ const s=byName.get(norm(p.nom)); return s?{s:{...s}, note:p.note, via:norm(p.via||'')}:null; }).filter(Boolean);
+    const origin={coord:t.depart.coord, label:t.depart.label};
+    const dur={max:route.length, lib:t.duree||'itin.circuit'};
+    const per={radius:(PERIM[t.echelle]||PERIM[CPKEY]).radius, lib:'itin.circuit.signature'};
+    render(origin, {route, theme:null, dur, per, forme:t.forme||'oneway', pepites, tour:t});
+  }
+
+  // ---------- arrivée depuis la carte : lieux choisis un à un (index.html?picks=…) ----------
+  function loadPicks(str, addMode){
+    if(!SITES.length) return;
+    ENTRY='picks';
+    const byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
+    let names=str.split('|').map(s=>norm(decodeURIComponent(s))).filter(Boolean);
+    if(addMode){ const cur=readCurrent(); if(cur&&cur.steps&&cur.steps.length){ const ex=cur.steps.map(st=>norm(st.nom)); names=[...new Set(ex.concat(names))]; } }
+    const chosen=names.map(n=>byName.get(n)).filter(Boolean).map(s=>({...s}));
+    if(!chosen.length) return;
+    // anti-zigzag : on essaie chaque lieu comme départ et on garde le parcours le plus court
+    const routeLen=r=>{ let L=0; for(let i=1;i<r.length;i++) L+=haversine(r[i-1].c,r[i].c); return L; };
+    let origin, route, best=Infinity;
+    chosen.forEach(start=>{ const r=nearestOrder(start.c, chosen.map(x=>({...x})), null); const L=routeLen(r);
+      if(L<best){ best=L; route=r; origin={coord:start.c, label:start.p.nom}; } });
+    const dur={max:route.length, lib:uiT('itin.votre.selection.sur.la.carte')};
+    const per={radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.selection')};
+    render(origin, {route, theme:null, dur, per, forme:'oneway', pepites:[],
+      tour:{titre: addMode?uiT('itin.mon.itineraire.enrichi'):uiT('itin.ma.selection'), soustitre:uiT('itin.lieux.choisis.un.a.un')}});
+  }
+
+  // ---------- Enregistrer / reprendre un itinéraire (100% local) ----------
+  function readSaved(){ try{ return JSON.parse(localStorage.getItem('the_saved')||'[]'); }catch(e){ return []; } }
+  function writeSaved(a){ try{ localStorage.setItem('the_saved', JSON.stringify(a)); }catch(e){} }
+  function saveCurrent(){
+    if(!LASTRES || !LASTRES.route.length) return;
+    if(!isPremium() && readSaved().length >= 2){ location.href='premium.html'; return; }   // freemium : 2 itinéraires sauvegardés max
+    const def=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:(uiT('itineraire.itineraire.2')+' '+LASTRES.route.length+' '+uiT('itineraire.etapes'));
+    const name=prompt(uiT('itineraire.nom.de.cet.itineraire'), def); if(name===null) return;
+    const arr=readSaved();
+    arr.unshift({ id:'it'+Date.now(), title:(name||def).slice(0,80), forme:LASTRES.forme||'oneway',
+      origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
+      steps:LASTRES.route.map(s=>({nom:s.p.nom, c:s.c, genre:s.genre||'', halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'',
+        desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''})) });
+    writeSaved(arr.slice(0,40)); renderSaved();
+    alert(uiT('itineraire.itineraire.enregistre.nvous.le.retrouverez'));
+  }
+  function deleteSaved(id){ writeSaved(readSaved().filter(r=>r.id!==id)); renderSaved(); }
+  // reconstruit et affiche un itinéraire à partir d'un enregistrement sérialisé
+  function renderRecord(rec, entry){
+    if(!rec || !rec.steps || !rec.steps.length) return;
+    const byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
+    const route=rec.steps.map(st=>{
+      const found = st.genre!=='perso' && byName.get(norm(st.nom));
+      const s = found ? {...found} : {p:{nom:st.nom, type:st.genre==='perso'?uiT('itin.ajout.perso'):'', région:'', description:st.desc||'', source:st.src||'', a_voir:'', conseil:''}, c:st.c, layer:'perso', genre:st.genre||'perso'};
+      if(st.c) s.c=st.c; s.nuit=st.nuit; s.sejour=st.sejour; s.ville=st.ville; s.tnote=st.tnote;
+      if(st.halte){ s.halte=true; s.htype=st.htype||''; } return s;
+    });
+    let prev=rec.origin.coord; route.forEach(s=>{ s.fromPrev=haversine(prev,s.c); prev=s.c; });
+    ENTRY=entry||rec.entry||'funnel';
+    render(rec.origin, {route, theme:null, dur:{max:route.length, lib:(rec.tour&&rec.tour.duree)||uiT('itin.itineraire.enregistre')},
+      per:{radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.enregistre')}, forme:rec.forme||'oneway', pepites:[],
+      tour:rec.tour||{titre:rec.title, soustitre:uiT('itin.itineraire.enregistre.2')}});
+  }
+  function resumeSaved(id){ const rec=readSaved().find(r=>r.id===id); renderRecord(rec, 'saved'); }
+  // sérialise l'itinéraire courant (pour ne pas le perdre en quittant la page, ex. « Voir la grande carte »)
+  function recordFromCurrent(){
+    return { title:(LASTRES.tour&&LASTRES.tour.titre)||uiT('itin.dernier.itineraire'), forme:LASTRES.forme||'oneway', entry:ENTRY,
+      origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
+      steps:LASTRES.route.map(s=>({nom:s.p.nom, c:s.c, genre:s.genre||'', halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'',
+        desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''})) };
+  }
+  function autosaveCurrent(){ try{ if(LASTRES&&LASTRES.route&&LASTRES.route.length) localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(e){} }
+  function readCurrent(){ try{ return JSON.parse(localStorage.getItem('the_current')||'null'); }catch(e){ return null; } }
+
+  // ---------- Partage : lien duiT('itin.itineraire.encode.dans.l')URL, sans serveur) ----------
+  function tripCode(){
+    const r=recordFromCurrent();
+    const min={ t:r.title, f:r.forme, o:r.origin.coord, ol:r.origin.label,
+      s:r.steps.map(st=>{ const o={n:st.nom}; if(st.genre==='perso'){ o.p=1; o.c=st.c; if(st.desc)o.d=st.desc; if(st.src)o.r=st.src; } if(st.halte){ o.h=1; if(st.htype)o.ht=st.htype; } if(st.nuit){ o.u=1; if(st.sejour)o.j=st.sejour; if(st.ville)o.v=st.ville; } if(st.tnote)o.k=st.tnote; return o; }) };
+    return encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(min))));
+  }
+  function shareTrip(){
+    if(!LASTRES || !LASTRES.route.length) return;
+    const url=location.origin+location.pathname.replace(/[^/]*$/,'')+'itineraire.html?trip='+tripCode();
+    const txt=(LASTRES.tour&&LASTRES.tour.titre?LASTRES.tour.titre:uiT('itineraire.mon.itineraire'))+' — '+LASTRES.route.length+' '+uiT('itineraire.etapes')+' ('+((window.HConf&&HConf.marqueCourte)||'Heritage')+')';
+    if(navigator.share){ navigator.share({title:uiT('itin.share.title'), text:txt, url}).catch(()=>{}); return; }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>alert(uiT('itineraire.lien.copie.envoyez.le.a')), ()=>prompt(uiT('itineraire.copiez.ce.lien.a.partager'), url)); return; }
+    prompt(uiT('itineraire.copiez.ce.lien.a.partager'), url);
+  }
+  function loadTrip(code){
+    let min; try{ min=JSON.parse(decodeURIComponent(atob(decodeURIComponent(code)))); }catch(e){ return; }
+    if(!min || !min.s || !min.s.length) return;
+    const rec={ title:min.t||uiT('itin.itineraire.partage'), forme:min.f||'oneway', entry:'shared',
+      origin:{coord:min.o, label:min.ol||uiT('itin.depart')}, tour:{titre:min.t||uiT('itin.itineraire.partage'), soustitre:uiT('itin.partage.avec.vous.vous.pouvez')},
+      steps:min.s.map(o=>({nom:o.n, c:o.c||null, genre:o.p?'perso':'', halte:!!o.h, htype:o.ht||'', nuit:!!o.u, sejour:o.j||'', ville:o.v||'', tnote:o.k||'', desc:o.d||'', src:o.r||''})) };
+    renderRecord(rec, 'shared');
+  }
+  // ---------- Le passe (freemium « généreux ») ----------
+  function isPremium(){ try{ return window.THEPass ? THEPass.isActive() : (localStorage.getItem('the_premium')==='1'); }catch(e){ return false; } }
+  let _passOk=null;
+  function requirePass(feat, onOk){ if(isPremium()){ onOk(); return; }
+    var _live=window.THEPass && (THEPass.checkoutURL('semaine')||THEPass.checkoutURL('mois'));
+    if(!_live){ try{ localStorage.setItem('the_feat', feat); }catch(e){} location.href='premium.html'; return; }
+    _passOk=onOk;
+    document.getElementById('passTitle').textContent=feat;
+    document.getElementById('passWhy').textContent='« '+feat+uiT('itineraire.fait.partie.du.passe.pays');
+    document.getElementById('passModal').style.display='flex'; }
+  function closePass(){ document.getElementById('passModal').style.display='none'; }
+  function applyPremiumUI(){ if(isPremium()){ document.body.classList.add('is-premium'); if(typeof initPresets==='function') initPresets(); } }
+  document.getElementById('passX').onclick=closePass;
+  document.getElementById('passLater').onclick=closePass;
+  document.getElementById('passModal').onclick=e=>{ if(e.target.id==='passModal') closePass(); };
+  function buyPass(plan){
+    if(window.THEPass){ var r=THEPass.buy(plan); if(r==='checkout') return; }   // redirigé vers le paiement réel
+    else { try{ localStorage.setItem('the_premium','1'); }catch(e){} }            // secours si module absent
+    closePass(); applyPremiumUI(); const f=_passOk; _passOk=null; if(f) f();
+  }
+  document.getElementById('passWeek').onclick=()=>buyPass('semaine');
+  document.getElementById('passMonth').onclick=()=>buyPass('mois');
+  // masque la mention « démo » dès qu'un vrai lien de paiement est configuré
+  if(window.THEPass && (THEPass.checkoutURL('semaine')||THEPass.checkoutURL('mois'))){ var _dn=document.getElementById('passDemoNote'); if(_dn) _dn.style.display='none'; }
+  applyPremiumUI();
+
+  document.getElementById('sharebtn').onclick=()=>requirePass(uiT('itin.lien.partageable'), shareTrip);
+  function readMapPicks(){ try{ return JSON.parse(localStorage.getItem('the_picks')||'[]'); }catch(e){ return []; } }
+  function renderSaved(){
+    const box=document.getElementById('savedBox'), list=document.getElementById('savedList');
+    const arr=readSaved(), pk=readMapPicks(), cur=readCurrent();
+    const hasCur = cur && cur.steps && cur.steps.length;
+    if(!arr.length && !pk.length && !hasCur){ box.style.display='none'; return; }
+    box.style.display='';
+    let html='';
+    if(hasCur) html+='<div class="saved-row"><button class="saved-open" id="resumeCurrent">↩ '+uiT('itineraire.continuer.le.dernier.itineraire')+' <small>'+cur.steps.length+' '+uiT('itineraire.etapes')+' — '+uiT('itineraire.pensez.a.l.enregistrer')+'</small></button></div>';
+    if(pk.length) html+='<div class="saved-row"><button class="saved-open" id="picksCompose">'+uiT('itin.picks.compose',{n:pk.length})+'</button><button class="saved-del" id="picksClear" title="'+uiT('itin.vider')+'">🗑</button></div>';
+    html+=arr.map(r=>'<div class="saved-row"><button class="saved-open" data-id="'+r.id+'">💾 '+(r.title.replace(/</g,'&lt;'))+' <small>'+r.steps.length+' '+uiT('itineraire.etapes')+'</small></button><button class="saved-del" data-id="'+r.id+'" title="Supprimer">🗑</button></div>').join('');
+    list.innerHTML=html;
+    if(hasCur) document.getElementById('resumeCurrent').onclick=()=>renderRecord(cur);
+    if(pk.length){
+      document.getElementById('picksCompose').onclick=()=>loadPicks(pk.map(encodeURIComponent).join('|'));
+      document.getElementById('picksClear').onclick=()=>{ if(confirm(uiT('itineraire.vider.les.lieux.choisis.sur'))){ localStorage.removeItem('the_picks'); renderSaved(); } };
+    }
+    list.querySelectorAll('.saved-open[data-id]').forEach(b=>b.onclick=()=>resumeSaved(b.dataset.id));
+    list.querySelectorAll('.saved-del[data-id]').forEach(b=>b.onclick=()=>{ if(confirm(uiT('itineraire.supprimer.cet.itineraire.enregistre'))) deleteSaved(b.dataset.id); });
+  }
+  document.getElementById('savebtn').onclick=saveCurrent;   // gratuit : enregistrer/reprendre ses itinéraires
+
+  // ---------- rendu ----------
+  function servicesNote(s){
+    if(s.genre==='perso') return {txt:uiT('itineraire.lieu.que.vous.avez.ajoute'), iso:true};
+    if(s.genre==='nature') return {txt:uiT('itineraire.sortie.en.plein.air.pas'), iso:true};
+    if(norm(s.p.type)==='ville') return {txt:uiT('itineraire.localite.habitee.hebergement.et.restauration'), iso:false};
+    return {txt:uiT('itineraire.site.ou.monument.prevoyez.repas'), iso:true};
+  }
+  // Autorisations : seulement quand le lieu le justifie (parcs/réserves, désert, Sud frontalier)
+  function accesNote(s){
+    if(s.genre!=='nature') return null;
+    const t=norm(s.p.type)+' '+norm(s.p.categorie)+' '+norm(s.p.nom);
+    const sud=['tataouine','kebili','tozeur','medenine','gabes'].includes(norm(s.p.region));
+    const parts=[];
+    if(/parc|reserve|national/.test(t)) parts.push(uiT('itin.acces.parc'));
+    if(/desert|saharien|frontaliere/.test(t) || sud) parts.push(uiT('itin.acces.sud'));
+    if(!parts.length) return null;
+    return parts.join(' ; ')+uiT('itin.renseignez.vous.aupres.des.autorites');
+  }
+  // lien de recherche duiT('itin.hebergements.chambres.d')hôte / hôtels) — l'utilisateur choisit
+  function lodgingURL(s){ const c=(s.p&&s.p.acces_gps)?s.p.acces_gps:s.c; const term=s.ville||s.p.region||''; // recherche duiT('itin.hebergement.centree.sur.la.coordonnee')étape (pas sur un nom)
+    return 'https://www.google.com/maps/search/'+encodeURIComponent(("chambre d'hote hotel "+term).trim())+'/@'+c[1]+','+c[0]+',13z'; }
+  function srcHtml(src){
+    if(!src) return '';
+    const isUrl=/^https?:\/\//.test(src);
+    return '<div class="src">Source : '+(isUrl?'<a href="'+src+'" target="_blank" rel="noopener">'+src.replace(/^https?:\/\/(www\.)?/,'').slice(0,48)+'…</a>':src)+'</div>';
+  }
+
+  // bloc « À déguster ici » selon le région (thème Gastronomie)
+  function gastroBlock(gov){
+    if(!GASTRO) return '';
+    const r=(GASTRO.regions||{})[gov]||null, nat=GASTRO._national, juive=GASTRO._juive;
+    const isJ = false;
+    let lines=[];
+    if(r){
+      const it=[].concat(r.plats||[], (r.fruits||[]).map(f=>'🍊 '+f));
+      if(it.length) lines.push(it.slice(0,4).join(' · '));
+      if(r.festivals&&r.festivals.length) lines.push('🎉 '+r.festivals.map(f=>f.nom+' — '+f.periode).join(' · '));
+    }
+    if(isJ&&juive) lines.push('✡️ <b>'+juive.titre+'</b> : '+juive.plats.slice(0,2).join(' · '));
+    if(!lines.length && nat) lines.push((nat.plats||[]).slice(0,3).join(' · ')+' <span class="tag-ind">'+uiT('itin.tag.national')+'</span>');
+    const src=(r&&r.source)||(nat&&nat.source)||'';
+    return '<div class="kv food"><b>🍽️ '+uiT('itineraire.a.deguster')+(gov?' ('+gov+')':'')+' :</b> '+lines.join('<br>')+
+      '<div style="font-size:11px;color:var(--stone);font-style:italic;margin-top:3px">'+src+uiT('itin.a.verifier.sur.place');
+  }
+  // libellés de champs traduits (interface)
+  function LBL(key){
+    const K={avoir:'itin.lbl.avoir',conseil:'itin.lbl.conseil',horaires:'itin.lbl.horaires'};
+    if(!window.THEi18n || THEi18n.isFr()) return uiT(K[key])||key;
+    const M={ avoir:{en:'See:',it:'Da vedere:',de:'Sehenswert:',ar:'لمشاهدة:'},
+              conseil:{en:'Tip:',it:'Consiglio:',de:'Tipp:',ar:'نصيحة:'},
+              horaires:{en:'Hours:',it:'Orari:',de:'Öffnungszeiten:',ar:'المواعيد:'} };
+    return (M[key]&&M[key][THEi18n.lang()])||uiT(K[key])||key;
+  }
+  function render(origin, res){
+    const {route, theme, dur, per, forme, pepites, tour}=res;
+    LASTORIGIN=origin; LASTRES=res;
+    autosaveCurrent();   // garde l'itinéraire courant (récupérable au retour de la grande carte / après rechargement)
+    PHOTO_URLS.forEach(u=>URL.revokeObjectURL(u)); PHOTO_URLS=[];  // libère les aperçus du rendu précédent
+    document.getElementById('builder').style.display='none';
+    document.getElementById('result').style.display='block';
+    const rb=document.getElementById('restart');
+    rb.textContent = ENTRY==='picks' ? uiT('itineraire.retour.a.la.carte.choisir')
+                   : ENTRY==='tour'  ? uiT('itineraire.modifier.voir.d.autres.circuits')
+                   : ENTRY==='saved' ? uiT('itin.retour.a.la.composition')
+                   : uiT('itin.modifier.choix');
+    const rsum=document.getElementById('rsum');
+
+    if(!route.length){
+      rsum.innerHTML = res.mode==='libre'
+        ? uiT('itin.voyage.librepas.de.plan.avancez')
+        : uiT('itin.rien.trouve.pour.ces.criteresessayez');
+      document.getElementById('map').style.display='none';
+      document.getElementById('stops').innerHTML='';
+      window.scrollTo({top:0,behavior:'smooth'}); return;
+    }
+    document.getElementById('map').style.display='block';
+    // distance selon la forme du trajet (le retour fin sera affiné plus tard)
+    const oneway=route.reduce((t,s)=>t+s.fromPrev,0);
+    const backLeg=route.length?haversine(route[route.length-1].c, origin.coord):0;
+    let km, formeLbl;
+    if(forme==='boucle'){ km=Math.round(oneway+backLeg); formeLbl='itin.boucle.retour.au.depart'; }
+    else if(forme==='allerretour'){ km=Math.round(oneway*2); formeLbl='itin.aller.retour.meme.chemin'; }
+    else { km=Math.round(oneway); formeLbl='itin.aller.simple'; }
+    // plan réaliste en journées (sert au libellé durée ET au découpage des étapes)
+    const walking=per.radius<=9;
+    const plan=planDays(route, walking);
+    const durLabel = tour ? uiT(dur.lib) : ('≈ '+plan.dayCount+' '+uiT('itineraire.jour.2'+(plan.dayCount>1?'s':'')));
+    // en-tête visible seulement à l'impression / export PDF
+    document.getElementById('printhead').innerHTML=
+      uiT('itin.ehemon.itineraire.patrimonial.pays.heritage')+
+      new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+'</div>';
+    const hasNature=route.some(s=>s.genre==='nature');
+    rsum.innerHTML=(res.notice||'')+'<h2>'+(tour?'✨ '+tour.titre:(theme?theme.ic+' '+uiT(theme.label):uiT('itineraire.itineraire.libre')))+'</h2>'+
+      (tour&&tour.soustitre?'<div style="font-style:italic;color:var(--stone);margin:-2px 0 6px;font-size:14px">'+tour.soustitre+'</div>':'')+
+      '<div class="meta"><b>'+route.length+' '+uiT('itineraire.etapes')+'</b> · '+durLabel+' · '+uiT(per.lib)+
+      ' · '+uiT(formeLbl)+' · ~<b>'+km+' '+uiT('itineraire.km')+'</b> '+uiT('itineraire.depuis.2')+' '+uiT(origin.label)+uiT('itin.durees.indicatives')+
+      (res.island?'<div class="advis">🏝️ <b>'+uiT('itineraire.exploration.limitee.a')+' '+res.island+'</b> — '+uiT('itineraire.ile.pas.de.route.vers')+'</div>':'')+
+      (tour&&tour.note?uiT('itin.rythme.conseille')+tour.note+'</div>':'')+
+      (hasNature?'<div class="advis">'+uiT('itineraire.b.balades.nature.b.renseignez')+'</div>':'')+
+      '<details class="tnote"><summary>' + uiT('itineraire.se.deplacer') + '</summary><div>' + uiT('itineraire.preferez.le.train.et.les') + '</div></details>';
+
+    // carte
+    if(mapObj){ mapObj.remove(); mapObj=null; }
+    mapObj=L.map('map',{scrollWheelZoom:false});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap, &copy; CARTO'}).addTo(mapObj);
+    const latlngs=[];
+    route.forEach((s,i)=>{
+      const ll=[s.c[1],s.c[0]]; latlngs.push(ll);
+      const cls=s.genre==='nature'?'nat':'hist';
+      L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="num-pin '+cls+'">'+(i+1)+'</div>',iconSize:[26,26],iconAnchor:[13,13]})})
+        .addTo(mapObj).bindPopup('<b>'+(i+1)+'. '+s.p.nom+'</b><br>'+(s.p.region||''));
+    });
+    // marqueur de départ + tracé partant du départ ; boucle = on referme sur le départ
+    const oLL=[origin.coord[1], origin.coord[0]];
+    L.marker(oLL,{icon:L.divIcon({className:'',html:'<div class="num-pin dep">⌂</div>',iconSize:[26,26],iconAnchor:[13,13]})})
+      .addTo(mapObj).bindPopup(uiT('itin.depart.2')+origin.label);
+    let line=[oLL].concat(latlngs);
+    if(forme==='boucle') line=line.concat([oLL]);
+    L.polyline(line,{color:'#a8884f',weight:3,opacity:.8,dashArray:'6,6'}).addTo(mapObj);
+    mapObj.fitBounds(L.latLngBounds(line).pad(0.18));
+    setTimeout(()=>mapObj.invalidateSize(),200);
+
+    // étapes (avec « à voir en chemin » sur chaque tronçon)
+    const stops=document.getElementById('stops'); stops.innerHTML='';
+    const maxPerp = walking?2.5:11;                         // largeur du couloir (km)
+    const speed = walking?4.5:45, roadf = walking?1.2:1.3;  // marche vs route
+    const detMin = km => Math.max(1, Math.round(Math.max(0,km)*roadf/speed*60));
+    const routeNames = new Set(route.map(s=>norm(s.p.nom)));
+    const suggested = new Set();                            // ne pas répéter une pépite duiT('itin.un.troncon.a.l')autre
+    const pins = pepites||[];
+    let lastDay = 0;
+    route.forEach((s,i)=>{
+      // en-tête de journée (si l'itinéraire couvre plusieurs jours)
+      if(plan.dayCount>1 && s._day!==lastDay){
+        lastDay=s._day;
+        const dh=document.createElement('div'); dh.className='dayhdr';
+        dh.innerHTML=uiT('itineraire.jour')+' '+s._day+' <span>· ~'+fmtDur(plan.dayTotals[s._day])+' '+uiT('itineraire.sur.le.terrain')+' · ~'+Math.round(plan.dayKm[s._day])+' '+uiT('itineraire.km')+'</span>';
+        stops.appendChild(dh);
+      }
+      // pépites sur le tronçon (départ ou étape précédente) → cette étape
+      const A = i===0 ? origin.coord : route[i-1].c, dAB=haversine(A,s.c);
+      const pinned = pins.filter(pp=>pp.via===norm(s.p.nom) && !routeNames.has(norm(pp.s.p.nom)) && !suggested.has(norm(pp.s.p.nom)) && !REJECTED.has(norm(pp.s.p.nom)));
+      const exclude = new Set([...routeNames, ...suggested, ...REJECTED, ...pinned.map(pp=>norm(pp.s.p.nom))]);
+      // léger bonus aux points de vue (−3 km de détour effectif) pour qu'ils remontent
+      const auto = legSuggestions(A, s.c, exclude).filter(x=>x.perp<=maxPerp)
+        .sort((a,b)=>(a.detour-(isViewpoint(a.s.p)?3:0))-(b.detour-(isViewpoint(b.s.p)?3:0)));
+      const items=[], CAP=4;
+      pinned.forEach(pp=>{ items.push({s:pp.s, detour:haversine(A,pp.s.c)+haversine(pp.s.c,s.c)-dAB, note:pp.note, pin:true}); suggested.add(norm(pp.s.p.nom)); });
+      let addedAuto=0;
+      for(const x of auto){ if(items.length>=CAP) break; items.push({s:x.s, detour:x.detour, pin:false}); suggested.add(norm(x.s.p.nom)); addedAuto++; }
+      const moreAuto=auto.length-addedAuto;
+      if(items.length){
+        const ec=document.createElement('div'); ec.className='enchemin';
+        ec.innerHTML='<div class="ec-h">🛣️ '+uiT('itineraire.a.voir.en.chemin.vers')+' '+s.p.nom+'</div>'+
+          items.map((it,k)=>{ const ip=it.s.p;
+            return '<div class="ec-item" data-k="'+k+'" role="button" tabindex="0"><div class="ec-main">'+
+              '<div class="ec-nm">'+ip.nom+(it.pin?uiT('itin.epingle'):'')+(isViewpoint(ip)?'<span class="ec-vp">'+uiT('itin.belle.vue')+'</span>':'')+'</div>'+
+              '<div class="ec-meta">'+[ip.region,trCat(ip.type),trCat(ip.epoque)].filter(Boolean).join(' · ')+uiT('itin.detour')+detMin(it.detour)+' min</div>'+
+              (it.note?'<div class="ec-note">'+it.note+'</div>':(ip.a_voir?'<div class="ec-note">'+ip.a_voir+'</div>':''))+
+              uiT('itin.details');
+          }).join('')+
+          uiT('itin.touchez.un.lieu.pour.voir')+(moreAuto>0?' <b>+'+moreAuto+'</b> '+uiT('itineraire.lieu.x.pres.de.ce')+'.':'')+'</div>';
+        ec.querySelectorAll('.ec-item').forEach(b=>{
+          const it=items[+b.dataset.k];
+          const payload={ s:it.s, detourMin:detMin(it.detour), note:it.note||'', pin:!!it.pin, vp:isViewpoint(it.s.p), ctx:s.p.nom };
+          const go=()=>openDetour(payload);
+          b.onclick=go;
+          b.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } };
+        });
+        stops.appendChild(ec);
+      }
+      const p=s.p, svc=servicesNote(s), nat=s.genre==='nature', acc=accesNote(s);
+      const foodHtml = (res && res.food && !s.halte) ? gastroBlock(p.region) : '';
+      const tr = (window.THEi18n && !s.halte && s.genre!=='perso') ? THEi18n.site(p.nom) : null;
+      
+      const desc=((tr&&tr.d) || p.description || '').trim();
+      const Lav=(tr&&tr.a)||p.a_voir||'', Lcons=(tr&&tr.c)||p.conseil||'', Lhor=(tr&&tr.h)||p.horaires||'';
+      const Llg=(tr&&tr.leg)||p.legende||'', Lan=(tr&&tr.an)||p.anecdote||'';
+      const tag = s.halte ? '📍 Halte · '+halteLabel(s.htype) : (s.genre==='perso' ? uiT('itin.ajoute.par.vous') : (trCat(p.epoque) || [p.categorie,trCat(p.type)].filter(Boolean).join(' · ')));
+      const sleeps = s.nuit || s._sleep;
+      const nightHtml = sleeps
+        ? '<div class="nuit">🛏 <b>'+(s.nuit&&s.sejour?uiT('itin.etape.nuit',{s:s.sejour}):uiT('itin.nuit.sur.place.conseillee'))+'</b>'+((s.nuit&&s.tnote)?'<div class="nuit-note">'+s.tnote+'</div>':'')+'<a class="lodging" target="_blank" rel="noopener" href="'+lodgingURL(s)+uiT('itin.voir.des.hebergements.chambres.d')
+        : (s.tnote?'<div class="tnote">📝 '+s.tnote+'</div>':'');
+      const el=document.createElement('div'); el.className='stop'+(nat?' nat':'')+(s.genre==='perso'?' perso':'')+(s.halte?' halte':'');
+      el.innerHTML=
+        '<div class="head"><div class="idx">'+(VU.has(norm(p.nom))?'✓':(i+1))+'</div><div>'+
+          '<div class="nm">'+p.nom+(VU.has(norm(p.nom))?' <span class="vu-badge">✓ vu</span>':'')+'</div>'+
+          '<div class="sub">'+(p.region||'')+' · '+trCat(p.type||'')+(i>0?' · '+uiT('itineraire.a')+' ~'+Math.round(s.fromPrev)+' '+uiT('itineraire.km')+' '+uiT('itineraire.de.l.etape.precedente'):'')+'</div>'+
+          (tag?'<span class="badge'+(s.halte?' halte-badge':'')+'">'+tag+'</span>':'')+
+        uiT('itin.x')+
+        '<div class="times">'+(walking?'🚶':'🚗')+' '+uiT('itineraire.trajet')+' ~'+fmtDur(s._tv)+' · 🕒 '+uiT('itineraire.sur.place.2')+' : '+visSelectHtml(s)+'</div>'+
+        nightHtml+
+        (desc?'<p>'+ (desc.length>320?desc.slice(0,320)+'…':desc) +'</p>'+(window.THEFicheAudio&&s.genre!=='perso'&&!s.halte&&p.vkey?THEFicheAudio.html(p.vkey,uiT('index.ecouter.ce.lieu')):''):'')+
+        (Lav?'<div class="kv"><b>'+LBL('avoir')+'</b> '+Lav+'</div>':'')+
+        (Lcons?'<div class="kv"><b>'+LBL('conseil')+'</b> '+Lcons+'</div>':'')+
+        (Lhor?'<div class="kv"><b>'+LBL('horaires')+'</b> '+Lhor+'</div>':'')+
+        (Llg?(isPremium()?uiT('itin.legende')+Llg+' <span style="font-size:11px;color:#8a7c9a;font-style:italic">(folklore · tradition)</span></div>':'<a href="premium.html" class="kv" style="display:block;background:#f3eefb;border-left:3px solid #8a6fb0;padding:7px 10px;border-radius:6px;margin-top:6px;text-decoration:none;color:inherit">🐉 <b>'+uiT('itin.lbl.legende')+'</b> — '+String(Llg).replace(/<[^>]*>/g,'').slice(0,55).trim()+'… <span style="color:#8a6fb0;font-weight:700;white-space:nowrap">'+uiT('itin.premium')+'</span></a>'):'')+
+        (Lan?(isPremium()?uiT('itin.le.detail')+Lan+'</div>':'<a href="premium.html" class="kv" style="display:block;background:#eef6f0;border-left:3px solid #6f9c7a;padding:7px 10px;border-radius:6px;margin-top:6px;text-decoration:none;color:inherit">👁️ <b>'+uiT('itin.lbl.detail')+'</b> — '+String(Lan).replace(/<[^>]*>/g,'').slice(0,45).trim()+'… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">'+uiT('itin.premium')+'</span></a>'):'')+
+        (p.acces_note?uiT('itin.acces.gps')+p.acces_note+'</div>':'')+
+        '<div class="svc'+(svc.iso?' iso':'')+'">'+(nat?'🥾 ':(svc.iso?'⚑ ':'🛏️ '))+svc.txt+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>'+
+        (acc?uiT('itin.acces.reglemente')+acc+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>':'')+
+        foodHtml+
+        srcHtml(p.source)+
+        '<div class="the-carnet" data-place="'+placeKey(s)+'" data-nom="'+String(p.nom||'').replace(/"/g,'&quot;')+'" data-ville="'+String(p.region||'').replace(/"/g,'&quot;')+'" data-lat="'+s.c[1]+'" data-lng="'+s.c[0]+'"></div>';
+      stops.appendChild(el);
+      const rmBtn=el.querySelector('.rm-step'); if(rmBtn) rmBtn.onclick=()=>removeStep(i);
+
+      
+    });
+    updateCarnetTotal();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // ---------- actions ----------
+  function run(randomize){
+    ENTRY='funnel';
+    if(randomize){
+      // 🎲 Surprenez-moi : on ne garde que le DÉPART + la DURÉE choisis,
+      // et on tire le reste au hasard (périmètre, forme, thème). Genre = « un peu de tout » (évite un résultat vide).
+      const rnd=sel=>{ sel.selectedIndex=Math.floor(Math.random()*sel.options.length); };
+      document.getElementById('perimetre').value='region';   // #5 : surprise limitée à la RÉGION de départ (pas « tout le pays » → évite le débordement, ex. Açores + continent)
+      rnd(document.getElementById('forme'));
+      document.getElementById('genre').value='all';
+      const viable=THEMES.filter(themeViable);
+      selectedThemes=new Set([viable[Math.floor(Math.random()*viable.length)].id]);
+      [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id)));
+    }
+    const genreFilter=document.getElementById('genre').value;
+    const dureeKey=document.getElementById('duree').value;
+    const perimKey=document.getElementById('perimetre').value;
+    const forme=document.getElementById('forme').value;
+    const themeIds=[...selectedThemes];
+    resolveOrigin(randomize).then(origin=>{           // silencieux en mode surprise
+      if(!origin){
+        if(!randomize) return;
+        // surprise sans position GPS → on tire une région de départ au hasard (au lieu de bloquer)
+        const govs=Object.keys(GOUV); const g=govs[Math.floor(Math.random()*govs.length)];
+        origin={coord:(CHEFS[g]&&CHEFS[g].c)||GOUV[g], label:(CHEFS[g]?CHEFS[g].ville:g)};
+        document.getElementById('origin').value='g:'+g;
+      }
+      let res=buildItinerary(origin, themeIds, genreFilter, dureeKey, perimKey, forme);
+      // 🛟 filet + transparence : si vide, on élargit ET on dit ce qui a coincé (périmètre ? thème ?)
+      let _notice='';
+      if((!res.route||!res.route.length) && perimKey!==CPKEY){
+        const r2=buildItinerary(origin, themeIds, genreFilter, dureeKey, CPKEY, forme);
+        if(r2.route&&r2.route.length){ res=r2; document.getElementById('perimetre').value=CPKEY;
+          _notice=uiT('itineraire.aucun.resultat.dans.le.perimetre'); }
+      }
+      if(!res.route||!res.route.length){
+        const r3=buildItinerary(origin, [], 'all', dureeKey, CPKEY, forme);
+        if(r3.route&&r3.route.length){ res=r3; document.getElementById('perimetre').value=CPKEY; document.getElementById('genre').value='all';
+          const _t=THEMES.find(t=>t.id===themeIds[0]);
+          _notice=(_t?('« '+uiT(_t.label)+' » — '):'')+uiT('itineraire.rien.dans.cette.zone.parcours'); }
+      }
+      if(_notice) res.notice='<div style="background:#fff8e6;border:1px solid #e5c869;border-radius:6px;padding:9px 12px;margin-bottom:12px;font-size:14px;color:#7a5c00;line-height:1.4">🛈 '+_notice+'</div>';
+      if(randomize && (!res.route || !res.route.length)){
+        // garantir un résultat : on élargit (tout le pays, tout genre, autre thème) jusqu'à trouver
+        const viable=THEMES.filter(themeViable);
+        for(let tries=0; tries<8 && (!res.route || !res.route.length); tries++){
+          const th=viable[Math.floor(Math.random()*viable.length)].id;
+          res=buildItinerary(origin, [th], 'all', dureeKey, CPKEY, forme);
+          if(res.route && res.route.length){ selectedThemes=new Set([th]);
+            [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id)));
+            document.getElementById('perimetre').value=CPKEY; document.getElementById('genre').value='all'; }
+        }
+      }
+      render(origin, res);
+    });
+  }
+  // ---------- ajout d'un lieu non proposé ----------
+  async function addPlace(){
+    const inp=document.getElementById('addinput'), msg=document.getElementById('addmsg');
+    const q=(inp.value||'').trim();
+    if(!LASTRES) return;
+    if(q.length<3){ msg.textContent=uiT('itin.tapez.3.lettres'); return; }
+    if(LASTRES.route.some(s=>norm(s.p.nom)===norm(q))){ msg.textContent=uiT('itineraire.ce.lieu.est.deja.dans'); return; }
+    msg.textContent=uiT('itin.recherche.encours');
+    const nq=norm(q);
+    let stop=null;
+    // 1) d'abord dans nos lieux sourcés
+    const found=SITES.filter(s=>norm(s.p.nom).includes(nq)||nq.includes(norm(s.p.nom)));
+    if(found.length){
+      found.sort((a,b)=>haversine(LASTORIGIN.coord,a.c)-haversine(LASTORIGIN.coord,b.c));
+      stop={...found[0]};
+    } else {
+      // 2) sinon géocodage par le nom (OpenStreetMap) — orthographe à respecter
+      try{
+        const _iso=(window.HConf&&HConf.iso)||'';
+        const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=fr&countrycodes='+_iso+'&q='+encodeURIComponent(q));
+        const j=await r.json();
+        if(!j.length){ msg.textContent=uiT('itineraire.lieu.introuvable.verifiez.l.orthographe'); return; }
+        stop={ c:[parseFloat(j[0].lon),parseFloat(j[0].lat)], layer:'perso', genre:'perso',
+               p:{nom:q, type:uiT('itin.ajout.perso'), région:'', description:'', source:uiT('itin.position.openstreetmap.lieu.ajoute.par')} };
+      }catch(e){ msg.textContent=uiT('itineraire.localisation.impossible.verifiez.la.connexion'); return; }
+    }
+    if(LASTRES.route.some(s=>norm(s.p.nom)===norm(stop.p.nom))){ msg.textContent=uiT('itineraire.ce.lieu.est.deja.dans'); return; }
+    const items=LASTRES.route.concat([stop]).map(s=>({...s}));
+    const newRoute=nearestOrder(LASTORIGIN.coord, items, null);
+    inp.value='';
+    render(LASTORIGIN, {...LASTRES, route:newRoute});
+    document.getElementById('addmsg').textContent='« '+stop.p.nom+uiT('itineraire.ajoute.et.replace.selon.sa');
+  }
+
+  // ---------- « Marche à suivre » : petit bandeau d'aide contextuel ----------
+  function showGuide(msg, ms){
+    let t=document.getElementById('the-guide');
+    if(!t){ t=document.createElement('div'); t.id='the-guide'; t.className='the-guide'; t.onclick=()=>t.classList.remove('show'); document.body.appendChild(t); }
+    t.innerHTML=msg+' <span style="opacity:.6;font-size:12px">'+uiT('itineraire.toucher.pour.fermer')+'</span>'; t.classList.add('show');
+    clearTimeout(showGuide._t); showGuide._t=setTimeout(()=>t.classList.remove('show'), ms||7000);
+  }
+  document.getElementById('generate').onclick=()=>run(false);
+  document.getElementById('mSurprise').onclick=()=>{ showGuide('🎲 '+uiT('itineraire.on.vous.compose.un.itineraire')+' <b>'+uiT('itineraire.surprise')+'</b>…'); run(true); };
+  document.getElementById('mGo').onclick=()=>{ const c=document.getElementById('critStart'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'}); showGuide(uiT('itin.reglez.vos.criteres.depart.duree')); };
+  // ---------- Voyage libre : pas de plan, on capture au fil de la route ----------
+  function startLibre(){
+    ENTRY='libre';
+    render({coord:[-8.0,53.4], label:'itin.ma.position'},
+      { route:[], theme:{ic:'🆓',label:'itin.theme.voyage.libre'}, dur:{max:99,lib:'choix.dur'}, per:{radius:99999,lib:'choix.per'},
+        forme:'oneway', pepites:[], mode:'libre', tour:{titre:uiT('itin.voyage.libre.titre'), soustitre:uiT('itin.voyage.libre.sous')} });
+    showGuide(uiT('itin.voyage.libre.lance.deplacez.vous'), 9000);
+    // on cale l'origine sur la position réelle si dispo (pour ordonner les haltes autour de soi)
+    if(navigator.geolocation) navigator.geolocation.getCurrentPosition(
+      p=>{ if(LASTRES&&LASTRES.mode==='libre') LASTORIGIN={coord:[p.coords.longitude,p.coords.latitude],label:'itin.ma.position'}; },()=>{},
+      {enableHighAccuracy:true,timeout:8000,maximumAge:120000});
+  }
+  document.getElementById('mLibre').onclick=startLibre;
+  // ---------- album souvenir (I6) ----------
+  let ALBUM_URLS=[];           // object URLs de l'album, révoqués entre deux rendus
+  let albumTemplate='baroudeur';
+  const slug = s => norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+  function shareText(){
+    if(!LASTRES) return '';
+    const {route,theme}=LASTRES;
+    const head=(theme?theme.ic+' '+uiT(theme.label):uiT('itin.mon.itineraire'))+' — '+uiT('pays.nom');
+    const lines=route.map((s,i)=>(i+1)+'. '+s.p.nom+(s.p.region?' ('+s.p.region+')':''));
+    return head+'\n'+lines.join('\n')+uiT('itin.n.ncompose.avec.pays.heritage');
+  }
+
+  async function renderAlbum(){
+    ALBUM_URLS.forEach(u=>URL.revokeObjectURL(u)); ALBUM_URLS=[];
+    const doc=document.getElementById('albumdoc');
+    if(!LASTRES || !LASTRES.route.length){ doc.innerHTML='<div class="album-cover"><h2>'+uiT('itineraire.aucun.itineraire')+'</h2></div>'; return; }
+    document.body.classList.remove('tpl-baroudeur','tpl-passeport','tpl-depliant');
+    document.body.classList.add('tpl-'+albumTemplate);
+    [...document.querySelectorAll('.album-bar .tpl')].forEach(c=>c.classList.toggle('on',c.dataset.tpl===albumTemplate));
+    const {route,theme}=LASTRES;
+    const isDep = albumTemplate==='depliant';
+    const km=Math.round(route.reduce((t,s)=>t+s.fromPrev,0));
+    const dateStr=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    const coverHtml='<div class="album-cover"><div class="ac-brand">'+(((window.HConf&&HConf.marque)||'Heritage Experience').toUpperCase())+'</div>'+
+      '<h2>'+(theme?theme.ic+' '+uiT(theme.label):uiT('itin.mon.itineraire'))+'</h2>'+
+      '<div class="ac-meta">'+route.length+' '+uiT('itineraire.etapes')+' · ~'+km+' '+uiT('itineraire.km')+' · '+dateStr+'</div>'+
+      (isDep?uiT('itin.carnet.de.route.depliez.le'):'')+'</div>';
+    if(isDep){ doc.innerHTML='<div class="depliant-strip" id="depStrip">'+coverHtml+'</div>'; }
+    else if(albumTemplate==='passeport'){ doc.innerHTML=coverHtml+'<div class="pp-book" id="ppBook"></div>'; }
+    else { doc.innerHTML=coverHtml; }
+    const container = isDep ? document.getElementById('depStrip') : (albumTemplate==='passeport' ? document.getElementById('ppBook') : doc);
+    const PP_WM=[
+      '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M50 92 Q47 62 51 44"/><path d="M51 44 Q32 34 18 40"/><path d="M51 44 Q70 34 84 40"/><path d="M51 44 Q36 24 26 14"/><path d="M51 44 Q66 24 78 16"/><path d="M51 44 Q51 24 51 10"/></svg>',
+      '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 86 V64 M34 86 V60 M70 86 V62 M86 86 V64"/><path d="M18 64 Q22 44 42 46 Q50 30 60 46 Q66 44 70 50 Q74 44 80 46 Q92 48 90 66"/><path d="M90 60 Q98 52 96 40 Q95 32 102 30 Q108 30 107 37"/></svg>',
+      '<svg viewBox="0 0 120 100" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M24 86 V62 M40 86 V60 M74 86 V60 M88 86 V62"/><path d="M24 62 Q26 44 46 46 Q70 44 88 50 V62"/><path d="M88 50 Q99 46 101 33 Q102 25 96 21 Q104 23 105 30"/></svg>',
+      '<svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 72 h108" stroke-dasharray="3 6"/><path d="M12 54 h96"/><path d="M20 54 Q22 34 42 34 h28 Q84 34 96 54"/><path d="M42 34 V52 M70 34 V52"/><circle cx="36" cy="56" r="9"/><circle cx="92" cy="56" r="9"/></svg>',
+      '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M28 90 V44 h44 V90"/><path d="M28 44 v-6 h6 v6 m6 0 v-6 h6 v6 m6 0 v-6 h6 v6 m6 0 v-6 h6 v6"/><path d="M44 90 V66 q6 -10 12 0 V90"/></svg>',
+      '<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M50 8 V18 M42 22 h16 l6 8 v34 l-6 8 h-16 l-6 -8 V30 z"/><path d="M50 72 v10 M44 40 h12 M44 52 h12"/></svg>',
+      '<svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="60" cy="30" r="12"/><path d="M4 58 Q30 44 56 56 T118 54"/><path d="M4 70 Q34 60 60 70 T118 68"/></svg>'
+    ];
+    for(let i=0;i<route.length;i++){
+      const s=route[i], p=s.p, key=placeKey(s);
+      let photos=[]; try{ photos=await photosFor(key); }catch(e){}
+      photos.sort((a,b)=>a.ts-b.ts);
+      const cap=(localStorage.getItem('the-cap:'+key)||'').replace(/</g,'&lt;');
+      let el;
+      if(isDep){
+        // panneau « dépliant » : étape reliée le long du trajet + où & quand
+        let thumbs=''; photos.forEach(ph=>{ const url=URL.createObjectURL(ph.blob); ALBUM_URLS.push(url);
+          thumbs += (ph.blob.type||'').startsWith('video')
+            ? '<video class="dep-th" src="'+url+'" muted playsinline></video>'
+            : '<img class="dep-th" src="'+url+'" alt="">'; });
+        const when = photos.length ? new Date(photos[0].ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
+        const hasSnd = photos.some(ph=>ph.audio);
+        el=document.createElement('div'); el.className='dep-panel';
+        el.innerHTML=
+          (i>0?'<div class="dep-connect"><span class="dep-km">~'+Math.round(s.fromPrev)+' km</span></div>':uiT('itin.depart.3'))+
+          '<div class="dep-card">'+
+            '<div class="dep-no">'+(i+1)+'</div>'+
+            '<div class="dep-nm">'+p.nom+'</div>'+
+            '<div class="dep-sub">'+(p.region||'')+(trCat(p.epoque)?' · '+trCat(p.epoque):'')+'</div>'+
+            (when?'<div class="dep-when">📅 '+when+(hasSnd?' · 🔊':'')+'</div>':'')+
+            (thumbs?'<div class="dep-photos">'+thumbs+'</div>':'<div class="album-empty">'+uiT('itin.album.vide')+'</div>')+
+            uiT('itin.x.2')+cap+'</textarea>'+
+          '</div>';
+      } else if(albumTemplate==='passeport'){
+        let mainTag='', extraTags='', audioTags='';
+        photos.slice(0,2).forEach((ph,idx)=>{ const url=URL.createObjectURL(ph.blob); ALBUM_URLS.push(url);
+          const isVid=(ph.blob.type||'').startsWith('video'); const cls=idx===0?'pp-photo':'pp-photo2';
+          const tag=isVid?'<video class="'+cls+'" src="'+url+'" controls playsinline></video>':'<img class="'+cls+'" src="'+url+'" alt="">';
+          if(idx===0) mainTag=tag; else extraTags+=tag;
+          if(ph.audio){ const aurl=URL.createObjectURL(ph.audio); ALBUM_URLS.push(aurl); audioTags+='<audio controls src="'+aurl+'"></audio>'; }
+        });
+        const place=(p.region||uiT('pays.nom'));
+        const vdate=photos.length?new Date(photos[0].ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}):dateStr;
+        el=document.createElement('div'); el.className='pp-page';
+        el.innerHTML=
+          '<div class="pp-wm">'+PP_WM[i%PP_WM.length]+'</div>'+
+          uiT('itin.visite')+place+'<br>'+uiT('itin.le.date',{date:vdate})+'</div>'+
+          '<p class="pp-nm">'+p.nom+'</p>'+
+          '<div class="pp-sub">'+place+(trCat(p.epoque)?' · '+trCat(p.epoque):'')+'</div>'+
+          (mainTag||uiT('itin.pas.de.photo.ici.ajoutez'))+
+          (extraTags?'<div class="pp-media">'+extraTags+'</div>':'')+
+          (audioTags?'<div class="pp-media">'+audioTags+'</div>':'')+
+          '<textarea class="pp-note album-cap" placeholder="'+uiT('album.pp.souvenir')+'">'+cap+'</textarea>'+
+          '<div class="pp-no">'+uiT('pays.nom.maj')+' · '+String(i+1).padStart(2,'0')+'</div>';
+      } else {
+        let pics='';
+        photos.forEach(ph=>{ const url=URL.createObjectURL(ph.blob); ALBUM_URLS.push(url);
+          let inner=(ph.blob.type||'').startsWith('video')
+            ?'<video src="'+url+'" controls playsinline></video>'
+            :'<img src="'+url+'" alt="'+uiT('itin.alt.photo',{name:p.nom.replace(/"/g,'')})+'">';
+          if(ph.caption) inner+='<div class="pic-cap">'+ph.caption.replace(/</g,'&lt;')+'</div>';
+          if(ph.audio){ const aurl=URL.createObjectURL(ph.audio); ALBUM_URLS.push(aurl); inner+='<audio controls src="'+aurl+'"></audio>'; }
+          pics+='<div class="pic">'+inner+'</div>'; });
+        el=document.createElement('div'); el.className='album-page';
+        el.innerHTML=
+          '<p class="pg-nm">'+(i+1)+'. '+p.nom+'</p>'+
+          '<div class="pg-sub">'+(p.region||'')+(trCat(p.epoque)?' · '+trCat(p.epoque):'')+'</div>'+
+          '<textarea class="album-cap" data-i18n-placeholder="ph.ecrivez.mot">'+cap+'</textarea>'+
+          (pics?'<div class="album-ph">'+pics+'</div>':uiT('itin.pas.de.photo.ici.revenez'));
+      }
+      container.appendChild(el);
+      const ta=el.querySelector('.album-cap');
+      if(ta) ta.addEventListener('input',()=>localStorage.setItem('the-cap:'+key, ta.value));
+    }
+  }
+  function openAlbum(){
+    document.getElementById('result').style.display='none';
+    document.getElementById('sharepanel').style.display='none';
+    document.getElementById('album').style.display='block';
+    renderAlbum();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function closeAlbum(){
+    document.body.classList.remove('tpl-baroudeur','tpl-passeport');
+    document.getElementById('album').style.display='none';
+    document.getElementById('result').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // ---------- partage (au choix de l'utilisateur, local-first) ----------
+  function shareWhatsApp(){ window.open('https://wa.me/?text='+encodeURIComponent(shareText()),'_blank'); }
+  function shareEmail(){ location.href='mailto:?subject='+encodeURIComponent(uiT('itin.mon.itineraire.en.pays.pays'))+'&body='+encodeURIComponent(shareText()); }
+  let SHARE_FILES=[];
+  function buildShareFiles(){            // pré-charge les photos AVANT le clic (le geste iOS doit rester intact au moment du partage)
+    SHARE_FILES=[];
+    if(!navigator.canShare || !LASTRES) return;
+    LASTRES.route.forEach(s=>{
+      photosFor(placeKey(s)).then(ph=>{
+        ph.forEach((x,k)=>SHARE_FILES.push(new File([x.blob],'the-'+slug(s.p.nom)+'-'+(k+1)+'.jpg',{type:x.blob.type||'image/jpeg'})));
+      }).catch(()=>{});
+    });
+  }
+  function shareNative(){                // SYNCHRONE : navigator.share appelé dans le geste utilisateur (sinon iOS refuse)
+    if(!navigator.share){ alert(uiT('itineraire.le.partage.direct.n.est')); return; }
+    const data={title:uiT('itin.mon.itineraire.pays.heritage'), text:shareText()};
+    if(SHARE_FILES.length && navigator.canShare && navigator.canShare({files:SHARE_FILES})) data.files=SHARE_FILES;
+    navigator.share(data).catch(()=>{});
+  }
+  function publishOptin(){
+    alert(uiT('itineraire.publier.sur.le.site.pays'));
+  }
+
+  document.getElementById('printbtn').onclick=()=>{
+    if(mapObj) mapObj.invalidateSize();          // la carte se recadre avant luiT('itin.apercu.d')impression
+    setTimeout(()=>window.print(),350);
+  };
+  // ---------- I7 : ouvrir la grande carte restreinte à cet itinéraire ----------
+  function openOnMap(){
+    if(!LASTRES || !LASTRES.route.length) return;
+    autosaveCurrent();
+    try{ sessionStorage.setItem('the_return','1'); }catch(e){}   // pour restaurer l'itinéraire au retour
+    // les lieux sourcés existent dans index.html ; on exclut les ajouts perso (géocodés, hors données)
+    const names=LASTRES.route.filter(s=>s.genre!=='perso').map(s=>encodeURIComponent(s.p.nom));
+    location.href = names.length ? 'index.html?route='+names.join('|') : 'index.html';
+  }
+  document.getElementById('mapbtn').onclick=openOnMap;
+
+  // ---------- Export Google Maps (navigation GPS pas-à-pas) ----------
+  // Pour les lieux sourcés on passe le NOM (Google route vers son point officiel = entrée/parking),
+  // pas la coordonnée brute (souvent au centre des ruines). Coordonnée seulement pour la position GPS
+  // et les ajouts perso (qui n'ont qu'une coordonnée).
+  function openInGoogleMaps(){
+    if(!LASTRES || !LASTRES.route.length) return;
+    const coordLL = c => c[1]+','+c[0];                       // [lon,lat] interne -> "lat,lng" Google
+    // TOUJOURS des coordonnées GPS (Google retrouve certains lieux par leur nom, mais pas tous).
+    // On privilégie le point d'accès voiture quand il est connu, sinon la position du site.
+    const token = s => coordLL((s.p && s.p.acces_gps) ? s.p.acces_gps : s.c);
+    const stops = LASTRES.route.slice();
+    const forme = LASTRES.forme || 'oneway';
+    const origin = (LASTORIGIN && LASTORIGIN.coord) ? coordLL(LASTORIGIN.coord) : token(stops[0]);
+    let dest, mids;
+    if(forme==='boucle' && LASTORIGIN && LASTORIGIN.coord){ dest = origin; mids = stops.map(token); }  // retour au départ
+    else { dest = token(stops[stops.length-1]); mids = stops.slice(0,-1).map(token); }                 // dernière étape = destination
+    const LIMIT = 9;                                          // Google Maps : ~9 points intermédiaires via URL
+    let capped = false;
+    if(mids.length > LIMIT){ mids = mids.slice(0, LIMIT); capped = true; }
+    const url = 'https://www.google.com/maps/dir/?api=1'
+      + '&origin=' + encodeURIComponent(origin)
+      + '&destination=' + encodeURIComponent(dest)
+      + (mids.length ? '&waypoints=' + encodeURIComponent(mids.join('|')) : '')
+      + '&travelmode=driving';
+    if(capped) alert(uiT('itineraire.google.maps.limite.un.trajet')+(LIMIT+1)+uiT('itineraire.premiers.pour.un.long.circuit'));
+    window.open(url, '_blank', 'noopener');
+  }
+  // données communes de navigation (coordonnées dans l'ordre du parcours)
+  function navData(){
+    if(!LASTRES || !LASTRES.route.length) return null;
+    const coordLL = c => c[1]+','+c[0];                          // [lon,lat] -> "lat,lng"
+    const accessOf = s => (s.p && s.p.acces_gps) ? s.p.acces_gps : s.c;  // point d'accès voiture si connu
+    const origin = (LASTORIGIN && LASTORIGIN.coord) ? LASTORIGIN.coord : accessOf(LASTRES.route[0]);
+    const stops = LASTRES.route.map(accessOf);
+    return { coordLL, origin, stops, forme: LASTRES.forme||'oneway' };
+  }
+  function openInOSM(){
+    const d=navData(); if(!d) return;
+    const pts=[d.origin, ...d.stops]; if(d.forme==='boucle') pts.push(d.origin);
+    const route=pts.map(d.coordLL).join(';');
+    window.open('https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route='+encodeURIComponent(route), '_blank', 'noopener');
+  }
+  function openInApple(){
+    const d=navData(); if(!d) return;
+    const dest=[...d.stops]; if(d.forme==='boucle') dest.push(d.origin);
+    const daddr=dest.map(d.coordLL).join(' to:');                // chaînage multi-arrêts d'Apple Plans
+    window.open('https://maps.apple.com/?saddr='+encodeURIComponent(d.coordLL(d.origin))+'&daddr='+encodeURIComponent(daddr)+'&dirflg=d', '_blank', 'noopener');
+  }
+  function openInWaze(){
+    const d=navData(); if(!d) return;
+    const first=d.stops[0]||d.origin;                            // Waze = une seule destination
+    window.open('https://waze.com/ul?ll='+encodeURIComponent(d.coordLL(first))+'&navigate=yes', '_blank', 'noopener');
+  }
+  function downloadGPX(){
+    if(!LASTRES || !LASTRES.route.length) return;
+    const xe=s=>(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const name=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:(uiT('itineraire.mon.itineraire')+' — '+((window.HConf&&HConf.marqueCourte)||'Heritage'));
+    const wpts=LASTRES.route.map(s=>{ const p=s.p, [lon,lat]=s.c;
+      return '  <wpt lat="'+lat+'" lon="'+lon+'"><name>'+xe(p.nom)+'</name>'+(p.region||p.type?'<desc>'+xe([p.region,p.type,p.epoque].filter(Boolean).join(' · '))+'</desc>':'')+'</wpt>'; }).join('\n');
+    const rtepts=LASTRES.route.map(s=>{ const [lon,lat]=s.c; return '    <rtept lat="'+lat+'" lon="'+lon+'"><name>'+xe(s.p.nom)+'</name></rtept>'; }).join('\n');
+    const _mk=(window.HConf&&HConf.marque)||'Heritage Experience';
+    const gpx='<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="'+_mk+'" xmlns="http://www.topografix.com/GPX/1/1">\n  <metadata><name>'+xe(name)+'</name></metadata>\n'+wpts+'\n  <rte><name>'+xe(name)+'</name>\n'+rtepts+'\n  </rte>\n</gpx>\n';
+    const blob=new Blob([gpx],{type:'application/gpx+xml'});
+    const url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download=(name.replace(/[^\w\-]+/g,'-').replace(/^-+|-+$/g,'')||'itineraire')+'.gpx';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),2000);
+  }
+  // bouton « Naviguer » → menu de choix
+  function openNav(){ if(!LASTRES || !LASTRES.route.length) return; document.getElementById('navModal').style.display='flex'; }
+  function closeNav(){ document.getElementById('navModal').style.display='none'; }
+  document.getElementById('gmapsbtn').onclick=openNav;
+  document.getElementById('navX').onclick=closeNav;
+  document.getElementById('navModal').onclick=e=>{ if(e.target.id==='navModal') closeNav(); };
+  document.querySelectorAll('.nav-opt').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.nav; closeNav();
+    if(k==='google') openInGoogleMaps();
+    else if(k==='osm') openInOSM();
+    else if(k==='apple') openInApple();
+    else if(k==='waze') openInWaze();
+    else if(k==='gpx') downloadGPX();
+  });
+
+  // ---------- Scanner QR (musée / monument) : marque « vu », sans copier le contenu officiel ----------
+  let scanStream=null, scanRAF=null;
+  const scanModal=document.getElementById('scanModal');
+  function openScan(){
+    if(!LASTRES || !LASTRES.route.length){ alert(uiT('itineraire.composez.d.abord.un.itineraire')); return; }
+    document.getElementById('scanResult').style.display='none';
+    document.getElementById('scanStage').style.display='';
+    document.getElementById('scanStatus').textContent=uiT('itineraire.visez.le.qr.code');
+    scanModal.style.display='flex';
+    startCam();
+  }
+  function startCam(){
+    const v=document.getElementById('scanVideo');
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ document.getElementById('scanStatus').textContent=uiT('itineraire.camera.non.disponible.sur.ce'); showScanResult(''); return; }
+    navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(stream=>{
+      scanStream=stream; v.srcObject=stream; v.play();
+      const canvas=document.createElement('canvas'), ctx=canvas.getContext('2d');
+      const tick=()=>{
+        if(!scanStream) return;
+        if(v.readyState===v.HAVE_ENOUGH_DATA && typeof jsQR!=='undefined' && v.videoWidth){
+          canvas.width=v.videoWidth; canvas.height=v.videoHeight;
+          ctx.drawImage(v,0,0,canvas.width,canvas.height);
+          const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+          const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+          if(code && code.data){ onScan(code.data); return; }
+        }
+        scanRAF=requestAnimationFrame(tick);
+      };
+      scanRAF=requestAnimationFrame(tick);
+    }).catch(()=>{ document.getElementById('scanStatus').textContent=uiT('itineraire.camera.refusee.autorisez.l.acces'); showScanResult(''); });
+  }
+  function stopCam(){ if(scanRAF) cancelAnimationFrame(scanRAF); scanRAF=null;
+    if(scanStream){ scanStream.getTracks().forEach(t=>t.stop()); scanStream=null; } }
+  function onScan(data){ stopCam(); if(navigator.vibrate) navigator.vibrate(60); showScanResult(data); }
+  function showScanResult(data){
+    document.getElementById('scanStage').style.display='none';
+    const box=document.getElementById('scanResult'); box.style.display='block';
+    const isURL=/^https?:\/\//i.test(data||'');
+    const opts=LASTRES.route.map((s,i)=>'<option value="'+i+'">'+(i+1)+'. '+(s.p.nom||'').replace(/</g,'&lt;')+'</option>').join('');
+    box.innerHTML=
+      (data?('<div class="sr-link">QR&nbsp;: '+(data.replace(/</g,'&lt;')).slice(0,160)+'</div>'+(isURL?'<a class="sr-open" href="'+data+'" target="_blank" rel="noopener">'+uiT('itin.ouvrir.officiel')+'</a>':'')):'<div class="sr-link">'+uiT('itin.pas.qr')+'</div>')+
+      '<select id="scanStep">'+opts+'</select>'+
+      uiT('itin.marquer.ce.lieu.comme.visite');
+    if(navigator.geolocation) navigator.geolocation.getCurrentPosition(pos=>{
+      const here=[pos.coords.longitude,pos.coords.latitude]; let bi=0,bd=Infinity;
+      LASTRES.route.forEach((s,i)=>{ const d=haversine(here,s.c); if(d<bd){bd=d;bi=i;} });
+      const sel=document.getElementById('scanStep'); if(sel) sel.value=String(bi);
+    },()=>{},{timeout:5000});
+    document.getElementById('scanGo').onclick=()=>{
+      const s=LASTRES.route[+document.getElementById('scanStep').value];
+      if(s){ VU.add(norm(s.p.nom)); saveVu(); }
+      closeScan(); render(LASTORIGIN, LASTRES);
+    };
+  }
+  function closeScan(){ stopCam(); scanModal.style.display='none'; }
+  document.getElementById('scanbtn').onclick=openScan;
+  document.getElementById('scanX').onclick=closeScan;
+  scanModal.onclick=e=>{ if(e.target.id==='scanModal') closeScan(); };
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && scanModal.style.display==='flex') closeScan(); });
+
+  // ---------- Modal « détail d'un détour » (voir → Sélectionner / Rejeter) ----------
+  let CUR_DETOUR=null;
+  function openDetour(p){
+    CUR_DETOUR=p; const ip=p.s.p;
+    const meta=[ip.region,trCat(ip.type),trCat(ip.epoque)].filter(Boolean).join(' · ');
+    const tags=(p.pin?uiT('itin.epingle'):'')+(p.vp?'<span class="ec-vp">'+uiT('itin.belle.vue')+'</span>':'');
+    const desc=(ip.description||'').trim();
+    document.getElementById('detourBody').innerHTML=
+      '<div class="md-kick">🛣️ '+uiT('itineraire.a.voir.en.chemin.vers')+' '+p.ctx+'</div>'+
+      '<h3 class="md-title">'+ip.nom+' '+tags+'</h3>'+
+      '<div class="md-meta">'+meta+uiT('itin.detour')+p.detourMin+' min</div>'+
+      (p.note?'<p class="md-note">'+p.note+'</p>':'')+
+      (desc?'<p>'+desc+'</p>':'')+
+      (ip.a_voir?'<div class="md-kv"><b>'+LBL('avoir')+'</b> '+ip.a_voir+'</div>':'')+
+      (ip.conseil?'<div class="md-kv"><b>'+LBL('conseil')+'</b> '+ip.conseil+'</div>':'')+
+      (ip.horaires?'<div class="md-kv"><b>'+LBL('horaires')+'</b> '+ip.horaires+'</div>':'')+
+      (ip.acces_note?uiT('itin.acces.gps.2')+ip.acces_note+'</div>':'')+
+      srcHtml(ip.source);
+    document.getElementById('detourModal').style.display='flex';
+  }
+  function closeDetour(){ document.getElementById('detourModal').style.display='none'; CUR_DETOUR=null; }
+  document.getElementById('detourX').onclick=closeDetour;
+  document.getElementById('detourModal').onclick=e=>{ if(e.target.id==='detourModal') closeDetour(); };
+  document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return;
+    if(document.getElementById('detourModal').style.display==='flex') closeDetour();
+    if(document.getElementById('navModal').style.display==='flex') closeNav();
+  });
+  document.getElementById('detourAdd').onclick=()=>{ const p=CUR_DETOUR; closeDetour(); if(p) insertStop(p.s); };  // insertStop re-render
+  document.getElementById('detourReject').onclick=()=>{ const p=CUR_DETOUR; closeDetour(); if(p){ REJECTED.add(norm(p.s.p.nom)); if(LASTRES) render(LASTORIGIN, LASTRES); } };
+  document.getElementById('albumbtn').onclick=openAlbum;
+  document.getElementById('albumback').onclick=closeAlbum;
+
+  // ---------- Diaporama / Projection du carnet (multimédia) ----------
+  let PROJ=[], projIdx=0, projPlaying=true, projUrls=[], projGen=0, projAudio=null, projTimer=null;
+  function pesc(s){ return String(s==null?'':s).replace(/[<&>]/g,c=>({'<':'&lt;','&':'&amp;','>':'&gt;'}[c])); }
+  function projClearUrls(){ projUrls.forEach(u=>{ try{URL.revokeObjectURL(u);}catch(e){} }); projUrls=[]; }
+  function projStopAudio(){ if(projAudio){ try{ projAudio.pause(); }catch(e){} projAudio=null; } }
+  async function buildProjItems(){
+    const items=[]; if(!LASTRES||!LASTRES.route) return items;
+    for(let i=0;i<LASTRES.route.length;i++){
+      const s=LASTRES.route[i], key=placeKey(s);
+      let phs=[]; try{ phs=await photosFor(key); }catch(e){}
+      phs.sort((a,b)=>a.ts-b.ts);
+      const note=(localStorage.getItem('the-cap:'+key)||'');
+      phs.forEach((ph,k)=>items.push({ stop:s.p.nom, sub:(s.p.region||'')+(s.p.epoque?' · '+s.p.epoque:''),
+        blob:ph.blob, caption:ph.caption||'', audio:ph.audio||null, note:(k===0?note:'') }));
+    }
+    return items;
+  }
+  async function openProjection(){
+    PROJ=await buildProjItems();
+    if(!PROJ.length){ alert(uiT('itineraire.votre.carnet.est.vide.pour')+'\n'+uiT('itineraire.ajoutez.des.photos.des.notes')); return; }
+    projIdx=0; projPlaying=true;
+    document.getElementById('projOv').style.display='block';
+    document.getElementById('projPlay').textContent='⏸';
+    try{ document.getElementById('projOv').requestFullscreen?.(); }catch(e){}
+    showProj(0);
+  }
+  function showProj(i){
+    const myGen=++projGen; clearTimeout(projTimer); projStopAudio();
+    const it=PROJ[i]; if(!it) return;
+    const stage=document.getElementById('projStage'); projClearUrls(); stage.innerHTML='';
+    const isVid=(it.blob.type||'').startsWith('video');
+    const url=URL.createObjectURL(it.blob); projUrls.push(url);
+    let media;
+    if(isVid){ media=document.createElement('video'); media.src=url; media.autoplay=true; media.playsInline=true; media.muted=!!it.audio; }
+    else { media=document.createElement('img'); media.src=url; }
+    media.className='proj-media'; stage.appendChild(media);
+    document.getElementById('projCount').textContent=(i+1)+' / '+PROJ.length;
+    document.getElementById('projCap').innerHTML=
+      '<div class="pc-stop">'+pesc(it.stop)+'</div>'+
+      (it.sub?'<div class="pc-sub">'+pesc(it.sub)+'</div>':'')+
+      (it.note?'<div class="pc-note2">'+pesc(it.note)+'</div>':'')+
+      (it.caption?'<div class="pc-cap2">« '+pesc(it.caption)+' »</div>':'');
+    const advance=()=>{ if(projPlaying && myGen===projGen) projNext(); };
+    // avance : à la fin de la voix (photo) ou de la vidéo, +1 s ; photo seule = 6 s
+    if(it.audio){ const aurl=URL.createObjectURL(it.audio); projUrls.push(aurl); projAudio=new Audio(aurl);
+      projAudio.play().catch(()=>{});
+      if(!isVid) projAudio.onended=()=>{ if(myGen===projGen) projTimer=setTimeout(advance,1000); }; }
+    if(isVid){ media.onended=()=>{ if(myGen===projGen) projTimer=setTimeout(advance,800); }; }
+    else if(!it.audio){ projTimer=setTimeout(advance,6000); }
+  }
+  function projNext(){ projStopAudio(); projIdx=(projIdx+1)%PROJ.length; showProj(projIdx); }
+  function projPrev(){ projStopAudio(); projIdx=(projIdx-1+PROJ.length)%PROJ.length; showProj(projIdx); }
+  function projTogglePlay(){ projPlaying=!projPlaying; document.getElementById('projPlay').textContent=projPlaying?'⏸':'▶';
+    if(projPlaying){ showProj(projIdx); }
+    else { clearTimeout(projTimer); projStopAudio(); const v=document.querySelector('#projStage video'); if(v){ try{v.pause();}catch(e){} } } }
+  function closeProj(){ ++projGen; clearTimeout(projTimer); projStopAudio(); projClearUrls();
+    document.getElementById('projStage').innerHTML='';
+    document.getElementById('projOv').style.display='none';
+    try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){} }
+  document.getElementById('albumproject').onclick=openProjection;
+  document.getElementById('projPrev').onclick=projPrev;
+  document.getElementById('projNext').onclick=projNext;
+  document.getElementById('projPlay').onclick=projTogglePlay;
+  document.getElementById('projClose').onclick=closeProj;
+  document.getElementById('projFs').onclick=()=>{ const o=document.getElementById('projOv');
+    try{ if(!document.fullscreenElement) o.requestFullscreen?.(); else document.exitFullscreen?.(); }catch(e){} };
+  document.addEventListener('keydown',e=>{ if(document.getElementById('projOv').style.display!=='block') return;
+    if(e.key==='Escape') closeProj(); else if(e.key==='ArrowRight') projNext(); else if(e.key==='ArrowLeft') projPrev();
+    else if(e.key===' '){ e.preventDefault(); projTogglePlay(); } });
+
+  document.getElementById('albumprint').onclick=()=>setTimeout(()=>window.print(),150);
+  document.getElementById('albumshare').onclick=()=>{
+    const sp=document.getElementById('sharepanel');
+    const opening = sp.style.display==='none';
+    sp.style.display = opening ? 'block' : 'none';
+    if(opening) buildShareFiles();
+  };
+  [...document.querySelectorAll('.album-bar .tpl')].forEach(c=>{
+    c.onclick=()=>{ albumTemplate=c.dataset.tpl; renderAlbum(); };
+  });
+  document.getElementById('shwhatsapp').onclick=shareWhatsApp;
+  document.getElementById('shemail').onclick=shareEmail;
+  document.getElementById('shnative').onclick=shareNative;
+  document.getElementById('shpublish').onclick=publishOptin;
+  document.getElementById('addbtn').onclick=addPlace;
+  document.getElementById('addinput').addEventListener('keydown',e=>{ if(e.key==='Enter') addPlace(); });
+  function backToBuilder(){
+    if(ENTRY==='picks'){ location.href='index.html'; return; }   // venu de la carte → on y retourne
+    document.body.classList.remove('tpl-baroudeur','tpl-passeport');
+    document.getElementById('album').style.display='none';
+    document.getElementById('result').style.display='none';
+    document.getElementById('builder').style.display='block';    // garde tous les choix saisis
+    syncGenreHint();                                             // le hint suit la valeur réelle du genre (fallbacks compris)
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.getElementById('restart').onclick=backToBuilder;
+  document.getElementById('result').addEventListener('change',function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('vis-select')){
+      const o=getVOvr(); o[e.target.dataset.nom]=+e.target.value; setVOvr(o);
+      if(LASTORIGIN&&LASTRES) render(LASTORIGIN, LASTRES);
+    }
+  });
+  // Retour intelligent de la barre du haut : résultat → formulaire/carte ; formulaire → le hub (decouvrir)
+  document.getElementById('backNav').addEventListener('click',function(e){
+    const resultShown=document.getElementById('result').style.display==='block' || document.getElementById('album').style.display==='block';
+    if(resultShown){ e.preventDefault(); backToBuilder(); }
+  });
+  </script>
+  <script src="the-footer.js" defer></script>
+<script>(function(){
+  var f=new URLSearchParams(location.search).get('from'); if(!f) return;
+  var origine = f==='map' ? uiT('itin.la.carte') : uiT('itin.la.liste');
+  var bn=document.createElement('div'); bn.id='buildBanner';
+  bn.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:60;background:#a8884f;color:#fff;padding:10px 14px;display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14px;box-shadow:0 -3px 14px rgba(0,0,0,.32)';
+  bn.innerHTML='<span>'+uiT('itineraire.itineraire.en.construction')+'</span>'+
+    '<button id="bbBack" style="background:#fff;color:#a8884f;border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;cursor:pointer">'+uiT('itin.retour.choix',{o:origine})+'</button>'+
+    '<button id="bbDone" style="background:#5a4420;color:#fff;border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;cursor:pointer">'+uiT('itin.termine.editer')+'</button>';
+  document.body.appendChild(bn);
+  document.getElementById('bbBack').onclick=function(){ history.back(); };
+  document.getElementById('bbDone').onclick=function(){ try{ localStorage.removeItem('the_picks'); }catch(e){} bn.style.display='none'; };
+})();</script>
+  <script src="analytics.js"></script>
+<script src="the-postcard.js" defer></script>
+<script src="the-backup.js" defer></script>
+<script src="the-carnet.js" defer></script>
+<script src="roadtrip-plus.js" defer></script>
+<script src="roadtrip-plan.js" defer></script>
+<script src="the-fiche-audio.js" defer></script>
+</body>
+</html>

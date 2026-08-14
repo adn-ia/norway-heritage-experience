@@ -1,0 +1,193 @@
+{
+ "chemin-des-vikings": {
+  "titre": "Vikingstien",
+  "soustitre": "Fra fødselen til Valhall: En vikings liv, fra gården til de store kongelige gravhaugene",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Avaldsnes (Karmøy)",
+   "coord": [
+    5.2911,
+    59.3553
+   ]
+  },
+  "forme": "line",
+  "note": "En fortelling som følger et vikingliv, trinn for trinn. Alt begynner på gården og i høvdingens store hall (som den rekonstruerte hallen på Borg i Lofoten): Der blir man født, der vokser man opp mellom fjellbeite og havet. Så kommer mannsalderen – tinget, forsamlingen der rettferdighet skipes – deretter handelen ved handelsplassen i Kaupang, og makten i Avaldsnes, kongesetet som kontrollerer Nordvegen, «veien mot nord», som har gitt landet sitt navn. Så kaller havet: man drar ut på skip som Oseberg- og Gokstadskipene, som i dag kan ses på Vikingskipshuset i Oslo. Ved reisens slutt følger døden og overgangen til Valhall, markert av de store kongelige gravhaugene – Borre, Oseberg, Gokstad, Raknehaugen, Herlaugshaugen – hvorav syv i dag er foreslått som UNESCOs verdensarv. Alle disse stedene er geolokalisert i appen.",
+  "etapes": [
+   {
+    "nom": "Avaldsnes kirke",
+    "note": "Makten. Kongesetet ved Nordvegen, sjøveien som har gitt Norge sitt navn; Harald Hårfagre skal ha regjert der."
+   },
+   {
+    "nom": "Storhaugmyrå",
+    "note": "Handel og havet. I Karmøy-området minner Storhaug-gravhaugene om de rike båtgravene fra det vestlige vikingområdet."
+   },
+   {
+    "nom": "Borre kirke",
+    "note": "Den kongelige slekten. Borre har Skandinavias største konsentrasjon av monumentale gravhauger – en dynastis gravplass."
+   },
+   {
+    "nom": "Oseberghaugen",
+    "note": "Den store avreisen. Oseberghaugen har avdekket verdens best bevarte vikingskip (834 e.Kr.), med to kvinner av høy rang om bord."
+   },
+   {
+    "nom": "Gokstadhaugen",
+    "note": "Krigsskipet. Gokstad-drakkaret, som er perfekt bevart, er et symbol på vikingernes skipsbyggingskunst; en kopi seilte over Atlanterhavet i 1893."
+   },
+   {
+    "nom": "Raknehaugen",
+    "note": "Koloset. Nord-Europas største gravhaug (ca. 95 m i diameter), oppført rundt år 550 e.Kr., ved begynnelsen av vikingtiden."
+   },
+   {
+    "nom": "Herlaugshaugen",
+    "note": "Valhalla, helt i utkanten av kongeriket. Helt i nord ligger denne gravhaugen, som er knyttet til sagaen om kong Herlaug, og er en av de syv som er foreslått som verdensarv."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Få spektakulære monumenter: hovedsakelig gravhauger, skipgraver og rekonstruerte haller. I Avaldsnes, det første kongesetet langs Nordvegen; i Borre, Skandinavias største samling av monumentale gravhauger; i Oseberg og Gokstad, de store gravhaugene hvor skipene nå befinner seg på Vikingtidsmuseet i Oslo (stengt for renovering til omtrent slutten av 2027).",
+  "pepites": [
+   {
+    "nom": "Tjuvenborgen"
+   },
+   {
+    "nom": "Vigsteinen"
+   }
+  ],
+  "evocation": "Tenk deg dette: Du blir født i røyken fra en lang hall, mellom havet og fjellbeitene. Du vokser opp, du tar til årene; en dag gjør tinget deg til mann, handelshuset gjør deg til kjøpmann, kongen gjør deg til kriger. Havet kaller på deg: du drar ut på et skip med oppreist baug, mot navnløse land. Og når din time kommer, blir du begravet under en stor gravhaug, med skipet ditt som ditt siste reisemiddel – mot Valhall."
+ },
+ "art-rupestre": {
+  "titre": "Hulemalerier: 10 000 år med graveringer",
+  "soustitre": "Fra Alta-jegerne til skipene fra bronsealderen",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Alta (Finnmark)",
+   "coord": [
+    23.1836,
+    69.9481
+   ]
+  },
+  "forme": "line",
+  "note": "Norge har fortsatt et av Europas rikeste samlinger av helleristninger. I Alta, langt nord i landet, finnes tusenvis av helleristninger (5000–2000 f.Kr.) – reinsdyr, bjørner, båter, jaktscener – som er oppført på UNESCOs verdensarvliste. Lenger sør har bronsealderen etterlatt seg skip og solskiver. Denne ruten forbinder landets viktigste steder med helleristninger og hulemalerier.",
+  "etapes": [
+   {
+    "nom": "Alta",
+    "note": "Det viktigste stedet: gravurer som er oppført på UNESCOs verdensarvliste, et friluftsmuseum ved fjorden."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Ristninger direkte i fjellet: reinsdyr, elger, båter, jaktscener. Alta, som er oppført på verdensarvlisten, er juvelen blant disse, men samlingen strekker seg over hele landet, fra steinalderens jegere til bronsealderens skip.",
+  "pepites": [
+   {
+    "nom": "Helleristningene på Ekeberg"
+   },
+   {
+    "nom": "Helleristningene ved Møllerstufossen"
+   },
+   {
+    "nom": "Fluberget"
+   }
+  ],
+  "evocation": "For syv tusen år siden knelte noen ned på den ispolerte steinen og risset inn et reinsdyr. For å påkalle jakten, for å takke, eller ganske enkelt for å si «vi var her». Linje etter linje, generasjon etter generasjon, blir steinen til et minne. Å følge disse inngraveringene er å legge hånden der andre har lagt den for å fortelle om verden, lenge før skriften ble oppfunnet."
+ },
+ "stavkirker": {
+  "titre": "Stavkirker",
+  "soustitre": "Drakkars vendt opp mot himmelen: det norske middelaldermesterverket",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Urnes (Vestland)",
+   "coord": [
+    7.3226,
+    61.2986
+   ]
+  },
+  "forme": "line",
+  "note": "Av de nesten tusen trekirker som ble bygget i middelalderen, står rundt tretti fortsatt igjen. Deres portaler, utskåret med drager, blander kristen kunst og hedensk mytologi. Urnes er oppført på verdensarvlisten; Borgund, Heddal (den største), Lom og Hopperstad regnes blant de vakreste. Denne ruten forbinder de bevarte stavkirkene.",
+  "etapes": [
+   {
+    "nom": "Urnes stavkyrkje",
+    "note": "Den eldste, som er oppført på verdensarvlisten: de berømte skulpturene i «Urnes-stilen»."
+   },
+   {
+    "nom": "Borgund stavkyrkje",
+    "note": "Den best bevarte, med sin karakteristiske trappetrinnsform."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Takstoler av stående tømmer og portaler med drageskulpturer, der kristen kunst smelter sammen med hedensk mytologi. Urnes, som er oppført på verdensarvlisten, og Borgund regnes blant de best bevarte.",
+  "pepites": [
+   {
+    "nom": "Heddal stavkirke"
+   },
+   {
+    "nom": "Nore stavkirke"
+   }
+  ],
+  "evocation": "Gå inn i skogens halvmørke. Lukten av tjære, det filtrerte lyset, de utskårne drager som står vakt ved porten – halvt kristne, halvt hedenske, som om den gamle troen ikke helt hadde gitt slipp. Disse bygningsverkene, som har stått i åtte århundrer, har vært vitne til pest, reformer og stormer. De ser ut som drakkarskip som er vendt opp mot himmelen."
+ },
+ "fjords-alpages": {
+  "titre": "Fjorder, gårder og fjellbeiteområder",
+  "soustitre": "Norge – landet med fjell og vann",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Geirangerfjorden",
+   "coord": [
+    7.2054,
+    62.101
+   ]
+  },
+  "forme": "line",
+  "note": "Fjordene i vest — Geirangerfjorden og Nærøyfjorden, som er oppført på verdensarvlisten — er omgitt av gårder som klamrer seg fast til fjellsidene og av fosser. Om sommeren ble husdyrene ført opp til setrene. Denne ruten forbinder fjorder, tradisjonelle gårdsplasser (gårdstun) og setre som forteller historien om det norske landsbylivet.",
+  "etapes": [
+   {
+    "nom": "Geirangerfjord",
+    "note": "En fjord oppført på UNESCOs verdensarvliste, fjellgårder og «De syv søstrenes» fosser."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Fjellvegger som stuper ned i vannet, gårder som klamrer seg fast til skråningene, fosser; om sommeren ble husdyrene ført opp til setrene. Geirangerfjorden, som er oppført på verdensarvlisten, er et typisk eksempel på dette.",
+  "pepites": [
+   {
+    "nom": "Vestnorsk fjordlandskap"
+   },
+   {
+    "nom": "Nærøyfjorden"
+   }
+  ],
+  "evocation": "Dra opp til fjellbeiteområdet på slutten av våren, når snøen trekker seg tilbake fra skråningene. Nede ligger fjorden og sover, mørk og dyp; oppe hører man dyrenes bjeller og stillheten. Her er livet tilpasset vannet og fjellet, mellom gården som klamrer seg fast til skråningen og sommerbeiteområdet. Lytt: fossen, vinden, og ingenting annet."
+ },
+ "sapmi": {
+  "titre": "Sápmi: det samiske landet",
+  "soustitre": "På landområdene til urbefolkningen i det fjerne nord",
+  "duree": "plusieurs jours",
+  "echelle": "region",
+  "depart": {
+   "label": "Karasjok (Finnmark)",
+   "coord": [
+    25.5116,
+    69.472
+   ]
+  },
+  "forme": "line",
+  "note": "I nord bor det urfolket samene (Sápmi), som driver reindrift og er voktere av joik og duodji (håndverk). Dette fokuset knytter sammen disse stedene: kultsteder, leirplasser, graver og institusjoner (Det samiske parlamentet i Karasjok). En grenseoverskridende, særegen kulturarv som bør oppleves med respekt.",
+  "etapes": [
+   {
+    "nom": "Karasjok",
+    "note": "Det samiske kulturlivets hjerte: Det samiske parlamentet (Sámediggi) og museene."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Samfolkets steder: kultsteder, leirplasser, gravsteder og det samiske parlamentet i Karasjok. En levende kulturarv som må behandles med respekt.",
+  "pepites": [
+   {
+    "nom": "Mortensnes kulturminneområde"
+   },
+   {
+    "nom": "Bølareinen"
+   }
+  ],
+  "evocation": "Flokken beveger seg fremover, og med den et helt folk. I årtusener har samene tolket snøen, vinden og reinsdyrenes bevegelser. Joiken er ikke en sang om noe – den ER selve personen, stedet eller dyret den påkaller. Å vandre i disse trakter er å trå inn i en kunnskap som aldri har hatt behov for våre grenser."
+ }
+}

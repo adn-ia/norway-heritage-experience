@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e0b08">
+<title data-i18n="voyage.pays.heritage.voyage.immersif"></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#cda86a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#0e0b08;color:#fff;font-family:'EB Garamond',Georgia,serif;overflow:hidden;}
+#stage{position:fixed;inset:0;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;}
+.slide.on{opacity:1;}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.05);animation:kb 11s ease-out forwards;}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14)}}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,4,.82) 0%,rgba(8,6,4,.45) 45%,rgba(8,6,4,.15) 100%),linear-gradient(0deg,rgba(8,6,4,.9) 0%,rgba(8,6,4,0) 45%);}
+.txt{position:absolute;left:0;right:0;bottom:0;padding:6vh 7vw 10vh;max-width:1000px;}
+.kick{font-size:clamp(12px,1.6vw,18px);letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.ttl{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(34px,6.5vw,78px);line-height:1.02;text-shadow:0 2px 26px rgba(0,0,0,.6);margin-bottom:14px;}
+.desc{font-size:clamp(16px,2.2vw,26px);line-height:1.5;color:#f0e7d8;max-width:760px;text-shadow:0 1px 14px rgba(0,0,0,.7);}
+.avoir{font-size:clamp(14px,1.8vw,21px);line-height:1.45;color:#e6d8c0;margin-top:12px;max-width:760px;}
+.avoir b{color:var(--gold);}
+.credit{position:absolute;right:14px;bottom:8px;font-size:11px;color:rgba(255,255,255,.45);font-style:italic;}
+
+.bar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgba(18,13,9,.72);backdrop-filter:blur(6px);border:1px solid rgba(205,168,106,.35);border-radius:40px;padding:10px 18px;z-index:5;opacity:1;transition:opacity .4s;}
+.bar.hide{opacity:0;pointer-events:none;}
+.bar button{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;}
+.bar button.active{color:var(--gold);}
+.bar select{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(205,168,106,.35);border-radius:20px;padding:6px 10px;font-family:inherit;font-size:14px;}
+.bar select option{color:#111;}
+.top{position:fixed;top:16px;left:18px;right:18px;display:flex;align-items:center;z-index:5;opacity:1;transition:opacity .4s;}
+.top.hide{opacity:0;}
+.top a{color:rgba(255,255,255,.7);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.top .brand{flex:1;text-align:center;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:5px;font-size:18px;color:rgba(255,255,255,.85);}
+.top .fs{cursor:pointer;color:rgba(255,255,255,.7);font-size:18px;}
+.count{position:fixed;top:18px;right:18px;display:none;}
+.hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:rgba(255,255,255,.6);font-size:16px;}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div id="stage"></div>
+<div class="top" id="top"><a href="decouvrir.html" data-i18n="a.propos.menu"></a><div class="brand" data-i18n="voyage.voyage"></div><span class="fs" id="fsBtn" data-i18n-title="itineraire.plein.ecran">⛶</span></div>
+<div class="bar" id="bar">
+  <button id="prev" data-i18n-title="itineraire.precedent">⏮</button>
+  <button id="play" data-i18n-title="voyage.lecture.pause">⏸</button>
+  <button id="next" data-i18n-title="itineraire.suivant">⏭</button>
+  <button id="narr" data-i18n-title="voyage.narration.vocale" style="display:none">🔊</button>
+  <!-- voyage immersif : pas d'options -->
+  <span id="cnt" style="font-size:13px;color:rgba(255,255,255,.6)"></span>
+</div>
+<div class="hint" id="hint"><span data-i18n="voyage.chargement.du.voyage"></span></div>
+
+<script>
+let all=[], pool=[], idx=0, playing=true, narrOn=false, timer=null, mode='tout', gen=0;
+const DUR=10000;
+const big=u=>u? u.replace('width=200','width=1400') : '';
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function matchMode(f){ return true; }  // voyage immersif = tout, sans options
+
+Promise.all([
+  fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+  fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]}))
+]).then(([a,b])=>{
+  all=[...a.features,...b.features].filter(f=>f.properties.photo);
+  if(!all.length){ document.getElementById('hint').textContent=uiT('voyage.aucune.image'); return; }
+  (window.THEi18n?THEi18n.ready:Promise.resolve()).then(()=>{ rebuild(); document.getElementById('hint').style.display='none'; start(); });
+});
+
+function rebuild(){ pool=shuffle(all.filter(matchMode)); idx=0; }
+const stage=document.getElementById('stage');
+function show(i){
+  const f=pool[i]; if(!f) return; const p=f.properties;
+  const div=document.createElement('div'); div.className='slide';
+  div.innerHTML=`<div class="bg" style="background-image:url('${big(p.photo)}')"></div><div class="shade"></div>
+    <div class="txt"><div class="kick">${p.region||p.gouvernorat||''}</div><div class="ttl">${esc(p.nom)}</div>
+    <div class="desc">${(trS(p)&&trS(p).d)||p.description||''}</div>
+    ${p.a_voir?`<div class="avoir"><b>${uiT('voyage.a.voir')}</b> — ${(trS(p)&&trS(p).a)||p.a_voir}</div>`:''}</div>
+    <div class="credit">${THEcredit.html(p.photo_credit)||'Wikimedia Commons'}</div>`;
+  stage.appendChild(div);
+  requestAnimationFrame(()=>div.classList.add('on'));
+  const olds=stage.querySelectorAll('.slide'); if(olds.length>2){ olds[0].remove(); }
+  while(stage.querySelectorAll('.slide').length>2){ stage.querySelector('.slide').remove(); }
+  document.getElementById('cnt').textContent=(i+1)+' / '+pool.length;
+  // narration voix navigateur désactivée (qualité insuffisante) — diaporama visuel ; voix premium ElevenLabs à venir
+}
+function trS(p){ return (window.THEi18n) ? THEi18n.site(p.nom) : null; }
+function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?s.replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
+function esc(s){return String(s==null?'':s).replace(/[<&>]/g,c=>({'<':'&lt;','&':'&amp;','>':'&gt;'}[c]));}
+let FRVOICE=null;
+function pickVoice(){ if(!('speechSynthesis'in window))return; const vs=window.speechSynthesis.getVoices()||[];
+  FRVOICE = vs.find(v=>/fr[-_]?FR/i.test(v.lang)&&/(thomas|audrey|aur[eé]lie|am[eé]lie|enhanced|premium|siri)/i.test(v.name))
+         || vs.find(v=>/fr[-_]?FR/i.test(v.lang)) || vs.find(v=>/^fr/i.test(v.lang)) || null; }
+if('speechSynthesis'in window){ pickVoice(); window.speechSynthesis.onvoiceschanged=pickVoice; }
+function accName(n){ return (n||'').replace(/Amphitheatre/g,uiT('voyage.amphitheatre')).replace(/Theatre/g,uiT('voyage.theatre')).replace(/Necropole/g,uiT('voyage.necropole')).replace(/Mausolee/g,uiT('voyage.mausolee')).replace(/Mediterran/g,uiT('voyage.mediterran')); }
+function narrText(p){ const x=[accName(p.nom)]; if(p.a_voir) x.push(p.a_voir); else if(p.conseil) x.push(p.conseil); return x.join('. '); }
+// voix synchronisée : on rappelle onend quand la phrase est finie (pour ne PAS couper la voix)
+function speak(t,onend){ if(!('speechSynthesis'in window)){ if(onend) onend(); return; }
+  window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang=(({fr:'fr-FR',en:'en-GB',et:'et-EE'})[(function(){try{return localStorage.getItem('the_lang')||'fr'}catch(e){return 'fr'}})()]||'fr-FR'); u.rate=.95; if(FRVOICE) u.voice=FRVOICE;
+  if(onend){ u.onend=onend; u.onerror=onend; } window.speechSynthesis.speak(u); }
+function speakSlide(p){ const myGen=++gen; clearTimeout(timer);
+  speak(narrText(p), ()=>{ if(narrOn && playing && myGen===gen) timer=setTimeout(()=>nextSlide(1), 1000); }); }
+function nextSlide(d=1){ idx=(idx+d+pool.length)%pool.length; show(idx); resetTimer(); }
+function resetTimer(){ clearTimeout(timer); if(playing) timer=setTimeout(()=>nextSlide(1), DUR); }
+function start(){ show(idx); resetTimer(); }
+
+document.getElementById('next').onclick=()=>nextSlide(1);
+document.getElementById('prev').onclick=()=>nextSlide(-1);
+const playBtn=document.getElementById('play');
+playBtn.onclick=()=>{ playing=!playing; playBtn.textContent=playing?'⏸':'▶';
+  if(!playing){ clearTimeout(timer); gen++; if('speechSynthesis'in window) window.speechSynthesis.cancel(); }
+  else { if(narrOn){ const f=pool[idx]; if(f) speakSlide(f.properties); } else resetTimer(); } };
+const narrBtn=document.getElementById('narr');
+narrBtn.onclick=()=>{ narrOn=!narrOn; narrBtn.classList.toggle('active',narrOn);
+  if(narrOn){ clearTimeout(timer); const f=pool[idx]; if(f&&playing) speakSlide(f.properties); }
+  else { if('speechSynthesis'in window) window.speechSynthesis.cancel(); gen++; resetTimer(); } };
+var _mode=document.getElementById('mode'); if(_mode) _mode.onchange=e=>{ mode=e.target.value; rebuild(); start(); };
+document.getElementById('fsBtn').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); };
+document.addEventListener('keydown',e=>{ if(e.key===' '){e.preventDefault();playBtn.click();} else if(e.key==='ArrowRight') nextSlide(1); else if(e.key==='ArrowLeft') nextSlide(-1); });
+// masque les barres apres inactivite
+let hideT; const topEl=document.getElementById('top'), bar=document.getElementById('bar');
+function wake(){ topEl.classList.remove('hide'); bar.classList.remove('hide'); clearTimeout(hideT); hideT=setTimeout(()=>{topEl.classList.add('hide');bar.classList.add('hide');},3500); }
+document.addEventListener('mousemove',wake); document.addEventListener('touchstart',wake); wake();
+</script>
+  <script src="analytics.js"></script>
+</body>
+</html>

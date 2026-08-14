@@ -1,0 +1,5 @@
+{
+  "_note": "GABARIT socle — brique auto-portée « légende ». Remplir « legendes » par édition : { norm(nom_du_site): { fr, en, de, it, ar, ..., src } }. Vide = la brique se masque partout (self-hide). Ne PAS mélanger avec sites.geojson.",
+  "_config": { "premium": true },
+  "legendes": {}
+}

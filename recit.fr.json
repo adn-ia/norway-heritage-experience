@@ -1,0 +1,305 @@
+{
+  "titre": "Découvrir la Norvège",
+  "sous_titre": "Dix mille ans d'histoire, des chasseurs de l'âge de pierre à la nation du pétrole — dates, batailles et régimes qui ont façonné le pays.",
+  "intro": "La Norvège s'est construite le long de la mer, entre montagnes et fjords. Ce récit suit l'ordre du temps : des premiers chasseurs (vers 9500 av. J.-C.) à l'âge viking (793-1066), de la christianisation à quatre siècles d'union danoise (1380-1814), puis suédoise (1814-1905), jusqu'à l'indépendance, l'occupation (1940-1945) et l'ère du pétrole (à partir de 1969). Chaque grande date, chaque bataille, chaque régime a laissé des lieux — tous géolocalisés dans l'application.",
+  "chapitres": [
+    {
+      "titre": "Vers 9500 av. J.-C. — Les premiers Norvégiens",
+      "texte": "Quand les glaciers reculent, des chasseurs-cueilleurs remontent la côte libérée par la glace. Ils laissent l'un des plus riches ensembles d'art rupestre d'Europe : à Alta (Finnmark), des milliers de gravures inscrites entre 5000 et 2000 av. J.-C. — rennes, ours, bateaux, scènes de chasse — sont classées au patrimoine mondial de l'UNESCO. Plus au sud, l'âge du bronze (1700-500 av. J.-C.) grave navires et disques solaires : la mer et le soleil sont déjà au cœur des croyances.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Helleristninger%20Strand%20Gjessing%201936.png",
+      "credit": {
+        "auteur": "Gutorm Gjessing (1906–1979)",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Helleristninger_Strand_Gjessing_1936.png"
+    },
+    {
+      "titre": "Vers 5000-500 av. J.-C. — Les graveurs d'Alta",
+      "texte": "Dans l'Arctique, au bord du fjord d'Alta, des chasseurs-cueilleurs ont gravé la roche pendant des millénaires — les plus anciennes figures datées vers 4200 av. J.-C., les dernières vers 500 av. J.-C. Rennes, élans, ours, barques et scènes de chasse : plus de 6 000 gravures, la plus vaste concentration d'art rupestre de chasseurs d'Europe du Nord. Découvert en 1973, le site fut le premier bien préhistorique norvégien inscrit à l'UNESCO, en 1985. On date les panneaux par leur altitude : le sol se relève depuis la fonte des glaces, et les plus anciens se trouvent le plus haut.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/1992.08.08%20Helleristninger%20i%20Alta%20II.jpg",
+      "credit": {
+        "auteur": "Hans Olav Lien",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:1992.08.08_Helleristninger_i_Alta_II.jpg"
+    },
+    {
+      "titre": "1700-500 av. J.-C. — Le bronze, les navires et le soleil",
+      "texte": "Le monde nordique entre dans l'âge du bronze. Faute de cuivre et d'étain sur place, le métal s'acquiert par de longs échanges — l'ambre de la Baltique voyage jusqu'à la Méditerranée. Le navire domine l'art rupestre (près de 10 000 bateaux gravés en Scandinavie) et le soleil est vénéré, porté dans le ciel par un char, tel le célèbre char solaire de Trundholm. On enterre les morts sous des tumulus. (Le char de Trundholm et une partie de ces trésors viennent du Danemark voisin : c'est la même culture nordique.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trundholm%20sun%20chariot%20Nationalmuseet.jpg",
+      "credit": {
+        "auteur": "Marie-Lan Nguyen",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Trundholm_sun_chariot_Nationalmuseet.jpg"
+    },
+    {
+      "titre": "Âge du fer — Fermes, chefs et premières guerres",
+      "texte": "Aux premiers siècles de notre ère, le paysage se couvre de fermes, de tertres funéraires et de forts de hauteur (bygdeborg). Des chefs s'enrichissent du fer des marais, des fourrures et des pierres à aiguiser, et se disputent le pouvoir. Le plus grand tumulus d'Europe du Nord, Raknehaugen, est élevé vers 550 apr. J.-C. La société guerrière et hiérarchisée qui donnera les Vikings est déjà en place.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandegga%2C%20Sandeggen%2C%20Hedmark%20-%20Riksantikvaren-T116%2001%200081.jpg",
+      "credit": {
+        "auteur": "Halvor Vreim",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sandegga,_Sandeggen,_Hedmark_-_Riksantikvaren-T116_01_0081.jpg"
+    },
+    {
+      "titre": "600-800 — Borre et les premiers rois",
+      "texte": "Avant les Vikings, l'époque mérovingienne voit s'affirmer des centres de pouvoir. À Borre, dans le Vestfold, s'élève le plus grand ensemble de tertres monumentaux de Scandinavie : sept grands tumulus — jusqu'à 45 m de large et 6 m de haut — et vingt-et-un plus petits, en usage près de quatre siècles. On y a récemment fouillé de vastes halles royales. C'est là qu'est né, au IXe siècle, le « style de Borre » et sa « bête agrippante », un art d'entrelacs animaliers qui rayonnera dans tout le monde viking.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/BORREHAUGENE%20Borreparken%20Borre%20Burial%20Mounds%20HORTEN%20Oslofjorden%20Norway%20Steinst%C3%B8tte%20Velkommen%20til%20Parken%20Hauger%20tr%C3%A6r%20sommer%20gress%20etc%202021-07-08%20IMG%208233.jpg",
+      "credit": {
+        "auteur": "Wolfmann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:BORREHAUGENE_Borreparken_Borre_Burial_Mounds_HORTEN_Oslofjorden_Norway_Steinst%C3%B8tte_Velkommen_til_Parken_Hauger_tr%C3%A6r_sommer_gress_etc_2021-07-08_IMG_8233.jpg"
+    },
+    {
+      "titre": "793-1066 — L'âge viking : de la ferme au Valhalla",
+      "texte": "En 793, le raid de Lindisfarne ouvre l'âge viking. Mais avant le raid, il y a la vie : on naît à la ferme, on grandit entre alpages (seter) et mer, on rend la justice au thing. Vers 872, la bataille de Hafrsfjord permet à Harald à la Belle Chevelure d'unifier une première fois la Norvège. Les navires d'Oseberg (834) et de Gokstad, chefs-d'œuvre conservés à Oslo, incarnent l'art nautique ; les grands tumulus royaux — Borre, Gjellestad, Herlaugshaugen — menaient le défunt vers le Valhalla. Sept de ces tumulus sont proposés au patrimoine mondial. Notre circuit « Le Chemin des Vikings » suit ce parcours de vie.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vikingskipshuset%20november%202016.jpg",
+      "credit": {
+        "auteur": "Peulle",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Vikingskipshuset_november_2016.jpg"
+    },
+    {
+      "titre": "Vers 872 — Hafrsfjord et la naissance du royaume",
+      "texte": "Selon la tradition, c'est vers 872, dans une bataille navale au fjord de Hafrsfjord près de Stavanger, que Harald à la Belle Chevelure défit les derniers roitelets et jeta les bases d'un royaume unifié. Les historiens restent prudents : la date vient des sagas, écrites quatre siècles plus tard, qui situent l'événement entre 872 et 900 ; l'« unification » ne concerna d'abord que l'ouest et le sud-ouest. À Hafrsfjord, trois épées géantes plantées dans le roc — Sverd i fjell, 1983 — en gardent la mémoire.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Danmarks%2C%20Norges%20og%20Sverigs%20Historie%20-%20Harald%20Fairhair%20cuts%20hair%20of%20Rognvald%20Eysteinsson.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Danmarks,_Norges_og_Sverigs_Historie_-_Harald_Fairhair_cuts_hair_of_Rognvald_Eysteinsson.jpg"
+    },
+    {
+      "titre": "870-1021 — De l'Islande au Vinland",
+      "texte": "Poussés par la mer, les Norvégiens essaiment vers l'ouest : l'Islande dès les années 870, puis le Groenland fondé par Erik le Rouge vers 985. Vers l'an mille, son fils Leif Erikson atteint une terre qu'il nomme Vinland — l'Amérique. Longtemps tenus pour légende, ces voyages sont prouvés : à L'Anse aux Meadows, à Terre-Neuve (UNESCO 1978), un campement viking a été daté de 1021, près de cinq siècles avant Colomb. (Les récits viennent des sagas, et ce site n'est pas forcément le « Vinland » qu'elles décrivent.)",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christian-krohg-leiv-eriksson.jpg",
+      "credit": {
+        "auteur": "Christian Krohg",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Christian-krohg-leiv-eriksson.jpg"
+    },
+    {
+      "titre": "995-1030 — Christianisation et bataille de Stiklestad",
+      "texte": "Les rois missionnaires Olav Tryggvason (995-1000) puis Olav Haraldsson imposent le christianisme. En 1030, Olav tombe à la bataille de Stiklestad ; canonisé, saint Olav devient le patron éternel de la Norvège et Nidaros (Trondheim) le grand lieu de pèlerinage du Nord. Naît alors un chef-d'œuvre unique : la stavkirke, l'église en bois debout aux portails de dragons — Urnes (patrimoine mondial), Borgund, Heddal.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Haugerud%20kirke%20nord.jpg",
+      "credit": {
+        "auteur": "Vidariv",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Haugerud_kirke_nord.jpg"
+    },
+    {
+      "titre": "1030-1537 — Nidaros, sur les pas de saint Olav",
+      "texte": "À Nidaros — l'actuelle Trondheim — repose saint Olav, ce roi tué à Stiklestad en 1030 et sanctifié dès l'année suivante. Sur sa tombe s'élève, de 1070 à 1300 environ, la cathédrale gothique la plus septentrionale du monde ; siège d'un archevêché en 1152, elle devient la première destination de pèlerinage d'Europe du Nord. On y venait de très loin, faisant trois fois le tour de l'édifice avant d'entrer. Le pèlerinage dura près de cinq siècles, jusqu'à la Réforme de 1537 ; le chemin de Saint-Olav est aujourd'hui rouvert.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nidaros%20Cathedral%2C%20Trondheim%20-%20pano-1.jpg",
+      "credit": {
+        "auteur": "Daderot",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Nidaros_Cathedral,_Trondheim_-_pano-1.jpg"
+    },
+    {
+      "titre": "XIIe-XIIIe s. — Les églises en bois debout",
+      "texte": "Le génie norvégien du bois s'incarne dans les stavkirker, les églises « en bois debout » du Moyen Âge. Sur près de treize cents jadis, il en reste vingt-huit. La plus ancienne, Urnes (bois abattu vers 1130, UNESCO 1979), mêle art celtique, héritage viking et plan roman ; ses entrelacs d'animaux ont donné leur nom au « style d'Urnes ». Heddal est la plus vaste, Borgund la mieux conservée. Portails sculptés et toits étagés : toute une architecture de pierre traduite en bois.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Stavkirken%20Borgund%20%28R%C3%B8rbye%29.JPG",
+      "credit": {
+        "auteur": "Martinus Rørbye",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Stavkirken_Borgund_(R%C3%B8rbye).JPG"
+    },
+    {
+      "titre": "1130-1319 — Guerres civiles puis apogée médiévale",
+      "texte": "Un siècle de guerres civiles (1130-1240) déchire le royaume pour la succession, jusqu'à ce que Håkon IV rétablisse une monarchie forte : c'est l'apogée médiévale, avec la Norvège maîtresse de l'Islande, du Groenland, des Orcades et des Shetland. Bergen, capitale, vit du stockfisch (morue séchée) des Lofoten, échangé dans toute l'Europe. En 1319, faute d'héritier, commencent les unions dynastiques avec la Suède puis le Danemark.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Akershus%20slottskirke%2020090503-01.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Akershus_slottskirke_20090503-01.jpg"
+    },
+    {
+      "titre": "XIVe-XVIe s. — Bergen, la Hanse et le stockfisch",
+      "texte": "À Bergen, fondée avant 1070, le quai de Bryggen devient vers 1350 l'un des grands comptoirs de la Ligue hanséatique. Les marchands allemands y règnent sur le commerce du stockfisch — la morue séchée des Lofoten — échangée contre les céréales du continent. Bergen fut l'un des quatre comptoirs étrangers de la Hanse, avec Novgorod, Bruges et Londres, et le seul conservé. Le comptoir ferma en 1754 ; malgré les incendies, ses façades de bois colorées, inscrites à l'UNESCO en 1979, tiennent toujours au bord du fjord.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bryggen%20in%20Bergen%2C%20Norway%20%286949770002%29.jpg",
+      "credit": {
+        "auteur": "Swedish National Heritage Board from Sweden",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bryggen_in_Bergen,_Norway_(6949770002).jpg"
+    },
+    {
+      "titre": "1349-1397 — La peste noire et l'Union de Kalmar",
+      "texte": "En 1349, la peste noire emporte peut-être la moitié de la population : villages abandonnés, noblesse ruinée, pays affaibli. En 1397, l'Union de Kalmar réunit Danemark, Suède et Norvège sous une même couronne. La Suède en sortira ; la Norvège, elle, restera liée au Danemark pendant plus de quatre siècles — un tournant décisif.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sand%C3%A5%20stoppested.jpg",
+      "credit": {
+        "auteur": "Jan-Tore Egge",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sand%C3%A5_stoppested.jpg"
+    },
+    {
+      "titre": "1537-1814 — Le régime danois et la Réforme",
+      "texte": "En 1537, la Réforme luthérienne est imposée et la Norvège devient une province du royaume Danemark-Norvège, gouvernée depuis Copenhague. Le comptoir hanséatique de Bergen, le Bryggen, est reconstruit après ses incendies (patrimoine mondial). L'exploitation du cuivre fait naître Røros (patrimoine mondial), ville de bois noircie. Quatre siècles « danois » fixent l'administration et la langue écrite.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bekkelaget%20kirke%2020081026-3.jpg",
+      "credit": {
+        "auteur": "Hans A. Rosbach",
+        "licence": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bekkelaget_kirke_20081026-3.jpg"
+    },
+    {
+      "titre": "XVIIe s. — Les bûchers du Finnmark",
+      "texte": "La période danoise a son versant sombre, à l'extrême nord. Dans le Finnmark, terre du peuple same, la peur de la sorcellerie tourne à la persécution : environ 140 procès entre 1601 et 1692, et près de 91 exécutions sur l'ensemble du siècle — la pire chasse aux sorcières de l'histoire norvégienne. Tout s'emballe après une tempête meurtrière de 1617, attribuée à la magie ; le grand procès de Vardø, l'hiver 1662-1663, envoie dix-huit femmes au bûcher. Le mémorial de Steilneset (Peter Zumthor et Louise Bourgeois, 2011) en honore les victimes.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Steilneset%20Memorial%20in%20Vard%C3%B8%20seen%20from%20above.jpg",
+      "credit": {
+        "auteur": "Frankemann",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Steilneset_Memorial_in_Vard%C3%B8_seen_from_above.jpg"
+    },
+    {
+      "titre": "1814 — Kiel, Eidsvoll et le 17 mai",
+      "texte": "Vaincu aux côtés de Napoléon, le Danemark cède la Norvège à la Suède par le traité de Kiel (janvier 1814). Mais les Norvégiens se soulèvent : réunis à Eidsvoll, ils adoptent le 17 mai 1814 une Constitution parmi les plus libérales d'Europe — toujours fête nationale. Contrainte malgré tout à l'union avec la Suède, la Norvège garde sa Constitution, son Parlement (Storting) et son autonomie.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Eidsvoll%20kirke.jpg",
+      "credit": {
+        "auteur": "Mahlum",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Eidsvoll_kirke.jpg"
+    },
+    {
+      "titre": "1814-1905 — Éveil national et indépendance",
+      "texte": "Le XIXe siècle forge l'identité : Ibsen, Grieg, Munch, et les contes d'Asbjørnsen et Moe qui fixent trolls et huldres. La langue se dédouble entre bokmål (hérité du danois) et nynorsk (reconstruit par Ivar Aasen). En 1905, pacifiquement, le Storting rompt l'union avec la Suède ; un référendum plébiscite la monarchie et le prince danois Carl devient le roi Haakon VII. La Norvège est de nouveau pleinement indépendante.",
+      "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Bergen%202011%20344%20Byparken%20rk%20108714.JPG",
+      "credit": {
+        "auteur": "Bjoertvedt",
+        "licence": "CC BY-SA 3.0 no",
+        "url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Bergen_2011_344_Byparken_rk_108714.JPG"
+    },
+    {
+      "titre": "1825-1920 — Le grand départ vers l'Amérique",
+      "texte": "Au XIXe siècle, la campagne norvégienne étouffe : mieux nourrie, la population double, mais les terres et les récoltes manquent. Entre 1825 et 1920, environ 800 000 Norvégiens — près d'un tiers du pays — partent pour l'Amérique, le deuxième plus fort exode d'Europe après l'Irlande. Ils gagnent surtout le Midwest — Minnesota, Wisconsin, Iowa, Dakota — où les grandes plaines et la terre gratuite du Homestead Act rappellent le pays quitté. Toute une Norvège se reconstruit outre-Atlantique.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%282%29%20-%20609%20-%20Leaving%20old%20home%20and%20friends%20-%20waving%20goodbyes%20to%20emigrants%20starting%20for%20America%2C%20Christiania%2C%20Norway%20stereofotografi%20-%20no-nb%20digifoto%2020160622%2000178%20bldsa%20stereo%200142.jpg",
+      "credit": {
+        "auteur": "Unknown author",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:(2)_-_609_-_Leaving_old_home_and_friends_-_waving_goodbyes_to_emigrants_starting_for_America,_Christiania,_Norway_stereofotografi_-_no-nb_digifoto_20160622_00178_bldsa_stereo_0142.jpg"
+    },
+    {
+      "titre": "XIXe-XXe s. — Ibsen, Grieg, Munch",
+      "texte": "Devenue nation, la Norvège se donne des voix qui portent au loin. Henrik Ibsen révolutionne le théâtre : sa Maison de poupée (1879), où Nora claque la porte, fait scandale dans toute l'Europe. Edvard Grieg met le pays en musique — le Concerto pour piano, et Peer Gynt avec son « Matin » et « Dans l'antre du roi de la montagne ». Edvard Munch, lui, peint l'angoisse moderne dans Le Cri (1893). Du réalisme au premier expressionnisme, trois artistes donnent au petit royaume une aura mondiale.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Edvard%20Munch%2C%201893%2C%20The%20Scream%2C%20oil%2C%20tempera%20and%20pastel%20on%20cardboard%2C%2091%20x%2073%20cm%2C%20National%20Gallery%20of%20Norway.jpg",
+      "credit": {
+        "auteur": "Edvard Munch",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+    },
+    {
+      "titre": "1888-1947 — La conquête des pôles",
+      "texte": "La mer conduit les Norvégiens jusqu'aux glaces. Fridtjof Nansen traverse le Groenland à skis en 1888, puis laisse son navire, le Fram, dériver dans la banquise (1893-1896) ; il recevra le prix Nobel de la paix pour son aide aux réfugiés. Roald Amundsen franchit le passage du Nord-Ouest, puis, le 14 décembre 1911, plante le premier son drapeau au pôle Sud, devançant Scott. Plus tard, Thor Heyerdahl traverse le Pacifique sur le radeau Kon-Tiki (1947). Une nation d'explorateurs.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Roald%20Amundsen%20LOC%2007622u.jpg",
+      "credit": {
+        "auteur": "—",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Roald_Amundsen_LOC_07622u.jpg"
+    },
+    {
+      "titre": "1940-1945 — L'occupation et la résistance",
+      "texte": "Le 9 avril 1940, l'Allemagne nazie envahit la Norvège ; le roi et le gouvernement s'exilent à Londres tandis que Vidkun Quisling installe un régime collaborationniste dont le nom deviendra synonyme de traître. Cinq ans d'occupation, de résistance (le sabotage de l'eau lourde de Rjukan, qui freine le programme nucléaire allemand) et de répression, jusqu'à la libération de 1945. L'expérience scelle l'attachement du pays à la démocratie et à la défense commune.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hjelmkollen%2C%20kanonbunker.jpg",
+      "credit": {
+        "auteur": "Tommy Gildseth",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Hjelmkollen,_kanonbunker.jpg"
+    },
+    {
+      "titre": "Après 1945 — OTAN oui, Europe non",
+      "texte": "Sortie de l'occupation, la Norvège se reconstruit — à commencer par le Finnmark incendié — et bâtit un État-providence social-démocrate. En 1949, elle est membre fondateur de l'OTAN. Mais elle tient à sa singularité : par deux fois, en 1972 (53,5 %) puis en 1994 (52,2 %), les électeurs disent « non » à l'adhésion européenne. Bientôt, le pétrole de la mer du Nord transformera le pays en l'une des nations les plus prospères du monde.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Storting%20building.jpg",
+      "credit": {
+        "auteur": "Christian David",
+        "licence": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Storting_building.jpg"
+    },
+    {
+      "titre": "Fjords, alpages et pays same",
+      "texte": "Au-delà des dates, un patrimoine vivant : les fjords de l'Ouest — Geirangerfjord et Nærøyfjord, au patrimoine mondial — bordés de fermes et de cascades ; les alpages (seter) où l'on montait le bétail l'été ; les villages de pêcheurs et leurs phares. Au nord vit le peuple autochtone same (Sápmi), éleveur de rennes, gardien du joik et du duodji, longtemps soumis à la « norvégianisation » — un patrimoine spécifique que notre édition met en avant dans un focus dédié.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/B%C3%B8kfjord%20lighthouse%20in%20S%C3%B8r%20Varanger.tif",
+      "credit": {
+        "auteur": "Danckert Monrad-Krohn, Riksantikvaren.",
+        "licence": "CC BY 2.5",
+        "url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:B%C3%B8kfjord_lighthouse_in_S%C3%B8r_Varanger.tif"
+    },
+    {
+      "titre": "Sápmi — la terre, le renne, le joik",
+      "texte": "Bien avant les frontières, le Nord est Sápmi, la terre du peuple same, à cheval sur quatre pays. En Norvège, elle couvre le Finnmark, le Troms et le Nordland. L'élevage du renne, le chant joik et l'artisanat duodji en portent l'identité. Longtemps, l'État imposa la « norvégianisation » : de 1898 à 1959, l'école ne se fit qu'en norvégien. Le conflit d'Alta, autour d'un barrage (1979-1982), réveilla la cause same ; vinrent la loi de 1987 et, en 1989, l'ouverture du Parlement same, le Sameting, à Karasjok.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sami%20people%20north%20of%20Arctic%20Circle%2C%20Norway.jpg",
+      "credit": {
+        "auteur": "Preus museum",
+        "licence": "CC BY 2.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Sami_people_north_of_Arctic_Circle,_Norway.jpg"
+    },
+    {
+      "titre": "La mer et le Grand Nord",
+      "texte": "Tout, ici, revient à la mer. Chaque hiver depuis mille ans, la morue skrei remonte des mers arctiques vers les Lofoten ; séchée au vent sur des claies, elle devient le stockfisch qui, via Bergen, fit la richesse du pays pendant cinq siècles — dès 1432, un marchand vénitien naufragé le rapporta en Italie. En 1893, le Hurtigruten inaugure l'express côtier qui relie le littoral jusqu'au Grand Nord. Là-haut règnent le soleil de minuit, la nuit polaire et les aurores — et, tout au bout, le Svalbard.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lofoten%2C%20t%C3%B8rrfisk%20-%20no-nb%20digifoto%2020150210%2000064%20NB%20MIT%20FNR%2016856.jpg",
+      "credit": {
+        "auteur": "Jac Brun",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:Lofoten,_t%C3%B8rrfisk_-_no-nb_digifoto_20150210_00064_NB_MIT_FNR_16856.jpg"
+    },
+    {
+      "titre": "Depuis 1969 — L'ère du pétrole et la Norvège moderne",
+      "texte": "La force de l'eau avait déjà électrifié le pays et fait naître des villes-usines comme Rjukan et Notodden (patrimoine mondial de l'industrie). En 1969, la découverte du gisement d'Ekofisk en mer du Nord change tout : le pétrole et le gaz font de la Norvège l'un des pays les plus prospères du monde, doté d'un immense fonds souverain. Mais la nation reste fidèle à ses fermes, ses églises de bois et ses fjords — un patrimoine qu'elle protège et que cette application vous invite à parcourir, une carte à la fois.",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/VemorkHydroelectricPlant.jpg",
+      "credit": {
+        "auteur": "MiSi at German Wikipedia",
+        "licence": "Public domain",
+        "url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+      },
+      "credit_url": "https://commons.wikimedia.org/wiki/File:VemorkHydroelectricPlant.jpg"
+    }
+  ],
+  "sources": "Récit rédigé à partir de sources ouvertes vérifiées (UNESCO, Riksantikvaren, Store norske leksikon, Wikipédia). Dates et événements recoupés. Les lieux cités sont géolocalisés dans l'application ; images et crédits ajoutés depuis Wikimedia Commons."
+}

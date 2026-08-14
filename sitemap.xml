@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GABARIT SOCLE : remplacer __DOMAINE__ par le domaine du pays (ex. pays-heritage.threshold-analytics.com) et dater <lastmod>. Fichier par-domaine (SEO), sans JS. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://__DOMAINE__/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://__DOMAINE__/index.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://__DOMAINE__/decouvrir.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://__DOMAINE__/liste.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://__DOMAINE__/itineraire.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://__DOMAINE__/accueil.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/a-propos.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/exemples-itineraires.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/premium.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/soutien.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/credits-photos.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/sources-credits.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/flux.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://__DOMAINE__/voyage.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>

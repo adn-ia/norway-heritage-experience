@@ -1,0 +1,34 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-brand-title>Heritage Experience</title>
+<script src="heritage.config.js"></script>
+<script>
+/* Smart deep-link : iOS → App Store, sinon → web app. Tout vient de HConf (un fichier, un pays). */
+(function(){
+  var C=window.HConf||{};
+  var id=C.appStoreId||"", dom=C.domaine||"";
+  if(id){ var m=document.createElement("meta"); m.name="apple-itunes-app"; m.content="app-id="+id; document.head.appendChild(m); }
+  var ua=navigator.userAgent||"";
+  var iOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  var store=id?"https://apps.apple.com/app/id"+id:"";
+  var web=dom?"https://"+dom+"/bienvenue.html":"bienvenue.html";
+  location.replace(iOS&&store?store:web);
+})();
+</script></head>
+<body style="font-family:-apple-system,Arial,sans-serif;text-align:center;padding:48px;color:#1d2733">
+<div class="mark" data-brand-mark style="font-size:34px;font-weight:700">Heritage&nbsp;Experience</div>
+<p style="margin-top:14px">…</p>
+<p style="margin-top:24px" id="go-links">
+<a href="bienvenue.html" style="color:#0b5cad">bienvenue.html</a></p>
+<script>
+(function(){
+  var C=window.HConf||{};
+  if(C.appStoreId){
+    var p=document.getElementById("go-links");
+    var a=document.createElement("a"); a.href="https://apps.apple.com/app/id"+C.appStoreId;
+    a.style.color="#0b5cad"; a.textContent="App Store";
+    p.appendChild(document.createTextNode(" · ")); p.appendChild(a);
+  }
+})();
+</script>
+</body></html>

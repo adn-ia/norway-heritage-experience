@@ -1,0 +1,37 @@
+{
+  "_note": "i18n À ELLE de la brique « contact ». Par ÉDITION : fr + en + nationale(s). RIEN dans l'i18n de l'hôte. Langue décidée par l'hôte (the_lang) → repli anglais.",
+  "i18n": {
+    "contact.titre": {
+      "fr": "🐛 Un bug, une erreur à signaler ?",
+      "en": "🐛 Found a bug or an error?"
+    },
+    "contact.texte": {
+      "fr": "Un bug, une information erronée, une idée ? <b>Écrivez-nous</b> — chaque retour aide à améliorer l'application. Merci !",
+      "en": "A bug, wrong information, an idea? <b>Write to us</b> — every bit of feedback helps improve the app. Thank you!"
+    },
+    "contact.btn.bug": {
+      "fr": "Signaler / nous écrire",
+      "en": "Report / contact us"
+    },
+    "contact.par.email": {
+      "fr": "Envoi par e-mail.",
+      "en": "Sent by e-mail."
+    },
+    "contact.sujet.bug": {
+      "fr": "{app} — Signalement / suggestion",
+      "en": "{app} — Report / suggestion"
+    },
+    "contact.corps.bug": {
+      "fr": "Décrivez le problème ou votre idée :\n\n(page concernée, ce qui s'est passé…)\n\n",
+      "en": "Describe the problem or your idea:\n\n(page concerned, what happened…)\n\n"
+    },
+    "contact.aucune.appli.mail": {
+      "fr": "Aucune appli e-mail détectée. Écrivez-nous à",
+      "en": "No e-mail app detected. Write to us at"
+    },
+    "contact.adresse.copiee": {
+      "fr": "(adresse copiée)",
+      "en": "(address copied)"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "yggdrasil": {
+    "title": "File:Yggdrasil.jpg",
+    "author": "Oluf Bagge",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Yggdrasil.jpg"
+  },
+  "bifrost": {
+    "title": "File:Heimdall an der Himmelsbrücke by E. Doepler.jpg",
+    "author": "Emil Doepler",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Heimdall_an_der_Himmelsbr%C3%BCcke_by_E._Doepler.jpg"
+  },
+  "asgard": {
+    "title": "File:Walhall by Emil Doepler.jpg",
+    "author": "Emil Doepler",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Walhall_by_Emil_Doepler.jpg"
+  },
+  "midgard": {
+    "title": "File:Johann Heinrich Fussli-Tor and Jormundgandr.jpg",
+    "author": "Henry Fuseli",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Johann_Heinrich_Fussli-Tor_and_Jormundgandr.jpg"
+  },
+  "vanaheim": {
+    "title": "File:Freyr by Johannes Gehrts.jpg",
+    "author": "Eduard Ade / After Johannes Gehrts",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Freyr_by_Johannes_Gehrts.jpg"
+  },
+  "alfheim": {
+    "title": "File:August Malmström - Dancing Fairies - Google Art Project.jpg",
+    "author": "August Malmström",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:August_Malmstr%C3%B6m_-_Dancing_Fairies_-_Google_Art_Project.jpg"
+  },
+  "jotunheim": {
+    "title": "File:Mårten Eskil Winge - Tor's Fight with the Giants - Google Art Project.jpg",
+    "author": "Mårten Eskil Winge",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:M%C3%A5rten_Eskil_Winge_-_Tor%27s_Fight_with_the_Giants_-_Google_Art_Project.jpg"
+  },
+  "svartalfheim": {
+    "title": "File:The third gift — an enormous hammer by Elmer Boyd Smith.jpg",
+    "author": "Elmer Boyd Smith (1860 - 1943)",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:The_third_gift_%E2%80%94_an_enormous_hammer_by_Elmer_Boyd_Smith.jpg"
+  },
+  "muspelheim": {
+    "title": "File:The giant with the flaming sword by Dollman.jpg",
+    "author": "John Charles Dollman",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:The_giant_with_the_flaming_sword_by_Dollman.jpg"
+  },
+  "niflheim": {
+    "title": "File:Audhumla by Abildgaard.jpg",
+    "author": "Nicolai Abildgaard",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Audhumla_by_Abildgaard.jpg"
+  },
+  "helheim": {
+    "title": "File:Hermod before Hela.jpg",
+    "author": "John Charles Dollman",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Hermod_before_Hela.jpg"
+  }
+}

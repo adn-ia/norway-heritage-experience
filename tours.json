@@ -1,0 +1,193 @@
+{
+ "chemin-des-vikings": {
+  "titre": "Le Chemin des Vikings",
+  "soustitre": "De la naissance au Valhalla : la vie d'un Viking, de la ferme aux grands tumulus royaux",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Avaldsnes (Karmøy)",
+   "coord": [
+    5.2911,
+    59.3553
+   ]
+  },
+  "forme": "line",
+  "note": "Un fil qui suit une vie viking, étape par étape. Tout commence à la ferme et dans la grande halle du chef (comme celle, reconstituée, de Borg dans les Lofoten) : on y naît, on y grandit entre les alpages et la mer. Vient l'âge d'homme — le thing, l'assemblée où l'on rend la justice — puis le négoce, au comptoir de Kaupang, et le pouvoir, à Avaldsnes, siège royal qui contrôle le Nordvegen, « le chemin du Nord » qui a donné son nom au pays. Puis la mer appelle : on part sur des navires comme ceux d'Oseberg et de Gokstad, aujourd'hui visibles au Musée de l'âge viking à Oslo (Vikingskipshuset). Au bout du voyage, la mort et le passage vers le Valhalla, marqué par les grands tumulus royaux — Borre, Oseberg, Gokstad, Raknehaugen, Herlaugshaugen — dont sept sont aujourd'hui proposés au patrimoine mondial de l'UNESCO. Tous ces lieux sont géolocalisés dans l'application.",
+  "etapes": [
+   {
+    "nom": "Avaldsnes kirke",
+    "note": "Le pouvoir. Siège royal sur le Nordvegen, la route maritime qui a donné son nom à la Norvège ; Harald à la Belle Chevelure y aurait régné."
+   },
+   {
+    "nom": "Storhaugmyrå",
+    "note": "Le négoce et la mer. Dans la région de Karmøy, les tumulus de Storhaug rappellent les riches sépultures à bateau de l'ouest viking."
+   },
+   {
+    "nom": "Borre kirke",
+    "note": "La lignée royale. Borre abrite la plus grande concentration de tertres funéraires monumentaux de Scandinavie — la nécropole d'une dynastie."
+   },
+   {
+    "nom": "Oseberghaugen",
+    "note": "Le grand départ. Le tumulus d'Oseberg a livré le navire viking le plus richement conservé au monde (834 apr. J.-C.), avec deux femmes de haut rang."
+   },
+   {
+    "nom": "Gokstadhaugen",
+    "note": "Le navire de guerre. Le drakkar de Gokstad, parfaitement préservé, incarne l'art nautique viking ; une réplique a traversé l'Atlantique en 1893."
+   },
+   {
+    "nom": "Raknehaugen",
+    "note": "Le colosse. Le plus grand tumulus d'Europe du Nord (env. 95 m de diamètre), élevé vers 550 apr. J.-C., à l'aube de l'âge viking."
+   },
+   {
+    "nom": "Herlaugshaugen",
+    "note": "Le Valhalla, au bout du royaume. À l'extrême nord, ce tumulus lié à la saga du roi Herlaug est l'un des sept proposés au patrimoine mondial."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Peu de monuments spectaculaires : surtout des tumulus, des sépultures-navires et des halles reconstituées. À Avaldsnes, le premier siège royal sur le Nordvegen ; à Borre, le plus grand ensemble de tertres monumentaux de Scandinavie ; à Oseberg et Gokstad, les grands tertres dont les navires sont au Musée de l'âge viking à Oslo (fermé pour rénovation jusqu'à environ fin 2027).",
+  "pepites": [
+   {
+    "nom": "Tjuvenborgen"
+   },
+   {
+    "nom": "Vigsteinen"
+   }
+  ],
+  "evocation": "Imagine. Tu nais dans la fumée d'une longue halle, entre la mer et les alpages. Tu grandis, tu prends la rame ; un jour le thing te fait homme, le comptoir te fait marchand, le roi te fait guerrier. La mer t'appelle : tu pars sur un navire à la proue dressée, vers des terres sans nom. Et quand vient ton heure, on t'ensevelit sous un grand tertre, ton bateau pour dernier voyage — vers le Valhalla."
+ },
+ "art-rupestre": {
+  "titre": "L'art rupestre : 10 000 ans de gravures",
+  "soustitre": "Des chasseurs d'Alta aux navires de l'âge du bronze",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Alta (Finnmark)",
+   "coord": [
+    23.1836,
+    69.9481
+   ]
+  },
+  "forme": "line",
+  "note": "La Norvège conserve l'un des plus riches corpus d'art rupestre d'Europe. À Alta, dans le Grand Nord, des milliers de gravures (5000-2000 av. J.-C.) — rennes, ours, bateaux, scènes de chasse — sont classées au patrimoine mondial de l'UNESCO. Plus au sud, l'âge du bronze a laissé navires et disques solaires. Ce circuit relie les grands sites de gravures (helleristninger) et de peintures rupestres du pays.",
+  "etapes": [
+   {
+    "nom": "Alta",
+    "note": "Le site majeur : gravures classées UNESCO, un musée de plein air au bord du fjord."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Des panneaux gravés à même la roche : rennes, élans, bateaux, scènes de chasse. Alta, au patrimoine mondial, en est le joyau, mais le corpus s'étend sur tout le pays, des chasseurs de l'âge de pierre aux navires de l'âge du bronze.",
+  "pepites": [
+   {
+    "nom": "Helleristningene på Ekeberg"
+   },
+   {
+    "nom": "Helleristningene ved Møllerstufossen"
+   },
+   {
+    "nom": "Fluberget"
+   }
+  ],
+  "evocation": "Il y a sept mille ans, quelqu'un s'agenouille sur la roche polie par les glaces et grave un renne. Pour appeler la chasse, pour remercier, ou simplement pour dire « nous étions là ». Ligne après ligne, génération après génération, la pierre devient mémoire. Suivre ces gravures, c'est poser la main là où d'autres l'ont posée pour dire le monde, bien avant l'écriture."
+ },
+ "stavkirker": {
+  "titre": "Les églises en bois debout (stavkirker)",
+  "soustitre": "Des drakkars retournés vers le ciel : le chef-d'œuvre médiéval norvégien",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Urnes (Vestland)",
+   "coord": [
+    7.3226,
+    61.2986
+   ]
+  },
+  "forme": "line",
+  "note": "Sur près de mille églises en bois debout bâties au Moyen Âge, une trentaine subsistent. Leurs portails sculptés de dragons mêlent art chrétien et imaginaire païen. Urnes est classée au patrimoine mondial ; Borgund, Heddal (la plus grande), Lom et Hopperstad comptent parmi les plus belles. Ce circuit relie les stavkirker conservées.",
+  "etapes": [
+   {
+    "nom": "Urnes stavkyrkje",
+    "note": "La plus ancienne, patrimoine mondial : les célèbres sculptures « style d'Urnes »."
+   },
+   {
+    "nom": "Borgund stavkyrkje",
+    "note": "La mieux conservée, silhouette étagée emblématique."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Des charpentes de bois debout et des portails sculptés de dragons, où l'art chrétien se mêle à l'imaginaire païen. Urnes, au patrimoine mondial, et Borgund comptent parmi les mieux conservées.",
+  "pepites": [
+   {
+    "nom": "Heddal stavkirke"
+   },
+   {
+    "nom": "Nore stavkirke"
+   }
+  ],
+  "evocation": "Entre dans la pénombre de bois. L'odeur du goudron, la lumière filtrée, les dragons sculptés qui montent la garde sur le portail — mi-chrétiens, mi-païens, comme si l'ancienne foi n'avait pas tout à fait lâché prise. Ces charpentes debout depuis huit siècles ont vu passer pestes, réformes et tempêtes. On dirait des drakkars retournés vers le ciel."
+ },
+ "fjords-alpages": {
+  "titre": "Fjords, fermes et alpages",
+  "soustitre": "La Norvège de la montagne et de l'eau",
+  "duree": "plusieurs jours",
+  "echelle": "pays",
+  "depart": {
+   "label": "Geirangerfjord",
+   "coord": [
+    7.2054,
+    62.101
+   ]
+  },
+  "forme": "line",
+  "note": "Les fjords de l'Ouest — Geirangerfjord et Nærøyfjord, au patrimoine mondial — sont bordés de fermes accrochées à la pente et de cascades. L'été, on montait le bétail à l'alpage (seter). Ce circuit relie fjords, fermes traditionnelles (gårdstun) et alpages qui racontent la vie rurale norvégienne.",
+  "etapes": [
+   {
+    "nom": "Geirangerfjord",
+    "note": "Fjord classé UNESCO, fermes de montagne et cascades des Sept Sœurs."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Des parois de montagne plongeant dans l'eau, des fermes accrochées à la pente, des cascades ; l'été, on menait le bétail à l'alpage (seter). Le Geirangerfjord, au patrimoine mondial, en est l'archétype.",
+  "pepites": [
+   {
+    "nom": "Vestnorsk fjordlandskap"
+   },
+   {
+    "nom": "Nærøyfjorden"
+   }
+  ],
+  "evocation": "Monte à l'alpage à la fin du printemps, quand la neige libère les pentes. En bas, le fjord dort, noir et profond ; en haut, les cloches des bêtes et le silence. Ici, la vie s'est réglée sur l'eau et la montagne, entre la ferme accrochée à la pente et le pâturage d'été. Écoute : la cascade, le vent, et rien d'autre."
+ },
+ "sapmi": {
+  "titre": "Sápmi : le pays same",
+  "soustitre": "Sur les terres du peuple autochtone du Grand Nord",
+  "duree": "plusieurs jours",
+  "echelle": "region",
+  "depart": {
+   "label": "Karasjok (Finnmark)",
+   "coord": [
+    25.5116,
+    69.472
+   ]
+  },
+  "forme": "line",
+  "note": "Au nord vit le peuple autochtone same (Sápmi), éleveur de rennes, gardien du joik et du duodji (artisanat). Ce focus relie ses lieux : sites de culte, campements, tombes et institutions (Parlement same de Karasjok). Un patrimoine transfrontalier, spécifique, à découvrir avec respect.",
+  "etapes": [
+   {
+    "nom": "Karasjok",
+    "note": "Cœur culturel same : Parlement same (Sámediggi) et musées."
+   }
+  ],
+  "premium": false,
+  "quoi_voir": "Les lieux du peuple same : sites de culte, campements, sépultures, et le Parlement same de Karasjok. Un patrimoine vivant, à aborder avec respect.",
+  "pepites": [
+   {
+    "nom": "Mortensnes kulturminneområde"
+   },
+   {
+    "nom": "Bølareinen"
+   }
+  ],
+  "evocation": "Le troupeau avance, et avec lui tout un peuple. Depuis des millénaires, les Sames lisent la neige, le vent, la course des rennes. Le joik n'est pas un chant sur quelque chose — il EST la personne, le lieu, l'animal qu'il appelle. Marcher sur ces terres, c'est entrer dans un savoir qui n'a jamais eu besoin de nos frontières."
+ }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="sources.credits.pays.heritage.sources.credits"></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.55;}
+.top{background:#26201a;color:var(--ivory);padding:13px 18px;display:flex;gap:12px;align-items:center;}
+.top a{color:var(--gold);text-decoration:none;font-size:13px;}
+.top .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;}
+main{max-width:720px;margin:0 auto;padding:22px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:32px;margin:6px 0 4px;}
+.lead{color:#3a3023;font-size:17px;margin-bottom:8px;}
+h2{font-family:'Cormorant Garamond',serif;font-size:23px;margin:28px 0 6px;border-bottom:1px solid var(--line);padding-bottom:6px;}
+p,li{font-size:15.5px;}
+.tag{display:inline-block;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--gold);border-radius:3px;padding:1px 7px;margin-left:6px;}
+.tag.ok{background:#5c7a52;}
+.tag.warn{background:#b07a3a;}
+a{color:var(--gold);}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:12px 0;}
+.muted{color:var(--stone);font-size:13px;}
+#photolist{font-size:13px;color:#3a3023;columns:2;column-gap:24px;}
+@media(max-width:520px){#photolist{columns:1;}}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="top"><a href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="sources.credits.sources.credits"></span></div>
+<main>
+  <h1 data-i18n="accueil.sources.credits"></h1>
+  <p class="lead" data-i18n-html="sources.credits.rich.tout.le.contenu.de"></p>
+  <p style="margin:0 0 18px"><a href="credits-photos.html" style="display:inline-block;background:#a8884f;color:#2b2318;padding:10px 16px;border-radius:7px;text-decoration:none;font-weight:600" data-i18n="sources.credits.credits.licences.de.toutes"></a></p>
+
+  <h2 data-i18n="sources.credits.donnees.faits"></h2>
+  <div class="box">
+    <p data-i18n-html="sources.credits.rich.coordonnees.et.identifiants.des"></p>
+    <p data-i18n-html="sources.credits.rich.fr.ar.en.descriptions"></p>
+    <p data-i18n-html="sources.credits.rich.fond.cartographique.et.geocodage"></p>
+    <p data-i18n-html="sources.credits.rich.references.institutionnelles.citees.dans"></p>
+    <p data-i18n-html="sources.credits.rich.synthese.d.apres.des"></p>
+  </div>
+
+  <h2 data-i18n="sources.credits.photographies"></h2>
+  <p data-i18n-html="sources.credits.rich.toutes.les.images.proviennent"></p>
+  <div class="box"><div id="photolist"><span data-i18n="sources.credits.chargement.de.la.liste"></span></div></div>
+
+  <h2 data-i18n="sources.credits.modeles.3d.realite.augmentee"></h2>
+  <div class="box">
+    
+  </div>
+
+  <h2 data-i18n="sources.credits.technologies"></h2>
+  <div class="box">
+    <p data-i18n-html="sources.credits.rich.carte.licence.bsd.de"></p>
+  </div>
+
+  <h2 data-i18n="sources.credits.en.clair.ce.que"></h2>
+  <div class="box">
+    <p data-i18n-html="sources.credits.rich.vous.n.avez.a"></p>
+  </div>
+  <p class="muted" data-i18n="sources.credits.synthese.indicative.a.but"></p>
+</main>
+<script>
+Promise.all([
+  fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+  fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]}))
+]).then(([a,b])=>{
+  const feats=[...a.features,...b.features];
+  const counts={};
+  feats.forEach(f=>{ const c=THEcredit.text(f.properties.photo_credit); if(c) counts[c]=(counts[c]||0)+1; });
+  const tot=feats.filter(f=>f.properties.photo).length;
+  const items=Object.entries(counts).sort((x,y)=>y[1]-x[1]).map(([c,n])=>`<div>• ${c.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))} <span class="muted">(${n})</span></div>`).join('');
+  document.getElementById('photolist').innerHTML=`<div style="columns:1;margin-bottom:8px"><b>${tot}</b> ${uiT('credits.photos.reparties')}</div>`+items;
+});
+</script>
+  <script src="analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+ "contact.titre": "🐛 Einen Fehler melden?",
+ "contact.texte": "Ein Fehler, eine falsche Information, eine Idee? <b>Schreiben Sie uns</b> — jede Rückmeldung hilft, die App zu verbessern. Danke!",
+ "contact.btn.bug": "Melden / kontaktieren",
+ "contact.par.email": "Versand per E-Mail.",
+ "contact.sujet.bug": "{app} — Meldung / Vorschlag",
+ "contact.corps.bug": "Beschreiben Sie das Problem oder Ihre Idee:\n\n(betroffene Seite, was passiert ist…)\n\n",
+ "contact.aucune.appli.mail": "Keine E-Mail-App erkannt. Schreiben Sie uns an",
+ "contact.adresse.copiee": "(Adresse kopiert)"
+}

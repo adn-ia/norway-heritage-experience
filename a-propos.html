@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="a.propos.pays.heritage.a.quoi"></title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;--green:#5c7a52;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
+.topbar .listen{appearance:none;-webkit-appearance:none;border:1px solid var(--gold);background:transparent;
+  color:var(--gold-soft);font-family:inherit;font-size:13px;letter-spacing:.5px;padding:5px 13px;border-radius:20px;
+  cursor:pointer;white-space:nowrap;transition:all .15s;}
+.topbar .listen.on{background:var(--gold);color:#2b2318;border-color:var(--gold);}
+
+.hero{position:relative;height:62vh;min-height:380px;display:flex;align-items:flex-end;color:#fff;
+  background:linear-gradient(180deg,rgba(20,15,10,.15) 0%,rgba(20,15,10,.78) 100%),url('img/hero.jpg') center/cover;}
+.hero .inner{padding:30px 22px 40px;max-width:720px;margin:0 auto;width:100%;}
+.hero .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:8px;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(32px,7.5vw,54px);line-height:1.04;margin:0 0 10px;text-shadow:0 2px 18px rgba(0,0,0,.5);}
+.hero p{font-size:clamp(16px,4.5vw,20px);font-style:italic;color:#f3e8d6;margin:0;max-width:560px;text-shadow:0 1px 10px rgba(0,0,0,.6);}
+
+main{max-width:720px;margin:0 auto;padding:8px 22px 60px;}
+.lead{font-size:19px;line-height:1.65;color:#3a3023;margin:30px 0;}
+.lead:first-letter{font-family:'Cormorant Garamond',serif;font-size:58px;float:left;line-height:.8;padding:6px 10px 0 0;color:var(--gold);}
+.lead strong{color:var(--ink);}
+
+section{margin:38px 0;}
+.kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:29px;line-height:1.06;margin:0 0 10px;}
+section p{font-size:17px;margin:12px 0;color:#332a1d;}
+section p strong{color:var(--ink);}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:34px 0;}
+
+/* Compteur + catégories de contenu */
+.count{display:inline-block;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);font-size:1.05em;}
+.cats{list-style:none;padding:0;margin:18px 0 4px;display:flex;flex-direction:column;gap:10px;}
+.cats li{display:flex;align-items:flex-start;gap:13px;background:var(--paper);border:1px solid var(--line);
+  border-radius:6px;padding:13px 15px;box-shadow:0 4px 14px rgba(43,35,24,.08);}
+.cats .i{font-size:22px;flex:0 0 30px;text-align:center;line-height:1.3;}
+.cats .tx b{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;}
+.cats .tx span{display:block;font-size:14.5px;color:var(--stone);margin-top:2px;line-height:1.4;}
+
+/* Étapes "garder une trace" */
+.steps{counter-reset:s;list-style:none;padding:0;margin:18px 0;}
+.steps li{position:relative;padding:6px 0 16px 46px;}
+.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:32px;height:32px;
+  border-radius:50%;background:#26201a;color:var(--ivory);font-family:'Cormorant Garamond',serif;font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:16px;}
+.steps li:not(:last-child):after{content:"";position:absolute;left:15px;top:34px;bottom:2px;width:2px;background:var(--line);}
+.steps b{font-family:'Cormorant Garamond',serif;font-size:18px;}
+.steps span{display:block;font-size:15px;color:var(--stone);margin-top:2px;}
+
+/* Bloc confidentialité (ligne rouge) */
+.privacy{background:#26201a;color:var(--ivory);border-radius:8px;padding:24px 22px;margin-top:30px;}
+.privacy .ic{font-size:30px;}
+.privacy h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;margin:8px 0 10px;color:#fff;}
+.privacy p{font-size:15.5px;color:#ece1cf;margin:10px 0;line-height:1.6;}
+.privacy strong{color:var(--gold-soft);}
+
+.cta{margin-top:40px;}
+.cta .ask{text-align:center;margin-bottom:18px;}
+.cta .ask h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:26px;margin:0 0 4px;}
+.cta .ask p{color:var(--stone);font-size:15px;margin:0;}
+.choice{display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);
+  border-radius:6px;padding:16px 18px;text-decoration:none;color:var(--ink);margin-bottom:12px;
+  box-shadow:0 4px 16px rgba(43,35,24,.10);transition:transform .15s;}
+.choice:active{transform:scale(.99);}
+.choice .ic{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:22px;background:#f1e7d5;border:1px solid var(--line);}
+.choice .tx{flex:1;}
+.choice .tt{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;line-height:1.1;}
+.choice .ds{font-size:13.5px;color:var(--stone);margin-top:2px;line-height:1.35;}
+.choice .ar{color:var(--gold);font-size:20px;}
+
+.note{font-size:12px;color:var(--stone);font-style:italic;border-top:1px solid var(--line);padding-top:14px;margin-top:34px;}
+
+section.reading,.lead.reading{background:rgba(168,136,79,.10);box-shadow:-3px 0 0 var(--gold);border-radius:2px;transition:background .3s;}
+.lead.reading{padding:6px 0 6px 14px;margin-left:-14px;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+</style>
+  <script src="the-i18n.js"></script>
+</head>
+<body>
+<div class="topbar"><a class="back" href="decouvrir.html" data-i18n="a.propos.menu"></a><span class="t" data-i18n="a.propos.l.application"></span><button class="listen" id="listen" data-i18n-aria="aria.ecouter.presentation" data-i18n="a.propos.ecouter"></button></div>
+
+<div class="hero"><div class="inner">
+  <div class="kick" data-i18n="a.propos.le.contenu.de.l"></div>
+  <h1 data-i18n-html="a.propos.rich.votre.compagnonde.voyage.patrimonial"></h1>
+  <p data-i18n="a.propos.comprendre.ce.que.vous"></p>
+</div></div>
+
+<main>
+  <p class="lead" data-i18n-html="a.propos.rich.ce.pays.ne.se"></p>
+
+  <section>
+    <div class="kicker" data-i18n="a.propos.ce.qu.elle.contient"></div>
+    <h2 data-i18n="a.propos.plus.de.500.lieux"></h2>
+    <p data-i18n-html="a.propos.rich.chaque.lieu.vient.avec"></p>
+    <ul class="cats">
+      <li><span class="i">🏛️</span><span class="tx"><b data-i18n="a.propos.sites.historiques.par.periode"></b><span data-i18n="a.propos.de.l.antiquite.aux"></span></span></li>
+      <li><span class="i">🌿</span><span class="tx"><b data-i18n="a.propos.nature.paysages"></b><span data-i18n="a.propos.parcs.forets.et.balades"></span></span></li>
+      <li><span class="i">🖼️</span><span class="tx"><b data-i18n="a.propos.musees"></b><span data-i18n="a.propos.ou.voir.les.objets"></span></span></li>
+      <li><span class="i">🎬</span><span class="tx"><b data-i18n="a.propos.lieux.de.tournage"></b><span data-i18n="a.propos.les.decors.de.cinema"></span></span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="kicker" data-i18n="a.propos.a.quoi.elle.sert"></div>
+    <h2 data-i18n="a.propos.tirer.le.meilleur.de"></h2>
+    <p data-i18n-html="a.propos.rich.le.but.est.simple"></p>
+    <ul class="cats">
+      <li><span class="i">✨</span><span class="tx"><b data-i18n="a.propos.suivre.un.itineraire.deja"></b><span data-i18n="a.propos.des.circuits.soignes.cles"></span></span></li>
+      <li><span class="i">✏️</span><span class="tx"><b data-i18n="a.propos.le.modifier.a.votre"></b><span data-i18n="a.propos.ajoutez.une.etape.retirez"></span></span></li>
+      <li><span class="i">🧭</span><span class="tx"><b data-i18n="a.propos.creer.le.votre.de"></b><span data-i18n="a.propos.votre.depart.votre.temps"></span></span></li>
+    </ul>
+    <p data-i18n-html="a.propos.rich.de.quoi.ceux.qu"></p>
+  </section>
+
+  <section>
+    <div class="kicker" data-i18n="a.propos.avec.les.guides.pas"></div>
+    <h2 data-i18n="a.propos.un.complement.jamais.un"></h2>
+    <p data-i18n-html="a.propos.rich.l.application.qui.sont"></p>
+  </section>
+
+  <section>
+    <div class="kicker" data-i18n="a.propos.garder.une.trace"></div>
+    <h2 data-i18n="a.propos.documentez.et.bonifiez.votre"></h2>
+    <p data-i18n-html="a.propos.rich.au.fil.du.parcours"></p>
+    <ul class="steps">
+      <li><b data-i18n="a.propos.capturez"></b><span data-i18n="a.propos.ajoutez.vos.photos.et"></span></li>
+      <li><b data-i18n="a.propos.bonifiez"></b><span data-i18n="a.propos.enrichissez.chaque.moment.de"></span></li>
+      <li><b data-i18n="a.propos.exportez"></b><span data-i18n="a.propos.transformez.le.tout.en"></span></li>
+    </ul>
+  </section>
+
+  <section class="creator" style="display:flex;gap:14px;align-items:flex-start;background:#fbf3e8;border-left:3px solid var(--gold-soft,#c9ad79);border-radius:8px;padding:16px 18px;margin:26px 0">
+    <div style="font-size:28px;line-height:1;flex:0 0 auto">🩺</div>
+    <div>
+      <h2 style="margin:0 0 8px" data-i18n="a.propos.createur.titre"></h2>
+      <p style="margin:0;font-size:15px;line-height:1.55" data-i18n="a.propos.createur.texte"></p>
+    </div>
+  </section>
+
+  <div class="privacy">
+    <div class="ic">🔒</div>
+    <h3 data-i18n="a.propos.vos.souvenirs.restent.les"></h3>
+    <p data-i18n-html="a.propos.rich.tout.ce.que.vous"></p>
+    <p data-i18n-html="a.propos.rich.en.aucun.cas.il"></p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="cta">
+    <div class="ask">
+      <h3 data-i18n="a.propos.pret.a.commencer"></h3>
+      <p data-i18n="a.propos.le.menu.complet.vous"></p>
+    </div>
+    <a class="choice" href="decouvrir.html"><span class="ic">🧭</span><span class="tx"><span class="tt" data-i18n="a.propos.aller.au.menu"></span><span class="ds" data-i18n="a.propos.decouvrir.l.pays.creer"></span></span><span class="ar">›</span></a>
+  </div>
+
+  <p class="note" data-i18n="a.propos.presentation.generale.a.vocation"></p>
+</main>
+
+<script>
+  // Compte réel de lieux (Histoire + Nature), arrondi pour la présentation
+  Promise.all([
+    fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+    fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]}))
+  ]).then(([h,n])=>{
+    const tot=(h.features?.length||0)+(n.features?.length||0);
+    if(tot>=100){ const floor=Math.floor(tot/100)*100; document.getElementById('count').textContent=uiT('apropos.plus.de',{n:floor}); }
+  }).catch(()=>{});
+
+  // ---- Narration vocale (synthèse vocale du navigateur) ----
+  const synth = window.speechSynthesis;
+  const btn = document.getElementById('listen');
+  let chunks = [], idx = 0, state = 'idle';
+  function buildChunks(){
+    chunks = [];
+    const lead = document.querySelector('main .lead');
+    if (lead) chunks.push({ el: lead, text: lead.textContent.trim() });
+    document.querySelectorAll('main section').forEach(sec => {
+      const h2 = sec.querySelector('h2');
+      const ps = [...sec.querySelectorAll(':scope > p')];
+      const text = ((h2 ? h2.textContent.trim() + '. ' : '') + ps.map(p => p.textContent.trim()).join(' ')).trim();
+      if (text) chunks.push({ el: sec, text });
+    });
+    const priv = document.querySelector('.privacy');
+    if (priv){ const h3=priv.querySelector('h3'); const ps=[...priv.querySelectorAll('p')];
+      chunks.push({ el: priv, text:(h3?h3.textContent.trim()+'. ':'')+ps.map(p=>p.textContent.trim()).join(' ') }); }
+  }
+  function frVoice(){ const vs=synth.getVoices(); return vs.find(v=>/^fr[-_]FR/i.test(v.lang))||vs.find(v=>/^fr/i.test(v.lang))||null; }
+  function clearHighlight(){ document.querySelectorAll('.reading').forEach(e=>e.classList.remove('reading')); }
+  function highlight(el){ clearHighlight(); el.classList.add('reading'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  function setUI(){
+    if(state==='playing'){ btn.textContent='⏸ Pause'; btn.classList.add('on'); }
+    else if(state==='paused'){ btn.textContent='▶ Reprendre'; btn.classList.add('on'); }
+    else { btn.textContent=uiT('a.propos.ecouter'); btn.classList.remove('on'); }
+  }
+  function stop(){ synth.cancel(); state='idle'; idx=0; clearHighlight(); setUI(); }
+  function speakIdx(){
+    if(idx>=chunks.length){ stop(); return; }
+    const {el,text}=chunks[idx];
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=(({fr:'fr-FR',en:'en-GB',et:'et-EE'})[(function(){try{return localStorage.getItem('the_lang')||'fr'}catch(e){return 'fr'}})()]||'fr-FR'); u.rate=0.96; u.pitch=1;
+    const v=frVoice(); if(v) u.voice=v;
+    u.onstart=()=>highlight(el);
+    u.onend=()=>{ if(state==='playing'){ idx++; speakIdx(); } };
+    synth.speak(u);
+  }
+  btn.addEventListener('click', ()=>{
+    if(!('speechSynthesis' in window)){ btn.textContent=uiT('decouvrir.indisponible'); btn.disabled=true; return; }
+    if(state==='idle'){ buildChunks(); idx=0; state='playing'; setUI(); speakIdx(); }
+    else if(state==='playing'){ synth.pause(); state='paused'; setUI(); }
+    else if(state==='paused'){ synth.resume(); state='playing'; setUI(); }
+  });
+  window.addEventListener('beforeunload', ()=>synth.cancel());
+  window.addEventListener('pagehide', ()=>synth.cancel());
+</script>
+<script src="the-footer.js" defer></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

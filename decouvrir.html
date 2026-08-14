@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+  <script src="the-pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#26201a">
+<title data-i18n="decouvrir.pays.heritage"></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
+.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
+
+.hero{position:relative;height:78vh;min-height:440px;display:flex;align-items:flex-end;color:#fff;
+  background:linear-gradient(180deg,rgba(20,15,10,.15) 0%,rgba(20,15,10,.75) 100%),url('img/hero.jpg') center/cover;}
+.hero .inner{padding:30px 22px 40px;max-width:720px;margin:0 auto;width:100%;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(34px,8vw,60px);line-height:1.02;margin:0 0 10px;text-shadow:0 2px 18px rgba(0,0,0,.5);}
+.hero p{font-size:clamp(16px,4.5vw,21px);font-style:italic;color:#f3e8d6;margin:0;max-width:560px;text-shadow:0 1px 10px rgba(0,0,0,.6);}
+.hero .scroll{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft);margin-top:18px;}
+
+main{max-width:720px;margin:0 auto;padding:8px 22px 60px;}
+.lead{font-size:19px;line-height:1.65;color:#3a3023;margin:30px 0;}
+.lead:first-letter{font-family:'Cormorant Garamond',serif;font-size:58px;float:left;line-height:.8;padding:6px 10px 0 0;color:var(--gold);}
+
+section{margin:40px 0;}
+.kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;line-height:1.05;margin:0 0 6px;}
+.years{font-size:13px;color:var(--stone);font-style:italic;margin-bottom:12px;}
+section p{font-size:17px;margin:12px 0;color:#332a1d;}
+figure{margin:18px 0;}
+figure img{width:100%;border-radius:4px;display:block;box-shadow:0 6px 22px rgba(43,35,24,.18);}
+figcaption{font-size:12px;color:var(--stone);font-style:italic;margin-top:6px;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:36px 0;}
+
+.cta{background:#26201a;color:var(--ivory);border-radius:6px;padding:26px 22px;text-align:center;margin-top:44px;}
+.cta h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:24px;margin:0 0 8px;}
+.cta p{color:var(--gold-soft);font-size:15px;margin:0 0 16px;}
+.cta a{display:inline-block;background:var(--gold);color:#2b2318;text-decoration:none;padding:11px 22px;border-radius:6px;font-size:15px;letter-spacing:1px;}
+.note{font-size:12px;color:var(--stone);font-style:italic;border-top:1px solid var(--line);padding-top:14px;margin-top:34px;}
+
+/* Narration vocale */
+.topbar .listen{appearance:none;-webkit-appearance:none;border:1px solid var(--gold);background:transparent;
+  color:var(--gold-soft);font-family:inherit;font-size:13px;letter-spacing:.5px;padding:5px 13px;border-radius:20px;
+  cursor:pointer;white-space:nowrap;transition:all .15s;}
+.topbar .listen.on{background:var(--gold);color:#2b2318;border-color:var(--gold);}
+section.reading,.lead.reading{background:rgba(168,136,79,.10);box-shadow:-3px 0 0 var(--gold);
+  border-radius:2px;transition:background .3s;}
+.lead.reading{padding:6px 0 6px 14px;margin-left:-14px;}
+
+/* Choix de fin (plutôt qu'un saut direct vers la carte) */
+.choices{margin-top:46px;}
+.choices .ask{text-align:center;margin-bottom:22px;}
+.choices .ask h3{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:27px;margin:0 0 4px;}
+.choices .ask p{color:var(--stone);font-size:15px;margin:0;}
+.choice{display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);
+  border-radius:6px;padding:16px 18px;text-decoration:none;color:var(--ink);margin-bottom:12px;
+  box-shadow:0 4px 16px rgba(43,35,24,.10);transition:transform .15s;}
+.choice:active{transform:scale(.99);}
+.choice .ic{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:22px;background:#f1e7d5;border:1px solid var(--line);}
+.choice.nat .ic{background:#e8efe2;}
+.choice .tx{flex:1;}
+.choice .tt{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;line-height:1.1;}
+.choice .ds{font-size:13.5px;color:var(--stone);margin-top:2px;line-height:1.35;}
+.choice .ar{color:var(--gold);font-size:20px;}
+
+/* Menu des portes d'entrée — en haut, à côté du texte */
+.intro-row{display:flex;gap:26px;align-items:flex-start;}
+.intro-row .lead{flex:1;margin:30px 0;}
+.sidemenu{flex:0 0 214px;margin-top:34px;background:var(--paper);border:1px solid var(--line);
+  border-radius:8px;padding:14px 14px 12px;box-shadow:0 4px 16px rgba(43,35,24,.09);}
+.sm-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:19px;margin-bottom:8px;}
+.sm-group{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:12px 0 4px;padding-top:8px;border-top:1px solid var(--line);}
+.sm-group:first-of-type{border-top:none;padding-top:0;margin-top:2px;}
+.sm-item{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);
+  padding:9px;border-radius:6px;font-size:15px;transition:background .12s;}
+.sm-item:hover{background:#f1e7d5;}
+.sm-item .i{font-size:19px;flex:0 0 auto;}
+.sm-item .t{font-weight:600;line-height:1.15;}
+.sm-item .t small{display:block;font-weight:400;font-size:11px;color:var(--stone);margin-top:1px;}
+.sm-item.primary{background:#26201a;color:var(--ivory);margin-bottom:4px;}
+.sm-item.primary:hover{background:#33291d;}
+.sm-item.primary .t small{color:var(--gold-soft);}
+.sm-item.soon{opacity:.6;}
+.sm-item.soon .t{color:var(--stone);font-weight:500;}
+.sm-item .dev{display:inline-block;font-size:10px;letter-spacing:.5px;color:#b07a3a;
+  border:1px solid var(--line);border-radius:3px;padding:1px 5px;margin-left:5px;vertical-align:middle;}
+.sm-note{font-size:12px;color:var(--stone);font-style:italic;margin-top:9px;
+  border-top:1px solid var(--line);padding-top:9px;line-height:1.4;}
+html{scroll-behavior:smooth;}
+section[id]{scroll-margin-top:64px;}
+@media(max-width:640px){
+  .intro-row{flex-direction:column;gap:0;}
+  .intro-row .lead{margin:20px 0 0;}
+  .sidemenu{flex-basis:auto;width:100%;order:-1;margin-top:22px;}
+}
+@media (prefers-reduced-motion:reduce){section.reading,.lead.reading{scroll-behavior:auto;}}
+</style>
+  <script src="the-i18n.js"></script>
+<style>
+.rec-hero{margin:0 0 22px}.rec-hero img{width:100%;max-height:340px;object-fit:cover;border-radius:14px;display:block}
+.rec-fig{margin:6px 0 14px;float:none}.rec-fig img{width:100%;max-height:300px;object-fit:cover;border-radius:11px;display:block}
+.rec-fig figcaption{font-size:11.5px;color:#8a806e;margin-top:5px;font-style:italic}
+#recit section{margin-bottom:30px}#recit h2{margin-bottom:10px}
+@media(min-width:680px){.rec-fig{float:right;width:44%;margin:4px 0 12px 20px}}
+section.reading,.lead.reading{background:rgba(168,136,79,.10);box-shadow:-3px 0 0 var(--gold);border-radius:4px;transition:background .3s}
+.narrbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:10px;justify-content:center;align-items:center;background:rgba(38,32,26,.97);padding:9px 10px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -2px 14px rgba(0,0,0,.3)}
+.narrbar[hidden]{display:none}
+body.narr-on{padding-bottom:76px}
+.narrbar .nb{appearance:none;-webkit-appearance:none;border:1px solid var(--gold);background:transparent;color:var(--gold-soft);font-size:16px;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.narrbar .nb-main{width:50px;height:50px;font-size:22px;background:var(--gold);color:#2b2318;border-color:var(--gold)}
+.narrbar .nb:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){section.reading,.lead.reading{transition:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="bienvenue.html" data-i18n="decouvrir.accueil"></a><span class="t" data-i18n="decouvrir.decouvrir"></span><button class="listen" id="listen" data-tour-step="voix" data-i18n-aria="aria.ecouter.recit" data-i18n="a.propos.ecouter"></button></div>
+
+<div class="hero"><div class="inner">
+  <h1 id="rec-h1"></h1>
+  <p id="rec-sub"></p>
+  <div class="scroll" data-i18n="decouvrir.faites.defiler"></div>
+</div></div>
+
+<main>
+  <div class="intro-row">
+    <p class="lead" id="rec-lead"></p>
+    <aside class="sidemenu">
+      <div class="sm-title" data-i18n="decouvrir.le.menu"></div>
+      <div class="sm-group" data-i18n="menu.groupe.decouvrir"></div>
+      <a class="sm-item primary" href="#recit" data-tour-step="recit"><span class="i">📖</span><span class="t"><span id="rec-menu" data-i18n="accueil.decouvrir"></span><small data-i18n="decouvrir.le.recit.a.lire"></small></span></a>
+      <a class="sm-item" href="itineraire.html" data-tour-step="itineraire"><span class="i">🧭</span><span class="t"><span data-i18n="accueil.creer.un.itineraire"></span><small data-i18n="decouvrir.parcours.sur.mesure.carte"></small></span></a>
+      <a class="sm-item" href="index.html" data-tour-step="carte"><span class="i">🗺️</span><span class="t" data-i18n="accueil.explorer.la.carte"></span></a>
+      <a class="sm-item" href="voyage.html" data-tour-step="voyage"><span class="i">🎞️</span><span class="t"><span data-i18n="decouvrir.voyage.immersif"></span><small data-i18n="decouvrir.diaporama.narre.plein.ecran"></small></span></a>
+      <a class="sm-item" href="liste.html" data-tour-step="liste"><span class="i">📋</span><span class="t"><span data-i18n="decouvrir.tous.les.lieux.liste"></span><small data-i18n="decouvrir.parcourir.sans.la.carte"></small></span></a>
+      <a class="sm-item" href="liste.html?around=1" data-tour-step="autour"><span class="i">📍</span><span class="t"><span data-i18n="decouvrir.autour.de.moi"></span><small data-i18n="decouvrir.ce.qu.il.y"></small></span></a>
+      <a class="sm-item" href="patrimoine/" data-tour-step="patrimoine"><span class="i">🏛️</span><span class="t"><span data-i18n="patrimoine.menu.titre"></span><small data-i18n="patrimoine.menu.sous"></small></span></a>
+      <a class="sm-item" href="neuf-mondes.html"><span class="i">🌳</span><span class="t"><span data-i18n="neuf.mondes.titre"></span><small data-i18n="neuf.mondes.sous"></small></span></a>
+      <a class="sm-item" href="joaillerie-viking.html"><span class="i">💍</span><span class="t"><span data-i18n="joaillerie.titre"></span><small data-i18n="joaillerie.sous"></small></span></a>
+      <a class="sm-item" data-brique="tour" href="#"><span class="i">🎓</span><span class="t"><span data-bt-label></span><small data-bt-sub></small></span></a>
+
+      <div class="sm-group" data-i18n="menu.groupe.pratique"></div>
+      <a class="sm-item" href="hors-ligne.html"><span class="i">💾</span><span class="t"><span data-i18n="menu.sauvegarde"></span><small data-i18n="menu.sauvegarde.sub"></small></span></a>
+      <a class="sm-item" href="contribuer.html"><span class="i">🙌</span><span class="t"><span data-i18n="soutien.contribuer.signaler"></span><small data-i18n="menu.contribuer.sub"></small></span></a>
+      <a class="sm-item" href="confidentialite.html"><span class="i">🔒</span><span class="t"><span data-i18n="menu.confidentialite"></span><small data-i18n="menu.confidentialite.sub"></small></span></a>
+      <a class="sm-item" href="soutien.html"><span class="i">☕</span><span class="t"><span data-i18n="menu.soutien"></span><small data-i18n="menu.soutien.sub"></small></span></a>
+      <a class="sm-item" href="sources-credits.html"><span class="i">📑</span><span class="t"><span data-i18n="accueil.sources.credits"></span><small data-i18n="decouvrir.donnees.photos.sourcees"></small></span></a>
+      <div class="sm-note" data-i18n="decouvrir.activez.la.localisation.pour"></div>
+    </aside>
+  </div>
+
+  <div id="recit"></div>
+
+  <div class="rule"></div>
+
+  <p class="note" data-i18n="decouvrir.apercu.general.a.vocation"></p>
+</main>
+
+<div class="narrbar" id="narrbar" hidden>
+  <button class="nb" id="nb-restart" type="button" data-i18n-aria="aria.narr.repartir">⏮</button>
+  <button class="nb" id="nb-back" type="button" data-i18n-aria="aria.narr.reculer">⏪</button>
+  <button class="nb nb-main" id="nb-play" type="button" data-i18n-aria="aria.narr.pause">⏸</button>
+  <button class="nb" id="nb-fwd" type="button" data-i18n-aria="aria.narr.avancer">⏩</button>
+  <button class="nb" id="nb-stop" type="button" data-i18n-aria="aria.narr.arreter">⏹</button>
+</div>
+
+<script>
+  /* ---- Narration « Découvrir » ----
+     Principal : MP3 pro par langue (voix/decouvrir-<lang>.mp3), généré via edge-tts.
+     Repli : synthèse vocale du navigateur (langue courante).
+     Tous les libellés passent par uiT() / data-i18n (règle i18n). */
+  const synth = window.speechSynthesis;
+  const btn = document.getElementById('listen');
+  let audio = null, mode = 'idle', usingTTS = false;   // idle | playing | paused
+
+  function appLang(){ try{ return localStorage.getItem('the_lang')||'fr'; }catch(e){ return 'fr'; } }
+  function curLang(){ return appLang().slice(0,2); }
+  function mp3url(){ return 'voix/decouvrir-' + curLang() + '.mp3'; }
+  function bcp(l){ return {fr:'fr-FR',en:'en-GB',et:'et-EE'}[l]||l; }
+  function langVoice(l){ const vs=synth.getVoices(),c=bcp(l).toLowerCase(); return vs.find(v=>v.lang&&v.lang.toLowerCase()===c)||vs.find(v=>v.lang&&v.lang.toLowerCase().indexOf(l.toLowerCase())===0)||null; }
+
+  function setUI(){
+    if (mode === 'playing'){ btn.textContent = uiT('decouvrir.narr.pause'); btn.classList.add('on'); }
+    else if (mode === 'paused'){ btn.textContent = uiT('decouvrir.narr.reprendre'); btn.classList.add('on'); }
+    else { btn.textContent = uiT('a.propos.ecouter'); btn.classList.remove('on'); }
+    const bar = document.getElementById('narrbar'); if (bar) bar.hidden = (mode === 'idle');
+    const nbp = document.getElementById('nb-play'); if (nbp) nbp.textContent = (mode === 'playing') ? '⏸' : '▶';
+    document.body.classList.toggle('narr-on', mode !== 'idle');
+    const seekable = !usingTTS;
+    ['nb-back','nb-fwd'].forEach(id => { const b=document.getElementById(id); if(b){ b.style.opacity=seekable?'1':'.35'; b.disabled=!seekable; } });
+  }
+  // ---------- MP3 pro (chemin principal) ----------
+  function startMP3(){
+    audio = new Audio(mp3url()); audio.preload = 'metadata';
+    audio.addEventListener('ended', () => { mode = 'idle'; setUI(); });
+    audio.addEventListener('error', fallbackTTS);
+    audio.play().then(() => { mode = 'playing'; setUI(); }).catch(fallbackTTS);
+  }
+  function toggleMP3(){ if (mode==='playing'){ audio.pause(); mode='paused'; setUI(); } else if (mode==='paused'){ audio.play(); mode='playing'; setUI(); } }
+
+  // ---------- Repli : synthèse vocale du navigateur (langue courante) ----------
+  let chunks = [], idx = 0, ttsState = 'idle';
+  function buildChunks(){
+    chunks = [];
+    const lead = document.querySelector('main .lead'); if (lead) chunks.push({ el: lead, text: lead.textContent.trim() });
+    document.querySelectorAll('main section').forEach(sec => {
+      const h2 = sec.querySelector('h2'); const ps = [...sec.querySelectorAll(':scope > p')];
+      const text = ((h2 ? h2.textContent.trim() + '. ' : '') + ps.map(p => p.textContent.trim()).join(' ')).trim();
+      if (text) chunks.push({ el: sec, text });
+    });
+  }
+  function clearHi(){ document.querySelectorAll('.reading').forEach(e => e.classList.remove('reading')); }
+  function hi(el){ clearHi(); el.classList.add('reading'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  function speakIdx(){
+    if (idx >= chunks.length){ ttsStop(); return; }
+    const { el, text } = chunks[idx]; const u = new SpeechSynthesisUtterance(text);
+    const L = curLang(); u.lang = bcp(L); u.rate = 0.96; const v = langVoice(L); if (v) u.voice = v;
+    u.onstart = () => hi(el);
+    u.onend = () => { if (ttsState === 'playing'){ idx++; speakIdx(); } };
+    synth.speak(u);
+  }
+  function ttsStop(){ synth.cancel(); ttsState='idle'; idx=0; clearHi(); mode='idle'; setUI(); }
+  function fallbackTTS(){
+    if (usingTTS) return;
+    if (!('speechSynthesis' in window)){ btn.textContent = uiT('decouvrir.indisponible'); btn.disabled = true; return; }
+    usingTTS = true; buildChunks(); idx = 0; ttsState = 'playing'; mode = 'playing'; setUI(); speakIdx();
+  }
+  function toggleTTS(){ if (ttsState==='playing'){ synth.pause(); ttsState='paused'; mode='paused'; setUI(); } else if (ttsState==='paused'){ synth.resume(); ttsState='playing'; mode='playing'; setUI(); } }
+
+  function playToggle(){ if (mode==='idle'){ usingTTS=false; startMP3(); } else if (usingTTS){ toggleTTS(); } else { toggleMP3(); } }
+  btn.addEventListener('click', playToggle);
+
+  // ---------- barre de transport (⏮ ⏪ ⏯ ⏩ ⏹) ----------
+  function narrRestart(){ if (usingTTS){ synth.cancel(); idx=0; ttsState='playing'; mode='playing'; setUI(); speakIdx(); return; } if (!audio){ usingTTS=false; startMP3(); return; } audio.currentTime=0; audio.play(); mode='playing'; setUI(); }
+  function narrSeek(delta){ if (usingTTS || !audio) return; let t=(audio.currentTime||0)+delta; if(t<0)t=0; if(audio.duration&&t>audio.duration)t=audio.duration-0.3; audio.currentTime=t; }
+  function narrStop(){ try{ if (audio){ audio.pause(); audio.currentTime=0; } synth.cancel(); }catch(e){} usingTTS=false; ttsState='idle'; idx=0; clearHi(); mode='idle'; setUI(); }
+  (function(){ const m={'nb-restart':narrRestart,'nb-back':()=>narrSeek(-15),'nb-fwd':()=>narrSeek(15),'nb-stop':narrStop,'nb-play':playToggle}; Object.keys(m).forEach(id=>{ const b=document.getElementById(id); if(b) b.onclick=m[id]; }); })();
+
+  function stopAll(){ try{ synth.cancel(); if (audio) audio.pause(); }catch(e){} }
+  window.addEventListener('beforeunload', stopAll); window.addEventListener('pagehide', stopAll);
+  setUI();
+</script>
+<script>(function(){var lang="fr";try{lang=localStorage.getItem("the_lang")||"fr";}catch(e){}function render(r){if(!r)return;document.title=(r.titre||"")+" \u2014 "+((window.HConf&&HConf.marqueCourte)||"Heritage");var h1=document.getElementById("rec-h1");if(h1)h1.textContent=(r.titre||"").replace(/^D[\u00e9e]couvrir\s+/i,"");var sb=document.getElementById("rec-sub");if(sb)sb.textContent=r.sous_titre||"";var ld=document.getElementById("rec-lead");if(ld)ld.innerHTML=r.intro||"";var mn=document.getElementById("rec-menu");if(mn)mn.textContent=r.titre||mn.textContent||"";var bd=document.getElementById("recit");if(bd){var hero=r.hero?"<figure class='rec-hero'><img loading='lazy' src='"+r.hero+"' alt=''></figure>":"";bd.innerHTML=hero+(r.chapitres||[]).map(function(c){var fig=c.image?"<figure class='rec-fig'><img loading='lazy' src='"+c.image+"' alt=''>"+(c.credit?"<figcaption>\u00a9 "+c.credit+"</figcaption>":"")+"</figure>":"";return "<section><h2>"+String(c.titre||"")+"</h2>"+fig+String(c.texte||"").split(/\n\n+/).map(function(p){return "<p>"+p+"</p>";}).join("")+"</section>";}).join("");}}fetch("recit."+lang+".json").then(function(x){if(!x.ok)throw 0;return x.json();}).catch(function(){return fetch("recit.fr.json").then(function(x){return x.json();});}).then(render).catch(function(){});})();</script>
+<script src="brique-tour.js" defer></script>
+<script src="the-footer.js" defer></script>
+  <script src="analytics.js"></script>
+</body>
+</html>

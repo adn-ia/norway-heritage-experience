@@ -1,0 +1,10 @@
+{
+ "contact.titre": "🐛 Un bug, une erreur à signaler ?",
+ "contact.texte": "Un bug, une information erronée, une idée ? <b>Écrivez-nous</b> — chaque retour aide à améliorer l'application. Merci !",
+ "contact.btn.bug": "Signaler / nous écrire",
+ "contact.par.email": "Envoi par e-mail.",
+ "contact.sujet.bug": "{app} — Signalement / suggestion",
+ "contact.corps.bug": "Décrivez le problème ou votre idée :\n\n(page concernée, ce qui s'est passé…)\n\n",
+ "contact.aucune.appli.mail": "Aucune appli e-mail détectée. Écrivez-nous à",
+ "contact.adresse.copiee": "(adresse copiée)"
+}
