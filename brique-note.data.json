@@ -1,10 +1,30 @@
 {
-  "_note": "i18n À ELLE de la brique « note ». Par ÉDITION : fr + en + langue(s) nationale(s). RIEN dans l'i18n de l'hôte. Langue décidée par l'hôte (the_lang) → repli anglais.",
-  "i18n": {
-    "note.titre": { "fr": "★ Vous aimez l'application ?", "en": "★ Enjoying the app?" },
-    "note.texte": { "fr": "Laissez-nous une bonne évaluation sur le store : c'est gratuit, ça prend 10 secondes, et ça récompense vraiment le travail derrière cette application.", "en": "Leave us a good rating on the store — it's free, it takes 10 seconds, and it truly rewards the work behind this app." },
-    "note.btn.appstore": { "fr": "Noter sur l'App Store", "en": "Rate on the App Store" },
-    "note.btn.play": { "fr": "Noter sur Google Play", "en": "Rate on Google Play" },
-    "note.merci": { "fr": "Merci du fond du cœur 🙏", "en": "Thank you so much 🙏" }
+ "_note": "i18n À ELLE de la brique « note ». Par ÉDITION : fr + en + langue(s) nationale(s). RIEN dans l'i18n de l'hôte. Langue décidée par l'hôte (the_lang) → repli anglais.",
+ "i18n": {
+  "note.titre": {
+   "fr": "★ Vous aimez l'application ?",
+   "en": "★ Enjoying the app?",
+   "nb": "★ Liker du appen?"
+  },
+  "note.texte": {
+   "fr": "Laissez-nous une bonne évaluation sur le store : c'est gratuit, ça prend 10 secondes, et ça récompense vraiment le travail derrière cette application.",
+   "en": "Leave us a good rating on the store — it's free, it takes 10 seconds, and it truly rewards the work behind this app.",
+   "nb": "Gi oss en god vurdering i appbutikken: det er gratis, tar 10 sekunder og belønner virkelig arbeidet bak denne appen."
+  },
+  "note.btn.appstore": {
+   "fr": "Noter sur l'App Store",
+   "en": "Rate on the App Store",
+   "nb": "Vurder i App Store"
+  },
+  "note.btn.play": {
+   "fr": "Noter sur Google Play",
+   "en": "Rate on Google Play",
+   "nb": "Gi en vurdering på Google Play"
+  },
+  "note.merci": {
+   "fr": "Merci du fond du cœur 🙏",
+   "en": "Thank you so much 🙏",
+   "nb": "Tusen takk fra hjertet 🙏"
   }
+ }
 }
