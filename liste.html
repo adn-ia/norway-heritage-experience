@@ -4,7 +4,7 @@
   <script src="heritage.config.js"></script>
   <script src="the-pass.js"></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2b2318">
 <title data-i18n="liste.pays.heritage.tous.les"></title>
@@ -44,7 +44,7 @@ body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);backgroun
 .card .mt{font-size:12px;color:var(--stone);letter-spacing:.3px;}
 .empty{max-width:900px;margin:40px auto;text-align:center;color:var(--stone);font-style:italic;}
 .card .pick{position:absolute;top:8px;right:8px;width:22px;height:22px;cursor:pointer;z-index:2;accent-color:var(--gold);}
-.selbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#2b2318;color:var(--ivory);display:none;align-items:center;gap:10px;padding:11px 16px;box-shadow:0 -4px 18px rgba(0,0,0,.3);flex-wrap:wrap;justify-content:center;}
+.selbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#2b2318;color:var(--ivory);display:none;align-items:center;gap:10px;padding:11px 16px;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px));box-shadow:0 -4px 18px rgba(0,0,0,.3);flex-wrap:wrap;justify-content:center;}
 .selbar.on{display:flex;}
 .selbar b{font-size:14px;}
 .selbar button{border:none;border-radius:8px;padding:11px 17px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;background:var(--gold);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3);}
