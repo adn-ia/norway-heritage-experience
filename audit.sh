@@ -11,8 +11,8 @@
 set -u
 
 # ===== CONFIG-PAYS (à adapter par pays — SEULE partie propre au clone) =======
-COUNTRY_TERMS="Norvege|Norvège|Norway|Norge|Oslo|Bergen|Trondheim|Stavanger|Tromso|Tromsø|Svalbard"               # À ADAPTER : noms/villes du pays cloné (PAS de tokens __…__ : ils collisionneraient avec l'interpolation i18n)
-ISO="no"                                               # À ADAPTER : code iso pays
+COUNTRY_TERMS="Norvège|Norway|Norge"        # matérialisé depuis heritage.config.js
+ISO="no"                                              # matérialisé
 CHECKOUT_HINT="lemonsqueezy|checkout\.|buy\.stripe|gumroad"  # indices de mur payant
 # ===== /CONFIG-PAYS =========================================================
 

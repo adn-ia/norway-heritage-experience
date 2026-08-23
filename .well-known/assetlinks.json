@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "__PACKAGE_NAME__",
+    "package_name": "com.thresholdanalytics.heritage.no",
     "sha256_cert_fingerprints": [
       "__SHA256_PWABUILDER__",
       "__SHA256_PLAY_APP_SIGNING__"
