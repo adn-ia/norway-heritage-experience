@@ -180,7 +180,6 @@
       <button class="chip active" id="fTout" data-i18n="index.tout"></button>
       <button class="chip" id="fHist" data-i18n="index.histoire"></button>
       <button class="chip nat" id="fNat" data-i18n="index.nature" style="display:none"></button>
-      <button class="chip" id="fLeg" data-i18n="index.legendes"></button>
       <span class="spacer"></span>
       <button class="icon-btn" id="tourBtn" data-i18n-title="index.itineraire.tour.guide">🧭</button>
       <button class="icon-btn" id="audioBtn" data-i18n-title="index.guide.audio.raconte.ou">🔊</button>
@@ -289,7 +288,6 @@
       if(cons) h+=`<p class="info">💡 <b>${lblI('conseil')}</b> : ${cons}</p>`;
       if(hor) h+=`<p class="info">🕒 ${hor}</p>`;
       if(p.acces) h+=`<p class="info warn">⚠️ ${p.acces}</p>`;
-      h+=`<div data-brique="legende" data-site="${(p.nom||'').replace(/"/g,'&quot;')}"></div>`;   // brique auto-portée « légende »
       if((tr&&tr.an)||p.anecdote){ var _an=(tr&&tr.an)||p.anecdote; h+= isPremium()
         ? `<p class="info" style="background:#eef6f0;border-left:3px solid #6f9c7a;padding:8px 11px;border-radius:6px;margin-top:9px">👁️ <b>${uiT('fiche.detail')}</b> — ${_an}</p>`
         : `<p class="info" onclick="location.href='premium.html'" style="background:#eef6f0;border-left:3px solid #6f9c7a;padding:8px 11px;border-radius:6px;margin-top:9px;cursor:pointer">👁️ <b>${uiT('fiche.detail')}</b> — ${String(_an).replace(/<[^>]*>/g,'').slice(0,45).trim()}… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">${uiT('premium.badge')}</span></p>`; }
@@ -314,7 +312,7 @@
     // Couche unique + filtres (categorie / periode / région)
     const markers = []; // {f, marker, cat}
     const displayGroup = L.layerGroup().addTo(map);
-    let catFilter='tout', govFilter='all', perFilter='all', aroundOn=false, aroundRadius=10000, legFilter=false, nivFilter='all', unescoFilter=false, themeFilter='';
+    let catFilter='tout', govFilter='all', perFilter='all', aroundOn=false, aroundRadius=10000, nivFilter='all', unescoFilter=false, themeFilter='';
     // Menu THÈME unifié (carte = liste) : Nature/Musées/Marchés + catégories patrimoine, dérivées du contenu.
     /* Thèmes DÉCLARÉS par l'édition (heritage.config.js → HConf.themes) : id, icône,
        clé de libellé, priorité et mots-clés DU VOCABULAIRE DE CETTE ÉDITION.
@@ -412,7 +410,6 @@
       const isNat=o.f.properties.categorie==='nature';
       if(catFilter==='hist' && isNat) return false;
       if(catFilter==='nat' && !isNat) return false;
-      if(legFilter && !(window.BriqueLegende&&BriqueLegende.hasSync(o.f.properties.nom))) return false;  // filtre = donnée de la brique
       if(themeFilter){
         if(themeFilter==='nature'){ if(p0.categorie!=='nature') return false; }
         else if(themeFilter==='musee'||themeFilter==='marche'){ if(p0.categorie!==themeFilter) return false; }
@@ -585,7 +582,6 @@
       { const st=document.getElementById('selTheme'); if(st) st.value=''; }
       fAround.classList.remove('active'); selRad.style.display='none';
       [fTout,fHist,fNat].forEach(b=>b.classList.remove('active')); fTout.classList.add('active');
-      legFilter=false; var _fl=document.getElementById('fLeg'); if(_fl)_fl.classList.remove('active');
       document.getElementById('mapReset').classList.remove('show');
       var w=document.getElementById('whatSee'); if(w) w.classList.remove('hidden');   // carte revide → bouton réapparaît
       applyFilters(); map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
@@ -652,7 +648,6 @@
     function setCat(mode){ clearRoute(); activateSelection(); catFilter=mode; [fTout,fHist,fNat].forEach(b=>b.classList.remove('active')); ({tout:fTout,hist:fHist,nat:fNat})[mode].classList.add('active');
       applyFilters(); }
     fTout.onclick=()=>setCat('tout'); fHist.onclick=()=>setCat('hist'); fNat.onclick=()=>setCat('nat');
-    const fLeg=document.getElementById('fLeg'); fLeg.onclick=()=>{ if(!isPremium()){ location.href='premium.html'; return; } clearRoute(); activateSelection(); legFilter=!legFilter; fLeg.classList.toggle('active',legFilter); if(window.BriqueLegende){BriqueLegende.ready().then(applyFilters);} else applyFilters(); };
     document.getElementById('selGov').onchange=e=>{ clearRoute(); activateSelection(); govFilter=e.target.value; applyFilters(); };
     const fAround=document.getElementById('fAround'), selRad=document.getElementById('selRad');
     fAround.onclick=()=>{ clearRoute(); activateSelection(); aroundCenter=null; aroundOn=!aroundOn; fAround.classList.toggle('active',aroundOn); selRad.style.display=aroundOn?'':'none';
@@ -916,6 +911,5 @@
 <script src="the-postcard.js" defer></script>
 <script src="the-detours.js" defer></script>
 <script src="the-fiche-audio.js" defer></script>
-<script src="brique-legende.js" defer></script>
 </body>
 </html>

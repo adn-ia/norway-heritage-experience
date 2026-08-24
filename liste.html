@@ -85,7 +85,6 @@ body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);backgroun
     <select id="region"><option value="" data-i18n="index.toutes.les.regions"></option></select>
     <select id="type"><option value="" data-i18n="index.tout"></option></select>
     <label class="chk"><input type="checkbox" id="withPhoto"> <span data-i18n="liste.avec.photo"></span></label>
-    <label class="chk"><input type="checkbox" id="withLeg"> <span data-i18n="liste.legendes"></span></label>
     <button id="aroundBtn" class="seg" style="padding:9px 12px;cursor:pointer;color:var(--ink)" data-i18n="index.autour.de.moi"></button>
   </div>
   <div class="row" id="radiusRow" style="display:none;margin-top:8px;">
@@ -177,7 +176,7 @@ function catOf(p){ const src=(p&&typeof p==='object')?((p.type||'')+' '+(p.epoqu
   CAT_DEFS.forEach(c=>{ if(c.kw && c.kw.some(k=>t.includes(k))){ if(!best||c.pri<best.pri) best=c; } }); return best?best.id:null; }
 // un lieu appartient à une catégorie s'il en porte le slug dans `themes` (donnée) OU si son type matche
 function inCat(s,id){ return (Array.isArray(s.themes) && s.themes.indexOf(id)>=0) || catOf(s)===id; }
-let F={g:'all',q:'',region:'',type:'',photo:false,legonly:false,around:false,center:null,radius:30,registre:false};
+let F={g:'all',q:'',region:'',type:'',photo:false,around:false,center:null,radius:30,registre:false};
 function hav(a,b){ const R=6371,r=Math.PI/180,x=Math.sin((b[1]-a[1])*r/2)**2+Math.cos(a[1]*r)*Math.cos(b[1]*r)*Math.sin((b[0]-a[0])*r/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
 function pass(s){
   if(s.keep===0 && !F.registre) return false;   // registre masqué par défaut (croisé photo/guide/texte/nature)
@@ -185,7 +184,6 @@ function pass(s){
   if(F.type==='nature'){ if(gen(s)!=='nature') return false; }
   else if(F.type){ if(!inCat(s,F.type)) return false; }
   if(F.photo && !((s.photo||'').trim()!=='')) return false;
-  if(F.legonly && !(window.BriqueLegende&&BriqueLegende.hasSync(s.nom))) return false;  // filtre = donnée de la brique
   if(F.around && F.center){ if(!s._c) return false; if(hav(F.center,s._c)>F.radius) return false; }
   if(F.q){ const q=norm(F.q); if(!norm(s.nom).includes(q) && !norm(s.region).includes(q) && !norm(s.type).includes(q)) return false; }
   return true;
@@ -219,7 +217,6 @@ function openSheet(s){
   if(s.acces) h+=`<div class="warn">⚠️ ${esc(s.acces)}</div>`;
   if(s.ambiance) h+=`<div class="amb">✨ <b style="font-style:normal">${uiT('liste.instant')}</b> — ${esc(s.ambiance)}</div>`;
   const an=(tr&&tr.an)||s.anecdote;
-  h+=`<div data-brique="legende" data-site="${esc(s.nom)}"></div>`;   // brique auto-portée « légende »
   if(an) h+= isPremium() ? `<div class="det">👁️ <b>${uiT('fiche.detail')}</b> — ${an}</div>` : `<div class="det" onclick="location.href='premium.html'" style="cursor:pointer">👁️ <b>${uiT('fiche.detail')}</b> — ${String(an).replace(/<[^>]*>/g,'').slice(0,45).trim()}… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">${uiT('premium.badge')}</span></div>`;
   if(s.source) h+=`<div class="src">${uiT('liste.source')}${esc(s.source)}</div>`;
   if(s.photo_credit) h+=`<div class="src">📷 ${THEcredit.html(s.photo_credit)}</div>`;
@@ -236,7 +233,6 @@ document.getElementById('q').oninput=e=>{F.q=e.target.value;render();};
 document.getElementById('region').onchange=e=>{F.region=e.target.value;render();};
 document.getElementById('type').onchange=e=>{F.type=e.target.value;render();};
 document.getElementById('withPhoto').onchange=e=>{F.photo=e.target.checked;render();};
-document.getElementById('withLeg').onchange=e=>{ if(!isPremium()){ e.target.checked=false; location.href='premium.html'; return; } F.legonly=e.target.checked; if(window.BriqueLegende){BriqueLegende.ready().then(render);} else render();};
 function updateBar(){ const n=getPicks().length; document.getElementById('selcount').textContent=n+' '+(n>1?uiT('index.lieux.2'):uiT('index.lieu'))+' '+(n>1?uiT('liste.selectionnes'):uiT('liste.selectionne')); document.getElementById('selbar').classList.toggle('on',n>0); }
 function selNames(){ return getPicks().map(encodeURIComponent).join('|'); }
 document.getElementById('selNew').onclick=()=>{ if(getPicks().length) location.href='itineraire.html?picks='+selNames()+'&from=liste'; };
@@ -260,6 +256,5 @@ if(new URLSearchParams(location.search).get('around')==='1') activateAround();
   <script src="analytics.js"></script>
 <script src="the-postcard.js" defer></script>
 <script src="the-fiche-audio.js" defer></script>
-<script src="brique-legende.js" defer></script>
 </body>
 </html>

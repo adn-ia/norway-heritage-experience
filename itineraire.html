@@ -785,12 +785,11 @@
     return best ? best.id : null;
   }
   function matchTheme(props, theme){
-    if(theme.legend) return !!(props.legende && String(props.legende).trim());
     if(Array.isArray(props.themes) && props.themes.indexOf(theme.id)>=0) return true;   // thème porté par la donnée
     return themeIdOf(props)===theme.id;   // sinon : dérivé du type, exclusif
   }
   // un thème ne s'affiche que s'il a du contenu réel dans CE pays (≥3 sites) — seuls les transversaux SANS mots-clés (Légende, Gastronomie) sont exemptés ; Cinéma doit mériter ses ≥3
-  function themeViable(t){ return t.legend || t.food || SITES.filter(s=>matchTheme(s.p,t)).length >= 3; }
+  function themeViable(t){ return t.food || SITES.filter(s=>matchTheme(s.p,t)).length >= 3; }
 
   // ---------- variables indépendantes : durée (nb d'étapes) × périmètre (rayon) ----------
   const DUREE = {
@@ -881,7 +880,6 @@
     if(t.food) c.classList.add('chip-pass');
     c.onclick=()=>{
       if(t.food && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('premium.theme.gastronomie'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
-      if(t.legend && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('itin.mythes.legendes'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
       if(t.id==='cinema' && !selectedThemes.has(t.id) && !isPremium()){ requirePass(uiT('itin.decors.de.cinema'), ()=>{ selectedThemes.add(t.id); [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); }); return; }
       if(selectedThemes.has(t.id)) selectedThemes.delete(t.id); else selectedThemes.add(t.id);
       [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id))); };
@@ -1461,7 +1459,7 @@
       
       const desc=((tr&&tr.d) || p.description || '').trim();
       const Lav=(tr&&tr.a)||p.a_voir||'', Lcons=(tr&&tr.c)||p.conseil||'', Lhor=(tr&&tr.h)||p.horaires||'';
-      const Llg=(tr&&tr.leg)||p.legende||'', Lan=(tr&&tr.an)||p.anecdote||'';
+      const Lan=(tr&&tr.an)||p.anecdote||'';
       const tag = s.halte ? '📍 Halte · '+halteLabel(s.htype) : (s.genre==='perso' ? uiT('itin.ajoute.par.vous') : (trCat(p.epoque) || [p.categorie,trCat(p.type)].filter(Boolean).join(' · ')));
       const sleeps = s.nuit || s._sleep;
       const nightHtml = sleeps
@@ -1480,7 +1478,6 @@
         (Lav?'<div class="kv"><b>'+LBL('avoir')+'</b> '+Lav+'</div>':'')+
         (Lcons?'<div class="kv"><b>'+LBL('conseil')+'</b> '+Lcons+'</div>':'')+
         (Lhor?'<div class="kv"><b>'+LBL('horaires')+'</b> '+Lhor+'</div>':'')+
-        (Llg?(isPremium()?uiT('itin.legende')+Llg+' <span style="font-size:11px;color:#8a7c9a;font-style:italic">(folklore · tradition)</span></div>':'<a href="premium.html" class="kv" style="display:block;background:#f3eefb;border-left:3px solid #8a6fb0;padding:7px 10px;border-radius:6px;margin-top:6px;text-decoration:none;color:inherit">🐉 <b>'+uiT('itin.lbl.legende')+'</b> — '+String(Llg).replace(/<[^>]*>/g,'').slice(0,55).trim()+'… <span style="color:#8a6fb0;font-weight:700;white-space:nowrap">'+uiT('itin.premium')+'</span></a>'):'')+
         (Lan?(isPremium()?uiT('itin.le.detail')+Lan+'</div>':'<a href="premium.html" class="kv" style="display:block;background:#eef6f0;border-left:3px solid #6f9c7a;padding:7px 10px;border-radius:6px;margin-top:6px;text-decoration:none;color:inherit">👁️ <b>'+uiT('itin.lbl.detail')+'</b> — '+String(Lan).replace(/<[^>]*>/g,'').slice(0,45).trim()+'… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">'+uiT('itin.premium')+'</span></a>'):'')+
         (p.acces_note?uiT('itin.acces.gps')+p.acces_note+'</div>':'')+
         '<div class="svc'+(svc.iso?' iso':'')+'">'+(nat?'🥾 ':(svc.iso?'⚑ ':'🛏️ '))+svc.txt+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>'+
