@@ -17,7 +17,7 @@
 *{box-sizing:border-box;}
 body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
 .topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
-.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar a.back{min-height:44px;display:inline-flex;align-items:center;padding:0 4px;color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
 .topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:16px;}
 main{max-width:720px;margin:0 auto;padding:22px 22px 70px;}
 h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,6vw,36px);line-height:1.08;margin:6px 0 4px;}
@@ -82,7 +82,7 @@ a.txtlink,a.cMail{color:var(--gold);}
   // Injection dynamique (rien en dur, règle « un fichier, un pays ») :
   // marque via HConf.marque, e-mail de contact via HConf.support. Rejoué après rendu i18n.
   function fillConfid(){
-    var m = (window.HConf && HConf.marque) || 'Heritage Experience';
+    var m = (window.THEi18n && THEi18n.pick && window.HConf && THEi18n.pick(HConf.marque)) || 'Heritage Experience';
     var mail = (window.HConf && HConf.support) || '';
     try { document.title = m + ' — ' + ((window.THEi18n&&THEi18n.ui('soutien.confidentialite.rgpd'))||'Confidentialité'); } catch(e){}
     var apps = document.querySelectorAll('.cApp'); for (var i=0;i<apps.length;i++) apps[i].textContent = m;

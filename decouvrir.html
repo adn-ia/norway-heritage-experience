@@ -19,7 +19,7 @@
 *{box-sizing:border-box;}
 body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.6;}
 .topbar{position:sticky;top:0;z-index:10;background:rgba(38,32,26,0.96);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25);}
-.topbar a.back{color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar a.back{min-height:44px;display:inline-flex;align-items:center;padding:0 4px;color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
 .topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;}
 
 .hero{position:relative;height:78vh;min-height:440px;display:flex;align-items:flex-end;color:#fff;
@@ -125,7 +125,7 @@ body.narr-on{padding-bottom:76px}
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="bienvenue.html" data-i18n="decouvrir.accueil"></a><span class="t" data-i18n="decouvrir.decouvrir"></span><button class="listen" id="listen" data-tour-step="voix" data-i18n-aria="aria.ecouter.recit" data-i18n="a.propos.ecouter"></button></div>
+<div class="topbar"><a class="back" href="bienvenue.html?garde=1" data-i18n="decouvrir.accueil"></a><span class="t" data-i18n="decouvrir.decouvrir"></span><button class="listen" id="listen" data-tour-step="voix" data-i18n-aria="aria.ecouter.recit" data-i18n="a.propos.ecouter"></button></div>
 
 <div class="hero"><div class="inner">
   <h1 id="rec-h1"></h1>
@@ -140,7 +140,8 @@ body.narr-on{padding-bottom:76px}
       <div class="sm-title" data-i18n="decouvrir.le.menu"></div>
       <div class="sm-group" data-i18n="menu.groupe.decouvrir"></div>
       <a class="sm-item primary" href="#recit" data-tour-step="recit"><span class="i">📖</span><span class="t"><span id="rec-menu" data-i18n="accueil.decouvrir"></span><small data-i18n="decouvrir.le.recit.a.lire"></small></span></a>
-      <a class="sm-item" href="itineraire.html" data-tour-step="itineraire"><span class="i">🧭</span><span class="t"><span data-i18n="accueil.creer.un.itineraire"></span><small data-i18n="decouvrir.parcours.sur.mesure.carte"></small></span></a>
+      <a class="sm-item" href="itineraire.html?choix=1" data-tour-step="itineraire"><span class="i">🧭</span><span class="t"><span data-i18n="accueil.creer.un.itineraire"></span><small data-i18n="decouvrir.parcours.sur.mesure.carte"></small></span></a>
+      <a class="sm-item" id="smItiSauves" href="itineraire.html?mes=1"><span class="i">📚</span><span class="t"><span data-i18n="menu.mes.itineraires">Itinéraires sauvegardés</span><small data-i18n="menu.mes.itineraires.sub">composés, surprises, voyages libres</small></span></a>
       <a class="sm-item" href="index.html" data-tour-step="carte"><span class="i">🗺️</span><span class="t" data-i18n="accueil.explorer.la.carte"></span></a>
       <a class="sm-item" href="voyage.html" data-tour-step="voyage"><span class="i">🎞️</span><span class="t"><span data-i18n="decouvrir.voyage.immersif"></span><small data-i18n="decouvrir.diaporama.narre.plein.ecran"></small></span></a>
       <a class="sm-item" href="liste.html" data-tour-step="liste"><span class="i">📋</span><span class="t"><span data-i18n="decouvrir.tous.les.lieux.liste"></span><small data-i18n="decouvrir.parcourir.sans.la.carte"></small></span></a>
@@ -153,6 +154,7 @@ body.narr-on{padding-bottom:76px}
       <div class="sm-group" data-i18n="menu.groupe.pratique"></div>
       <a class="sm-item" href="hors-ligne.html"><span class="i">💾</span><span class="t"><span data-i18n="menu.sauvegarde"></span><small data-i18n="menu.sauvegarde.sub"></small></span></a>
       <a class="sm-item" href="contribuer.html"><span class="i">🙌</span><span class="t"><span data-i18n="soutien.contribuer.signaler"></span><small data-i18n="menu.contribuer.sub"></small></span></a>
+      <a class="sm-item" href="premium.html" data-tour-step="premium"><span class="i">💛</span><span class="t"><span data-i18n="menu.premium"></span><small data-i18n="menu.premium.sub"></small></span></a>
       <a class="sm-item" href="confidentialite.html"><span class="i">🔒</span><span class="t"><span data-i18n="menu.confidentialite"></span><small data-i18n="menu.confidentialite.sub"></small></span></a>
       <a class="sm-item" href="soutien.html"><span class="i">☕</span><span class="t"><span data-i18n="menu.soutien"></span><small data-i18n="menu.soutien.sub"></small></span></a>
       <a class="sm-item" href="sources-credits.html"><span class="i">📑</span><span class="t"><span data-i18n="accueil.sources.credits"></span><small data-i18n="decouvrir.donnees.photos.sourcees"></small></span></a>

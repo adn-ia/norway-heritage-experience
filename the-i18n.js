@@ -35,8 +35,8 @@
     var _mfLink=document.querySelector('link[rel="manifest"]');
     if(_mfLink && _HC.iso){
       var _mf={
-        name: _HC.marque || 'Heritage Experience',
-        short_name: _HC.marqueCourte || _HC.marque || 'Heritage',
+        name: _pick(_HC.marque) || 'Heritage Experience',
+        short_name: _pick(_HC.marqueCourte) || _pick(_HC.marque) || 'Heritage',
         description: 'Patrimoine, itinéraires et carnet de voyage, hors-ligne.',
         id: '/?app=' + _HC.iso,
         start_url: 'bienvenue.html',
@@ -45,6 +45,10 @@
         orientation: 'portrait',
         background_color: '#2b2318',
         theme_color: '#2b2318',
+        // même cible de partage que dans heritage.config.js : ce bloc ÉCRASE
+        // le manifeste, il doit donc la reconduire ou elle disparaîtrait.
+        share_target: { action:'itineraire.html', method:'GET',
+                        params:{ title:'titre', text:'texte', url:'lien' } },
         icons: [
           { src:'icon-192.png', sizes:'192x192', type:'image/png', purpose:'any' },
           { src:'logo-the.png', sizes:'512x512', type:'image/png', purpose:'any' },
@@ -55,7 +59,7 @@
       // iOS : nom affiché sur l'écran d'accueil (Safari lit cette meta, pas seulement le manifest)
       var _t=document.querySelector('meta[name="apple-mobile-web-app-title"]');
       if(!_t){ _t=document.createElement('meta'); _t.setAttribute('name','apple-mobile-web-app-title'); document.head.appendChild(_t); }
-      _t.setAttribute('content', _HC.marqueCourte || _HC.marque || 'Heritage');
+      _t.setAttribute('content', _pick(_HC.marqueCourte) || _pick(_HC.marque) || 'Heritage');
     }
   }catch(e){}
 
@@ -63,22 +67,28 @@
   function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim(); }
 
   // « UN FICHIER, UN PAYS » — interpolation à l'exécution : les libellés ui.*.json contiennent
-  // des tokens (__MARQUE__, __MARQUE_COURTE__, __PAYS__, __PAYS_MAJ__, __LANGUE_NAT__, __ENDONYME__)
+  // des tokens (__MARQUE__, __MARQUE_COURTE__, __PAYS__, __PAYS_MAJ__, __LANGUE_NAT__, __ENDONYME__, __NB_LIEUX__)
   // remplis depuis HConf → ui.*.json restent 100% génériques, seul heritage.config.js change.
   function _pick(v){ if(v && typeof v==='object') return v[lang]||v.fr||v.en||''; return v||''; }
   function fillStr(s){
     if(typeof s!=='string' || s.indexOf('__')<0) return s;
     var H=window.HConf||{}, pays=_pick(H.pays), langueNat=_pick(H.langueNat);
-    return s.replace(/__MARQUE_MARK__/g,   H.marqueMark||H.marque||'')
-            .replace(/__MARQUE_COURTE__/g, H.marqueCourte||'')
-            .replace(/__MARQUE__/g,        H.marque||'')
-            .replace(/__PAYS_DE__/g,       (H.paysDe|| ('de '+pays)))
+    /* TOUT passe par _pick : une valeur de HConf peut être une chaîne OU un
+       objet par langue. « paysDe » était lu brut et rendait « [object Object] »
+       en pleine page d'accueil — « Sites antiques, monuments et paysages
+       [object Object] ». Les autres jetons sont filtrés par prudence : sur une
+       chaîne, _pick ne fait rien. */
+    return s.replace(/__MARQUE_MARK__/g,   _pick(H.marqueMark)||_pick(H.marque)||'')
+            .replace(/__MARQUE_COURTE__/g, _pick(H.marqueCourte)||'')
+            .replace(/__MARQUE__/g,        _pick(H.marque)||'')
+            .replace(/__PAYS_DE__/g,       (_pick(H.paysDe)|| ('de '+pays)))
             .replace(/__LE_PAYS__/g,       (_pick(H.paysLe)|| pays))
             .replace(/__PAYS_MAJ__/g,      (pays||'').toLocaleUpperCase())
             .replace(/__PAYS__/g,          pays)
             .replace(/__LANGUE_NAT__/g,    langueNat)
             .replace(/__langue_nat__/g,    (langueNat||'').toLocaleLowerCase())
-            .replace(/__ENDONYME__/g,      H.endonyme||'');
+            .replace(/__NB_LIEUX__/g,      _pick(H.nbLieux)||'')
+            .replace(/__ENDONYME__/g,      _pick(H.endonyme)||'');
   }
   function fillAll(o){ if(o) for(var k in o){ if(typeof o[k]==='string') o[k]=fillStr(o[k]); } return o; }
 
@@ -96,6 +106,22 @@
   // (manifeste i18n/langs.json, généré par le build/audit-langues : ready=true si ≥90% UI+desc).
   // Pas de manifeste → rétro-compatible, on affiche tout.
   var READY=null;
+  /* Le drapeau de la LANGUE NATIONALE se déduit du code pays de HConf : deux
+     lettres ISO donnent l'emoji correspondant. Sans cela on écrivait un drapeau
+     en dur — et une édition affichait celui d'une autre, tandis que la table
+     générique proposait pour l'arabe un drapeau qui n'est le pays de personne.
+     Une langue n'est pas un pays : seul le pays de l'ÉDITION a un drapeau. */
+  function drapeauNational(code) {
+    var nat = [].concat((window.HConf && HConf.langNatCode) || []);
+    if (nat.indexOf(code) < 0) return '';
+    var iso = String((window.HConf && HConf.iso) || '').toUpperCase();
+    if (!/^[A-Z]{2}$/.test(iso)) return '';
+    try {
+      return String.fromCodePoint(0x1F1E6 + iso.charCodeAt(0) - 65,
+                                  0x1F1E6 + iso.charCodeAt(1) - 65);
+    } catch (e) { return ''; }
+  }
+
   function availLangs(){
     return Object.keys(LANGS).filter(function(k){ return k==='fr' || !READY || (READY[k] && READY[k].ready); });
   }
@@ -114,7 +140,7 @@
         var b=document.createElement('button');
         b.setAttribute('data-l', k);
         b.setAttribute('data-i18n-title', LANGS[k]);
-        b.textContent=FLAG[k]||'🏳️';
+        b.textContent=drapeauNational(k)||FLAG[k]||'🏳️';
         b.title=(UI&&UI[LANGS[k]])||k;
         if(k===lang) b.classList.add('on');
         b.onclick=function(){ try{ localStorage.setItem('the_lang', k); }catch(e){} location.reload(); };
@@ -155,10 +181,38 @@
     try{ if(document.title){ document.title=document.title.split(/\s+[\u2014\u2013]\s+/).map(function(p){var k=p.replace(/\u00a0/g,' ').trim(); return UI[k]||p;}).join(' \u2014 '); } }catch(e){}
   }
 
-  // chargement (contenu + interface) avant rendu
+  /* ── Chargement, avec REPLI EN CHAÎNE ──────────────────────────────────────
+     Avant : un seul dictionnaire. Une clé absente laissait `UI[k]` indéfini, et
+     comme la plupart des éléments sont écrits vides — `<span data-i18n="x"></span>` —
+     le voyageur ne voyait RIEN. Pas le français : rien. Un trou blanc à l'écran.
+     C'est ce qui a rendu la dette de traduction bloquante : on ne pouvait pas
+     livrer une langue à 91 % sans afficher 9 % de vide.
+
+     Désormais on charge aussi l'anglais puis le français, et on les met SOUS la
+     langue choisie : elle gagne partout où elle existe, et là où elle manque le
+     voyageur lit une phrase — en anglais, à défaut en français — au lieu d'un vide.
+     Le français est la source de vérité : il ferme la chaîne, il ne manque jamais.
+
+     Ni traduction inventée ni texte en dur : ce sont les mêmes fichiers, seulement
+     empilés dans le bon ordre. Et le jour où la traduction arrive, elle recouvre
+     le repli sans qu'on touche à une ligne de code. */
+  var CHAINE = [lang, 'en', 'fr'].filter(function(v,i,a){ return a.indexOf(v)===i; });
+  function dico(lg){
+    return fetch('i18n/ui.'+lg+'.json')
+      .then(function(r){ return r.ok ? r.json() : {}; })
+      .catch(function(){ return {}; });
+  }
   var ready = Promise.all([
     fetch('i18n/'+lang+'.json').then(function(r){return r.json();}).then(function(d){DATA=d;}).catch(function(){}),
-    fetch('i18n/ui.'+lang+'.json').then(function(r){return r.json();}).then(function(d){UI=fillAll(d); try{applyUI(document.body);}catch(e){} }).catch(function(){})
+    Promise.all(CHAINE.map(dico)).then(function(dicos){
+      var fondu = {};
+      for (var i = dicos.length - 1; i >= 0; i--) {          // du repli vers la langue choisie
+        var d = dicos[i] || {};
+        for (var k in d) if (String(d[k] == null ? '' : d[k]).trim()) fondu[k] = d[k];
+      }
+      UI = fillAll(fondu);
+      try{ applyUI(document.body); }catch(e){}
+    }).catch(function(){})
   ]);
   function startObserver(){
     if(!UI||!window.MutationObserver) return;
@@ -218,9 +272,34 @@
   // Alias global uiT(clé[,vars]) — compat gamme : tout le code des pages appelle uiT('clé').
   // Renvoie le libellé de la clé dans la langue courante (UI chargé pour TOUTES les langues, FR inclus),
   // avec substitution {placeholder}, et repli sur la clé si absente.
+  /* _pick EXPOSÉ. Six champs de HConf sont des objets par langue ; sept endroits
+     les lisaient bruts et rendaient « [object Object] » — dont l'en-tête de la page
+     de confidentialité, celle que l'examinateur Apple ouvre. Le sélecteur existait
+     déjà, il était seulement privé. Il rend '' quand rien ne convient : l'appelant
+     garde donc son propre repli. */
+  window.THEi18n.pick=_pick;
+
   window.uiT=function(k,vars){
     var s=(UI&&UI[k]!=null)?UI[k]:k;
     if(vars) for(var p in vars){ s=s.split('{'+p+'}').join(vars[p]); }
     return s;
   };
 })();
+
+/* TOAST PARTAGÉ — remplace alert(), le dialogue natif qui, en WKWebView, peut ne
+   jamais rendre la main et figer la page (famille du rejet 2.1(a)).
+   Défini ici parce que the-i18n.js est chargé sur toutes les pages.
+   the-pass.js en pose une version plus soignée quand il est présent : on n'écrase
+   donc que s'il n'y a rien (||). */
+window.THEtoast = window.THEtoast || function(msg, ms){
+  try{
+    if(!msg) return;
+    var d=document.createElement('div'); d.setAttribute('role','status');
+    d.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99999;'+
+      'max-width:92%;background:#2b2318;color:#f6f0e4;padding:11px 16px;border-radius:10px;'+
+      'font:15px/1.4 system-ui,sans-serif;box-shadow:0 8px 26px rgba(0,0,0,.28);text-align:center;';
+    d.textContent=String(msg);
+    document.body.appendChild(d);
+    setTimeout(function(){ try{ d.remove(); }catch(e){} }, ms||3800);
+  }catch(e){}
+};

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="heritage.config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2b2318">
+<title data-i18n="circ.titre">Circuits</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f6f0e4;--paper:#fffdf8;--ink:#2b2318;--stone:#8a7c66;--gold:#a8884f;--gold-soft:#c9ad79;--line:#e3d8c4;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'EB Garamond',Georgia,serif;color:var(--ink);background:var(--ivory);line-height:1.55;}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(43,35,24,.97);color:var(--ivory);padding:11px 16px;display:flex;align-items:center;gap:12px;}
+.topbar a.back{min-height:44px;display:inline-flex;align-items:center;padding:0 4px;color:var(--gold-soft);text-decoration:none;font-size:13px;letter-spacing:1px;}
+.topbar .t{flex:1;font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:3px;font-size:17px;text-align:center;}
+main{max-width:900px;margin:0 auto;padding:18px 14px 60px;}
+.intro{font-size:15.5px;color:var(--stone);line-height:1.7;margin:0 0 18px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.card h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin:0;color:var(--ink);}
+.card .sub{font-size:14.5px;color:var(--stone);font-style:italic;margin:0;}
+.card .meta{font-size:13.5px;color:var(--gold);letter-spacing:.4px;}
+.card .note{font-size:14px;color:var(--ink);opacity:.85;margin:0;}
+.card .go{margin-top:auto;border:none;background:var(--gold);color:#fff;border-radius:8px;padding:11px 14px;
+  font-family:inherit;font-size:15px;cursor:pointer;}
+.card .go:hover{background:#96773f;}
+.card.locked .go{background:#fff;color:var(--stone);border:1px solid var(--line);}
+.vide{color:var(--stone);font-size:15px;}
+</style>
+<script src="the-i18n.js"></script>
+<script src="the-pass.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="itineraire.html?choix=1" data-i18n="circ.retour">‹ Les façons de partir</a>
+  <span class="t" data-i18n="circ.titre">Circuits</span>
+  <span style="width:60px"></span>
+</div>
+<main>
+  <p class="intro" data-i18n="circ.intro">Des parcours déjà tracés. Choisissez-en un : il devient VOTRE itinéraire — vous le nommez, vous réglez départ et durée, puis vous le remaniez comme n'importe quel autre.</p>
+  <div class="grid" id="grille"></div>
+  <p class="vide" id="vide" style="display:none" data-i18n="circ.aucun">Aucun circuit dans cette édition pour le moment.</p>
+</main>
+
+<script>
+/* ============================================================
+   LES CIRCUITS ONT LEUR PAGE
+   Ils s'empilaient en pastilles au milieu de l'écran des façons de partir :
+   dix-huit parcours en vrac, sans leur durée, sans leur propos, et personne
+   ne les lisait. Ici chacun a sa fiche. Le clic ne dessine rien tout de
+   suite : il renvoie à l'itinéraire, qui demandera le nom puis le départ et
+   la durée — exactement comme Composer. Le circuit devient un itinéraire
+   ordinaire, enregistré, éditable, avec toutes ses fonctions.
+   ============================================================ */
+(function(){
+  function T(k,d){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:d; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function premium(){ try{ return window.THEPass ? THEPass.isActive() : false; }catch(e){ return false; } }
+  function dejaDesItineraires(){
+    try{ var a=JSON.parse(localStorage.getItem('the_saved')||'[]'); return Array.isArray(a) && a.length>0; }
+    catch(e){ return false; }
+  }
+
+  var FREE_TOURS = 4;                      // même règle que l'écran d'itinéraire
+  var url = (window.THEi18n && THEi18n.data) ? THEi18n.data('tours') : 'tours.json';
+
+  /* REPLI SUR LE FICHIER DE BASE — sinon la page est VIDE dans la langue du pays.
+     `THEi18n.data('tours')` désigne `i18n/tours.<langue>.json`. Ce fichier
+     n'existait pas pour le portugais, l'italien, le tchèque ni le croate : la
+     page annonçait « aucun circuit » à un Portugais sur son application
+     portugaise, alors que `tours.json` en contenait. Relevé en ligne le
+     19/08/2026 sur les cinq éditions Europe. Une langue sans traduction doit
+     montrer les circuits dans la langue de base, jamais une page vide. */
+  fetch(url)
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .catch(function(){ return fetch('tours.json').then(function(r){ return r.json(); }); })
+    .then(function(t){
+    var ids = Object.keys(t||{});
+    var grille = document.getElementById('grille');
+    if(!ids.length){ document.getElementById('vide').style.display=''; return; }
+    ids.forEach(function(id, i){
+      var c = t[id] || {};
+      var verrou = (c.premium===true || i>=FREE_TOURS) && !premium();
+      var carte = document.createElement('div');
+      carte.className = 'card' + (verrou ? ' locked' : '');
+      var meta = [c.duree, (c.etapes||[]).length + ' ' + T('circ.etapes')]
+                 .filter(Boolean).join(' · ');
+      carte.innerHTML =
+        '<h2>' + (verrou ? '🔒 ' : '✨ ') + esc(c.titre||id) + '</h2>' +
+        (c.soustitre ? '<p class="sub">' + esc(c.soustitre) + '</p>' : '') +
+        '<div class="meta">' + esc(meta) + '</div>' +
+        (c.note ? '<p class="note">' + esc(c.note) + '</p>' : '') +
+        '<button class="go" type="button">' +
+          (verrou ? T('circ.verrou') : T('circ.choisir')) +
+        '</button>';
+      carte.querySelector('.go').onclick = function(){
+        if(verrou){ location.href='premium.html'; return; }
+        location.href = 'itineraire.html?tour=' + encodeURIComponent(id);
+      };
+      /* ON DOIT POUVOIR TOUT CROISER : un circuit n'est pas forcément un voyage
+         neuf. S'il existe déjà des itinéraires, on propose de VERSER celui-ci
+         dans l'un d'eux — le voyage libre en cours, par exemple. */
+      if(!verrou && dejaDesItineraires()){
+        var plus = document.createElement('button');
+        plus.className = 'go'; plus.type = 'button';
+        plus.style.cssText = 'background:#fff;color:#6b5a39;border:1px solid var(--line);margin-top:6px';
+        plus.textContent = T('circ.ajouter');
+        plus.onclick = function(){ location.href = 'itineraire.html?tour=' + encodeURIComponent(id) + '&add=1'; };
+        carte.appendChild(plus);
+      }
+      grille.appendChild(carte);
+    });
+  }).catch(function(){ document.getElementById('vide').style.display=''; });
+})();
+</script>
+<script src="the-footer.js" defer></script>
+<script src="analytics.js"></script>
+</body>
+</html>

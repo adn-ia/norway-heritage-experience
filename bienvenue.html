@@ -105,12 +105,25 @@
   </div>
 
   <script>
+    /* Visiteur DÉJÀ VENU : on ne lui refait pas la garde ni le choix de langue.
+       Le lien « ‹ Accueil » du menu porte ?garde=1 pour revenir ici volontairement. */
+    (function(){
+      try{
+        if(new URLSearchParams(location.search).get('garde')) return;
+        if(!localStorage.getItem('the_bienvenue_vue')) return;
+        location.replace('decouvrir.html');
+      }catch(e){}
+    })();
+  </script>
+  <script>
     // « Entrer » : on amorce la permission de localisation (une fois pour toute l'appli,
     // la permission persiste sur l'origine.
     const NEXT = 'decouvrir.html';
     const btn = document.getElementById('enter');
     let going = false;
-    function go(){ if(going) return; going = true; window.location.href = NEXT; }
+    function go(){ if(going) return; going = true;
+      try{ localStorage.setItem('the_bienvenue_vue','1'); }catch(e){}   // il est entré une fois
+      window.location.href = NEXT; }
     btn.addEventListener('click', () => {
       btn.disabled = true;
       btn.textContent = ((window.THEi18n&&THEi18n.ui('bienvenue.un.instant'))||'Un instant…');
@@ -120,7 +133,7 @@
         let done = false;
         const next = () => { if(!done){ done = true; go(); } };
         navigator.geolocation.getCurrentPosition(next, next, { enableHighAccuracy:true, timeout:8000, maximumAge:600000 });
-        setTimeout(next, 10000);   // filet de sécurité long : on nuiT('bienvenue.enchaine.que.si.l')utilisateur ne répond pas du tout (sinon la navigation attend sa réponse à la demande de position)
+        setTimeout(next, 10000);   // filet de sécurité long : on n'enchaîne que si l'utilisateur ne répond pas du tout (sinon la navigation attend sa réponse à la demande de position)
       } else {
         go();
       }

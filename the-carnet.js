@@ -5,6 +5,11 @@
    Usage : placer <div class="the-carnet" data-place="<clé>" data-nom="<nom>" data-lat=".." data-lng=".."></div> ;
    le module rend tout seul. À inclure : <script src="the-carnet.js" defer></script> (après the-postcard.js). */
 (function(){
+  /* JAMAIS alert() : en WKWebView le dialogue natif peut ne pas rendre la main et
+     figer la page — la famille du rejet 2.1(a). On passe par le toast partagé,
+     exposé par the-pass.js, chargé partout où ce module vit. */
+  function _dire(m){ try{ if(window.THEtoast) THEtoast(m); }catch(e){} }
+
   /* UNE CLÉ NON TRADUITE NE S'AFFICHE PAS EN CLAIR.
      T() reçoit ici des clés (« carnet.photo.en.tete »), pas du français. Quand la
      traduction manque, le moteur rend la clé telle quelle et l'utilisateur lit
@@ -201,7 +206,7 @@
         Promise.all(fs.map(function(f){ return decodable(f); })).then(function(oks){
           var keep=fs.filter(function(f,i){ return oks[i]; }), skipped=fs.length-keep.length;
           Promise.all(keep.map(function(f){ var t=typeDu(f, e.target.getAttribute('data-add'));
-            return (t==='image'?compresser(f):Promise.resolve(f)).then(function(ff){ return addMedia(place, f.name, ff, t); }); })).then(function(){ openManager(place,nom); refreshSections(place); if(window.THEBackup&&THEBackup.offer) THEBackup.offer(); if(skipped) alert(T('carnet.non.lisible')); });
+            return (t==='image'?compresser(f):Promise.resolve(f)).then(function(ff){ return addMedia(place, f.name, ff, t); }); })).then(function(){ openManager(place,nom); refreshSections(place); if(window.THEBackup&&THEBackup.offer) THEBackup.offer(); if(skipped) _dire(T('carnet.non.lisible')); });
         }); }; });
         /* ⬇️ ENREGISTRER — un média pris dans le carnet ne va PAS dans la
            pellicule du téléphone. Sans ce bouton il reste prisonnier de
@@ -237,14 +242,14 @@
   function moveItem(place,nom,id,dir){ getMedia(place).then(function(arr){ var i=arr.findIndex(function(m){return m.id===id;}); var j=i+dir; if(i<0||j<0||j>=arr.length)return;
     var a=arr[i],b=arr[j], oa=a.ord||a.ts||0, ob=b.ord||b.ts||0; Promise.all([setOrd(a.id,ob),setOrd(b.id,oa)]).then(function(){ openManager(place,nom); refreshSections(place); }); }); }
   function recordAudio(place,nom){
-    if(!navigator.mediaDevices||!window.MediaRecorder){ alert(T('carnet.enregistrement.audio.non.supporte.sur')); return; }
+    if(!navigator.mediaDevices||!window.MediaRecorder){ _dire(T('carnet.enregistrement.audio.non.supporte.sur')); return; }
     navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
       var mr=new MediaRecorder(stream), chunks=[]; mr.ondataavailable=function(e){ if(e.data&&e.data.size)chunks.push(e.data); };
       mr.onstop=function(){ stream.getTracks().forEach(function(t){t.stop();}); var blob=new Blob(chunks,{type:'audio/webm'}); addMedia(place,'son.webm',blob,'audio').then(function(){ openManager(place,nom); refreshSections(place); }); };
       modal('<h3>🎙️ '+T('carnet.enregistrement')+'</h3><p class="cn-tip">'+T('carnet.parlez.puis.arretez')+'</p><button class="cn-close-b" id="cn-stop">⏹ '+T('carnet.arreter')+'</button>');
       document.getElementById('cn-stop').onclick=function(){ try{mr.stop();}catch(e){} };
       mr.start();
-    }).catch(function(){ alert(T('carnet.micro.refuse.ou.indisponible')); });
+    }).catch(function(){ _dire(T('carnet.micro.refuse.ou.indisponible')); });
   }
   function refreshSections(place){ document.querySelectorAll('.the-carnet').forEach(function(el){ if(el.dataset.place===place){ grid(el.querySelector('.cn-grid'), place); heroFill(el, place); } }); }
 

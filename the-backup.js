@@ -33,7 +33,11 @@
     var data=await exportAll();
     var blob=new Blob([JSON.stringify(data)],{type:'application/json'});
     var url=URL.createObjectURL(blob), a=document.createElement('a'), d=new Date();
-    a.href=url; a.download='THE-sauvegarde-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json';
+    /* le nom du fichier porte la marque de l'ÉDITION, pas celle d'une autre :
+       un voyageur d'une édition recevait le nom d'une autre. Il vient de HConf,
+       le seul fichier qui change par pays. */
+    var _marque=((window.HConf&&HConf.exportNom)||'Heritage').replace(/[^\w-]+/g,'-');
+    a.href=url; a.download=_marque+'-sauvegarde-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(url); },1500);
     return { photos:data.photos.length, itineraires:(data.local.the_saved? (JSON.parse(data.local.the_saved||'[]').length||0):0) };
   }

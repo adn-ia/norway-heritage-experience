@@ -70,20 +70,182 @@
 
   /* ─── Accès offert « code » (SHA-256, aucune donnée perso stockée) ───── */
   function inviteRead(){ try{ return JSON.parse(localStorage.getItem(INVITE_KEY)||'null'); }catch(e){ return null; } }
-  function inviteActive(){ var i=inviteRead(); return !!(i && i.exp && i.exp>Date.now()); }
+
+  /* Un code offert doit pouvoir être RETIRÉ. Jusqu'au 17/08/2026 il ne le
+     pouvait pas : l'enregistrement ne gardait que { exp, ts }, et inviteActive()
+     ne regardait que la date. Un appareil ayant saisi un code restait donc
+     premium 3 650 jours même après suppression du code de heritage.config.js —
+     et comme l'empreinte n'était pas gardée, on ne savait pas même LEQUEL
+     retirer. Un code diffusé était un code définitif.
+
+     Désormais l'empreinte voyage avec l'enregistrement, et l'accès est
+     reconfronté à la liste à chaque lecture : retirer une ligne de
+     heritage.config.js coupe l'accès au prochain chargement, sans serveur.
+
+     Les enregistrements ANTÉRIEURS n'ont pas d'empreinte. On les garde valides :
+     ils sont déjà chez des gens de bonne foi, et rien ne permet de les
+     identifier. Ils s'éteindront d'eux-mêmes ; seuls les nouveaux sont
+     révocables. C'est le prix d'un défaut qu'on répare après coup. */
+  /* ─── LE VERROU D'APPAREIL ────────────────────────────────────────────────
+     Un code offert n'a jamais été lié à l'appareil qui l'a activé : `installID`
+     n'existait nulle part, alors que la règle « même code sur deux machines =
+     invalidé » était le verrou 3 du design des licences nominatives, marqué
+     « à construire » le 23/07 et jamais écrit. Relevé le 17/08, encore vrai en
+     ligne le 19/08 sur les huit éditions.
+     Ce qu'on pose ici est le verrou LOCAL : l'appareil se donne un identifiant
+     au premier lancement, et l'enregistrement d'un code est lié à cet
+     identifiant. Copier le stockage d'un téléphone à un autre ne suffit donc
+     plus — l'identifiant recopié ne sera pas celui de la machine.
+     CE QUE ÇA NE FAIT PAS, et il faut le dire : deux personnes qui saisissent
+     le MÊME code sur deux appareils obtenaient chacune leur enregistrement.
+     RÉPARÉ le 19/08/2026 : l'activation passe maintenant par le service
+     `heritage-licences`, qui garde la trace du premier appareil ayant présenté
+     chaque code et refuse les suivants. Le code en clair ne lui est jamais
+     envoyé — seulement son empreinte, celle que l'application calcule déjà.
+     LES ENREGISTREMENTS EXISTANTS SONT ÉPARGNÉS : ils n'ont pas d'identifiant,
+     on le leur pose au premier passage au lieu de les rejeter. Couper l'accès
+     de gens de bonne foi pour réparer un défaut qui n'est pas le leur serait
+     pire que le défaut. */
+  var INSTALL_KEY='the_install';
+  function installID(){
+    try{
+      var v=localStorage.getItem(INSTALL_KEY);
+      if(v) return v;
+      v=(window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+        : (String(Date.now())+Math.random().toString(36).slice(2));
+      localStorage.setItem(INSTALL_KEY, v);
+      return v;
+    }catch(e){ return ''; }
+  }
+  function inviteActive(){
+    var i=inviteRead();
+    if(!(i && i.exp && i.exp>Date.now())) return false;
+    if(!i.h) return true;                       // enregistrement d'avant le 17/08 : non identifiable
+    if(INVITE_HASHES.indexOf(i.h) < 0) return false;   // le code existe-t-il ENCORE ?
+    var id=installID();
+    if(!id) return true;                        // stockage indisponible : on n'invente pas de refus
+    if(!i.dev){                                  // enregistrement d'avant le verrou : on l'adopte
+      try{ i.dev=id; localStorage.setItem(INVITE_KEY, JSON.stringify(i)); }catch(e){}
+      return true;
+    }
+    if(i.dev !== id) return false;              // sinon : cet appareil, et lui seul
+    revoirSiPromis(i);                          // accepté hors ligne ? on revérifie en fond
+    return true;
+  }
+
+  /* Compter l'activation, sans rien savoir de la personne.
+     Les codes portent le préfixe de qui les a distribués (…-IKBL-…) ; on
+     charge la page act/<TAG>.html, qui n'existe que pour émettre une visite
+     comptée. Aucune donnée personnelle ne circule : un compteur, pas un
+     mouchard. Les pages étaient en ligne depuis le 10/08 — rien ne les avait
+     jamais appelées, et aucune activation n'a donc été mesurée depuis. */
+  function pingActivation(code){
+    try{
+      var tags = (window.HConf && HConf.activationTags) || [];
+      if(!tags.length) return;                  // édition sans campagne : rien à compter
+      var m = String(code||'').toUpperCase().match(/^[A-Z]+-([A-Z0-9]{2,8})-/);
+      if(!m || tags.indexOf(m[1]) < 0) return;  // segment central quelconque : ce n'est pas un ambassadeur
+      /* Un iframe, PAS une Image. La page act/<TAG>.html ne compte pas parce
+         qu'on la télécharge : elle compte parce que son script s'exécute et
+         émet la visite. Une Image récupère les octets et s'arrête là — le
+         compteur serait resté à zéro, le défaut même qu'on répare ici.
+         Vérifié auprès d'un second avis avant d'être écrit. */
+      var f = document.createElement('iframe');
+      f.setAttribute('aria-hidden', 'true');
+      f.setAttribute('title', '');
+      f.style.cssText = 'position:absolute;width:0;height:0;border:0;left:-9999px';
+      f.src = 'act/' + m[1] + '.html?t=' + Date.now();
+      f.onload = function(){ setTimeout(function(){ try{ f.remove(); }catch(e){} }, 4000); };
+      document.body.appendChild(f);
+    }catch(e){}
+  }
   function sha256hex(str){
     try{ var buf=new TextEncoder().encode(str);
       return crypto.subtle.digest('SHA-256', buf).then(function(h){
         return Array.prototype.map.call(new Uint8Array(h), function(b){ return ('0'+b.toString(16)).slice(-2); }).join(''); });
     }catch(e){ return Promise.resolve(''); }
   }
+  /* ─── Le service « un code, un appareil » ────────────────────────────────
+     Adresse déclarée par l'édition dans heritage.config.js (HConf.licences).
+     Édition sans adresse = comportement d'avant, strictement local.
+
+     TROIS RÉPONSES POSSIBLES, et la troisième compte autant que les deux autres :
+       { ok:true }                   -> l'appareil a le droit
+       { ok:false, autre-appareil }  -> le code est déjà pris ailleurs : refus
+       null                          -> service injoignable
+
+     Injoignable ne vaut PAS refus. Quelqu'un qui active son code dans un village
+     sans réseau doit pouvoir entrer : on le laisse passer et on marque son
+     enregistrement « à vérifier ». La vérification se fera au premier passage
+     avec du réseau. Refuser hors ligne punirait les gens de bonne foi pour un
+     défaut qui n'est pas le leur. */
+  var DELAI_SERVICE = 6000;
+  function adresseService(){
+    try{ return (window.HConf && HConf.licences) || ''; }catch(e){ return ''; }
+  }
+  function demanderService(chemin, corps){
+    var url = adresseService();
+    if(!url || !window.fetch) return Promise.resolve(null);
+    var ctl = (window.AbortController) ? new AbortController() : null;
+    var minuteur = ctl ? setTimeout(function(){ try{ ctl.abort(); }catch(e){} }, DELAI_SERVICE) : null;
+    return fetch(url.replace(/\/+$/,'') + chemin, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(corps), signal: ctl ? ctl.signal : undefined
+    })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .catch(function(){ return null; })
+    .then(function(j){ if(minuteur) clearTimeout(minuteur); return j; });
+  }
+
+  /* Revérifier après coup un enregistrement accepté hors ligne. Silencieux :
+     si le service dit « autre appareil », l'accès tombe au prochain contrôle ;
+     s'il ne répond toujours pas, la marque reste et on retentera plus tard. */
+  var _revuLancee = false;
+  function revoirSiPromis(fiche){
+    if(_revuLancee || !fiche || !fiche.aVerifier || !fiche.h) return;
+    if(!adresseService()) return;
+    _revuLancee = true;
+    demanderService('/activer', { empreinte: fiche.h, appareil: installID(), app: appIso() })
+      .then(function(rep){
+        if(!rep) return;                                  // toujours injoignable : on retentera
+        if(rep.ok){ delete fiche.aVerifier;
+          try{ localStorage.setItem(INVITE_KEY, JSON.stringify(fiche)); }catch(e){} return; }
+        if(rep.raison === 'autre-appareil'){               // le code appartient à un autre
+          try{ localStorage.removeItem(INVITE_KEY); }catch(e){}
+        }
+      });
+  }
+  function appIso(){
+    try{ return String((window.HConf && (HConf.iso || HConf.pays)) || '').slice(0,32); }catch(e){ return ''; }
+  }
+
+  /* La raison du dernier refus, pour que la page premium dise autre chose que
+     « code non reconnu » quand le code est bon mais déjà pris ailleurs. */
+  var _refus = null;
+  function dernierRefus(){ return _refus; }
+
   function redeem(code){
     var c=String(code||'').trim().toUpperCase();
     return sha256hex(c).then(function(h){
-      if(h && INVITE_HASHES.indexOf(h)>=0){ var now=Date.now();
-        try{ localStorage.setItem(INVITE_KEY, JSON.stringify({ exp: now + 3650*DAY, ts:now })); }catch(e2){}
-        return true; }
-      return false;
+      _refus = null;
+      if(!(h && INVITE_HASHES.indexOf(h)>=0)) return false;   // ce code n'existe pas
+      /* Le code est bon. Reste à savoir s'il est libre. */
+      return demanderService('/activer', { empreinte: h, appareil: installID(), app: appIso() })
+        .then(function(rep){
+          if(rep && rep.ok === false && rep.raison === 'autre-appareil'){
+            _refus = 'autre-appareil';                    // bon code, déjà pris
+            return false;
+          }
+          var now=Date.now();
+          /* l'empreinte est gardée : c'est elle qui rend la révocation possible */
+          /* on marque l'appareil DÈS l'activation : l'adoption d'après-coup ne sert
+             qu'aux enregistrements antérieurs au verrou */
+          var fiche = { exp: now + 3650*DAY, ts:now, h:h, dev:installID() };
+          if(!rep) fiche.aVerifier = true;                // accepté hors ligne, à revoir
+          try{ localStorage.setItem(INVITE_KEY, JSON.stringify(fiche)); }catch(e2){}
+          pingActivation(c);
+          return true;
+        });
     });
   }
 
@@ -117,8 +279,25 @@
   function trialStartedTs(){ try{ return parseInt(localStorage.getItem(TRIAL_FLAG)||'0',10)||0; }catch(e){ return 0; } }
   function trialActive(){ var t=trialRead(); return !!(t && t.expires && t.expires>Date.now()); }
   // Démarre l'essai UNE seule fois. Si déjà consommé (même expiré) → jamais réarmé.
+  /* Remise à zéro pilotée par l'édition : tout essai COMMENCÉ avant HConf.essaiDepuis
+     est effacé, l'utilisateur repart pour une période complète. Sert quand on a corrigé
+     une cause qui a gâché l'essai de tout le monde. Vide = rien ne bouge. */
+  function trialEpoch(){
+    var v=(window.HConf&&HConf.essaiDepuis)||0;
+    if(!v) return 0;
+    var t=(typeof v==='number')?v:Date.parse(v);
+    return isNaN(t)?0:t;
+  }
+  function trialResetIfStale(){
+    var ep=trialEpoch(); if(!ep) return false;
+    var st=trialStartedTs(); if(!st || st>=ep) return false;
+    try{ localStorage.removeItem(TRIAL_FLAG); localStorage.removeItem(TRIAL_KEY); }catch(e){}
+    return true;
+  }
+
   function trialMaybeStart(){
-    if(!paywallActive()) return false;            // plateforme gratuite : pas d'essai daté
+    if(!paywallActive()) return false;
+    trialResetIfStale();                          // essai d'avant la date d'édition → on repart            // plateforme gratuite : pas d'essai daté
     if(trialStartedTs()) return false;            // déjà utilisé une fois
     if(paidActive() || inviteActive()) return false; // déjà premium : inutile
     var now=Date.now();
@@ -209,7 +388,7 @@
   function showGiftToast(){
     var g; try{ g=localStorage.getItem('the_gift_new'); }catch(e){}
     if(!g) return; try{ localStorage.removeItem('the_gift_new'); }catch(e){}
-    toast('🎁 '+uiT('pass.gift.thanks')+' <b>'+g+' '+uiT('pass.gift.days')+'</b>.');
+    toast(function(){ var a=uiT('pass.gift.thanks'), b=uiT('pass.gift.days'); return (a&&b) ? '🎁 '+a+' <b>'+g+' '+b+'</b>.' : ''; });
   }
 
   /* ─── Achat iOS (Apple In-App Purchase / StoreKit) ───────────────────────
@@ -250,7 +429,25 @@
     return false;
   }
   // Dans une APP de store (iOS OU Android) : on masque Lemon Squeezy + café (règles Apple 3.1.1 / Google Play Billing).
-  function isStoreApp(){ return isIOS() || isAndroidApp(); }
+  /* iOS : distinguer l'APPLICATION du NAVIGATEUR — ils ne doivent PAS voir la même chose.
+     ← Avant, isStoreApp() ne regardait que l'agent utilisateur : tout visiteur iPhone du
+       SITE WEB voyait « l'abonnement arrive bientôt » au lieu de pouvoir s'abonner.
+       Une moitié du trafic mobile ne pouvait pas acheter. (Trouvé le 15/08/2026.)
+     Une WebView d'application n'annonce pas « Safari » dans son agent, là où Safari
+     mobile le fait toujours — c'est le repère le plus sûr. On accepte aussi le pont
+     StoreKit, le mode « installé » et un marqueur d'URL explicite. */
+  function isIOSApp(){
+    if(!isIOS()) return false;
+    try{ if(sessionStorage.getItem('the_store_app')==='1') return true; }catch(e){}
+    var marque = hasIAPBridge()
+      || navigator.standalone===true
+      || (window.matchMedia && matchMedia('(display-mode: standalone)').matches)
+      || (new URLSearchParams(location.search)).get('app')==='ios'
+      || !/Safari/.test(navigator.userAgent||'');       // WebView, pas Safari
+    if(marque){ try{ sessionStorage.setItem('the_store_app','1'); }catch(e){} }
+    return !!marque;
+  }
+  function isStoreApp(){ return isIOSApp() || isAndroidApp(); }
   // Lance l'achat Apple. Retour : 'iap' (envoyé au natif) ou 'no-bridge'.
   function buyIOS(plan){
     plan=plan||PLAN; if(!DAYS[plan]) return null;
@@ -322,18 +519,38 @@
   function iapExpire(){ deactivate(); return true; }
 
   /* ─── Petits bandeaux (toasts) ───────────────────────────────────────── */
-  /* i18n par CLÉS : THEi18n.ui('pass.xxx') ; repli FR si non chargé */
-  var PASS_FR={
-    'pass.trial.welcome':'Premium offert pendant 2 semaines — profitez-en !',
-    'pass.invite.welcome':'Accès Premium offert — activé. Bon voyage !',
-    'pass.gift.thanks':'Merci pour votre café ! On vous offre',
-    'pass.gift.days':'jours de Premium',
-    'pass.trial.ending':'Votre essai se termine dans',
-    'pass.days':'jour(s)',
-    'pass.save.album':'Enregistrez votre album souvenir'
-  };
-  function uiT(key){ try{ return (window.THEi18n && THEi18n.ui && THEi18n.ui(key)) || PASS_FR[key] || key; }catch(e){ return PASS_FR[key]||key; } }
+  /* i18n par CLÉS, SANS REPLI. Il existait ici une table PASS_FR de sept phrases
+     françaises. Comme the-pass.js est chargé AVANT the-i18n.js sur toutes les pages,
+     le bandeau d'accueil partait avant que les traductions existent et s'affichait
+     en français dans l'interface croate — vu à l'écran sur une capture destinée à
+     Apple. Les sept clés étaient pourtant traduites partout : le repli ne servait
+     qu'à masquer la course au chargement. On attend maintenant THEi18n.ready
+     (une promesse exposée par the-i18n.js) et on n'affiche rien tant qu'elle n'a
+     pas tenu. Un bandeau tardif vaut mieux qu'un bandeau dans la mauvaise langue ;
+     un bandeau jamais affiché se signale en console, il ne se tait pas. */
+  function uiT(key){ try{ var v=(window.THEi18n && THEi18n.ui && THEi18n.ui(key)); return (v && v!==key) ? v : ''; }catch(e){ return ''; } }
+  function quandTraduit(faire){
+    var t0=Date.now();
+    (function attendre(){
+      try{
+        if(window.THEi18n && THEi18n.ready && typeof THEi18n.ready.then==='function'){
+          THEi18n.ready.then(faire); return;
+        }
+      }catch(e){}
+      if(Date.now()-t0 > 8000){
+        try{ console.warn('[the-pass] THEi18n indisponible après 8 s — bandeau non affiché'); }catch(e){}
+        return;
+      }
+      setTimeout(attendre, 60);
+    })();
+  }
   function toast(html, ms){
+    /* Une FONCTION est évaluée seulement quand les traductions sont là ; une chaîne
+       arrive déjà traduite (THEtoast, appelé par les autres modules) et part tout de suite. */
+    if(typeof html==='function'){ quandTraduit(function(){ var s=html(); if(s) _afficher(s, ms); }); return; }
+    _afficher(html, ms);
+  }
+  function _afficher(html, ms){
     var add=function(){
       var d=document.createElement('div'); d.setAttribute('role','status');
       d.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9999;max-width:92%;background:#2b2318;color:#f6f0e4;padding:13px 18px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.35);font-family:inherit;font-size:14.5px;line-height:1.4;border:1px solid #a8884f';
@@ -359,8 +576,12 @@
       try{ seen=localStorage.getItem('the_nudge_day'); }catch(e){}
       if(seen===bucket) return;                                               // 1 rappel par jour max
       try{ localStorage.setItem('the_nudge_day', bucket); }catch(e){}
-      toast('⏳ '+uiT('pass.trial.ending')+' <b>'+left+' '+uiT('pass.days')+'</b>. '
-        +'<a href="itineraire.html" style="color:#c9ad79;text-decoration:underline">'+uiT('pass.save.album')+'</a>', 12000);
+      toast(function(){
+        var fin=uiT('pass.trial.ending'), jr=uiT('pass.days'), alb=uiT('pass.save.album');
+        if(!fin || !jr) return '';
+        return '⏳ '+fin+' <b>'+left+' '+jr+'</b>.'
+          + (alb ? ' <a href="itineraire.html" style="color:#c9ad79;text-decoration:underline">'+alb+'</a>' : '');
+      }, 12000);
     }catch(e){}
   }
   function openAlbumIfFlagged(){
@@ -377,44 +598,57 @@
   function trialToast(){
     var n; try{ n=localStorage.getItem('the_trial_new'); }catch(e){}
     if(!n) return; try{ localStorage.removeItem('the_trial_new'); }catch(e){}
-    toast('🎁 '+uiT('pass.trial.welcome'));
+    toast(function(){ var a=uiT('pass.trial.welcome'); return a ? '🎁 '+a : ''; });
   }
   function inviteToast(){
     var ok; try{ ok=localStorage.getItem('the_invite_ok'); }catch(e){}
     if(!ok) return; try{ localStorage.removeItem('the_invite_ok'); }catch(e){}
-    toast('🎁 '+uiT('pass.invite.welcome'));
+    toast(function(){ var a=uiT('pass.invite.welcome'); return a ? '🎁 '+a : ''; });
   }
 
   window.THEPass={ isActive:isActive, activate:activate, deactivate:deactivate, info:info,
                    buy:buy, checkoutURL:checkoutURL, handleReturn:handleReturn,
-                   isIOS:isIOS, isAndroidApp:isAndroidApp, isStoreApp:isStoreApp, hasIAPBridge:hasIAPBridge, buyIOS:buyIOS, restoreIOS:restoreIOS,
+                   isIOS:isIOS, isIOSApp:isIOSApp, isAndroidApp:isAndroidApp, isStoreApp:isStoreApp, hasIAPBridge:hasIAPBridge, buyIOS:buyIOS, restoreIOS:restoreIOS,
                    hasPlayBridge:hasPlayBridge, buyAndroid:buyAndroid, restoreAndroid:restoreAndroid,
                    iapUnlock:iapUnlock, iapExpire:iapExpire, IAP_PRODUCT:IAP_PRODUCT,
                    grantFeature:grantFeature, hasFeature:hasFeature, giftRandom:giftRandom, GIFT_POOL:GIFT_POOL,
                    premiumLive:premiumLive, redeem:redeem, redeemLicense:redeemLicense, inviteActive:inviteActive,
+                   dernierRefus:dernierRefus,
                    trialActive:trialActive, trialUsed:function(){ return !!trialStartedTs(); },
                    PLAN:PLAN, PERIOD:PERIOD, TRIAL_DAYS:TRIAL_DAYS, GIFT_DAYS:GIFT_DAYS,
                    DAYS:DAYS, PRICE:PRICE, CHECKOUT:CHECKOUT, APPSTORE_URL:APPSTORE_URL, PLAYSTORE_URL:PLAYSTORE_URL };
 
+  /* LE TOAST DEVIENT PARTAGÉ. Les modules (the-carnet, roadtrip-plan, the-souvenir)
+     appelaient alert() — le dialogue natif qui, en WKWebView, peut ne jamais rendre
+     la main et figer la page : c'est la famille du rejet 2.1(a). Le toast existait
+     déjà ici, en privé. On l'expose plutôt que d'en réécrire trois.
+     the-pass.js est chargé sur index, liste et itineraire — partout où ils vivent. */
+  window.THEtoast = function(msg, ms){ try{ if(msg) toast(String(msg), ms); }catch(e){} };
   /* ═══ VERROU GLOBAL ═══
      Sans essai/abonnement/code actif, toute page « contenu » renvoie vers le
      paywall (premium.html). On laisse toujours ouvertes : le paywall lui-même,
      le soutien, et les pages légales/aide (exigées par Apple près de l'achat).
      Placé tôt (the-pass.js est chargé en <head>) → pas de contenu qui clignote. */
-  function gateAllow(path){
-    return /(?:^|\/)(bienvenue|decouvrir|premium|soutien|cgu|cgv|confidentialite|mentions-legales|remboursement|a-propos|sources-credits|credits-photos)\.html?$/i.test(path)
-        || /\/$/.test(path);   // racine « / » = bienvenue (vitrine toujours libre, toutes langues)
-  }
-  function gate(){
-    try{
-      if(!paywallActive()) return;               // site gratuit (web sans vente) → aucun mur
-      if(gateAllow(location.pathname)) return;
-      if(isActive()) return;
-      // Laisse passer le retour de code (?code=…) que handleReturn traite en asynchrone.
-      if(/[?&](code|invite|pass)=/.test(location.search)) return;
-      location.replace('premium.html');
-    }catch(e){}
-  }
+  /* ─── PLUS DE MUR DE NAVIGATION (15/08/2026) ───────────────────────────────
+     Règle posée par Helmy : « un essai actif ne doit JAMAIS masquer le paywall,
+     un essai fini ne doit JAMAIS masquer la navigation. »
+
+     Avant, cette fonction faisait `location.replace('premium.html')` dès l'essai
+     terminé. Elle coupait 10 pages sur 18 — dont la CARTE, la LISTE et
+     l'ITINÉRAIRE — et le paywall n'offrait aucun retour. L'application ne
+     paraissait pas payante, elle paraissait cassée : c'est ce qu'Apple a décrit
+     en rejetant une édition (« could not proceed further and could not return to
+     the previous menu », puis « the app contents did not load »).
+
+     Le mur faisait DOUBLON : le verrouillage par fonction existe déjà et couvre
+     le modèle freemium — `requirePass()` et `isPremium()` dans itineraire.html
+     (2 itinéraires max, circuits limités par FREE_TOURS, thèmes premium),
+     liste.html (détail, légendes), index.html (itinéraires sur mesure), et
+     `hasFeature()` ici même. On garde ces verrous, on retire le mur global.
+
+     `gate()` est conservée — vide — pour ne pas casser l'ordre d'appel plus bas
+     et pour rester le point d'accroche si un bandeau non bloquant est ajouté. */
+  function gate(){ /* volontairement sans effet — voir le commentaire ci-dessus */ }
 
   handleReturn();       // retour paiement / lien invité
   trialMaybeStart();    // démarre l'essai (une seule fois)

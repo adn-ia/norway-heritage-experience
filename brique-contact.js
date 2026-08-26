@@ -18,6 +18,18 @@
    Ancrage type :  <section data-brique="contact"></section>
    ============================================================ */
 (function () {
+  /* Brique AUTO-PORTÉE : elle ne dépend pas de l'hôte. Elle avait 3 alert(),
+     le dialogue natif qui peut figer la page en WKWebView. Elle porte donc
+     son propre bandeau, et n'emprunte celui de l'hôte que s'il existe. */
+  function _bcDire(m){ try{ if(!m) return;
+    if(window.THEtoast){ THEtoast(m); return; }
+    var d=document.createElement('div'); d.setAttribute('role','status');
+    d.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99999;max-width:92%;'+
+      'background:#2b2318;color:#f6f0e4;padding:11px 16px;border-radius:10px;font:15px/1.4 system-ui,sans-serif;text-align:center;';
+    d.textContent=String(m); document.body.appendChild(d);
+    setTimeout(function(){ try{ d.remove(); }catch(e){} }, 3800);
+  }catch(e){} }
+
   "use strict";
   var H = window.HConf || {};
   function email() { return (H.support || "").trim(); }
@@ -64,9 +76,9 @@
         var msg = t("contact.aucune.appli.mail") + " " + addr;
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(addr).then(
-            function () { alert(msg + " " + t("contact.adresse.copiee")); },
-            function () { alert(msg); });
-        } else { alert(msg); }
+            function () { _bcDire(msg + " " + t("contact.adresse.copiee")); },
+            function () { _bcDire(msg); });
+        } else { _bcDire(msg); }
       }
     }, 1200);
   }

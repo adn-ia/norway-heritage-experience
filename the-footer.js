@@ -45,7 +45,11 @@
       var lbl=T('footer.passe.actif')+(i.plan && i.plan!=='démo' ? ' ('+_plt+(i.daysLeft!=null?', '+i.daysLeft+' '+_jt:'')+')' : '');
       el.textContent=lbl;
     } else {
-      el.textContent=T('footer.version.gratuite');
+      /* RIEN. Décision de Helmy, 24/08/2026 : le pied de page ne dit rien quand il
+         n'y a pas de passe actif. « Version gratuite » était faux — après l'essai
+         rien n'est ouvert. On supprime, on ne remplace pas. */
+      el.textContent='';
+      el.style.display='none';
     }
   }
 

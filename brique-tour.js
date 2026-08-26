@@ -35,7 +35,15 @@
   var reduce = false;
   try { reduce = window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches; } catch (e) {}
 
-  function cur() { try { return localStorage.getItem("the_lang") || ""; } catch (e) { return ""; } }
+  /* Au tout premier lancement, 'the_lang' est vide : la brique basculait en
+     anglais au milieu d'une page française. On lit donc la langue de la PAGE
+     avant de se rabattre sur l'anglais — même règle que les autres briques. */
+  function cur() {
+    var l = "";
+    try { l = localStorage.getItem("the_lang") || ""; } catch (e) {}
+    if (!l) { try { l = (document.documentElement.lang || "").slice(0, 2); } catch (e) {} }
+    return l;
+  }
   var RTL = { ar:1, he:1, fa:1, ur:1, arc:1, syr:1 };   // écriture droite-à-gauche
   function pick(o) {
     if (!o) return "";
@@ -124,6 +132,9 @@
   }
 
   function teardown() {
+    /* on quitte la visite : la voix se tait. Sans cela elle continuait de
+       raconter par-dessus l'écran qu'on venait de rouvrir. */
+    if (typeof stopVoice === "function") stopVoice();
     if (onResize) {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", onResize, true);
@@ -177,6 +188,7 @@
       '<div class="htour-dots">' + dots + '</div>' +
       '<div class="htour-ft">' +
         '<span class="htour-count">' + esc(L("stepOf", { n: cur2 + 1, total: steps.length })) + '</span>' +
+        '<button class="htour-btn ic" data-act="voice" aria-label="' + esc(L("voice")) + '">' + (paused ? "\u25B6" : "\u23F8") + '</button>' +
         (target ? '<button class="htour-btn go" data-act="goto">' + esc(L("goto")) + '</button>' : '') +
         (cur2 > 0 ? '<button class="htour-btn" data-act="prev">' + esc(L("prev")) + '</button>' : '') +
         '<button class="htour-btn prim" data-act="next">' + esc(last ? L("done") : L("next")) + '</button>' +
@@ -186,6 +198,7 @@
     cardEl.querySelectorAll("[data-act]").forEach(function (b) {
       b.addEventListener("click", function () {
         var a = b.getAttribute("data-act");
+        if (a === "voice") { toggleVoice(); return; }
         if (a === "prev") go(cur2 - 1);
         else if (a === "skip") finish();
         else if (a === "goto") { finish(); try { target.click(); } catch (e) {} }
@@ -197,10 +210,49 @@
     });
   }
 
-  function go(i) { if (i < 0 || i >= steps.length) return; cur2 = i; render(); }
+  function go(i) {
+    if (i < 0 || i >= steps.length) return;
+    stopVoice();                 // ne jamais laisser deux voix se chevaucher
+    cur2 = i; render(); narrate();
+  }
 
-  /* Voix débranchée (visuel seul) — avance à la main (boutons/pastilles).
-     Les MP3 restent sur le serveur ; on pourra rebrancher plus tard. */
+  /* ---------------------------------------------------------------- la voix
+     La visite se raconte : chaque étape a son MP3 « voix/tour/<id>-<langue>.mp3 »
+     et la DURÉE de la voix commande l'affichage — à la fin, on avance tout seul.
+     Si le fichier manque pour cette étape ou cette langue, on ne bloque pas :
+     l'avance redevient manuelle, sans un mot d'erreur.
+
+     Deux corrections par rapport à la version qui tournait auparavant :
+       · ▶ RELANÇAIT RIEN. On remettait `paused` à false et on redessinait, sans
+         rappeler narrate() : le voyageur appuyait sur lecture et devait attendre
+         l'étape suivante pour entendre quoi que ce soit.
+       · l'étiquette du bouton était « voix », en français dans le code. Elle vient
+         maintenant de la donnée de la brique, comme tous ses autres libellés. */
+  var paused = false, audio = null;
+
+  function stopVoice() {
+    if (audio) { try { audio.pause(); } catch (e) {} audio = null; }
+  }
+  function narrate() {
+    stopVoice();
+    if (paused) return;
+    var s = steps[cur2]; if (!s || !s.id) return;
+    var a = new Audio("voix/tour/" + encodeURIComponent(s.id) + "-" + encodeURIComponent(cur() || "en") + ".mp3");
+    audio = a;
+    a.addEventListener("ended", function () {
+      if (a !== audio || paused) return;
+      audio = null;
+      if (cur2 < steps.length - 1) go(cur2 + 1);
+    });
+    /* les navigateurs anciens rendent undefined au lieu d'une promesse */
+    var p = a.play();
+    if (p && p.catch) p.catch(function () { if (audio === a) audio = null; });
+  }
+  function toggleVoice() {
+    paused = !paused;
+    if (paused) stopVoice(); else narrate();   // ← ▶ relance vraiment
+    render();
+  }
 
   function _start() {
     injectCSS();
@@ -219,6 +271,7 @@
     window.addEventListener("resize", onResize);
     window.addEventListener("scroll", onResize, true);
     render();
+    narrate();          // la première étape se raconte, comme les suivantes
   }
   function start() { return load().then(_start); }
 

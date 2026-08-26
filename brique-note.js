@@ -53,7 +53,14 @@
     }
     return url;
   }
-  function links() { return { ios: appStoreReview(), play: playReview() }; }
+  function _ios(){ var u=navigator.userAgent||''; return /iPad|iPhone|iPod/.test(u) || ((/Mac/.test(u)||navigator.platform==='MacIntel'||navigator.platform==='iPad') && (navigator.maxTouchPoints>1||'ontouchend' in document)); }
+  function _android(){ return /Android/.test(navigator.userAgent||''); }
+  function links() {
+    var ios = appStoreReview(), play = playReview();
+    if (_ios()) play = "";            // iOS : JAMAIS de renvoi Google Play (App Store Guideline 2.3.10)
+    else if (_android()) ios = "";    // Android : pas d'App Store
+    return { ios: ios, play: play };  // web : les deux
+  }
   function hasAny() { var l = links(); return !!(l.ios || l.play); }
 
   /* --- appliquer les libellés (de SA donnée) sur un sous-arbre injecté ---- */

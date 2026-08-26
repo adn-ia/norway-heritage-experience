@@ -20,8 +20,15 @@
     body{margin:0;min-height:100vh;font-family:'EB Garamond',Georgia,serif;color:var(--ink);
       background:linear-gradient(160deg,#2b2318 0%,#3a2f22 38%,#5a4a33 100%);}
     .wrap{max-width:720px;margin:0 auto;padding:22px 18px 70px;}
-    .top{display:flex;align-items:center;justify-content:space-between;color:var(--ivory);margin-bottom:8px;}
-    .top a{color:var(--gold-soft);text-decoration:none;font-size:14px;letter-spacing:1px;}
+    .top{display:flex;align-items:center;justify-content:space-between;color:var(--ivory);margin-bottom:8px;
+      /* La barre suivait la page et disparaissait dès la première étape : il fallait
+         remonter tout l'itinéraire pour revenir au menu ou passer à la carte.
+         Elle accompagne maintenant la lecture, comme sur la liste et Découvrir. */
+      position:sticky;top:0;z-index:900;background:var(--ink,#2b2318);
+      padding:10px 12px;margin-left:-12px;margin-right:-12px;
+      padding-top:calc(10px + env(safe-area-inset-top,0px));
+      box-shadow:0 2px 10px rgba(0,0,0,.28);}
+    .top a{min-height:44px;display:inline-flex;align-items:center;padding:0 6px;color:var(--gold-soft);text-decoration:none;font-size:14px;letter-spacing:1px;}
     .top .mark{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;letter-spacing:2px;line-height:1.05;text-align:center;}
     .lead{text-align:center;color:var(--ivory);margin:6px 0 22px;}
     .lead h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:30px;margin:0 0 6px;}
@@ -337,6 +344,17 @@
     #projCap .pc-cap2{font-size:15px;font-style:italic;opacity:.92;margin-top:6px;max-width:780px;}
 
     @media print{
+      /* L'ALBUM DOIT POUVOIR DÉBORDER SUR PLUSIEURS PAGES.
+         « .album-doc » porte overflow:hidden pour ses coins arrondis à l'écran.
+         À l'impression, ce seul mot coupait tout ce qui dépassait de la première
+         feuille : l'aperçu sortait vide ou tronqué, quel que soit le modèle.
+         RoadTrip fait exactement l'inverse au moment d'imprimer — il remet son
+         album en position:static et overflow:visible, et masque tout le reste
+         (index.html, la règle @media print de #alb-overlay, l. 213-221 —
+         fichier lu, jamais modifié). On aligne. */
+      .album-doc{overflow:visible !important;border-radius:0 !important;box-shadow:none !important;}
+      #album{overflow:visible !important;}
+      .wrap,#result,.album-bar~*{overflow:visible !important;}
       @page{margin:14mm;}
       body{background:#fff !important;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
       .wrap{max-width:none;padding:0;}
@@ -346,6 +364,17 @@
       .album-cap{border:none !important;background:transparent !important;padding:0 !important;}
       .album-cover{break-after:page;page-break-after:always;}
       .album-page{break-inside:avoid;page-break-inside:avoid;}
+      /* UNE IMAGE NE SE COUPE PAS EN DEUX.
+         Une page d'album porte plusieurs photos : quand elle dépasse la feuille,
+         le moteur coupait au milieu d'une image — la moitié en bas d'une page, la
+         moitié en haut de la suivante. On protège chaque photo individuellement,
+         et on la laisse à sa taille : « max-height » la comprimait pour la faire
+         entrer, ce qui l'écrasait. */
+      .album-ph .pic,.pic,.pp-page img,.dep-panel img,.album-doc img,.album-doc video{
+        break-inside:avoid !important;page-break-inside:avoid !important;}
+      .album-doc img,.album-doc video{max-width:100% !important;height:auto !important;
+        object-fit:contain !important;display:block;}
+      .album-doc .album-ph{display:block;}
       .tpl-passeport .pp-book{display:block;}
       .pp-page{break-inside:avoid;page-break-inside:avoid;box-shadow:none !important;border:1px solid #d8c9a4;margin-bottom:8mm;min-height:auto;flex:none;max-width:none;}
       .pp-wm{opacity:.05 !important;}
@@ -363,7 +392,26 @@
       .photos{break-inside:avoid;}
       .src a{color:#000;text-decoration:underline;}
     }
-  </style>
+  
+  .prem-ask{position:fixed;inset:0;z-index:9999;background:rgba(20,15,10,.55);display:flex;align-items:center;justify-content:center;padding:18px;}
+.prem-ask .pa-card{background:#fffdf8;border-radius:12px;max-width:420px;width:100%;padding:22px 20px;position:relative;box-shadow:0 10px 40px rgba(0,0,0,.3);}
+.prem-ask .pa-x{position:absolute;top:8px;right:10px;background:none;border:none;font-size:19px;cursor:pointer;color:#8a7c66;}
+.prem-ask .pa-t{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin-bottom:5px;}
+.prem-ask .pa-q{font-size:14px;color:#a8884f;margin-bottom:8px;}
+.prem-ask .pa-d{font-size:14px;color:#6b5a39;line-height:1.6;margin-bottom:16px;}
+.prem-ask .pa-go{display:block;text-align:center;background:#a8884f;color:#2b2318;text-decoration:none;padding:12px;border-radius:7px;font-size:15px;margin-bottom:8px;}
+.prem-ask .pa-no{display:block;width:100%;background:none;border:1px solid #e3d8c4;color:#8a7c66;padding:11px;border-radius:7px;font-size:14.5px;cursor:pointer;}
+
+/* Trois options à l'arrivée : la règle CSS l'emporte sur les scripts qui
+   réaffichent « Mon voyage » ou « Circuits prêts » après nous. */
+#builder.trois-seules > *:not(.modes):not([data-brique="modes"]){ display:none !important; }
+/* Après avoir choisi ses lieux, la seule question est « d'où, combien de temps,
+   boucle ou pas ». Une règle, pas un masquage en JavaScript : les circuits se
+   réaffichaient tout seuls après coup, et revenaient par-dessus le panneau. */
+#builder.reglages-picks > *:not(#picksReglages){ display:none !important; }
+/* L'aide explicative fait partie de l'accueil : c'est elle qui dit à quoi
+   servent les options. La masquer avec le reste la rendait inatteignable. */
+</style>
   <script src="the-pass.js"></script>
   <script src="the-i18n.js"></script>
 </head>
@@ -382,10 +430,13 @@
     <!-- ENTONNOIR -->
     <div class="panel" id="builder">
       <div class="modes">
+        <button class="mode-card" id="mLibre" type="button"><span class="mc-ic">🎒</span><span class="mc-t" data-i18n="m_li_t"></span><span class="mc-s" data-i18n="m_li_s"></span></button>
         <button class="mode-card" id="mGo" type="button"><span class="mc-ic">🧭</span><span class="mc-t" data-i18n="m_go_t"></span><span class="mc-s" data-i18n="m_go_s"></span></button>
         <button class="mode-card" id="mSurprise" type="button"><span class="mc-ic">🎲</span><span class="mc-t" data-i18n="m_su_t"></span><span class="mc-s" data-i18n="m_su_s"></span></button>
-        <button class="mode-card" id="mLibre" type="button"><span class="mc-ic">🆓</span><span class="mc-t" data-i18n="m_li_t"></span><span class="mc-s" data-i18n="m_li_s"></span></button>
+          <button class="mode-card" id="mPropos" type="button"><span class="mc-ic">✨</span><span class="mc-t" data-i18n="m_pr_t">Circuits</span><span class="mc-s" data-i18n="m_pr_s">des parcours déjà tracés</span></button>
+          <button class="mode-card" id="mMes" type="button"><span class="mc-ic">📚</span><span class="mc-t" data-i18n="m_me_t">Itinéraires sauvegardés</span><span class="mc-s" data-i18n="m_me_s">ceux que vous avez créés</span></button>
       </div>
+          <div data-brique="modes"></div>
 
       <div class="q" id="savedBox" style="display:none">
         <div class="lbl" data-i18n="itineraire.mon.voyage"></div>
@@ -398,9 +449,19 @@
         <div class="hint"><span data-i18n="itineraire.des.parcours.cures.avec"></span> <b data-i18n="itineraire.pepites.a.voir.en"></b><span data-i18n="itineraire.ou.composez.le.votre"></span></div>
       </div>
 
+          <div class="q" id="raccourcisChoix" style="display:none">
+            <div class="lbl" data-i18n="itin.choisir.autrement">Ou choisissez vos lieux vous-même</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <a href="index.html?from=itineraire" style="flex:1;min-width:150px;text-align:center;padding:11px;border:1px solid #e3d8c4;border-radius:7px;text-decoration:none;color:inherit" data-i18n="itin.choisir.carte">🗺️ Sur la carte</a>
+              <a href="liste.html?from=itineraire" style="flex:1;min-width:150px;text-align:center;padding:11px;border:1px solid #e3d8c4;border-radius:7px;text-decoration:none;color:inherit" data-i18n="itin.choisir.liste">📋 Dans la liste</a>
+            </div>
+            <div class="hint" data-i18n="itin.choisir.aide">Cochez des lieux là-bas, puis « ajouter à l'itinéraire » : ils viendront dans celui-ci.</div>
+          </div>
       <div class="q" id="critStart">
         <div class="lbl"><span class="n">1</span> <span data-i18n="itineraire.vous.partez.d.ou"></span></div>
-        <select id="origin"><option value="gps" data-i18n="itineraire.ma.position.gps"></option></select>
+        <select id="origin"><option value="" data-i18n="itin.choisir.depart"></option><option value="gps" data-i18n="itineraire.ma.position.gps"></option></select>
+        <input id="originAdr" type="text" placeholder="" style="display:none;width:100%;margin-top:8px;padding:11px;border:1px solid #e3d8c4;border-radius:7px;font:inherit">
+        <div class="hint" id="originAdrMsg" style="display:none"></div>
         <div class="hint" data-i18n="itineraire.choisissez.ma.position.sur"></div>
       </div>
 
@@ -462,10 +523,18 @@
     <!-- RESULTAT -->
     <div id="result">
       <div class="print-head" id="printhead"></div>
+      <!-- Fermer, AUSSI en haut : sur un itinéraire de quinze étapes, atteindre
+           le bas pour ranger et sortir est un trajet inutile. Même geste, même
+           libellé, même code — seulement à portée de main. -->
+      <button id="fermerItiHaut" type="button" class="btn go"
+              style="width:100%;margin:0 0 10px" data-i18n="itin.fermer">✓ Fermer l'itinéraire</button>
       <div class="rsum" id="rsum"></div>
       <div id="map"></div>
       <div id="stops"></div>
-      <div id="addbox">
+      <!-- Encart d'ajout retiré : la brique d'étape fait la même chose en mieux
+           (nom, position, note, dates, place dans le parcours). Le balisage reste
+           masqué pour ne pas casser le code qui le référence encore. -->
+      <div id="addbox" hidden style="display:none">
         <div class="addlbl" data-i18n="itineraire.ajouter.un.lieu.a"></div>
         <div class="addrow">
           <input id="addinput" type="text" data-i18n-placeholder="itineraire.commencez.a.taper.un" autocomplete="off" list="placeList">
@@ -477,7 +546,7 @@
       <div class="exp-group">
         <div class="exp-lbl" data-i18n="itineraire.sur.place"></div>
         <div class="exp">
-          <button id="haltebtn" type="button">📍 <span data-i18n="halte_btn"></span></button>
+          <button id="haltebtn" type="button" hidden>📍 <span data-i18n="halte_btn"></span></button>
           <button id="gmapsbtn" type="button" data-i18n="itineraire.naviguer.gps"></button>
           <button id="scanbtn" type="button" data-i18n="itineraire.scanner.un.qr"></button>
           <button id="mapbtn" type="button" data-i18n="flux.voir.sur.la.grande"></button>
@@ -487,11 +556,26 @@
         <div class="exp-lbl" data-i18n="itineraire.garder.partager"></div>
         <div class="exp">
           <button id="savebtn" type="button" data-i18n="itineraire.enregistrer"></button>
-          <button id="sharebtn" type="button" data-i18n="itineraire.partager.le.lien"></button>
+          <button id="sharebtn" type="button" data-i18n="itin.donner.qr">📱 Dupliquer l'itinéraire</button>
           <button id="albumbtn" type="button" data-i18n="flux.album.souvenir"></button>
+          <!-- JOURNAL DE BORD — repris de RoadTrip (openJournalPicker l. 2410,
+               rtGenJournal l. 2455). L'album met en page TOUT le carnet dans un
+               style choisi ; le journal se COMPOSE — on écarte les photos ratées,
+               on garde le mot qui compte, et le récit se lit d'une traite. -->
+          <button id="journalbtn" type="button" data-i18n="flux.journal.de.bord"></button>
           <button id="printbtn" type="button" data-i18n="flux.pdf.imprimer"></button>
+          <button id="fermerIti" type="button" data-i18n="itin.fermer">✓ Fermer l'itinéraire</button>
         </div>
       </div>
+        <div class="exp-group">
+          <div class="exp-lbl" data-i18n="itin.carnet.titre">🛟 Mettre mon carnet à l'abri</div>
+          <div class="exp">
+            <button id="bkExportIti" type="button" data-i18n="itin.carnet.sauver">💾 Sauvegarder mon carnet</button>
+            <button id="bkImportIti" type="button" data-i18n="itin.carnet.restaurer">📥 Restaurer un carnet</button>
+            <input type="file" id="bkFileIti" accept="application/json,.json" style="display:none">
+          </div>
+          <div class="hint" id="bkStatusIti" data-i18n="itin.carnet.pourquoi">Vos itinéraires, vos notes et vos photos ne vivent que dans cet appareil : rien n'est conservé chez nous. La sauvegarde les met dans un fichier qui reste chez vous — à garder pour changer de téléphone, ou pour tout retrouver si l'application est réinstallée.</div>
+        </div>
       <div class="hint" id="gmapshint" style="margin-top:-4px"><span data-i18n="itineraire.naviguer.ouvre.votre.itineraire"></span> <b data-i18n="itineraire.fichier.gpx.hors.ligne"></b> <span data-i18n="itineraire.osmand.organicmaps.sur.googlemaps"></span><b data-i18n="itineraire.entree.officielle"></b> <span data-i18n="itineraire.des.sites.au.dela"></span></div>
       <button class="restart" id="restart" data-i18n="itineraire.recommencer.avec.d.autres"></button>
     </div>
@@ -569,23 +653,6 @@
     </div>
 
     <!-- PAYWALL : le passe -->
-    <div id="passModal" class="modal" style="display:none" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.le.passe.premium" aria-label="Le passe premium">
-      <div class="modal-card">
-        <button class="modal-x" id="passX" type="button" data-i18n-aria="rt.fermer" aria-label="Fermer">✕</button>
-        <div class="md-kick" data-i18n="itineraire.le.passe.premium"></div>
-        <h3 class="md-title" id="passTitle"><span data-i18n="itineraire.fonction.du.passe"></span></h3>
-        <p id="passWhy" style="color:var(--stone);font-size:14px;margin:0 0 12px"></p>
-        <div style="font-size:14.5px;line-height:1.95"><span data-i18n="itineraire.tous.les.circuits.prets"></span><br><span data-i18n="itineraire.album.souvenir.baroudeur.passeport"></span><br><span data-i18n="itineraire.diaporama.projection.du.carnet"></span><br><span data-i18n="itineraire.theme.gastronomie"></span><br><span data-i18n="itineraire.lien.d.itineraire.partageable"></span><br><span data-i18n="itineraire.guide.audio.hors.ligne"></span><br><span data-i18n="itineraire.sans.publicite"></span></div>
-        <div style="background:#f6f0e4;border:1px solid var(--line);border-radius:8px;padding:11px;margin:13px 0;font-size:14px">
-          <b data-i18n="itineraire.le.passe"></b> <span data-i18n="itineraire.1.semaine"></span> <b>4,90 €</b> <span data-i18n="itineraire.1.mois"></span> <b>9,90 €</b><br>
-          <span style="color:var(--stone);font-size:12.5px"><span data-i18n="itineraire.paiement.delegue.lemonsqueezy.aucune"></span> <b data-i18n="itineraire.tout.ce.que.vous"></b></span>
-        </div>
-        <button class="md-add" id="passWeek" type="button" style="width:100%" data-i18n="itineraire.passe.1.semaine.4"></button>
-        <button class="md-add" id="passMonth" type="button" style="width:100%;margin-top:8px" data-i18n="itineraire.passe.1.mois.9"></button>
-        <button class="md-reject" id="passLater" type="button" style="width:100%;margin-top:8px" data-i18n="itineraire.plus.tard"></button>
-        <p id="passDemoNote" style="font-size:11px;color:var(--stone);font-style:italic;margin-top:8px" data-i18n="itineraire.demonstration.activation.simulee.tant"></p>
-      </div>
-    </div>
 
     <!-- DIAPORAMA / PROJECTION du carnet (multimédia : photo/vidéo + note + voix) -->
     <div id="projOv" role="dialog" aria-modal="true" data-i18n-aria="itineraire.aria.diaporama.du.carnet" aria-label="Diaporama du carnet">
@@ -673,6 +740,8 @@
       rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error);
     }));
   }
+  /* Lecture d'un carnet d'étape — une clé, une réponse. Comme RoadTrip
+     (index.html, mediaGet). Aucun repli : la clé ne bouge plus. */
   function photosFor(place){
     return store('readonly').then(os=>new Promise((res,rej)=>{
       const out=[], rq=os.index('place').openCursor(IDBKeyRange.only(place));
@@ -700,7 +769,117 @@
     })).catch(()=>0);
   }
   // clé stable d'un lieu (nom + position arrondie) : les photos suivent le lieu d'un itinéraire à l'autre
-  const placeKey = s => norm(s.p.nom)+'@'+s.c[0].toFixed(4)+','+s.c[1].toFixed(4);
+  /* Les médias d'une étape (photo, note, voix) étaient rangés sous le seul nom du
+     LIEU. Deux voyages passant par le même site partageaient donc le même album :
+     impossible d'en tenir deux distincts. La clé porte désormais l'identifiant de
+     l'itinéraire. Rien n'est perdu : à la lecture, si la nouvelle clé est vide, on
+     retombe sur l'ancienne — les carnets déjà remplis restent lisibles. */
+  const placeBase = s => norm(s.p.nom)+'@'+s.c[0].toFixed(4)+','+s.c[1].toFixed(4);
+  /* L'identifiant devait être STABLE : les photos d'une étape sont rangées sous
+     « <id de l'itinéraire>#<lieu> ». Quand l'id changeait — vide avant le premier
+     enregistrement, puis renseigné après — la clé changeait avec lui et les photos
+     déjà prises devenaient introuvables : elles restaient en base, sous l'ancienne
+     clé. Le parcours en cours donne désormais l'identifiant dès le départ. */
+  function itiId(){ try{
+      var v = (typeof LASTRES!=='undefined' && LASTRES && LASTRES._id) || '';
+      if(!v) v = localStorage.getItem('the_encours') || '';
+      if(!v) v = localStorage.getItem('the_actif') || '';
+      return v;
+    }catch(e){ return ''; } }
+  /* LA CLÉ D'UNE ÉTAPE NE BOUGE PLUS.
+     Elle portait l'identifiant de l'itinéraire : « <id>#<lieu> ». Or cet
+     identifiant n'existe pas tant que le voyage n'est pas enregistré, et il change
+     quand il l'est. Les photos prises avant partaient donc sous une clé, et tout
+     ce qui les relisait ensuite — le bandeau d'en-tête, le passeport, le dépliant,
+     la grille de souvenirs — cherchait sous une autre. D'où des albums vides et
+     des photos « disparues » qui étaient pourtant bien en base.
+     RoadTrip ne connaît pas ce problème : il range sous le numéro d'étape, qui ne
+     bouge jamais (index.html, mediaGet(s.n)). On fait pareil : la clé, c'est le
+     LIEU. Deux voyages passant au même endroit partagent leur album — c'est
+     exactement ce que fait RoadTrip, et ça vaut mieux qu'un album introuvable. */
+  /* LA CLÉ D'UN CARNET D'ÉTAPE : « nom de l'itinéraire # numéro de l'étape ».
+     Elle portait l'identifiant technique de l'itinéraire — un identifiant qui
+     n'existe pas tant que le voyage n'est pas enregistré, et qui change quand il
+     l'est. Les photos partaient donc sous une clé et se relisaient sous une autre :
+     bandeau d'en-tête vide, passeport et dépliant sans images, souvenirs « perdus »
+     alors qu'ils étaient bien en base.
+     RoadTrip range sous le NUMÉRO d'étape, qui ne bouge jamais. On fait pareil, en
+     préfixant du nom du voyage pour que deux itinéraires gardent des carnets
+     distincts. Le nom est donc unique — c'est garanti à l'enregistrement, quelle
+     que soit la porte d'entrée : voyage libre, composer, surprise ou circuit. */
+  /* QUATRE PORTES, QUATRE ITINÉRAIRES DISTINCTS.
+     Voyage libre, composer, circuit, surprise et « enregistrés » sont cinq entités
+     séparées : un voyage libre n'a pas à emprunter les photos d'un itinéraire
+     composé. Le carnet porte donc le TYPE en plus du nom et du numéro d'étape.
+     Le type est figé dans la fiche à sa création : ENTRY change au fil de la
+     navigation, la fiche non. */
+  function itiType(){
+    try{
+      var id = (typeof LASTRES!=='undefined' && LASTRES && LASTRES._id) || localStorage.getItem('the_encours') || '';
+      if(id){
+        var f = readSaved().filter(function(r){ return r && r.id===id; })[0];
+        if(f && f.type) return f.type;
+      }
+    }catch(e){}
+    return (typeof ENTRY!=='undefined' && ENTRY) ? ENTRY : 'funnel';
+  }
+  function itiNom(){
+    try{
+      var id = (typeof LASTRES!=='undefined' && LASTRES && LASTRES._id) || localStorage.getItem('the_encours') || '';
+      if(id){
+        var f = readSaved().filter(function(r){ return r && r.id===id; })[0];
+        if(f && f.title) return norm(f.title);
+      }
+      var n = window.THEnomEnAttente || '';
+      if(!n){ try{ n = sessionStorage.getItem('the_nom_attente')||''; }catch(e){} }
+      if(n) return norm(n);
+      if(typeof LASTRES!=='undefined' && LASTRES && LASTRES.tour && LASTRES.tour.titre) return norm(LASTRES.tour.titre);
+    }catch(e){}
+    return '';
+  }
+  /* LA RÉFÉRENCE STRICTE DE L'ITINÉRAIRE, PUIS LE NUMÉRO D'ÉTAPE.
+     Chaque itinéraire porte déjà un identifiant unique, posé à sa création et
+     jamais réattribué — « it<horodatage> ». C'est LA référence, et c'est sous elle
+     que la fiche s'auto-enregistre. Le carnet d'une étape se range donc sous
+     « <référence>#<numéro d'étape> » : deux itinéraires ne peuvent pas se
+     rencontrer, même portant le même nom, même passant par les mêmes lieux, et un
+     renommage ne déplace rien.
+     RoadTrip range sous le numéro d'étape seul — il n'a qu'un voyage. Nous en
+     avons cinq portes : la référence les sépare. */
+  function itiRef(){
+    try{
+      var id = (typeof LASTRES!=='undefined' && LASTRES && LASTRES._id) || '';
+      if(!id) id = localStorage.getItem('the_encours') || '';
+      if(id) return id;
+    }catch(e){}
+    return '';
+  }
+  const placeKey = s => {
+    var i = -1;
+    try{ if(LASTRES && LASTRES.route) i = LASTRES.route.indexOf(s); }catch(e){}
+    return itiRef()+'#'+(i>=0 ? (i+1) : 0);
+  };
+  /* DEUX ITINÉRAIRES NE PEUVENT PAS PORTER LE MÊME NOM.
+     Puisque le nom sert de clé aux carnets, deux voyages homonymes mélangeraient
+     leurs photos. On suffixe «  (2) », «  (3) »… jusqu'à trouver libre. */
+  function nomUnique(nom, idSoi){
+    var base = String(nom||'').trim();
+    if(!base) return base;
+    var pris = readSaved().filter(function(r){ return r && r.id!==idSoi; })
+                          .map(function(r){ return String(r.title||'').trim().toLowerCase(); });
+    if(pris.indexOf(base.toLowerCase())<0) return base;
+    for(var k=2; k<200; k++){
+      var essai = base+' ('+k+')';
+      if(pris.indexOf(essai.toLowerCase())<0) return essai;
+    }
+    return base;
+  }
+  /* Légende d'une étape — une clé, une réponse. Emportée par erreur le 24/08
+     lors du retrait de la migration : l'album levait « capLire is not defined »
+     dès la première étape, donc passeport et dépliant sortaient VIDES. */
+  function capLire(cle){
+    try{ return localStorage.getItem('the-cap:'+cle); }catch(e){ return null; }
+  }
   let PHOTO_URLS=[];  // object URLs à révoquer entre deux rendus (évite les fuites mémoire)
 
   async function loadPhotos(phEl){
@@ -748,10 +927,10 @@
   }
   async function startRec(btn, ph, box){
     if(ACTIVE_REC){ try{ ACTIVE_REC.stop(); }catch(e){} return; }
-    if(!navigator.mediaDevices || !window.MediaRecorder){ alert(uiT('itineraire.enregistrement.audio.non.disponible.sur')); return; }
+    if(!navigator.mediaDevices || !window.MediaRecorder){ THEtoast(uiT('itineraire.enregistrement.audio.non.disponible.sur')); return; }
     let stream;
     try{ stream=await navigator.mediaDevices.getUserMedia({audio:true}); }
-    catch(e){ alert(uiT('carnet.micro.refuse.ou.indisponible')); return; }
+    catch(e){ THEtoast(uiT('carnet.micro.refuse.ou.indisponible')); return; }
     const mr=new MediaRecorder(stream), chunks=[]; ACTIVE_REC=mr;
     mr.ondataavailable=e=>{ if(e.data && e.data.size) chunks.push(e.data); };
     mr.onstop=async()=>{ stream.getTracks().forEach(t=>t.stop()); ACTIVE_REC=null;
@@ -769,24 +948,55 @@
   }
 
   // ---------- thèmes DÉRIVÉS DU CHAMP RÉELLEMENT REMPLI DU PAYS ----------
-  // Le vocabulaire est DONNÉE DE PAYS : il vit dans `HConf.themes` (heritage.config.js),
-  // le seul fichier qu'on édite pour cloner. Le code ci-dessous est 100 % générique :
-  // il ne connaît aucun mot-clé, il applique la mécanique (priorité, seuil ≥3).
-  // Un site matche un thème s'il porte son slug dans `properties.themes` OU si son
-  // `type` (référence FR) contient l'un des `kw`. `pri` tranche les types composés.
-  const THEMES = (window.HConf && Array.isArray(HConf.themes)) ? HConf.themes.slice() : [];
+  // Le seul champ peuplé est `type` (99%) — epoque/themes sont vides.
+  // On regroupe les 12 valeurs de `type` en catégories propres, par mots-clés sur le TYPE.
+  // (règle de la gamme : chaque édition dérive ses filtres de SON champ rempli ; seuil ≥3.)
+  // affichage par ordre de taille ; `pri` = priorité pour trancher les types composés
+  // (ex. « Monument historique et architectural » → une SEULE catégorie, pas deux).
+  /* Thèmes DÉCLARÉS par l'édition (heritage.config.js → HConf.themes) : même source que
+     index.html et liste.html. À défaut, la liste historique ci-dessous sert de repli. */
+  const THEMES = (window.HConf && Array.isArray(HConf.themes) && HConf.themes.length)
+    ? HConf.themes.map(t=>({id:t.id, ic:t.ic||'🏷️', label:t.label||('theme.'+t.id), kw:t.kw||[], pri:t.pri||0}))
+    : [
+    {id:'archeo',    ic:'🏺', label:'theme.archeo',     kw:['archeolog'],               pri:2},
+    {id:'archi',     ic:'🏛️', label:'theme.archi',      kw:['architectural'],            pri:3},
+    {id:'histoire',  ic:'📜', label:'theme.histoire',   kw:['historique'],               pri:4},
+    {id:'sacre',     ic:'🌳', label:'theme.sacre',      kw:['naturel sacre'],            pri:1},
+    {id:'art',       ic:'🎨', label:'theme.art',        kw:['uvre','artistiq'],          pri:5},
+    {id:'patrimoine',ic:'🛡️', label:'theme.patrimoine', kw:['protection du patrimoine'], pri:6},
+  ];
   // chaque type est rangé dans UNE seule catégorie (la plus prioritaire qui correspond)
-  // le pays remplit `type` OU `epoque` selon l'édition (la Tunisie thématise par ÉPOQUE) :
-  // on cherche les mots-clés dans les DEUX, sinon 14 thèmes sur 14 ne matchent rien.
-  function champsThematiques(p){ return (p && typeof p==='object') ? ((p.type||'')+' '+(p.epoque||'')) : (p||''); }
-  function themeIdOf(p){
-    const t=norm(champsThematiques(p)); let best=null;
-    THEMES.forEach(th=>{ if(th.kw && th.kw.length && th.kw.some(k=>t.includes(norm(k)))){ if(!best || th.pri<best.pri) best=th; } });
+  function themeIdOf(type){
+    const t=norm(type||''); let best=null;
+    THEMES.forEach(th=>{ if(th.kw && th.kw.some(k=>t.includes(norm(k)))){ if(!best || th.pri<best.pri) best=th; } });
     return best ? best.id : null;
   }
+  /* ── Thèmes d'un lieu, mêmes règles que la carte et la liste ──────────────
+     ① le champ `themes` du lieu ; ② une règle type→thème APPRISE sur cette
+     édition ; ③ les mots-clés en dernier repli. La garde d'échantillon évite
+     qu'un type fourre-tout n'entraîne son thème sur des milliers de lieux. */
+  const THEME_PAR_TYPE = new Map();
+  const THEME_NON_APPRIS = ['unesco'];
+  function apprendreThemes(rows){
+    const obs=new Map(), total=new Map();
+    rows.forEach(p=>{ const ty=p&&p.type; if(!ty) return;
+      total.set(ty,(total.get(ty)||0)+1);
+      const th=p.themes; if(!Array.isArray(th)||!th.length) return;
+      let m=obs.get(ty); if(!m){ m=new Map(); obs.set(ty,m); }
+      th.forEach(t=>{ if(THEME_NON_APPRIS.indexOf(t)<0) m.set(t,(m.get(t)||0)+1); });
+    });
+    obs.forEach((m,ty)=>{ let ech=0,best=null,bn=0;
+      m.forEach((n,t)=>{ ech+=n; if(n>bn){ bn=n; best=t; } });
+      if(best && bn>=5 && bn/ech>=0.6 && ech/(total.get(ty)||1)>=0.25) THEME_PAR_TYPE.set(ty,best);
+    });
+  }
+  function themesOf(p){
+    if(p && Array.isArray(p.themes) && p.themes.length) return p.themes;
+    const a=THEME_PAR_TYPE.get(p&&p.type); if(a) return [a];
+    const c=themeIdOf(p&&p.type); return c?[c]:['autres'];   // « Autres lieux » : aucun lieu n'est invisible
+  }
   function matchTheme(props, theme){
-    if(Array.isArray(props.themes) && props.themes.indexOf(theme.id)>=0) return true;   // thème porté par la donnée
-    return themeIdOf(props)===theme.id;   // sinon : dérivé du type, exclusif
+    return themesOf(props).indexOf(theme.id) >= 0;
   }
   // un thème ne s'affiche que s'il a du contenu réel dans CE pays (≥3 sites) — seuls les transversaux SANS mots-clés (Légende, Gastronomie) sont exemptés ; Cinéma doit mériter ses ≥3
   function themeViable(t){ return t.food || SITES.filter(s=>matchTheme(s.p,t)).length >= 3; }
@@ -821,7 +1031,13 @@
   let LASTORIGIN=null, LASTRES=null;   // dernier itinéraire (pour ajout de lieu)
   let ENTRY='funnel';                  // provenance : 'funnel' | 'tour' | 'picks' → règle le bouton « retour »
   const REJECTED=new Set();            // détours « pas pour moi » : ne plus les re-proposer
-  const VU=new Set((function(){ try{ return JSON.parse(localStorage.getItem('the_vu')||'[]'); }catch(e){ return []; } })());  // lieux marqués « vu » (scan QR)
+  const VU=new Set((function(){ try{ var v=JSON.parse(localStorage.getItem('the_vu')||'[]');
+      /* Une AUTRE fonction a longtemps écrit the_vu='1' (« il est entré une fois ») dans
+         cette même clé. JSON.parse rendait alors le nombre 1, et new Set(1) levait
+         « 1 is not iterable » : le script mourait ICI, silencieusement, emportant les
+         lieux, les thèmes et les boutons Composer / Surprenez-moi / Voyage libre. On
+         n'accepte plus qu'une liste. */
+      return Array.isArray(v) ? v : []; }catch(e){ return []; } })());  // lieux marqués « vu » (scan QR)
   function saveVu(){ try{ localStorage.setItem('the_vu', JSON.stringify([...VU])); }catch(e){} }
 
   const isMusee = p => norm(p.nom).includes('musee');
@@ -832,43 +1048,124 @@
   }
 
   // ---------- chargement données (histoire + nature) ----------
-  Promise.all([
-    fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
-    fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]})),
-    (window.THEi18n ? THEi18n.ready : Promise.resolve())   // traductions chargées avant le rendu
-  ]).then(([hist,nat])=>{
-    const take=(geo,layer)=>geo.features
-      .filter(f=>f.geometry && f.geometry.type==='Point')
-      .filter(f=>f.properties.keep!==0)   // le registre (keep=0) n'entre pas dans les itinéraires proposés
-      .map(f=>({p:f.properties, c:f.geometry.coordinates, layer, genre:genreOf(f.properties,layer)}));
-    SITES = take(hist,'histoire').concat(take(nat,'nature'));
-    computeLandmasses();
-    renderThemeChips();   // SITES charge -> les themes historiques/typologiques deviennent viables (fix rendu 0 chip)
-    // centroïdes par région (toutes couches)
-    const acc={};
-    SITES.forEach(s=>{ const g=s.p.region||'—'; (acc[g]=acc[g]||[]).push(s.c); });
-    const sel=document.getElementById('origin');
-    Object.keys(acc).sort((a,b)=>a.localeCompare(b,'fr')).forEach(g=>{
-      const cs=acc[g];
-      GOUV[g]=[ cs.reduce((t,c)=>t+c[0],0)/cs.length, cs.reduce((t,c)=>t+c[1],0)/cs.length ];
-      const o=document.createElement('option'); o.value='g:'+g; o.textContent=uiT('itineraire.depuis')+' '+g; sel.appendChild(o);
-    });
-    relabelOrigins();   // si les chefs-lieux sont déjà chargés, on affiche la ville
+    /* Le chargement était lancé ICI, au milieu du script. Quand le service worker
+       sert sites.geojson depuis son cache, la réponse arrive AVANT que la fin du
+       script soit évaluée : le callback touchait alors isMusee, SEA_GAP et chipsEl
+       encore dans leur zone morte (let/const non initialisés). L'erreur partait en
+       rejet de promesse — silencieuse — et emportait TOUT le bloc : aucun lieu,
+       aucun thème, et les boutons Composer / Surprenez-moi / Voyage libre sans
+       gestionnaire. Le défaut n'apparaissait qu'une fois le cache chaud, donc
+       jamais au premier essai. On déclare, et on n'appelle qu'à la toute fin. */
+    function chargerDonnees(){
+    Promise.all([
+      fetch('sites.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+      fetch('sites-nature.geojson').then(r=>r.json()).catch(()=>({features:[]})),
+      (window.THEi18n ? THEi18n.ready : Promise.resolve())   // traductions chargées avant le rendu
+    ]).then(([hist,nat])=>{
+      const take=(geo,layer)=>geo.features
+        .filter(f=>f.geometry && f.geometry.type==='Point')
+        .filter(f=>f.properties.keep!==0)   // le registre (keep=0) n'entre pas dans les itinéraires proposés
+        .map(f=>({p:f.properties, c:f.geometry.coordinates, layer, genre:genreOf(f.properties,layer)}));
+      SITES = take(hist,'histoire').concat(take(nat,'nature'));
+      apprendreThemes(SITES.map(s=>s.p));   // règles type→thème, apprises sur CETTE édition
+      computeLandmasses();
+      renderThemeChips();   // SITES charge -> les themes historiques/typologiques deviennent viables (fix rendu 0 chip)
+      // centroïdes par région (toutes couches)
+      /* UN DÉPART SANS NOM N'EST PAS UN DÉPART.
+         Les lieux dont la région est vide étaient rangés sous « — », et cette
+         région fantôme devenait une entrée de menu : « Depuis — », en TÊTE de
+         liste, donc le premier choix offert au voyageur. 76 lieux estoniens et
+         la couche nature du Portugal la nourrissaient. Relevé en ligne le
+         19/08/2026. Les lieux restent sur la carte et dans la liste ; c'est
+         seulement le CHOIX DE DÉPART qui disparaît, parce qu'il ne veut rien
+         dire. */
+      const acc={};
+      SITES.forEach(s=>{ const g=(s.p.region||'').trim();
+        if(!g || g==='—' || g==='-') return;
+        (acc[g]=acc[g]||[]).push(s.c); });
+      const sel=document.getElementById('origin');
+      Object.keys(acc).sort((a,b)=>a.localeCompare(b,'fr')).forEach(g=>{
+        const cs=acc[g];
+        GOUV[g]=[ cs.reduce((t,c)=>t+c[0],0)/cs.length, cs.reduce((t,c)=>t+c[1],0)/cs.length ];
+        const o=document.createElement('option'); o.value='g:'+g; o.textContent=uiT('itineraire.depuis')+' '+g; sel.appendChild(o);
+      });
+      relabelOrigins();   // si les chefs-lieux sont déjà chargés, on affiche la ville
 
-    initPresets();
-    renderSaved();   // affiche « Mes itinéraires enregistrés » s'il y en a
-    // autocomplétion du champ « ajouter un lieu » : suggestions sur tous les lieux sourcés
-    const dl=document.getElementById('placeList');
-    if(dl){ const seen=new Set();
-      SITES.forEach(s=>{ const n=s.p.nom; if(n && !seen.has(n)){ seen.add(n); const o=document.createElement('option'); o.value=n; dl.appendChild(o); } }); }
-    const params=new URLSearchParams(location.search);
-    const picksParam=params.get('picks'), tourId=params.get('tour'), tripParam=params.get('trip');
-    let ret=false; try{ ret=sessionStorage.getItem('the_return')==='1'; }catch(e){}
-    if(tripParam) loadTrip(tripParam);                 // lien partagé reçu d'un ami → on charge son itinéraire
-    else if(picksParam) loadPicks(picksParam, params.get('add')==='1');
-    else if(tourId){ (function w(){ if(TOURS) loadTour(tourId); else setTimeout(w,80); })(); }   // attendre que TOURS (async) soit chargé
-    else if(ret){ try{ sessionStorage.removeItem('the_return'); }catch(e){} renderRecord(readCurrent()); }  // retour de la grande carte → on restaure
-  });
+      initPresets();
+      renderSaved();   // affiche « Mes itinéraires enregistrés » s'il y en a
+      // autocomplétion du champ « ajouter un lieu » : suggestions sur tous les lieux sourcés
+      const dl=document.getElementById('placeList');
+      if(dl){ const seen=new Set();
+        SITES.forEach(s=>{ const n=s.p.nom; if(n && !seen.has(n)){ seen.add(n); const o=document.createElement('option'); o.value=n; dl.appendChild(o); } }); }
+      const params=new URLSearchParams(location.search);
+      const picksParam=params.get('picks'), tourId=params.get('tour'), tripParam=params.get('trip');
+      const tCourt=params.get('t');       // itinéraire dupliqué par QR : format court
+      let ret=false; try{ ret=sessionStorage.getItem('the_return')==='1'; }catch(e){}
+      if(tCourt) loadTripCourt(tCourt);           // reçu par QR
+      else if(tripParam) loadTrip(tripParam);                 // lien partagé reçu d'un ami → on charge son itinéraire
+      else if(picksParam){
+        var _add = params.get('add')==='1';
+        /* « Ajouter au parcours en cours » : le parcours en cours est celui qu'on
+           vient de nommer. On ne demande donc rien — la réponse a déjà été donnée.
+           Helmy, 23/08/2026 : « dès qu'on crée un nom il s'enregistre directement,
+           et quand on dit ajouter à l'itinéraire en cours, c'est ce dernier qui
+           compte ». On ne repasse par le choix que s'il n'y a pas de parcours en
+           cours — cas du voyageur qui vient enrichir un ancien carnet. */
+        var _rec = null;
+        if(_add){
+          try{
+            var _id = localStorage.getItem('the_encours');
+            if(_id){
+              var _arr = JSON.parse(localStorage.getItem('the_saved')||'[]');
+              _rec = (Array.isArray(_arr)?_arr:[]).filter(function(x){ return x && x.id===_id; })[0] || null;
+            }
+          }catch(e){}
+        }
+        if(!_add) loadPicks(picksParam, false);
+        else if(_rec){
+          try{ localStorage.setItem('the_current', JSON.stringify(_rec)); }catch(e){}
+          window.__cibleAjout = _rec;
+          loadPicks(picksParam, true);
+        }
+        else THEchoisirCible(function(rec){
+          if(rec){ try{ localStorage.setItem('the_current', JSON.stringify(rec)); }catch(e){} }
+          else { try{ localStorage.removeItem('the_current'); }catch(e){} }
+          /* ON ENRICHIT LA FICHE CHOISIE — ON N'EN CRÉE PAS UNE SECONDE
+             « À quel itinéraire ajouter ? » demandait où verser les lieux, puis
+             écrivait une fiche neuve « Mon itinéraire enrichi » à côté : le voyage
+             du voyageur restait tel quel, et il se retrouvait avec deux carnets
+             pour un seul voyage. La cible garde son identifiant, son nom et son
+             mode ; c'est ELLE qu'on réécrit. */
+          window.__cibleAjout = rec || null;
+          loadPicks(picksParam, !!rec);
+        });
+      }
+      else if(tourId){ (function w(){ if(TOURS) loadTour(tourId); else setTimeout(w,80); })(); }   // attendre que TOURS (async) soit chargé
+      else if(params.get('ouvrir')){                     /* le menu liste chaque itineraire par SON nom */
+          const _id=params.get('ouvrir');
+          const _rec=readSaved().filter(r=>r.id===_id)[0];
+          if(_rec){ renderRecord(_rec); if(typeof LASTRES!=='undefined' && LASTRES) LASTRES._id=_rec.id; }
+        }
+        else if(params.get('reprendre')){                  // « Reprendre l'itinéraire » depuis le menu
+        const cur=readCurrent();
+        if(cur && (cur.mode==='libre' || (cur.steps && cur.steps.length))) renderRecord(cur);
+      }
+      /* « Créer un itinéraire » veut dire CHOISIR : on ne saute pas dans le voyage
+         marqué actif, sinon il faut revenir en arrière pour voir les options.
+         L'ouverture directe reste pour une arrivée sans demande explicite. */
+      else if(!params.get('choix') && (function(){ try{ return localStorage.getItem('the_actif'); }catch(e){ return null; } })()){
+        /* voyage en cours désigné par l'utilisateur : on l'ouvre directement,
+           la sortie « ‹ Les cinq façons de partir » reste disponible. */
+        var _a=localStorage.getItem('the_actif');
+        var _r=readSaved().filter(function(x){ return x.id===_a; })[0];
+        if(_r){ renderRecord(_r); if(typeof LASTRES!=='undefined' && LASTRES) LASTRES._id=_r.id; }
+        /* la fiche a été supprimée depuis : le repère restait et l'écran restait
+           vide. On efface le repère et on laisse s'afficher les façons de partir. */
+        else { try{ localStorage.removeItem('the_actif'); }catch(e2){} }
+      }
+      else if(ret){ try{ sessionStorage.removeItem('the_return'); }catch(e){} renderRecord(readCurrent()); }  // retour de la grande carte → on restaure
+    });
+    }
 
   // ---------- chips thèmes ----------
   const chipsEl=document.getElementById('themes');
@@ -899,25 +1196,57 @@
   // ---------- résolution du point de départ ----------
   function resolveOrigin(silent){
     const v=document.getElementById('origin').value;
+    if(!v){ if(!silent) THEtoast(uiT('itin.choisir.depart')); return Promise.resolve(null); }
     if(v.startsWith('g:')){ const g=v.slice(2), cl=CHEFS[g]; return Promise.resolve({coord:(cl&&cl.c)||GOUV[g], label:(cl?cl.ville:g)}); }
+    if(v==='adr' && window.THEadresseDepart) return THEadresseDepart();   // départ saisi à la main
+    /* Une WKWebView peut ne JAMAIS rappeler getCurrentPosition quand la permission est
+       refusée, et un THEtoast() natif peut y bloquer le fil sans rendre la main. On garantit
+       donc la résolution par un garde-fou externe, et on parle par le toast maison. */
     return new Promise(res=>{
-      if(!navigator.geolocation){ if(!silent) alert(uiT('itineraire.geolocalisation.indisponible.choisissez.un.point')); res(null); return; }
+      var fini=false, garde=null;
+      function terminer(v, msg){
+        if(fini) return; fini=true; clearTimeout(garde);
+        if(!silent && msg) THEtoast(msg);
+        res(v);
+      }
+      if(!navigator.geolocation){ terminer(null, uiT('itineraire.geolocalisation.indisponible.choisissez.un.point')); return; }
+      garde=setTimeout(function(){ terminer(null, uiT('itineraire.position.refusee.indisponible.choisissez.un')); }, 7000);
       navigator.geolocation.getCurrentPosition(
-        pos=>res({coord:[pos.coords.longitude,pos.coords.latitude], label:'itin.votre.position'}),
-        ()=>{ if(!silent) alert(uiT('itineraire.position.refusee.indisponible.choisissez.un')); res(null); },
-        {enableHighAccuracy:true, timeout:8000}
+        function(pos){ terminer({coord:[pos.coords.longitude,pos.coords.latitude], label:'itin.votre.position'}); },
+        function(){ terminer(null, uiT('itineraire.position.refusee.indisponible.choisissez.un')); },
+        {enableHighAccuracy:false, timeout:7000, maximumAge:30000}
       );
     });
   }
 
   // ---------- génération ----------
   // ordre de visite : plus proche voisin depuis l'origine (max=null => sans plafond)
+  /* Un mot passager, pour ne jamais perdre quelque chose en silence.
+     Auto-porté : ni dépendance, ni dialogue natif (que le navigateur peut
+     désactiver, ce qui tuerait le message sans prévenir). */
+  function THEtoast(txt, ms){
+    try{
+      var d=document.getElementById('iti-toast');
+      if(!d){ d=document.createElement('div'); d.id='iti-toast';
+        d.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);'
+          +'max-width:min(92vw,460px);background:#2b2318;color:#f6f0e4;padding:12px 16px;'
+          +'border-radius:10px;font:15px/1.5 Georgia,serif;box-shadow:0 8px 28px rgba(0,0,0,.4);'
+          +'z-index:4000;opacity:0;transition:opacity .25s';
+        document.body.appendChild(d); }
+      d.textContent=txt; requestAnimationFrame(function(){ d.style.opacity='1'; });
+      clearTimeout(d._t); d._t=setTimeout(function(){ d.style.opacity='0'; }, ms||5200);
+    }catch(e){}
+  }
+  window.THEtoast=THEtoast;
+
   function nearestOrder(originCoord, items, max){
     const route=[]; let cur=originCoord; const pool=items.slice();
     while((!max || route.length<max) && pool.length){
       let bi=0,bd=Infinity;
       for(let i=0;i<pool.length;i++){ const d=haversine(cur,pool[i].c); if(d<bd){bd=d;bi=i;} }
-      const next=pool.splice(bi,1)[0]; next.fromPrev=bd; route.push(next); cur=next.c;
+      /* copie : sans elle, fromPrev est écrit dans l'objet SITES lui-même et
+         la distance d'un itinéraire contamine tous les suivants. */
+      const next={...pool.splice(bi,1)[0]}; next.fromPrev=bd; route.push(next); cur=next.c;
     }
     return route;
   }
@@ -953,7 +1282,17 @@
     cand=cand.filter(s=>haversine(origin.coord,s.c)<=per.radius);
     const _oLand=landOf(origin.coord);           // île = destination en soi : jamais de traversée maritime auto
     if(_oLand!=null) cand=cand.filter(s=>s._land===_oLand);
-    const themeLbl = themes.length===0?null : (themes.length===1?themes[0]:{ic:'🎯',label:themes.map(t=>t.label).join(' + ')});
+    /* NE PAS ANNONCER UN FIL ROUGE QU'ON VIENT D'ÉCARTER.
+       Avec le genre « Nature & balades », le code ignore volontairement le thème
+       — c'est écrit sous le menu — mais le bandeau du résultat continuait de
+       l'afficher. Un voyageur qui cochait « Architecture » lisait
+       « 🏛️ Architecture » au-dessus de seize lieux naturels. L'application
+       disait le contraire de ce qu'elle faisait. Relevé en ligne le 19/08/2026.
+       La gastronomie, elle, est une COUCHE et non un filtre : son libellé reste
+       légitime même quand `useTheme` est faux. */
+    const themeEcarte = (filterT.length>0 && !useTheme);
+    const themeLbl = (themes.length===0 || themeEcarte) ? null
+                   : (themes.length===1?themes[0]:{ic:'🎯',label:themes.map(t=>t.label).join(' + ')});
     const _island=(_oLand!=null && _oLand!==MAINLAND)?(LAND_NAME[_oLand]||null):null;
     return {route:nearestOrder(origin.coord, cand, dur.max), theme:themeLbl, food:foodOn, dur, per, forme:forme||'oneway', island:_island};
   }
@@ -979,6 +1318,24 @@
   }
 
   // ---------- planification réaliste en journées (vaut pour TOUT itinéraire) ----------
+    function premAsk(quoi){
+      if(document.getElementById('premAsk')) return;
+      var d=document.createElement('div');
+      d.id='premAsk'; d.className='prem-ask';
+      d.innerHTML='<div class="pa-card">'
+        + '<button class="pa-x" aria-label="'+uiT('index.fermer')+'">✕</button>'
+        + '<div class="pa-t">🔒 '+uiT('prem.ask.titre')+'</div>'
+        + (quoi?'<div class="pa-q">'+quoi+'</div>':'')
+        + '<div class="pa-d">'+uiT('prem.ask.detail')+'</div>'
+        + '<a class="pa-go" href="premium.html">'+uiT('prem.ask.oui')+'</a>'
+        + '<button class="pa-no">'+uiT('prem.ask.non')+'</button>'
+        + '</div>';
+      function ferme(){ var e=document.getElementById('premAsk'); if(e) e.remove(); }
+      d.addEventListener('click',function(e){ if(e.target===d) ferme(); });
+      document.body.appendChild(d);
+      d.querySelector('.pa-x').onclick=ferme;
+      d.querySelector('.pa-no').onclick=ferme;
+    }
   function uiT(k,v){ var s=(window.THEi18n&&THEi18n.ui(k)); if(s==null)s=k; return v?s.replace(/\{(\w+)\}/g,function(_,n){return v[n]!=null?v[n]:'{'+n+'}';}):s; }
   function trCat(v){ return (window.THEi18n && !THEi18n.isFr()) ? THEi18n.cat(v) : v; }
   function fmtDur(m){ m=Math.round(m); if(m<60) return m+' min'; const h=Math.floor(m/60), r=m%60; return r? h+'h'+(r<10?'0'+r:r) : h+'h'; }
@@ -1023,7 +1380,7 @@
 
   // insérer un lieu connu (objet SITES) dans le parcours, replacé par proximité
   function removeStep(i){
-    if(!LASTRES || LASTRES.route.length<=1){ alert(uiT('itineraire.gardez.au.moins.une.etape')); return; }
+    if(!LASTRES || LASTRES.route.length<=1){ THEtoast(uiT('itineraire.gardez.au.moins.une.etape')); return; }
     LASTRES.route.splice(i,1);
     let prev=LASTORIGIN.coord; LASTRES.route.forEach(s=>{ s.fromPrev=haversine(prev,s.c); prev=s.c; });
     render(LASTORIGIN, LASTRES);
@@ -1086,12 +1443,19 @@
       box.innerHTML='';                       // re-render propre (ex. après activation du passe)
       const FREE_TOURS=4;                      // freemium « généreux » : 4 circuits offerts
       ids.forEach((id,i)=>{ const c=document.createElement('div'); c.className='chip pchip'; c.textContent='✨ '+t[id].titre;
-        const hardLock = t[id].premium===true && (function(){ try{ return localStorage.getItem('the_premium')!=='1'; }catch(e){ return true; } })();
-        if(hardLock){ c.classList.add('locked'); c.textContent='🔒 '+t[id].titre; c.onclick=()=>alert(uiT('itineraire.ce.circuit.est.un.module')); }
+        // Circuits marqués premium dans tours.json : verrou NORMAL (essai ou abonnement
+        // débloquent), et renvoi au paywall. ← Avant, le verrou lisait la clé obsolète
+        // « the_premium » : il bloquait MÊME LES ABONNÉS PAYANTS, et annonçait un
+        // module « bientôt disponible » alors qu'il est en ligne. (15/08/2026)
+        if(t[id].premium===true && !isPremium()){
+          c.classList.add('locked'); c.textContent='🔒 '+t[id].titre;
+          c.onclick=()=>requirePass(t[id].titre, ()=>loadTour(id));
+        }
         else if(i>=FREE_TOURS && !isPremium()){ c.classList.add('locked'); c.onclick=()=>requirePass(uiT('premium.tous.les.circuits.prets'), ()=>confirmTour(id)); }
         else c.onclick=()=>confirmTour(id);
         box.appendChild(c); });
-      document.getElementById('presetsBox').style.display='';
+      /* plus d'étalage de circuits ici : ils ont leur page */
+      var _pb=document.getElementById('presetsBox'); if(_pb) _pb.style.display='none';
     }).catch(()=>{});
   }
   // Modale de confirmation : au clic d'un circuit, on montre son résumé + Suivre/Annuler.
@@ -1105,10 +1469,7 @@
       '<h3 class="md-title">'+e2(t.titre||'')+'</h3>'+
       '<div class="hint">'+(t.duree?e2(t.duree)+' · ':'')+et.length+' '+uiT('itineraire.circuit.etapes')+'</div>'+
       (t.note?'<p style="margin:12px 0 6px">'+e2(t.note)+'</p>':'')+
-      (t.quoi_voir?'<p style="margin:8px 0 6px;font-size:14px;color:#5a4d3a"><b>'+uiT('itineraire.quoi.voir')+'</b> '+e2(t.quoi_voir)+'</p>':'')+
       '<ol style="margin:6px 0 0 18px;padding:0;line-height:1.7">'+list+'</ol>'+
-      ((t.pepites&&t.pepites.length)?'<p style="margin:8px 0 6px;font-size:13px;color:#8a7c66"><b>'+uiT('itineraire.pepites.hors.circuit')+'</b> '+t.pepites.map(p=>e2(p&&p.nom||'')).filter(Boolean).join(' · ')+'</p>':'')+
-      (t.evocation?'<div style="margin-top:12px;padding:10px 12px;background:#f3eefb;border-left:3px solid #8a6fb0;border-radius:8px"><div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a6fb0;font-weight:700;margin-bottom:4px">✍ '+uiT('itineraire.evocation.titre')+'</div><p style="margin:0;font-style:italic;font-size:14px;color:#4a3d5a">'+e2(t.evocation)+'</p></div>':'')+
       '<div class="hint" style="margin-top:12px">'+uiT('itineraire.circuit.editable')+'</div>';
     document.getElementById('tourCancel').textContent=uiT('itineraire.circuit.annuler');
     document.getElementById('tourConfirm').textContent=uiT('itineraire.circuit.suivre');
@@ -1141,51 +1502,380 @@
     if(!route.length){ return; }
     const pepites=(t.pepites||[]).map(p=>{ const s=byName.get(norm(p.nom)); return s?{s:{...s}, note:p.note, via:norm(p.via||'')}:null; }).filter(Boolean);
     const origin={coord:t.depart.coord, label:t.depart.label};
-    const dur={max:route.length, lib:t.duree||'itin.circuit'};
-    const per={radius:(PERIM[t.echelle]||PERIM[CPKEY]).radius, lib:'itin.circuit.signature'};
-    render(origin, {route, theme:null, dur, per, forme:t.forme||'oneway', pepites, tour:t});
+    /* UN CIRCUIT DEVIENT UN ITINÉRAIRE COMME LES AUTRES — il se dessinait tel quel,
+       sans nom à soi, sans départ ni durée à régler, et sans jamais s'enregistrer.
+       Il passe par le même chemin que Composer. */
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var defaut = t.titre || T2('itin.nom.compose');
+    function tracer(nom){
+      reglagesApresChoix(route, origin, false, {
+        nom: nom, forme: t.forme||'oneway', pepites: pepites,
+        tour: {titre:nom, soustitre:t.soustitre||'', duree:t.duree||''},
+        mode: 'circuit', libDuree: t.duree||''
+      });
+    }
+    /* VERSER LE CIRCUIT DANS UN ITINÉRAIRE EXISTANT
+       Un circuit n'est pas forcément un voyage neuf : le couple qui a déjà son
+       voyage libre veut souvent y ajouter les étapes d'un circuit, pas ouvrir un
+       second carnet. On demande alors où le verser, et on fusionne — leurs
+       propres haltes comprises, qui ne sont dans aucune base. */
+    var ajout=false; try{ ajout=new URLSearchParams(location.search).get('add')==='1'; }catch(e){}
+    /* Un nom déjà donné veut dire qu'on vient de COMPOSER un itinéraire neuf : il
+       n'existe encore nulle part, il n'y a donc rien à quoi l'ajouter. Demander
+       « dans lequel le verser ? » renvoyait alors sur la liste des itinéraires
+       enregistrés, et le nom que le voyageur venait de saisir était perdu. On trace
+       directement avec ce nom-là. Signalé par Helmy le 23/08/2026. */
+    var _nomDeja = window.THEnomEnAttente;
+    if(!_nomDeja){ try{ _nomDeja = sessionStorage.getItem('the_nom_attente')||''; }catch(e){} }
+    var _enCours=null; try{ _enCours = localStorage.getItem('the_encours'); }catch(e){}
+    /* « Ajouter au parcours en cours » : le parcours en cours, c'est celui qu'on
+       vient de nommer. On ne demande pas lequel — la réponse a déjà été donnée. */
+    if(ajout && (_nomDeja || _enCours)){
+      var _titreEnCours = _nomDeja;
+      if(!_titreEnCours && _enCours){
+        try{ var _a=JSON.parse(localStorage.getItem('the_saved')||'[]');
+             var _f=(Array.isArray(_a)?_a:[]).filter(function(x){ return x && x.id===_enCours; })[0];
+             _titreEnCours = _f ? _f.title : ''; }catch(e){}
+      }
+      try{ sessionStorage.removeItem('the_nom_attente'); }catch(e){}
+      window.THEnomEnAttente=null;
+      /* on réécrit LA fiche créée avec le nom, on n'en ouvre pas une seconde */
+      reglagesApresChoix(route, origin, false, {
+        nom: _titreEnCours, forme: t.forme||'oneway', pepites: pepites,
+        tour: {titre:_titreEnCours, soustitre:t.soustitre||'', duree:t.duree||''},
+        mode: 'compose', idCible: _enCours || undefined, libDuree: t.duree||''
+      });
+      return;
+    }
+    if(ajout && window.THEchoisirCible){
+      THEchoisirCible(function(rec){
+        if(!rec){ if(window.THEdemanderNom) THEdemanderNom(T2('itin.nom.demande'), defaut, tracer); else tracer(defaut); return; }
+        var byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
+        var dejaLa=new Set(route.map(s=>norm(s.p.nom)));
+        var avant=[], _sansCoord=[];   // une halte sans point ne se place pas — mais on le DIT
+        (rec.steps||[]).forEach(function(st){
+          if(dejaLa.has(norm(st.nom))) return;
+          var trouve = st.genre!=='perso' && byName.get(norm(st.nom));
+          var s = trouve ? {...trouve} : { c:st.c, layer:'perso', genre:st.genre||'perso',
+            p:{nom:st.nom, type:'', gouvernorat:'', description:st.desc||'', source:st.src||'', a_voir:'', conseil:''} };
+          if(st.c) s.c=st.c;
+          s.nuit=st.nuit; s.sejour=st.sejour; s.ville=st.ville; s.tnote=st.tnote;
+          if(st.halte){ s.halte=true; s.htype=st.htype||''; }
+          if(s.c) avant.push(s); else _sansCoord.push(st.nom);
+        });
+        var fusion=avant.concat(route);
+        /* Une halte sans point sur la carte ne peut pas être placée dans un
+           parcours qui se calcule en distances. Elle disparaissait sans un mot :
+           on la nomme, pour que le voyageur puisse la ressaisir lui-même. On
+           n'invente pas ses coordonnées à sa place. */
+        if(_sansCoord.length && window.THEtoast)
+          THEtoast(T2('itin.halte.sans.point')+_sansCoord.join(', '));
+        reglagesApresChoix(fusion, origin, true, {
+          nom: rec.title, mode: rec.mode||'', idCible: rec.id,
+          tour: rec.tour || {titre: rec.title, soustitre: ''},
+          pepites: pepites
+        });
+      });
+      return;
+    }
+    if(window.THEdemanderNom) THEdemanderNom(T2('itin.nom.demande'), defaut, tracer);
+    else tracer(defaut);
   }
 
   // ---------- arrivée depuis la carte : lieux choisis un à un (index.html?picks=…) ----------
   function loadPicks(str, addMode){
+    if(!addMode){ window.__cibleExplicite=false; window.__cibleAjout=null; }
     if(!SITES.length) return;
+    window.__surpriseRegle=false;      // une sélection n'est pas un tirage
+    /* La sélection est CONSOMMÉE ici : les noms voyagent désormais dans
+       l'adresse, et « the_picks » n'a plus lieu d'être. Sans cela les cases
+       restaient cochées d'un voyage à l'autre, invisibles derrière un filtre,
+       et le voyageur retrouvait dans son nouvel itinéraire des lieux qu'il
+       avait choisis pour le précédent. */
+    try{ localStorage.removeItem('the_picks'); }catch(e){}
     ENTRY='picks';
     const byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
     let names=str.split('|').map(s=>norm(decodeURIComponent(s))).filter(Boolean);
-    if(addMode){ const cur=readCurrent(); if(cur&&cur.steps&&cur.steps.length){ const ex=cur.steps.map(st=>norm(st.nom)); names=[...new Set(ex.concat(names))]; } }
     const chosen=names.map(n=>byName.get(n)).filter(Boolean).map(s=>({...s}));
+    /* LES ÉTAPES DU VOYAGEUR NE SONT PAS DANS LA BASE
+       On fusionnait par NOM : les étapes déjà là étaient recherchées dans les
+       lieux sourcés, et celles que le voyageur avait posées lui-même — un riad,
+       une adresse, une halte — n'y figurent pas. Elles disparaissaient à la
+       fusion. On reprend donc les étapes existantes telles qu'elles sont
+       enregistrées, comme le fait la réouverture d'une fiche. */
+    if(addMode){
+      const cur=readCurrent();
+      if(cur && cur.steps && cur.steps.length){
+        const dejaLa=new Set(chosen.map(s=>norm(s.p.nom)));
+        const avant=[];
+        cur.steps.forEach(function(st){
+          if(dejaLa.has(norm(st.nom))) return;                    // pas deux fois le même lieu
+          const trouve = st.genre!=='perso' && byName.get(norm(st.nom));
+          const s = trouve ? {...trouve} : { c:st.c, layer:'perso', genre:st.genre||'perso',
+            p:{nom:st.nom, type:'', gouvernorat:'', description:st.desc||'', source:st.src||'', a_voir:'', conseil:''} };
+          if(st.c) s.c=st.c;
+          s.nuit=st.nuit; s.sejour=st.sejour; s.ville=st.ville; s.tnote=st.tnote;
+          if(st.halte){ s.halte=true; s.htype=st.htype||''; }
+          if(s.c) avant.push(s);
+        });
+        chosen.unshift.apply(chosen, avant);                       // les siennes d'abord
+      }
+    }
     if(!chosen.length) return;
     // anti-zigzag : on essaie chaque lieu comme départ et on garde le parcours le plus court
     const routeLen=r=>{ let L=0; for(let i=1;i<r.length;i++) L+=haversine(r[i-1].c,r[i].c); return L; };
     let origin, route, best=Infinity;
     chosen.forEach(start=>{ const r=nearestOrder(start.c, chosen.map(x=>({...x})), null); const L=routeLen(r);
       if(L<best){ best=L; route=r; origin={coord:start.c, label:start.p.nom}; } });
-    const dur={max:route.length, lib:uiT('itin.votre.selection.sur.la.carte')};
-    const per={radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.selection')};
-    render(origin, {route, theme:null, dur, per, forme:'oneway', pepites:[],
-      tour:{titre: addMode?uiT('itin.mon.itineraire.enrichi'):uiT('itin.ma.selection'), soustitre:uiT('itin.lieux.choisis.un.a.un')}});
+    /* ON DEMANDE MAINTENANT CE QU'ON NE POUVAIT PAS DEMANDER AVANT
+       La sélection devenait un itinéraire sur-le-champ : aller simple d'office,
+       départ imposé par le calcul, durée déduite du nombre de lieux. Ces trois
+       questions n'ont de sens qu'UNE FOIS les lieux choisis. Les pépites et les
+       choses à voir sur le chemin se calculent au rendu : rien à faire pour ça. */
+    /* si le voyageur a désigné un itinéraire à enrichir, c'est CELUI-LÀ qu'on
+       réécrit — pas une seconde fiche à côté. */
+    /* Le parcours « en cours » est celui qu'on vient de nommer : s'il existe, c'est
+       LUI qu'on enrichit, sans rien demander. Sinon on retombe sur la cible que le
+       voyageur a désignée lui-même. Helmy, 23/08/2026. */
+    var cible = window.__cibleAjout || null;
+    /* « ＋ Nouvel itinéraire » VEUT DIRE NOUVEAU.
+       Quand le voyageur avait répondu au sélecteur, on retombait quand même sur
+       « the_encours » : sa réponse était ignorée, la fiche en cours redevenait la
+       cible, et l'écran de réglages était franchi tout seul — il n'avait pas le
+       temps de choisir sa durée ni sa forme. On ne cherche un parcours en cours
+       que si AUCUNE question n'a été posée. */
+    if(!cible && addMode && !window.__cibleExplicite){
+      try{
+        var _id = localStorage.getItem('the_encours');
+        if(_id){
+          var _a = JSON.parse(localStorage.getItem('the_saved')||'[]');
+          cible = (Array.isArray(_a)?_a:[]).filter(function(x){ return x && x.id===_id; })[0] || null;
+        }
+      }catch(e){}
+    }
+    reglagesApresChoix(chosen, origin, addMode, cible ? {
+      nom: cible.title, mode: cible.mode || '', idCible: cible.id,
+      tour: cible.tour || {titre: cible.title, soustitre: ''}
+    } : undefined);
+  }
+
+
+  /* UN ITINÉRAIRE COMPOSÉ DOIT S'ENREGISTRER TOUT SEUL
+     L'enregistrement automatique était accroché au bouton du générateur. Un
+     parcours composé à partir d'une sélection ne passait pas par là : on le
+     traçait, on le nommait, et il n'existait nulle part — introuvable dans
+     « Itinéraires sauvegardés » comme au moment de reprendre. */
+  function enregistrerCompose(titre, origine, idCible){
+    try{
+      if(typeof LASTRES==='undefined' || !LASTRES || !LASTRES.route || !LASTRES.route.length) return;
+      var arr=readSaved();
+      var nom = titre || (LASTRES.tour && LASTRES.tour.titre) || '';
+      /* si on enrichit une fiche existante, on la REMPLACE : même identifiant,
+         même date de création, même origine — c'est le même voyage. */
+      /* UNE SEULE FICHE PAR ITINÉRAIRE.
+         L'itinéraire reçoit sa fiche — et donc sa référence — dès son premier
+         affichage. L'enregistrement qui suit doit RÉÉCRIRE celle-là, pas en ouvrir
+         une seconde : sans cela un circuit sortait en double, la copie affublée
+         d'un « (2) » par le contrôle d'unicité, et les photos restaient sur la
+         première référence. */
+      var place = idCible ? arr.findIndex(function(r){ return r && r.id===idCible; }) : -1;
+      if(place<0){
+        var _enc=''; try{ _enc=localStorage.getItem('the_encours')||''; }catch(e){}
+        if(_enc) place = arr.findIndex(function(r){ return r && r.id===_enc; });
+      }
+      var id  = (place>=0) ? arr[place].id : 'it'+Date.now();
+      nom = nomUnique(nom, id);   // renommer SA propre fiche ne doit pas produire « (2) »
+      var fiche = { id:id, cree:(place>=0 ? (arr[place].cree||Date.now()) : Date.now()),
+        type:(place>=0 && arr[place].type) ? arr[place].type : ((typeof ENTRY!=='undefined' && ENTRY) ? ENTRY : 'funnel'),
+        title:nom, forme:LASTRES.forme||'oneway', mode:(place>=0 ? (arr[place].mode||origine||'compose') : (origine||'compose')),
+        origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
+        steps:LASTRES.route.map(function(s){ return {nom:s.p.nom, c:s.c, genre:s.genre||'',
+          halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||''}; }) };
+      if(place>=0) arr[place]=fiche; else arr.unshift(fiche);
+      writeSaved(arr.slice(0,40));
+      LASTRES._id=id; LASTRES._nomme=true;      // les ajouts suivants iront dans CETTE fiche
+      renderSaved();
+      localStorage.setItem('the_current', JSON.stringify(recordFromCurrent()));
+    }catch(e){}
+  }
+
+  /* opts (facultatif) sert aux CIRCUITS : ils arrivent déjà nommés, avec leur
+     forme, leurs pépites et leur durée annoncée. Le reste du chemin est le
+     même que pour une sélection — un seul écran de réglages dans l'app. */
+  function reglagesApresChoix(chosen, originAuto, addMode, opts){
+    opts = opts || {};
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var boite=document.getElementById('picksReglages');
+    if(!boite){
+      boite=document.createElement('div'); boite.id='picksReglages'; boite.className='exp-group';
+      boite.innerHTML='<div class="exp-lbl" data-i18n="itin.picks.titre"></div>'
+        + '<div class="hint" id="picksNb"></div>'
+        + '<div class="q"><div class="lbl" data-i18n="itin.picks.depart"></div><select id="pkOrigin"></select></div>'
+        + '<div class="q"><div class="lbl" data-i18n="itin.picks.duree"></div><select id="pkDuree"></select></div>'
+        + '<div class="q"><div class="lbl" data-i18n="itin.picks.forme"></div><select id="pkForme"></select></div>'
+        + '<div class="actions"><button class="btn go" type="button" id="pkGo" data-i18n="itin.picks.go"></button></div>';
+      var hote=document.getElementById('builder') || document.body;
+      hote.insertBefore(boite, hote.firstChild);
+      if(window.THEi18n && THEi18n.applyUI) try{ THEi18n.applyUI(boite); }catch(e){}
+    }
+    function cloner(de, vers){
+      var a=document.getElementById(de), b=document.getElementById(vers);
+      if(!a||!b) return; b.innerHTML='';
+      [].forEach.call(a.options, function(o){ b.add(new Option(o.textContent, o.value)); });
+      b.value=a.value;
+    }
+    cloner('origin','pkOrigin'); cloner('duree','pkDuree'); cloner('forme','pkForme');
+    /* on retrouve le nom donné avant d'aller choisir ses lieux */
+    var nomVoulu=window.THEnomEnAttente;
+    if(!nomVoulu){ try{ nomVoulu=sessionStorage.getItem('the_nom_attente')||''; }catch(e){} }
+    var nb=document.getElementById('picksNb');
+    if(nb) nb.textContent=T2('itin.picks.nb')+' '+chosen.length;
+    ['savedBox','critStart'].forEach(function(id){ var e=document.getElementById(id); if(e) e.style.display='none'; });
+    var modes=document.querySelector('.modes'); if(modes) modes.style.display='none';
+    /* Tant que « #builder » porte trois-seules, une règle masque TOUT sauf les
+       cartes de mode — y compris ce panneau, créé mais invisible. On a choisi ses
+       lieux : on n'est plus à l'écran des façons de partir. Mais lever le masque
+       découvrait AUSSI les circuits et les réglages du générateur : à cet instant
+       la seule question est « d'où, combien de temps, boucle ou pas ». On ne
+       montre donc que ce panneau. */
+    var bld=document.getElementById('builder');
+    if(bld){
+      bld.classList.remove('trois-seules');
+      bld.classList.add('reglages-picks');
+    }
+    boite.style.display='';
+    try{ boite.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+
+    /* MÊME RÈGLE, MÊME GARDE — le chemin le plus court vers un itinéraire.
+       Helmy, 18/08/2026 : « composer non, surtout si je compose à partir de la
+       liste ». On cochait des lieux dans la liste ou sur la carte, on revenait
+       ici, on appuyait sur « tracer » : un itinéraire complet sortait, essai
+       expiré, sans qu'aucun passe ne soit demandé. Mesuré en ligne sur l'Irlande
+       ET sur la Tunisie — l'édition approuvée avait le trou elle aussi. */
+    document.getElementById('pkGo').onclick=function(){
+      var selD=document.getElementById('pkDuree'), selF=document.getElementById('pkForme'), selO=document.getElementById('pkOrigin');
+      document.getElementById('duree').value=selD.value;
+      document.getElementById('forme').value=selF.value;
+      document.getElementById('origin').value=selO.value;
+      var libDuree=(selD.options[selD.selectedIndex]||{}).textContent||'';
+      if(opts.libDuree) libDuree=opts.libDuree;
+      /* SECOND — ET DERNIER — CRÉATEUR D'ITINÉRAIRE DE LA PAGE : MÊME GARDE,
+         ET AU MÊME ENDROIT QUE LE PREMIER. Elle était posée APRÈS le masquage du
+         panneau et à l'intérieur de la promesse : sur un essai expiré, le mur
+         s'affichait, la fonction sortait, et le voyageur restait devant un écran
+         VIDE — panneau masqué, cartes de mode déjà masquées, aucun retour.
+         La garde passe donc avant toute mutation de l'écran, comme dans `run()`,
+         et son rappel RELANCE l'action au lieu de ne rien faire : qui s'abonne
+         depuis le mur reprend là où il en était. */
+      if(!isPremium()){ requirePass(uiT('itin.compose.choix.titre'), function(){ document.getElementById('pkGo').click(); }); return; }
+      boite.style.display='none';
+      resolveOrigin(false).then(function(orig){
+        var dep = orig || originAuto;
+        var r = nearestOrder(dep.coord, chosen.map(function(x){ var o={}; for(var k in x) o[k]=x[k]; return o; }), null);
+        try{ sessionStorage.removeItem('the_nom_attente'); }catch(e){}
+        window.THEnomEnAttente=null;
+        if(bld) bld.classList.remove('reglages-picks');     // l'itinéraire reprend toute la page
+        var _titre = opts.nom || nomVoulu || '';
+        render(dep, {route:r, theme:null, _idCible:opts.idCible||null,
+          dur:{max:r.length, lib:libDuree},
+          per:{radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.selection')},
+          forme:selF.value||opts.forme||'oneway', pepites:opts.pepites||[], manualOrder:true,
+          mode:opts.mode||'compose',
+          tour: opts.tour || {titre: nomVoulu || (addMode?uiT('itin.mon.itineraire.enrichi'):uiT('itin.ma.selection')),
+                soustitre:uiT('itin.lieux.choisis.un.a.un')}});
+        enregistrerCompose(_titre, opts.mode||'compose', opts.idCible);
+        window.__cibleAjout=null;
+      });
+    };
+    /* AJOUTER À UN ITINÉRAIRE EN COURS NE REPOSE AUCUNE QUESTION.
+       On cochait des lieux, on demandait « ajouter à l'itinéraire en cours », et
+       l'application redemandait le départ, la durée, boucle ou pas — des réglages
+       que ce voyage porte DÉJÀ. Le voyageur a dit « en cours » : il a désigné un
+       itinéraire, pas demandé d'en composer un autre. On reprend donc sa forme et
+       son départ, et les lieux entrent directement. */
+    if(addMode && opts.idCible){
+      try{
+        var _f = readSaved().filter(function(r){ return r && r.id===opts.idCible; })[0];
+        if(_f){
+          var _pf=document.getElementById('pkForme');
+          if(_pf && _f.forme) _pf.value=_f.forme;
+          var _po=document.getElementById('pkOrigin');
+          if(_po && _f.origin && _f.origin.label){
+            [].forEach.call(_po.options, function(o){ if(o.textContent===_f.origin.label) _po.value=o.value; });
+          }
+        }
+      }catch(e){}
+      boite.style.display='none';
+      document.getElementById('pkGo').click();
+      return;
+    }
   }
 
   // ---------- Enregistrer / reprendre un itinéraire (100% local) ----------
-  function readSaved(){ try{ return JSON.parse(localStorage.getItem('the_saved')||'[]'); }catch(e){ return []; } }
+  /* Le stockage peut contenir autre chose qu'un tableau (écriture d'une
+     version ancienne, réglage à moitié écrit) : JSON.parse réussit alors et
+     rend un objet, sur lequel .filter et .find explosent. On exige un tableau. */
+  function readSaved(){ try{ var v=JSON.parse(localStorage.getItem('the_saved')||'[]');
+    return Array.isArray(v) ? v.filter(function(r){ return r && r.id; }) : []; }catch(e){ return []; } }
   function writeSaved(a){ try{ localStorage.setItem('the_saved', JSON.stringify(a)); }catch(e){} }
+
+  /* Un nom seul ne suffit pas : au bout de trois carnets « Cap Bon », on ne sait
+     plus lequel est lequel. Chaque fiche porte donc SA DATE, à côté de son nom.
+     Les fiches déjà enregistrées n'ont pas de champ « cree » : leur identifiant
+     « it<horodatage> » la donne quand même — rien à migrer. */
+  function dateItin(r){
+    var t = (r && +r.cree) || 0;
+    if(!t && r && /^it(\d{10,})$/.test(r.id||'')) t = +RegExp.$1;
+    if(!t) return '';
+    var l='fr'; try{ l=(localStorage.getItem('the_lang')||'fr').slice(0,2); }catch(e){}
+    try{ return new Date(t).toLocaleDateString(l,{day:'numeric',month:'short',year:'numeric'}); }
+    catch(e){ try{ return new Date(t).toLocaleDateString(); }catch(e2){ return ''; } }
+  }
+  function datePuce(r){ var d=dateItin(r); return d ? d+' · ' : ''; }
+  window.THEdateItin = dateItin; window.THEdatePuce = datePuce;
   function saveCurrent(){
-    if(!LASTRES || !LASTRES.route.length) return;
-    if(!isPremium() && readSaved().length >= 2){ location.href='premium.html'; return; }   // freemium : 2 itinéraires sauvegardés max
+    /* Un voyage libre DÉMARRE vide : c'est son principe, il se remplit en chemin.
+       L'exiger non vide le rendait impossible à enregistrer — et donc à reprendre —
+       en refusant le clic sans le moindre message. */
+    if(!LASTRES) return;
+    var _libre = (LASTRES.mode==='libre');
+    if(!_libre && !LASTRES.route.length) return;
+    /* DEUX SEMAINES, PUIS PLUS D'ITINÉRAIRE SANS PAIEMENT.
+       Helmy, 19/08/2026 : « les 2 itinéraires offerts sont une relique de
+       l'ancien système ; les itinéraires sont accessibles pendant deux semaines,
+       puis plus d'itinéraire si pas de paiement, c'est tout. »
+       Le compteur `readSaved().length >= 2` laissait donc passer deux
+       enregistrements après un essai fini. On garde ce qui est DÉJÀ enregistré
+       — c'est la donnée du voyageur, la cacher ferait paraître l'application
+       cassée — mais on n'en crée plus. */
+    if(!isPremium()){ premAsk(''); return; }
     const def=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:(uiT('itineraire.itineraire.2')+' '+LASTRES.route.length+' '+uiT('itineraire.etapes'));
-    const name=prompt(uiT('itineraire.nom.de.cet.itineraire'), def); if(name===null) return;
+    THEdemanderNom(uiT('itineraire.nom.de.cet.itineraire'), def, function(name){ saveAvecNom(name, def); });
+  }
+  /* METTRE À JOUR, PAS DUPLIQUER — un itinéraire s'enregistre déjà tout seul à sa
+     création ; « Enregistrer » en créait un SECOND, identique. */
+  function saveAvecNom(name, def){
     const arr=readSaved();
-    arr.unshift({ id:'it'+Date.now(), title:(name||def).slice(0,80), forme:LASTRES.forme||'oneway',
+    const idExistant = LASTRES && LASTRES._id;
+    const place = idExistant ? arr.findIndex(function(r){ return r && r.id===idExistant; }) : -1;
+    const fiche = { id:(place>=0 ? arr[place].id : 'it'+Date.now()),
+      cree:(place>=0 ? (arr[place].cree||Date.now()) : Date.now()), title:(name||def).slice(0,80), forme:LASTRES.forme||'oneway', mode:LASTRES.mode||'',
       origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
       steps:LASTRES.route.map(s=>({nom:s.p.nom, c:s.c, genre:s.genre||'', halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'',
-        desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''})) });
+        desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''})) };
+    if(place>=0) arr[place]=fiche; else arr.unshift(fiche);
+    if(LASTRES) LASTRES._id=fiche.id;
     writeSaved(arr.slice(0,40)); renderSaved();
-    alert(uiT('itineraire.itineraire.enregistre.nvous.le.retrouverez'));
+    /* Un message dans la page, pas une boîte qui bloque tout : c'est la
+       dernière du parcours, et elle gelait l'écran après chaque sauvegarde. */
+    var _msg = (place>=0) ? uiT('itin.enregistre.maj') : uiT('itin.fermer.fait');
+    if(typeof showGuide==='function') showGuide('💾 '+_msg, 6000);
   }
   function deleteSaved(id){ writeSaved(readSaved().filter(r=>r.id!==id)); renderSaved(); }
   // reconstruit et affiche un itinéraire à partir d'un enregistrement sérialisé
   function renderRecord(rec, entry){
-    if(!rec || !rec.steps || !rec.steps.length) return;
+    if(!rec) return;
+    if((!rec.steps || !rec.steps.length) && rec.mode!=='libre') return;   // un libre vide se rouvre : il attend ses haltes
     const byName=new Map(SITES.map(s=>[norm(s.p.nom), s]));
     const route=rec.steps.map(st=>{
       const found = st.genre!=='perso' && byName.get(norm(st.nom));
@@ -1193,73 +1883,180 @@
       if(st.c) s.c=st.c; s.nuit=st.nuit; s.sejour=st.sejour; s.ville=st.ville; s.tnote=st.tnote;
       if(st.halte){ s.halte=true; s.htype=st.htype||''; } return s;
     });
-    let prev=rec.origin.coord; route.forEach(s=>{ s.fromPrev=haversine(prev,s.c); prev=s.c; });
+    /* Une fiche ancienne (ou importée) peut n'avoir aucune origine : on prenait
+       rec.origin.coord et la page restait blanche. On se rabat sur la première
+       étape, et on ignore les étapes sans coordonnées plutôt que de casser. */
+    const _placees=route.filter(s=>s && s.c);
+    const _org = (rec.origin && rec.origin.coord) ? rec.origin
+               : { coord:(_placees[0]||{}).c, label:(rec.origin&&rec.origin.label)||uiT('itin.depart.inconnu') };
+    if(!_org.coord) return;
+    let prev=_org.coord; _placees.forEach(s=>{ s.fromPrev=haversine(prev,s.c); prev=s.c; });
     ENTRY=entry||rec.entry||'funnel';
-    render(rec.origin, {route, theme:null, dur:{max:route.length, lib:(rec.tour&&rec.tour.duree)||uiT('itin.itineraire.enregistre')},
-      per:{radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.enregistre')}, forme:rec.forme||'oneway', pepites:[],
+    render(_org, {route:_placees, theme:null, _idCible:(rec&&rec.id)||null, dur:{max:route.length, lib:(rec.tour&&rec.tour.duree)||uiT('itin.itineraire.enregistre')},
+      per:{radius:(PERIM[CPKEY]||{radius:400}).radius, lib:uiT('itin.enregistre')}, forme:rec.forme||'oneway', pepites:[], mode:rec.mode||'',
       tour:rec.tour||{titre:rec.title, soustitre:uiT('itin.itineraire.enregistre.2')}});
   }
   function resumeSaved(id){ const rec=readSaved().find(r=>r.id===id); renderRecord(rec, 'saved'); }
   // sérialise l'itinéraire courant (pour ne pas le perdre en quittant la page, ex. « Voir la grande carte »)
   function recordFromCurrent(){
-    return { title:(LASTRES.tour&&LASTRES.tour.titre)||uiT('itin.dernier.itineraire'), forme:LASTRES.forme||'oneway', entry:ENTRY,
+    return { title:(LASTRES.tour&&LASTRES.tour.titre)||uiT('itin.dernier.itineraire'), forme:LASTRES.forme||'oneway', entry:ENTRY, mode:LASTRES.mode||'',
       origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
       steps:LASTRES.route.map(s=>({nom:s.p.nom, c:s.c, genre:s.genre||'', halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'',
         desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''})) };
   }
-  function autosaveCurrent(){ try{ if(LASTRES&&LASTRES.route&&LASTRES.route.length) localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(e){} }
+  /* L'ITINÉRAIRE S'ENREGISTRE DANS SA FICHE, PAS SEULEMENT DANS « the_current ».
+     Helmy, 24/08 : « les itinéraires sont auto-enregistrés — dès qu'on modifie, on
+     rajoute une photo, on écrit un truc, on rajoute une étape ».
+     La fiche naissait vide (`steps: []`) et n'était remplie que par
+     enregistrerCompose(), c'est-à-dire pour les itinéraires COMPOSÉS. Un voyage
+     « surprise » gardait donc une fiche à zéro étape : à la relance, l'ouvrir ne
+     rendait rien, et ses photos — pourtant bien en base sous sa référence —
+     semblaient perdues. Elles ne l'étaient pas : c'est l'itinéraire qui manquait. */
+  function autosaveFiche(){
+    try{
+      if(!LASTRES || !LASTRES.route || !LASTRES.route.length) return;
+      var id=''; try{ id=(LASTRES._id||'')||localStorage.getItem('the_encours')||''; }catch(e){}
+      if(!id) return;
+      var arr=readSaved(), i=arr.findIndex(function(r){ return r && r.id===id; });
+      if(i<0) return;
+      arr[i].steps = LASTRES.route.map(function(s){
+        return { nom:s.p.nom, c:s.c, genre:s.genre||'', halte:!!s.halte, htype:s.htype||'',
+                 nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'' }; });
+      arr[i].forme = LASTRES.forme || arr[i].forme || 'oneway';
+      if(LASTORIGIN && LASTORIGIN.coord) arr[i].origin={coord:LASTORIGIN.coord, label:LASTORIGIN.label||''};
+      if(LASTRES.tour) arr[i].tour = LASTRES.tour;
+      writeSaved(arr);
+    }catch(e){}
+  }
+  function autosaveCurrent(){ autosaveFiche(); try{ if(LASTRES && (LASTRES.mode==='libre' || (LASTRES.route&&LASTRES.route.length))) localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(e){} }
   function readCurrent(){ try{ return JSON.parse(localStorage.getItem('the_current')||'null'); }catch(e){ return null; } }
 
-  // ---------- Partage : lien duiT('itin.itineraire.encode.dans.l')URL, sans serveur) ----------
-  function tripCode(){
+  // ---------- Donner son itinéraire : QR + lien (aucun serveur) ----------
+  /* On ne « partage » rien au sens d'un carnet commun : il n'y a ni compte ni
+     synchronisation, et il n'en faut pas. Le lien porte l'itinéraire LUI-MÊME,
+     et celui qui le reçoit en obtient SA copie, qu'il édite à sa guise sans
+     toucher à la vôtre. Le QR fait les deux d'un coup : il porte l'itinéraire
+     et son adresse ouvre — ou fait installer — l'application. */
+  function tripMin(){
     const r=recordFromCurrent();
-    const min={ t:r.title, f:r.forme, o:r.origin.coord, ol:r.origin.label,
+    return { t:r.title, f:r.forme, o:r.origin.coord, ol:r.origin.label,
       s:r.steps.map(st=>{ const o={n:st.nom}; if(st.genre==='perso'){ o.p=1; o.c=st.c; if(st.desc)o.d=st.desc; if(st.src)o.r=st.src; } if(st.halte){ o.h=1; if(st.htype)o.ht=st.htype; } if(st.nuit){ o.u=1; if(st.sejour)o.j=st.sejour; if(st.ville)o.v=st.ville; } if(st.tnote)o.k=st.tnote; return o; }) };
-    return encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(min))));
+  }
+  function tripCode(){                       // ancien format, conservé pour les liens déjà émis
+    return encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(tripMin()))));
+  }
+  function b64url(u8){ var s=''; for(var i=0;i<u8.length;i++) s+=String.fromCharCode(u8[i]);
+    return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+  function deb64url(s){ s=String(s).replace(/-/g,'+').replace(/_/g,'/');
+    while(s.length%4) s+='='; var b=atob(s), u=new Uint8Array(b.length);
+    for(var i=0;i<b.length;i++) u[i]=b.charCodeAt(i); return u; }
+  /* Format court : « 1 » = JSON tel quel, « 2 » = JSON compressé. L'ancien
+     format échappait le texte DEUX fois et pesait le double — il débordait de
+     tout QR. Celui-ci tient. */
+  function tripCourt(){
+    var oct=new TextEncoder().encode(JSON.stringify(tripMin()));
+    if(typeof CompressionStream==='undefined') return Promise.resolve('1'+b64url(oct));
+    try{
+      var cs=new CompressionStream('deflate-raw'), w=cs.writable.getWriter();
+      w.write(oct); w.close();
+      return new Response(cs.readable).arrayBuffer()
+        .then(function(ab){ return '2'+b64url(new Uint8Array(ab)); })
+        .catch(function(){ return '1'+b64url(oct); });
+    }catch(e){ return Promise.resolve('1'+b64url(oct)); }
   }
   function shareTrip(){
-    if(!LASTRES || !LASTRES.route.length) return;
-    const url=location.origin+location.pathname.replace(/[^/]*$/,'')+'itineraire.html?trip='+tripCode();
-    const txt=(LASTRES.tour&&LASTRES.tour.titre?LASTRES.tour.titre:uiT('itineraire.mon.itineraire'))+' — '+LASTRES.route.length+' '+uiT('itineraire.etapes')+' ('+((window.HConf&&HConf.marqueCourte)||'Heritage')+')';
-    if(navigator.share){ navigator.share({title:uiT('itin.share.title'), text:txt, url}).catch(()=>{}); return; }
-    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(()=>alert(uiT('itineraire.lien.copie.envoyez.le.a')), ()=>prompt(uiT('itineraire.copiez.ce.lien.a.partager'), url)); return; }
-    prompt(uiT('itineraire.copiez.ce.lien.a.partager'), url);
+    if(!LASTRES) return;
+    if(!LASTRES.route.length){ THEtoast(uiT('itin.partage.vide')); return; }
+    var titre=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:'';
+    tripCourt().then(function(code){
+      var url=location.origin+location.pathname.replace(/[^/]*$/,'')+'itineraire.html?t='+code;
+      if(window.HQR && HQR.ouvrir){ HQR.ouvrir({url:url, titre:titre, etapes:LASTRES.route.length}); return; }
+      /* la brique n'est pas là : on ne laisse pas l'utilisateur sans rien */
+      if(navigator.share){ navigator.share({title:titre, url:url}).catch(function(){}); return; }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){ THEtoast(uiT('itin.lien.copie')); },
+                                               function(){ prompt(uiT('itin.lien.copier'), url); });
+        return;
+      }
+      prompt(uiT('itin.lien.copier'), url);
+    });
   }
-  function loadTrip(code){
-    let min; try{ min=JSON.parse(decodeURIComponent(atob(decodeURIComponent(code)))); }catch(e){ return; }
+  function appliquerTrip(min){
     if(!min || !min.s || !min.s.length) return;
-    const rec={ title:min.t||uiT('itin.itineraire.partage'), forme:min.f||'oneway', entry:'shared',
-      origin:{coord:min.o, label:min.ol||uiT('itin.depart')}, tour:{titre:min.t||uiT('itin.itineraire.partage'), soustitre:uiT('itin.partage.avec.vous.vous.pouvez')},
+    const rec={ title:min.t||uiT('itin.recu.titre'), forme:min.f||'oneway', entry:'shared',
+      origin:{coord:min.o, label:min.ol||uiT('itin.recu.depart')}, tour:{titre:min.t||uiT('itin.recu.titre'), soustitre:uiT('itin.recu.soustitre')},
       steps:min.s.map(o=>({nom:o.n, c:o.c||null, genre:o.p?'perso':'', halte:!!o.h, htype:o.ht||'', nuit:!!o.u, sejour:o.j||'', ville:o.v||'', tnote:o.k||'', desc:o.d||'', src:o.r||''})) };
     renderRecord(rec, 'shared');
   }
+  function loadTrip(code){                   // ancien format
+    let min; try{ min=JSON.parse(decodeURIComponent(atob(decodeURIComponent(code)))); }catch(e){ return; }
+    appliquerTrip(min);
+  }
+  function loadTripCourt(code){              // format court, compressé ou non
+    if(!code) return;
+    var mode=String(code).charAt(0), u;
+    try{ u=deb64url(String(code).slice(1)); }catch(e){ return; }
+    if(mode==='1'){ try{ appliquerTrip(JSON.parse(new TextDecoder().decode(u))); }catch(e){} return; }
+    if(mode!=='2') return;
+    if(typeof DecompressionStream==='undefined'){ THEtoast(uiT('itin.lien.illisible')); return; }
+    try{
+      var ds=new DecompressionStream('deflate-raw'), w=ds.writable.getWriter();
+      w.write(u); w.close();
+      new Response(ds.readable).arrayBuffer()
+        .then(function(ab){ appliquerTrip(JSON.parse(new TextDecoder().decode(ab))); })
+        .catch(function(){ THEtoast(uiT('itin.lien.illisible')); });
+    }catch(e){ THEtoast(uiT('itin.lien.illisible')); }
+  }
   // ---------- Le passe (freemium « généreux ») ----------
   function isPremium(){ try{ return window.THEPass ? THEPass.isActive() : (localStorage.getItem('the_premium')==='1'); }catch(e){ return false; } }
-  let _passOk=null;
-  function requirePass(feat, onOk){ if(isPremium()){ onOk(); return; }
-    var _live=window.THEPass && (THEPass.checkoutURL('semaine')||THEPass.checkoutURL('mois'));
-    if(!_live){ try{ localStorage.setItem('the_feat', feat); }catch(e){} location.href='premium.html'; return; }
-    _passOk=onOk;
-    document.getElementById('passTitle').textContent=feat;
-    document.getElementById('passWhy').textContent='« '+feat+uiT('itineraire.fait.partie.du.passe.pays');
-    document.getElementById('passModal').style.display='flex'; }
-  function closePass(){ document.getElementById('passModal').style.display='none'; }
+
+  /* DEMANDER UN NOM SANS BOÎTE NATIVE
+     Le nom d'un itinéraire était demandé par prompt(). Après quelques dialogues,
+     Chrome propose « Empêcher cette page de créer des boîtes supplémentaires » :
+     une fois cochée, prompt() rend null sur-le-champ, et le code lisait ça comme
+     une annulation. Composer ne faisait alors plus rien, sans un mot. Un navigateur
+     ne doit pas pouvoir couper une fonction de l'application : on demande le nom
+     dans une fenêtre à nous. */
+  window.THEdemanderNom = function(titre, defaut, ok){
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var vieux=document.getElementById('nomModal'); if(vieux) vieux.remove();
+    var f=document.createElement('div'); f.id='nomModal';
+    f.style.cssText='position:fixed;inset:0;z-index:10001;background:rgba(20,15,10,.55);'
+      + 'display:flex;align-items:center;justify-content:center;padding:18px';
+    f.innerHTML='<div style="background:#fffdf8;border-radius:12px;max-width:420px;width:100%;padding:20px">'
+      + '<div id="nomT" style="font-family:\'Cormorant Garamond\',serif;font-weight:700;font-size:20px;color:#4b3f2a;margin-bottom:12px"></div>'
+      + '<input id="nomI" type="text" style="width:100%;padding:12px;border:1px solid #e3d8c4;border-radius:8px;font:inherit;font-size:16px">'
+      + '<div style="display:flex;gap:8px;margin-top:14px">'
+      + '<button id="nomOk" type="button" style="flex:1;border:none;background:#a8884f;color:#fff;border-radius:8px;padding:12px;font:inherit;font-size:15px;cursor:pointer"></button>'
+      + '<button id="nomNon" type="button" style="border:1px solid #e3d8c4;background:#fff;color:#6b5a39;border-radius:8px;padding:12px 16px;font:inherit;font-size:15px;cursor:pointer"></button>'
+      + '</div></div>';
+    document.body.appendChild(f);
+    f.querySelector('#nomT').textContent=titre;
+    var champ=f.querySelector('#nomI'); champ.value=defaut||'';
+    f.querySelector('#nomOk').textContent=T2('itin.nom.valider');
+    f.querySelector('#nomNon').textContent=T2('itin.nom.annuler');
+    function fermer(){ f.remove(); }
+    function valider(){ var v=(champ.value||'').trim().slice(0,80) || (defaut||''); fermer(); ok(v); }
+    f.querySelector('#nomOk').onclick=valider;
+    f.querySelector('#nomNon').onclick=fermer;
+    f.addEventListener('click', function(e){ if(e.target===f) fermer(); });
+    champ.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); valider(); } });
+    setTimeout(function(){ try{ champ.focus(); champ.select(); }catch(e){} }, 60);
+  };
+
+  /* PLUS QU'UNE OFFRE : L'ABONNEMENT ANNUEL.
+     Il restait ici une modale « passe » de l'ancien modèle — 4,90 € la semaine,
+     9,90 € le mois — qui nommait Lemon Squeezy comme prestataire de paiement.
+     Elle ne s'ouvrait jamais : son test interrogeait checkoutURL('semaine') et
+     checkoutURL('mois'), or CHECKOUT ne porte que 'an'. Code mort, mais du code
+     mort à faux prix, et qui aurait affiché un paiement externe DANS L'APP iOS
+     si une de ces clés avait reparu — c'est-à-dire le motif 3.1.1. Retiré le
+     24/08/2026 sur demande de Helmy. Tout passe désormais par premAsk(). */
+  function requirePass(feat, onOk){ if(isPremium()){ onOk(); return; } premAsk(feat); }
   function applyPremiumUI(){ if(isPremium()){ document.body.classList.add('is-premium'); if(typeof initPresets==='function') initPresets(); } }
-  document.getElementById('passX').onclick=closePass;
-  document.getElementById('passLater').onclick=closePass;
-  document.getElementById('passModal').onclick=e=>{ if(e.target.id==='passModal') closePass(); };
-  function buyPass(plan){
-    if(window.THEPass){ var r=THEPass.buy(plan); if(r==='checkout') return; }   // redirigé vers le paiement réel
-    else { try{ localStorage.setItem('the_premium','1'); }catch(e){} }            // secours si module absent
-    closePass(); applyPremiumUI(); const f=_passOk; _passOk=null; if(f) f();
-  }
-  document.getElementById('passWeek').onclick=()=>buyPass('semaine');
-  document.getElementById('passMonth').onclick=()=>buyPass('mois');
-  // masque la mention « démo » dès qu'un vrai lien de paiement est configuré
-  if(window.THEPass && (THEPass.checkoutURL('semaine')||THEPass.checkoutURL('mois'))){ var _dn=document.getElementById('passDemoNote'); if(_dn) _dn.style.display='none'; }
   applyPremiumUI();
 
-  document.getElementById('sharebtn').onclick=()=>requirePass(uiT('itin.lien.partageable'), shareTrip);
+  document.getElementById('sharebtn').onclick=()=>requirePass(uiT('itin.donner.qr'), shareTrip);
   function readMapPicks(){ try{ return JSON.parse(localStorage.getItem('the_picks')||'[]'); }catch(e){ return []; } }
   function renderSaved(){
     const box=document.getElementById('savedBox'), list=document.getElementById('savedList');
@@ -1270,21 +2067,89 @@
     let html='';
     if(hasCur) html+='<div class="saved-row"><button class="saved-open" id="resumeCurrent">↩ '+uiT('itineraire.continuer.le.dernier.itineraire')+' <small>'+cur.steps.length+' '+uiT('itineraire.etapes')+' — '+uiT('itineraire.pensez.a.l.enregistrer')+'</small></button></div>';
     if(pk.length) html+='<div class="saved-row"><button class="saved-open" id="picksCompose">'+uiT('itin.picks.compose',{n:pk.length})+'</button><button class="saved-del" id="picksClear" title="'+uiT('itin.vider')+'">🗑</button></div>';
-    html+=arr.map(r=>'<div class="saved-row"><button class="saved-open" data-id="'+r.id+'">💾 '+(r.title.replace(/</g,'&lt;'))+' <small>'+r.steps.length+' '+uiT('itineraire.etapes')+'</small></button><button class="saved-del" data-id="'+r.id+'" title="Supprimer">🗑</button></div>').join('');
+    html+=arr.map(r=>'<div class="saved-row"><button class="saved-open" data-id="'+r.id+'">💾 '+(r.title.replace(/</g,'&lt;'))+' <small>'+datePuce(r)+r.steps.length+' '+uiT('itineraire.etapes')+'</small></button><button class="saved-del" data-id="'+r.id+'" title="Supprimer">🗑</button></div>').join('');
     list.innerHTML=html;
     if(hasCur) document.getElementById('resumeCurrent').onclick=()=>renderRecord(cur);
     if(pk.length){
+      /* Cette porte AUSSI compose : elle charge les lieux choisis et trace.
+         Sans garde, cocher quatre lieux dans la liste puis appuyer ici donnait
+         un itinéraire complet, essai expiré. Helmy, 18/08/2026. */
       document.getElementById('picksCompose').onclick=()=>loadPicks(pk.map(encodeURIComponent).join('|'));
       document.getElementById('picksClear').onclick=()=>{ if(confirm(uiT('itineraire.vider.les.lieux.choisis.sur'))){ localStorage.removeItem('the_picks'); renderSaved(); } };
     }
     list.querySelectorAll('.saved-open[data-id]').forEach(b=>b.onclick=()=>resumeSaved(b.dataset.id));
     list.querySelectorAll('.saved-del[data-id]').forEach(b=>b.onclick=()=>{ if(confirm(uiT('itineraire.supprimer.cet.itineraire.enregistre'))) deleteSaved(b.dataset.id); });
   }
-  document.getElementById('savebtn').onclick=saveCurrent;   // gratuit : enregistrer/reprendre ses itinéraires
+  document.getElementById('savebtn').onclick=saveCurrent;
+
+  /* FERMER L'ITINÉRAIRE — enregistrer, puis rendre la main
+     Une troisième sortie, à côté du menu et des façons de partir : on a fini
+     d'éditer, on veut ranger et sortir. Elle écrit dans LA fiche existante —
+     jamais une seconde — puis ramène au menu principal. */
+  (function(){
+    var boutons=[document.getElementById('fermerIti'), document.getElementById('fermerItiHaut')]
+                .filter(Boolean);
+    if(!boutons.length) return;
+    var fermer=function(){
+      try{
+        if(typeof LASTRES!=='undefined' && LASTRES && LASTRES.route && LASTRES.route.length){
+          var arr=readSaved();
+          var id=LASTRES._id;
+          var place = id ? arr.findIndex(function(r){ return r && r.id===id; }) : -1;
+          var titre=(LASTRES.tour&&LASTRES.tour.titre) || (place>=0 ? arr[place].title : '') || uiT('itin.nom.compose');
+          var fiche={ id:(place>=0?arr[place].id:'it'+Date.now()),
+            cree:(place>=0?(arr[place].cree||Date.now()):Date.now()),
+            title:titre, forme:LASTRES.forme||'oneway', mode:(place>=0?arr[place].mode:(LASTRES.mode||'compose')),
+            origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null,
+            steps:LASTRES.route.map(function(s){ return {nom:s.p.nom, c:s.c, genre:s.genre||'',
+              halte:!!s.halte, htype:s.htype||'', nuit:!!s.nuit, sejour:s.sejour||'', ville:s.ville||'', tnote:s.tnote||'',
+              desc:s.genre==='perso'?(s.p.description||''):'', src:s.genre==='perso'?(s.p.source||''):''}; }) };
+          if(place>=0) arr[place]=fiche; else arr.unshift(fiche);
+          writeSaved(arr.slice(0,40));
+        }
+      }catch(e){}
+      /* on ne le laisse pas « actif au démarrage » : fermer, c'est fermer */
+      try{ localStorage.removeItem('the_current'); }catch(e){}
+      location.href='decouvrir.html';
+    };
+    boutons.forEach(function(x){ x.onclick=fermer; });   // haut et bas : le même geste
+  })();
+
+
+  /* SAUVEGARDER / RESTAURER SON CARNET — la fonction existait depuis longtemps
+     (the-backup.js) mais ne se trouvait que sur la page hors-ligne, où personne
+     ne va la chercher. Elle est ici parce que c'est ici qu'on finit un voyage.
+     Tout reste chez l'utilisateur : le fichier ne part nulle part. */
+  (function(){
+    var ex=document.getElementById('bkExportIti'), im=document.getElementById('bkImportIti'),
+        fi=document.getElementById('bkFileIti'), st=document.getElementById('bkStatusIti');
+    if(!ex||!im||!fi||!st) return;
+    var repos=st.textContent;
+    ex.onclick=function(){
+      if(!window.THEBackup){ st.textContent='\u26a0\ufe0f '+uiT('itin.carnet.echec'); return; }
+      st.textContent=uiT('itin.carnet.preparation');
+      THEBackup.download().then(function(){ st.textContent=uiT('itin.carnet.faite'); },
+                                function(e){ st.textContent='\u26a0\ufe0f '+((e&&e.message)||uiT('itin.carnet.echec')); });
+    };
+    /* Restaurer un carnet CRÉE des itinéraires : même règle que les créer à la
+       main. Sans cette garde, un essai fini pouvait remplir son carnet par
+       fichier — DeepSeek l'avait signalé, mesuré en ligne le 19/08/2026. */
+    im.onclick=function(){ if(!isPremium()){ premAsk(''); return; } fi.click(); };
+    fi.onchange=function(e){
+      var f=e.target.files[0]; if(!f) return;
+      if(!confirm(uiT('itin.carnet.confirmer'))){ e.target.value=''; return; }
+      st.textContent=uiT('itin.carnet.restauration');
+      THEBackup.importFile(f).then(function(){ st.textContent=uiT('itin.carnet.restaure'); renderSaved(); },
+                                   function(err){ st.textContent='\u26a0\ufe0f '+((err&&err.message)||uiT('itin.carnet.echec')); });
+      e.target.value='';
+    };
+    window.addEventListener('pageshow', function(){ st.textContent=repos; });   // on remet l'explication au retour
+  })();
+   // gratuit : enregistrer/reprendre ses itinéraires
 
   // ---------- rendu ----------
   function servicesNote(s){
-    if(s.genre==='perso') return {txt:uiT('itineraire.lieu.que.vous.avez.ajoute'), iso:true};
+    if(s.genre==='perso') return null;   // étape posée par le voyageur : aucun avertissement
     if(s.genre==='nature') return {txt:uiT('itineraire.sortie.en.plein.air.pas'), iso:true};
     if(norm(s.p.type)==='ville') return {txt:uiT('itineraire.localite.habitee.hebergement.et.restauration'), iso:false};
     return {txt:uiT('itineraire.site.ou.monument.prevoyez.repas'), iso:true};
@@ -1300,8 +2165,8 @@
     if(!parts.length) return null;
     return parts.join(' ; ')+uiT('itin.renseignez.vous.aupres.des.autorites');
   }
-  // lien de recherche duiT('itin.hebergements.chambres.d')hôte / hôtels) — l'utilisateur choisit
-  function lodgingURL(s){ const c=(s.p&&s.p.acces_gps)?s.p.acces_gps:s.c; const term=s.ville||s.p.region||''; // recherche duiT('itin.hebergement.centree.sur.la.coordonnee')étape (pas sur un nom)
+  // lien de recherche d'hébergements (chambres d'hôte, hôtels) — l'utilisateur choisit
+  function lodgingURL(s){ const c=(s.p&&s.p.acces_gps)?s.p.acces_gps:s.c; const term=s.ville||s.p.region||''; // recherche d'hébergement centrée sur.la.coordonnee')étape (pas sur un nom)
     return 'https://www.google.com/maps/search/'+encodeURIComponent(("chambre d'hote hotel "+term).trim())+'/@'+c[1]+','+c[0]+',13z'; }
   function srcHtml(src){
     if(!src) return '';
@@ -1335,9 +2200,56 @@
               horaires:{en:'Hours:',it:'Orari:',de:'Öffnungszeiten:',ar:'المواعيد:'} };
     return (M[key]&&M[key][THEi18n.lang()])||uiT(K[key])||key;
   }
+  /* UN ITINÉRAIRE A TOUJOURS UN NOM, DÈS SON PREMIER AFFICHAGE.
+     « Surprenez-moi » et les circuits n'en demandaient pas : le carnet se rangeait
+     alors sous « #1 », « #2 »… — donc tous les voyages surprise partageaient les
+     mêmes clés, et dès qu'un nom apparaissait à l'enregistrement la clé changeait
+     et les photos décrochaient. Le nom est posé ici, pour TOUTES les portes
+     d'entrée — voyage libre, composer, surprise, circuit — et il est unique. */
+  function nommerSiBesoin(res){
+    try{
+      /* UNE NOUVELLE COMPOSITION = UNE NOUVELLE FICHE.
+         « the_encours » restait sur le voyage précédent : partir en voyage libre
+         après avoir composé reprenait le nom du composé, donc ses clés, donc ses
+         photos. Seul un ENRICHISSEMENT déclaré (res._idCible) reste sur sa fiche. */
+      if(res && res._idCible){
+        localStorage.setItem('the_encours', res._idCible);
+        res._id = res._idCible;
+        return;
+      }
+      /* UN RE-RENDU N'EST PAS UN NOUVEAU VOYAGE.
+         render() est rejoué à chaque geste — modifier une étape, en ajouter une,
+         en déplacer une. La condition ne retenait que « res._memeVoyage », jamais
+         posé : chaque rendu ouvrait donc une fiche neuve, avec une nouvelle
+         référence. Toutes les clés changeaient dessous — photos, dates, notes
+         devenaient introuvables une seconde après avoir été écrites.
+         Tant qu'une fiche courante existe, c'est ELLE le voyage. */
+      var _enc=''; try{ _enc=localStorage.getItem('the_encours')||''; }catch(e){}
+      if(_enc && readSaved().some(function(r){ return r && r.id===_enc; })){
+        if(res) res._id=_enc;
+        return;
+      }
+      var base = (res && res.tour && res.tour.titre)
+              || (res && res.theme && uiT(res.theme.label))
+              || uiT('itin.nom.compose');
+      var nom = nomUnique(String(base||'').trim(), null);
+      var arr = readSaved();
+      var id = 'it'+Date.now();
+      arr.unshift({ id:id, cree:Date.now(), title:nom,
+                    forme:(res && res.forme)||'oneway',
+                    mode:(res && res.mode)||'auto',
+                    type:(typeof ENTRY!=='undefined' && ENTRY) ? ENTRY : 'funnel',
+                    origin:null, tour:{titre:nom, soustitre:''}, steps:[] });
+      writeSaved(arr.slice(0,40));
+      localStorage.setItem('the_encours', id);
+      if(res) res._id = id;
+    }catch(e){}
+  }
   function render(origin, res){
+    try{ window.__scrollAvantRendu = window.scrollY || window.pageYOffset || 0; }catch(e){}
     const {route, theme, dur, per, forme, pepites, tour}=res;
     LASTORIGIN=origin; LASTRES=res;
+    nommerSiBesoin(res);   // la fiche — et donc sa référence — existe avant tout carnet
     autosaveCurrent();   // garde l'itinéraire courant (récupérable au retour de la grande carte / après rechargement)
     PHOTO_URLS.forEach(u=>URL.revokeObjectURL(u)); PHOTO_URLS=[];  // libère les aperçus du rendu précédent
     document.getElementById('builder').style.display='none';
@@ -1368,11 +2280,21 @@
     // plan réaliste en journées (sert au libellé durée ET au découpage des étapes)
     const walking=per.radius<=9;
     const plan=planDays(route, walking);
-    const durLabel = tour ? uiT(dur.lib) : ('≈ '+plan.dayCount+' '+uiT('itineraire.jour.2'+(plan.dayCount>1?'s':'')));
+    /* UNE CLÉ i18n NE SE FABRIQUE PAS PAR CONCATÉNATION.
+       Cette ligne construisait 'itineraire.jour.2' + (pluriel ? 's' : '').
+       La forme au singulier existe ; **la forme au pluriel n'a jamais existé**.
+       Tout itinéraire de deux jours ou plus affichait donc, en plein bandeau de
+       résultat, « ≈ 3 itineraire.jour.2s ». Relevé en ligne le 19/08/2026.
+       Le moteur ne peut pas rattraper ça : il replie sur la CLÉ quand elle est
+       absente, et une clé absente parce qu'on vient de l'inventer ressemble à
+       une clé légitime. On nomme donc les deux clés en toutes lettres — elles
+       existent l'une et l'autre, traduites dans toutes les langues. */
+    const durLabel = tour ? uiT(dur.lib)
+      : ('≈ '+plan.dayCount+' '+uiT(plan.dayCount>1 ? 'pass.days' : 'itineraire.jour.2'));
     // en-tête visible seulement à l'impression / export PDF
     document.getElementById('printhead').innerHTML=
       uiT('itin.ehemon.itineraire.patrimonial.pays.heritage')+
-      new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+'</div>';
+      new Date().toLocaleDateString(document.documentElement.lang,{day:'numeric',month:'long',year:'numeric'})+'</div>';
     const hasNature=route.some(s=>s.genre==='nature');
     rsum.innerHTML=(res.notice||'')+'<h2>'+(tour?'✨ '+tour.titre:(theme?theme.ic+' '+uiT(theme.label):uiT('itineraire.itineraire.libre')))+'</h2>'+
       (tour&&tour.soustitre?'<div style="font-style:italic;color:var(--stone);margin:-2px 0 6px;font-size:14px">'+tour.soustitre+'</div>':'')+
@@ -1410,7 +2332,7 @@
     const speed = walking?4.5:45, roadf = walking?1.2:1.3;  // marche vs route
     const detMin = km => Math.max(1, Math.round(Math.max(0,km)*roadf/speed*60));
     const routeNames = new Set(route.map(s=>norm(s.p.nom)));
-    const suggested = new Set();                            // ne pas répéter une pépite duiT('itin.un.troncon.a.l')autre
+    const suggested = new Set();                            // ne pas répéter une pépite d'un tronçon à l'autre
     const pins = pepites||[];
     let lastDay = 0;
     route.forEach((s,i)=>{
@@ -1455,7 +2377,7 @@
       }
       const p=s.p, svc=servicesNote(s), nat=s.genre==='nature', acc=accesNote(s);
       const foodHtml = (res && res.food && !s.halte) ? gastroBlock(p.region) : '';
-      const tr = (window.THEi18n && !s.halte && s.genre!=='perso') ? THEi18n.site(p.nom) : null;
+      const tr = (window.THEi18n && !s.halte && s.genre!=='perso') ? THEi18n.site(p.vkey) : null;  // clé UNIQUE par lieu (vkey), plus par nom (qui collisionne)
       
       const desc=((tr&&tr.d) || p.description || '').trim();
       const Lav=(tr&&tr.a)||p.a_voir||'', Lcons=(tr&&tr.c)||p.conseil||'', Lhor=(tr&&tr.h)||p.horaires||'';
@@ -1463,7 +2385,7 @@
       const tag = s.halte ? '📍 Halte · '+halteLabel(s.htype) : (s.genre==='perso' ? uiT('itin.ajoute.par.vous') : (trCat(p.epoque) || [p.categorie,trCat(p.type)].filter(Boolean).join(' · ')));
       const sleeps = s.nuit || s._sleep;
       const nightHtml = sleeps
-        ? '<div class="nuit">🛏 <b>'+(s.nuit&&s.sejour?uiT('itin.etape.nuit',{s:s.sejour}):uiT('itin.nuit.sur.place.conseillee'))+'</b>'+((s.nuit&&s.tnote)?'<div class="nuit-note">'+s.tnote+'</div>':'')+'<a class="lodging" target="_blank" rel="noopener" href="'+lodgingURL(s)+uiT('itin.voir.des.hebergements.chambres.d')
+        ? '<div class="nuit">🛏 <b>'+(s.nuit&&s.sejour?uiT('itin.etape.nuit',{s:s.sejour}):uiT('itin.nuit.sur.place.conseillee'))+'</b>'+((s.nuit&&s.tnote)?'<div class="nuit-note">'+s.tnote+'</div>':'')+'<a class="lodging" target="_blank" rel="noopener" href="'+lodgingURL(s)+'">'+uiT('itin.voir.des.hebergements.chambres.d')+'</a></div>'
         : (s.tnote?'<div class="tnote">📝 '+s.tnote+'</div>':'');
       const el=document.createElement('div'); el.className='stop'+(nat?' nat':'')+(s.genre==='perso'?' perso':'')+(s.halte?' halte':'');
       el.innerHTML=
@@ -1480,7 +2402,10 @@
         (Lhor?'<div class="kv"><b>'+LBL('horaires')+'</b> '+Lhor+'</div>':'')+
         (Lan?(isPremium()?uiT('itin.le.detail')+Lan+'</div>':'<a href="premium.html" class="kv" style="display:block;background:#eef6f0;border-left:3px solid #6f9c7a;padding:7px 10px;border-radius:6px;margin-top:6px;text-decoration:none;color:inherit">👁️ <b>'+uiT('itin.lbl.detail')+'</b> — '+String(Lan).replace(/<[^>]*>/g,'').slice(0,45).trim()+'… <span style="color:#6f9c7a;font-weight:700;white-space:nowrap">'+uiT('itin.premium')+'</span></a>'):'')+
         (p.acces_note?uiT('itin.acces.gps')+p.acces_note+'</div>':'')+
-        '<div class="svc'+(svc.iso?' iso':'')+'">'+(nat?'🥾 ':(svc.iso?'⚑ ':'🛏️ '))+svc.txt+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>'+
+        /* Une étape que le voyageur a posée lui-même n'a pas besoin qu'on lui
+           rappelle de vérifier l'accès : il sait où il va. L'encart ne vaut que
+           pour les lieux venus de la base. */
+        (svc?'<div class="svc'+(svc.iso?' iso':'')+'">'+(nat?'🥾 ':(svc.iso?'⚑ ':'🛏️ '))+svc.txt+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>':'')+
         (acc?uiT('itin.acces.reglemente')+acc+' <span class="tag-ind">'+uiT('itin.tag.indicatif')+'</span></div>':'')+
         foodHtml+
         srcHtml(p.source)+
@@ -1491,22 +2416,57 @@
       
     });
     updateCarnetTotal();
-    window.scrollTo({top:0,behavior:'smooth'});
+    /* ON RESTE OÙ L'ON EST.
+       Ce rendu est rejoué à chaque geste sur le parcours : ajouter une étape,
+       accepter une suggestion, monter ou descendre une halte, poser une photo.
+       Remonter en haut à chaque fois renvoyait le voyageur au début de son
+       itinéraire, et il fallait redescendre chercher l'endroit où il travaillait.
+       On ne remonte donc qu'à l'OUVERTURE d'un itinéraire — quand il change, ou
+       qu'il s'affiche pour la première fois. */
+    var _ref = itiRef();
+    if(window.__itiAffiche !== _ref){
+      window.__itiAffiche = _ref;
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else if(typeof window.__scrollAvantRendu === 'number'){
+      var _y = window.__scrollAvantRendu; window.__scrollAvantRendu = null;
+      requestAnimationFrame(function(){ window.scrollTo({top:_y}); });
+    }
   }
 
   // ---------- actions ----------
   function run(randomize){
+    /* LA GARDE EST ICI, DANS LE BLOC — PAS SUR LES PORTES.
+       Helmy, 19/08/2026 : « si on a fait les choses bien, le bloc itinéraire est
+       le même pour toutes les options ; l'appeler pour composer, quelle que soit
+       la méthode, devrait être derrière le paywall. »
+       C'est juste, et c'est plus sûr : garder cinq boutons un par un laisse
+       entrer par le sixième. Il n'existe que DEUX créateurs d'itinéraire dans
+       cette page — `run()` ici, et le tracé depuis les lieux choisis dans
+       `cloner()`. Toute porte présente ou future passe par l'un des deux.
+       Ce qui reste libre est la CONSULTATION : rouvrir un itinéraire enregistré,
+       réafficher, ajouter une halte à ce qui existe déjà. Le mur de navigation
+       est ce qui a fait rejeter une édition en 2.1(a) ; on ne le remet pas. */
+    if(!isPremium()){ requirePass(uiT('itin.compose.choix.titre'), function(){ run(randomize); }); return; }
     ENTRY='funnel';
     if(randomize){
-      // 🎲 Surprenez-moi : on ne garde que le DÉPART + la DURÉE choisis,
-      // et on tire le reste au hasard (périmètre, forme, thème). Genre = « un peu de tout » (évite un résultat vide).
+      /* 🎲 SURPRENEZ-MOI — le hasard remplit ce qu'on n'a PAS dit.
+         Le tirage écrasait le périmètre, la forme, le genre et le fil rouge,
+         même quand le voyageur venait de les régler : il réglait, appuyait,
+         et retrouvait autre chose. Le hasard ne comble plus que les blancs ;
+         un fil rouge laissé libre est tiré au sort — la surprise est là. */
       const rnd=sel=>{ sel.selectedIndex=Math.floor(Math.random()*sel.options.length); };
-      document.getElementById('perimetre').value='region';   // #5 : surprise limitée à la RÉGION de départ (pas « tout le pays » → évite le débordement, ex. Açores + continent)
-      rnd(document.getElementById('forme'));
-      document.getElementById('genre').value='all';
-      const viable=THEMES.filter(themeViable);
-      selectedThemes=new Set([viable[Math.floor(Math.random()*viable.length)].id]);
-      [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id)));
+      if(!window.__surpriseRegle){          // tirage à la volée : rien n'a été réglé
+        document.getElementById('perimetre').value='region';
+        rnd(document.getElementById('forme'));
+        document.getElementById('genre').value='all';
+      }
+      if(!selectedThemes || !selectedThemes.size){
+        const viable=THEMES.filter(themeViable);
+        if(viable.length){
+          selectedThemes=new Set([viable[Math.floor(Math.random()*viable.length)].id]);
+          [...chipsEl.children].forEach(x=>x.classList.toggle('on', selectedThemes.has(x.dataset.id)));
+        }
+      }
     }
     const genreFilter=document.getElementById('genre').value;
     const dureeKey=document.getElementById('duree').value;
@@ -1550,6 +2510,24 @@
       render(origin, res);
     });
   }
+
+  /* LA BRIQUE D'ÉTAPE PEUT CHERCHER DANS NOS LIEUX. On lui tend une fonction,
+     elle s'en sert si elle la trouve : la brique reste utilisable seule, et
+     l'ancien encart « Ajouter un lieu à votre parcours » — qui ne savait faire
+     que ça, sans nom, sans date, sans note — n'a plus de raison d'être. */
+  window.THEsitesRecherche = function(q){
+    try{
+      var nq=norm(q||''); if(nq.length<2 || typeof SITES==='undefined' || !SITES) return [];
+      var out=[];
+      for(var i=0;i<SITES.length && out.length<12;i++){
+        var s=SITES[i], n=norm(s.p.nom);
+        if(n.indexOf(nq)>=0) out.push({nom:s.p.nom, coord:s.c, d:(LASTORIGIN&&LASTORIGIN.coord)?haversine(LASTORIGIN.coord,s.c):0});
+      }
+      out.sort(function(a,b){ return a.d-b.d; });
+      return out;
+    }catch(e){ return []; }
+  };
+
   // ---------- ajout d'un lieu non proposé ----------
   async function addPlace(){
     const inp=document.getElementById('addinput'), msg=document.getElementById('addmsg');
@@ -1591,19 +2569,141 @@
     t.innerHTML=msg+' <span style="opacity:.6;font-size:12px">'+uiT('itineraire.toucher.pour.fermer')+'</span>'; t.classList.add('show');
     clearTimeout(showGuide._t); showGuide._t=setTimeout(()=>t.classList.remove('show'), ms||7000);
   }
+  /* RÈGLE (Helmy, 15/08/2026, telle qu'elle vit dans l'édition TUNISIE — la seule
+     approuvée par Apple) : COMPOSER UN ITINÉRAIRE EST RÉSERVÉ AU PREMIUM.
+     Le socle avait retiré cette garde en même temps que le mur de navigation du
+     rejet 2.1(a) — mais le mur et la garde ne sont pas la même chose. Le mur
+     coupait la NAVIGATION et faisait paraître l'application cassée ; la garde ne
+     coupe qu'une FONCTION, et laisse tout consulter. Sans elle, un essai expiré
+     permettait encore de composer un itinéraire entier : mesuré en ligne le
+     18/08/2026 sur l'Estonie, le Portugal, l'Irlande, l'Italie, la Tchéquie et la
+     Croatie, alors que « Voyage libre » demandait le passe juste à côté.
+     Le libellé est `itin.compose.choix.titre` — déjà traduit dans les dix-huit
+     combinaisons de langue des six éditions — et non la clé tunisienne
+     `itin.feature.composer`, qu'elles n'ont pas. */
   document.getElementById('generate').onclick=()=>run(false);
-  document.getElementById('mSurprise').onclick=()=>{ showGuide('🎲 '+uiT('itineraire.on.vous.compose.un.itineraire')+' <b>'+uiT('itineraire.surprise')+'</b>…'); run(true); };
-  document.getElementById('mGo').onclick=()=>{ const c=document.getElementById('critStart'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'}); showGuide(uiT('itin.reglez.vos.criteres.depart.duree')); };
+  /* Une surprise enregistrée se rouvre par SA porte, pas par celle de Composer :
+     elle n'y avait rien à faire. Tirer une nouvelle surprise reste un clic. */
+  document.getElementById('mSurprise').onclick=()=>{
+    /* SURPRENEZ-MOI OUVRE D'ABORD LES RÉGLAGES
+       Le tirage partait aussitôt : on ne pouvait rien dire de son départ, de
+       son temps, ni de son fil rouge. Le formulaire — celui que Composer a
+       quitté — sert ici : on règle ce qu'on veut, on laisse le reste vide, et
+       c'est le bouton qui déclenche le tirage sur ces bases. */
+    var lancer=function(){
+      var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      var bld=document.getElementById('builder');
+      var crit=document.getElementById('critStart');
+      var gen=document.getElementById('generate');
+      if(!bld||!crit||!gen){ showGuide('🎲 '+uiT('itineraire.on.vous.compose.un.itineraire')+' <b>'+uiT('itineraire.surprise')+'</b>…'); run(true); return; }
+      window.__surpriseRegle=true;                    // ses choix seront respectés
+      bld.classList.remove('trois-seules');
+      /* On MONTRE les questions et on cache le reste. Les blocs avaient été
+         éteints un à un par les écrans précédents : lever la classe ne suffit
+         pas, il faut rallumer ce qu'on veut voir. */
+      [].forEach.call(bld.children, function(e){
+        var cacher = (e.id==='savedBox' || e.id==='presetsBox' || e.id==='picksReglages'
+                      || (e.classList && e.classList.contains('modes')));
+        e.style.display = cacher ? 'none' : '';
+      });
+      var aide=document.getElementById('surpriseAide');
+      if(!aide){
+        aide=document.createElement('div'); aide.id='surpriseAide'; aide.className='hint';
+        aide.style.cssText='margin:0 0 10px;color:#a8884f';
+        crit.parentNode.insertBefore(aide, crit);
+      }
+      aide.textContent=T2('itin.surprise.reglages');
+      aide.style.display='';
+      /* le bouton du bas déclenche LE TIRAGE, pas la composition */
+      gen.innerHTML=T2('itin.surprise.bouton');
+      /* le tirage compose lui aussi un itinéraire : même règle, même garde */
+    gen.onclick=function(){ showGuide('🎲 '+uiT('itineraire.on.vous.compose.un.itineraire')+' <b>'+uiT('itineraire.surprise')+'</b>…'); run(true); };
+      try{ crit.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){}
+    };
+    if(!window.THEsurpriseChoisir){ lancer(); return; }
+    THEsurpriseChoisir(lancer, function(rec){
+      location.href='itineraire.html?ouvrir='+encodeURIComponent((rec&&rec.id)||'');
+    });
+  };
+  /* COMPOSER, C'EST LE VOYAGEUR QUI COMPOSE
+     Le bouton dépliait un formulaire et l'application traçait le parcours à sa
+     place — ce que « Surprenez-moi » fait déjà. Ici on ouvre les deux portes où
+     il choisit LUI-MÊME ses lieux, avec les filtres et le fil rouge. Les réglages
+     (départ, durée, forme) viennent APRÈS la sélection, quand ils ont un sens.
+     Le formulaire reste dans la page : « Surprenez-moi » lit ses valeurs. */
+  /* Les deux portes du choix des lieux. Nommée, pour que la suite du parcours
+     puisse l'appeler : deux gestionnaires sur le même bouton, le second écrasait
+     le premier et les portes ne s'ouvraient jamais. */
+  window.THEcomposerPortes = function(){
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var mod=document.getElementById('itiModal'), liste=document.getElementById('itiListe'),
+        titre=document.getElementById('itiTitre');
+    if(!mod||!liste){ var c=document.getElementById('critStart'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+    titre.textContent=T2('itin.compose.porte.titre');
+    liste.innerHTML='';
+    function porte(txt, sous, ic, url){
+      var b=document.createElement('button'); b.type='button';
+      b.style.cssText='display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:12px 4px;'
+        + 'border:none;border-bottom:1px solid #efe7d8;background:none;font:inherit;cursor:pointer';
+      b.innerHTML='<span style="font-size:19px">'+ic+'</span><span style="flex:1"><b>'+txt+'</b>'
+        + (sous?'<br><small style="color:#8a7c66">'+sous+'</small>':'')+'</span>';
+      b.onclick=function(){ mod.style.display='none'; location.href=url; };
+      liste.appendChild(b);
+    }
+    var aide=T2('itin.compose.porte.aide');
+    /* Le libellé traduit porte déjà son emoji : le répéter en icône donnait
+       « 🗺️🗺️ Choisir sur la carte ». On retire celui du texte. */
+    var sansIcone=function(t){ return String(t||'').replace(/^[^A-Za-zÀ-ÿ0-9]+/,''); };
+    porte(sansIcone(T2('itin.compose.porte.carte')), aide, '🗺️', 'index.html?depuis=composer');
+    porte(sansIcone(T2('itin.compose.porte.liste')), aide, '📋', 'liste.html?depuis=composer');
+    mod.style.display='flex';
+  };
+  document.getElementById('mGo').onclick=window.THEcomposerPortes;   // repli si la porte de choix manque
+
   // ---------- Voyage libre : pas de plan, on capture au fil de la route ----------
   function startLibre(){
     ENTRY='libre';
-    render({coord:[-8.0,53.4], label:'itin.ma.position'},
-      { route:[], theme:{ic:'🆓',label:'itin.theme.voyage.libre'}, dur:{max:99,lib:'choix.dur'}, per:{radius:99999,lib:'choix.per'},
-        forme:'oneway', pepites:[], mode:'libre', tour:{titre:uiT('itin.voyage.libre.titre'), soustitre:uiT('itin.voyage.libre.sous')} });
+    /* On demande son nom AU DÉPART : un voyage libre se remplit en chemin, il doit
+       donc exister — et être retrouvable — avant d'avoir la moindre halte. */
+    THEdemanderNom(uiT('itin.libre.nom'), uiT('itin.voyage.libre.titre'), function(_nomLibre){
+      startLibreAvecNom(_nomLibre);
+    });
+  }
+  /* Le point de départ par défaut se lit dans heritage.config.js — le seul
+     fichier qui change d'une édition à l'autre. Il était écrit en dur, si bien
+     que tout clone démarrait son voyage libre à l'autre bout du monde. Relevé le
+     17/08/2026 en mesurant ce que les éditions savaient et que le socle ignorait. */
+  function departParDefaut(){
+    var H = window.HConf || {};
+    /* Deux sources, dans cet ordre : le départ que l'édition a CHOISI, puis à
+       défaut le centre de sa carte. Le premier existe parce que le milieu
+       géographique d'un pays n'est pas forcément là où un voyageur arrive :
+       une capitale, un aéroport, une ville d'entrée sont souvent plus justes. */
+    var d = H.departDefaut || H.carte || {};
+    var lat = parseFloat(d.lat), lon = parseFloat(d.lon);
+    if (isFinite(lat) && isFinite(lon)) return [lon, lat];
+    return [0, 0];
+  }
+  function startLibreAvecNom(_nomLibre){
+    render({coord:departParDefaut(), label:uiT('itin.ma.position')},
+      { route:[], theme:{ic:'🎒',label:'itin.theme.voyage.libre'}, dur:{max:99,lib:'choix.dur'}, per:{radius:99999,lib:'choix.per'},
+        forme:'oneway', pepites:[], mode:'libre', tour:{titre:_nomLibre, soustitre:uiT('itin.voyage.libre.sous')} });
+    /* enregistré tout de suite : il apparaît dans le menu, on peut y revenir */
+    try{ localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(e){}
+    (function(){ var arr=readSaved();
+       /* on retient l'identifiant : chaque étape ajoutée met À JOUR cette fiche,
+          au lieu d'en laisser une vide à côté du voyage réel. */
+       var _idLibre='it'+Date.now();
+       arr.unshift({ id:_idLibre, cree:Date.now(), title:_nomLibre, forme:'oneway', mode:'libre',
+         origin:{coord:LASTORIGIN.coord, label:LASTORIGIN.label}, tour:LASTRES.tour||null, steps:[] });
+       writeSaved(arr.slice(0,40)); renderSaved();
+       /* render() remplace LASTRES : l'identifiant ne peut pas y vivre. Chaque
+          étape ajoutée met à jour CETTE fiche, au lieu d'en laisser une vide. */
+       window.THElibreId=_idLibre; })();
     showGuide(uiT('itin.voyage.libre.lance.deplacez.vous'), 9000);
     // on cale l'origine sur la position réelle si dispo (pour ordonner les haltes autour de soi)
     if(navigator.geolocation) navigator.geolocation.getCurrentPosition(
-      p=>{ if(LASTRES&&LASTRES.mode==='libre') LASTORIGIN={coord:[p.coords.longitude,p.coords.latitude],label:'itin.ma.position'}; },()=>{},
+      p=>{ if(LASTRES&&LASTRES.mode==='libre') LASTORIGIN={coord:[p.coords.longitude,p.coords.latitude],label:uiT('itin.ma.position')}; },()=>{},
       {enableHighAccuracy:true,timeout:8000,maximumAge:120000});
   }
   document.getElementById('mLibre').onclick=startLibre;
@@ -1630,8 +2730,8 @@
     const {route,theme}=LASTRES;
     const isDep = albumTemplate==='depliant';
     const km=Math.round(route.reduce((t,s)=>t+s.fromPrev,0));
-    const dateStr=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-    const coverHtml='<div class="album-cover"><div class="ac-brand">'+(((window.HConf&&HConf.marque)||'Heritage Experience').toUpperCase())+'</div>'+
+    const dateStr=new Date().toLocaleDateString(document.documentElement.lang,{day:'numeric',month:'long',year:'numeric'});
+    const coverHtml='<div class="album-cover"><div class="ac-brand">'+(((window.THEi18n&&THEi18n.pick&&window.HConf&&THEi18n.pick(HConf.marque))||'Heritage Experience').toUpperCase())+'</div>'+
       '<h2>'+(theme?theme.ic+' '+uiT(theme.label):uiT('itin.mon.itineraire'))+'</h2>'+
       '<div class="ac-meta">'+route.length+' '+uiT('itineraire.etapes')+' · ~'+km+' '+uiT('itineraire.km')+' · '+dateStr+'</div>'+
       (isDep?uiT('itin.carnet.de.route.depliez.le'):'')+'</div>';
@@ -1652,7 +2752,7 @@
       const s=route[i], p=s.p, key=placeKey(s);
       let photos=[]; try{ photos=await photosFor(key); }catch(e){}
       photos.sort((a,b)=>a.ts-b.ts);
-      const cap=(localStorage.getItem('the-cap:'+key)||'').replace(/</g,'&lt;');
+      const cap=(capLire(key,s)||'').replace(/</g,'&lt;');
       let el;
       if(isDep){
         // panneau « dépliant » : étape reliée le long du trajet + où & quand
@@ -1660,7 +2760,7 @@
           thumbs += (ph.blob.type||'').startsWith('video')
             ? '<video class="dep-th" src="'+url+'" muted playsinline></video>'
             : '<img class="dep-th" src="'+url+'" alt="">'; });
-        const when = photos.length ? new Date(photos[0].ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
+        const when = photos.length ? new Date(photos[0].ts).toLocaleDateString(document.documentElement.lang,{day:'numeric',month:'short',year:'numeric'}) : '';
         const hasSnd = photos.some(ph=>ph.audio);
         el=document.createElement('div'); el.className='dep-panel';
         el.innerHTML=
@@ -1671,7 +2771,12 @@
             '<div class="dep-sub">'+(p.region||'')+(trCat(p.epoque)?' · '+trCat(p.epoque):'')+'</div>'+
             (when?'<div class="dep-when">📅 '+when+(hasSnd?' · 🔊':'')+'</div>':'')+
             (thumbs?'<div class="dep-photos">'+thumbs+'</div>':'<div class="album-empty">'+uiT('itin.album.vide')+'</div>')+
-            uiT('itin.x.2')+cap+'</textarea>'+
+            // Le placeholder passe par sa PROPRE clé : enfermé dans la balise
+            // (ancienne clé « itin.x.2 »), il restait français dans les trois
+            // langues — une valeur i18n qui contient du HTML ne se traduit pas.
+            '<textarea class="album-cap dep-cap" placeholder="'
+              + String(uiT('carnet.un.mot.sur.cette.etape')).replace(/"/g,'&quot;')
+              + '">'+cap+'</textarea>'+
           '</div>';
       } else if(albumTemplate==='passeport'){
         let mainTag='', extraTags='', audioTags='';
@@ -1682,7 +2787,7 @@
           if(ph.audio){ const aurl=URL.createObjectURL(ph.audio); ALBUM_URLS.push(aurl); audioTags+='<audio controls src="'+aurl+'"></audio>'; }
         });
         const place=(p.region||uiT('pays.nom'));
-        const vdate=photos.length?new Date(photos[0].ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}):dateStr;
+        const vdate=photos.length?new Date(photos[0].ts).toLocaleDateString(document.documentElement.lang,{day:'numeric',month:'short',year:'numeric'}):dateStr;
         el=document.createElement('div'); el.className='pp-page';
         el.innerHTML=
           '<div class="pp-wm">'+PP_WM[i%PP_WM.length]+'</div>'+
@@ -1743,17 +2848,17 @@
     });
   }
   function shareNative(){                // SYNCHRONE : navigator.share appelé dans le geste utilisateur (sinon iOS refuse)
-    if(!navigator.share){ alert(uiT('itineraire.le.partage.direct.n.est')); return; }
+    if(!navigator.share){ THEtoast(uiT('itineraire.le.partage.direct.n.est')); return; }
     const data={title:uiT('itin.mon.itineraire.pays.heritage'), text:shareText()};
     if(SHARE_FILES.length && navigator.canShare && navigator.canShare({files:SHARE_FILES})) data.files=SHARE_FILES;
     navigator.share(data).catch(()=>{});
   }
   function publishOptin(){
-    alert(uiT('itineraire.publier.sur.le.site.pays'));
+    THEtoast(uiT('itineraire.publier.sur.le.site.pays'));
   }
 
   document.getElementById('printbtn').onclick=()=>{
-    if(mapObj) mapObj.invalidateSize();          // la carte se recadre avant luiT('itin.apercu.d')impression
+    if(mapObj) mapObj.invalidateSize();          // la carte se recadre avant l'aperçu d'impression
     setTimeout(()=>window.print(),350);
   };
   // ---------- I7 : ouvrir la grande carte restreinte à cet itinéraire ----------
@@ -1791,7 +2896,7 @@
       + '&destination=' + encodeURIComponent(dest)
       + (mids.length ? '&waypoints=' + encodeURIComponent(mids.join('|')) : '')
       + '&travelmode=driving';
-    if(capped) alert(uiT('itineraire.google.maps.limite.un.trajet')+(LIMIT+1)+uiT('itineraire.premiers.pour.un.long.circuit'));
+    if(capped) THEtoast(uiT('itineraire.google.maps.limite.un.trajet')+(LIMIT+1)+uiT('itineraire.premiers.pour.un.long.circuit'));
     window.open(url, '_blank', 'noopener');
   }
   // données communes de navigation (coordonnées dans l'ordre du parcours)
@@ -1823,11 +2928,11 @@
   function downloadGPX(){
     if(!LASTRES || !LASTRES.route.length) return;
     const xe=s=>(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const name=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:(uiT('itineraire.mon.itineraire')+' — '+((window.HConf&&HConf.marqueCourte)||'Heritage'));
+    const name=(LASTRES.tour&&LASTRES.tour.titre)?LASTRES.tour.titre:(uiT('itineraire.mon.itineraire')+' — '+((window.THEi18n&&THEi18n.pick&&window.HConf&&THEi18n.pick(HConf.marqueCourte))||'Heritage'));
     const wpts=LASTRES.route.map(s=>{ const p=s.p, [lon,lat]=s.c;
       return '  <wpt lat="'+lat+'" lon="'+lon+'"><name>'+xe(p.nom)+'</name>'+(p.region||p.type?'<desc>'+xe([p.region,p.type,p.epoque].filter(Boolean).join(' · '))+'</desc>':'')+'</wpt>'; }).join('\n');
     const rtepts=LASTRES.route.map(s=>{ const [lon,lat]=s.c; return '    <rtept lat="'+lat+'" lon="'+lon+'"><name>'+xe(s.p.nom)+'</name></rtept>'; }).join('\n');
-    const _mk=(window.HConf&&HConf.marque)||'Heritage Experience';
+    const _mk=(window.THEi18n&&THEi18n.pick&&window.HConf&&THEi18n.pick(HConf.marque))||'Heritage Experience';
     const gpx='<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="'+_mk+'" xmlns="http://www.topografix.com/GPX/1/1">\n  <metadata><name>'+xe(name)+'</name></metadata>\n'+wpts+'\n  <rte><name>'+xe(name)+'</name>\n'+rtepts+'\n  </rte>\n</gpx>\n';
     const blob=new Blob([gpx],{type:'application/gpx+xml'});
     const url=URL.createObjectURL(blob), a=document.createElement('a');
@@ -1853,7 +2958,7 @@
   let scanStream=null, scanRAF=null;
   const scanModal=document.getElementById('scanModal');
   function openScan(){
-    if(!LASTRES || !LASTRES.route.length){ alert(uiT('itineraire.composez.d.abord.un.itineraire')); return; }
+    if(!LASTRES || !LASTRES.route.length){ THEtoast(uiT('itineraire.composez.d.abord.un.itineraire')); return; }
     document.getElementById('scanResult').style.display='none';
     document.getElementById('scanStage').style.display='';
     document.getElementById('scanStatus').textContent=uiT('itineraire.visez.le.qr.code');
@@ -1939,6 +3044,8 @@
   document.getElementById('detourAdd').onclick=()=>{ const p=CUR_DETOUR; closeDetour(); if(p) insertStop(p.s); };  // insertStop re-render
   document.getElementById('detourReject').onclick=()=>{ const p=CUR_DETOUR; closeDetour(); if(p){ REJECTED.add(norm(p.s.p.nom)); if(LASTRES) render(LASTORIGIN, LASTRES); } };
   document.getElementById('albumbtn').onclick=openAlbum;
+  (function(){ var jb=document.getElementById('journalbtn');
+    if(jb) jb.onclick=function(){ if(window.THEJournal) THEJournal.ouvrir(); }; })();
   document.getElementById('albumback').onclick=closeAlbum;
 
   // ---------- Diaporama / Projection du carnet (multimédia) ----------
@@ -1952,7 +3059,7 @@
       const s=LASTRES.route[i], key=placeKey(s);
       let phs=[]; try{ phs=await photosFor(key); }catch(e){}
       phs.sort((a,b)=>a.ts-b.ts);
-      const note=(localStorage.getItem('the-cap:'+key)||'');
+      const note=(capLire(key,s)||'');
       phs.forEach((ph,k)=>items.push({ stop:s.p.nom, sub:(s.p.region||'')+(s.p.epoque?' · '+s.p.epoque:''),
         blob:ph.blob, caption:ph.caption||'', audio:ph.audio||null, note:(k===0?note:'') }));
     }
@@ -1960,7 +3067,7 @@
   }
   async function openProjection(){
     PROJ=await buildProjItems();
-    if(!PROJ.length){ alert(uiT('itineraire.votre.carnet.est.vide.pour')+'\n'+uiT('itineraire.ajoutez.des.photos.des.notes')); return; }
+    if(!PROJ.length){ THEtoast(uiT('itineraire.votre.carnet.est.vide.pour')+'\n'+uiT('itineraire.ajoutez.des.photos.des.notes')); return; }
     projIdx=0; projPlaying=true;
     document.getElementById('projOv').style.display='block';
     document.getElementById('projPlay').textContent='⏸';
@@ -2027,6 +3134,37 @@
   document.getElementById('shpublish').onclick=publishOptin;
   document.getElementById('addbtn').onclick=addPlace;
   document.getElementById('addinput').addEventListener('keydown',e=>{ if(e.key==='Enter') addPlace(); });
+  /* SORTIR D'UN ITINÉRAIRE, C'EST UN CHOIX — PAS UN RETOUR EN ARRIÈRE
+     « Menu » renvoyait à la CARTE dès que l'itinéraire venait d'une sélection :
+     on croyait revenir au menu et on se retrouvait sur la carte. Depuis un
+     itinéraire fini, les deux sorties sensées sont le menu principal et les
+     façons de partir. On les propose, au lieu de deviner. */
+  function sortirVersMenu(){
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var mod=document.getElementById('itiModal'), liste=document.getElementById('itiListe'),
+        titre=document.getElementById('itiTitre');
+    if(!mod||!liste){ location.href='decouvrir.html'; return; }
+    titre.textContent=T2('itin.sortie.titre');
+    liste.innerHTML='';
+    function ligne(txt, sous, ic, cb){
+      var b=document.createElement('button'); b.type='button';
+      b.style.cssText='display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:12px 4px;'
+        + 'border:none;border-bottom:1px solid #efe7d8;background:none;font:inherit;cursor:pointer';
+      b.innerHTML='<span style="font-size:19px">'+ic+'</span><span style="flex:1"><b>'+txt+'</b>'
+        + (sous?'<br><small style="color:#8a7c66">'+sous+'</small>':'')+'</span>';
+      b.onclick=function(){ mod.style.display='none'; cb(); };
+      liste.appendChild(b);
+    }
+    ligne(T2('itin.sortie.menu'),
+          T2('itin.sortie.menu.sous'), '🏛️',
+          function(){ location.href='decouvrir.html'; });
+    ligne(T2('itin.sortie.options'),
+          T2('itin.sortie.options.sous'), '🧭',
+          function(){ location.href='itineraire.html?choix=1'; });
+    ligne(T2('itin.sortie.rester'), '', '↩', function(){});
+    mod.style.display='flex';
+  }
+
   function backToBuilder(){
     if(ENTRY==='picks'){ location.href='index.html'; return; }   // venu de la carte → on y retourne
     document.body.classList.remove('tpl-baroudeur','tpl-passeport');
@@ -2036,6 +3174,8 @@
     syncGenreHint();                                             // le hint suit la valeur réelle du genre (fallbacks compris)
     window.scrollTo({top:0,behavior:'smooth'});
   }
+  /* rouvrir le formulaire : on revient d'un résultat, pas des trois cartes */
+  document.getElementById('restart').addEventListener('click',function(){ if(window.THEmodes) THEmodes.ouvrir(); });
   document.getElementById('restart').onclick=backToBuilder;
   document.getElementById('result').addEventListener('change',function(e){
     if(e.target && e.target.classList && e.target.classList.contains('vis-select')){
@@ -2043,11 +3183,14 @@
       if(LASTORIGIN&&LASTRES) render(LASTORIGIN, LASTRES);
     }
   });
-  // Retour intelligent de la barre du haut : résultat → formulaire/carte ; formulaire → le hub (decouvrir)
+  /* Le panneau de sortie garde tout son sens SUR UN ITINÉRAIRE : revenir au menu,
+     revenir aux façons de partir, ou rester. Il n'en a aucun SUR LA PAGE EXPORT,
+     qui porte déjà son propre « ← Itinéraire » : là, « ‹ Menu » va au menu. */
   document.getElementById('backNav').addEventListener('click',function(e){
-    const resultShown=document.getElementById('result').style.display==='block' || document.getElementById('album').style.display==='block';
-    if(resultShown){ e.preventDefault(); backToBuilder(); }
+    if(document.getElementById('album').style.display==='block') return;   // page export : le lien fait son travail
+    if(document.getElementById('result').style.display==='block'){ e.preventDefault(); sortirVersMenu(); }
   });
+    chargerDonnees();   // tout est déclaré : on peut charger sans course avec le cache
   </script>
   <script src="the-footer.js" defer></script>
 <script>(function(){
@@ -2059,7 +3202,14 @@
     '<button id="bbBack" style="background:#fff;color:#a8884f;border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;cursor:pointer">'+uiT('itin.retour.choix',{o:origine})+'</button>'+
     '<button id="bbDone" style="background:#5a4420;color:#fff;border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;cursor:pointer">'+uiT('itin.termine.editer')+'</button>';
   document.body.appendChild(bn);
-  document.getElementById('bbBack').onclick=function(){ history.back(); };
+  /* history.back() ne fait rien quand l'application vient d'être lancée sur
+     cette page : dans une PWA installée il n'y a pas de bouton précédent pour
+     rattraper. On garantit une destination. */
+  document.getElementById('bbBack').onclick=function(){
+    var avant=location.href;
+    try{ history.back(); }catch(e){}
+    setTimeout(function(){ if(location.href===avant) location.href='itineraire.html'; }, 350);
+  };
   document.getElementById('bbDone').onclick=function(){ try{ localStorage.removeItem('the_picks'); }catch(e){} bn.style.display='none'; };
 })();</script>
   <script src="analytics.js"></script>
@@ -2069,5 +3219,790 @@
 <script src="roadtrip-plus.js" defer></script>
 <script src="roadtrip-plan.js" defer></script>
 <script src="the-fiche-audio.js" defer></script>
+
+  <script>
+  /* TROIS FAÇONS DE PARTIR — et rien d'autre à l'arrivée.
+     La page déballait tout d'un coup : les 3 cartes, les circuits prêts, les six
+     questions et le bouton final. On ne savait plus où l'on était ni comment sortir.
+     Désormais : trois options seules ; on entre dans l'une, on en ressort par
+     « ‹ Les cinq façons de partir ». Rien n'est supprimé, seulement mis en ordre. */
+  (function(){
+    var builder=document.getElementById('builder'); if(!builder) return;
+    var modes=builder.querySelector('.modes'); if(!modes) return;
+    var suite=[].slice.call(builder.children).filter(function(e){
+      return e!==modes && !e.hasAttribute('data-brique') && !e.querySelector('[data-brique="modes"]');
+    });
+
+    var retour=document.createElement('button');
+    retour.type='button'; retour.id='retourModes'; retour.className='backlink';
+    retour.style.cssText='display:block;margin:2px 0 14px;background:none;border:none;'
+      + 'color:var(--stone,#8a7c66);font:inherit;font-size:15px;cursor:pointer;padding:6px 0';
+    /* Le libellé vient d'i18n et de NULLE PART ailleurs : le bouton est créé avant que le
+       dictionnaire soit prêt, et une lecture unique laissait le repli français à l'écran
+       sans que rien ne repasse. Avec data-i18n, l'observateur de the-i18n.js le répare.
+       Le chevron est DANS la valeur, comme pour a.propos.menu ('‹ Izbornik'). */
+    retour.setAttribute('data-i18n','itin.retour.trois');
+    modes.parentNode.insertBefore(retour, modes.nextSibling);
+    suite.unshift(retour);
+
+    function cacher(){
+      suite.forEach(function(e){
+        if(e.dataset.avant===undefined) e.dataset.avant = e.style.display || '';
+        e.style.display='none';
+      });
+      modes.style.display='';
+      builder.classList.add('trois-seules');
+    }
+    function ouvrir(){
+      /* On rend la main à chaque bloc plutôt que de restaurer un display figé :
+         « Circuits prêts » et « Mon voyage » se remplissent APRÈS nous, et un
+         display:none mémorisé trop tôt les faisait disparaître pour de bon.
+         On les montre s'ils ont du contenu, on les laisse cachés sinon. */
+      suite.forEach(function(e){ e.style.display=''; });
+      [['presetsBox','presets'],['savedBox','savedList']].forEach(function(p){
+        var bloc=document.getElementById(p[0]), liste=document.getElementById(p[1]);
+        if(bloc && liste && !liste.children.length) bloc.style.display='none';
+      });
+      builder.classList.remove('trois-seules');
+      retour.style.display='block';
+    }
+    window.THEmodes={ouvrir:ouvrir, cacher:cacher};
+    retour.onclick=function(){
+      cacher();
+      var r=document.getElementById('result'); if(r) r.style.display='none';
+      try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); }
+    };
+    cacher();   // à l'arrivée : les trois options, un point c'est tout
+
+    /* COMPOSER COMMENCE COMME LE VOYAGE LIBRE : reprendre, ou repartir de zéro.
+       Cliquer sur « Composer » demandait aussitôt un nom neuf ; un itinéraire
+       déjà composé n'était atteignable que par « Mes itinéraires ». */
+    /* COMPOSER — UNE SEULE PORTE, SANS RE-CLIC SUR SOI-MÊME
+       On rejouait un clic sur le bouton pour enchaîner, avec un témoin pour
+       ne pas tourner en rond. Le témoin restait allumé quand l'enchaînement
+       ne se terminait pas, et le clic SUIVANT était avalé : Composer ne
+       faisait rien. On appelle maintenant la suite directement. */
+    var go=document.getElementById('mGo');
+    var T2=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    function composerOuvrir(){
+      /* la suite de Composer, c'est CHOISIR SES LIEUX — carte ou liste */
+      if(window.THEcomposerPortes){ THEcomposerPortes(); return; }
+      ouvrir();
+      var r=document.getElementById('raccourcisChoix');
+      if(r) r.style.display='';
+    }
+
+    /* LE NOM CRÉE LA FICHE, TOUT DE SUITE.
+       Règle posée par Helmy le 23/08/2026 : « dès qu'on crée un nom il s'enregistre
+       directement dans les itinéraires enregistrés, et quand on sélectionne dans la
+       liste et qu'on dit « ajouter à l'itinéraire en cours », c'est ce dernier qui
+       compte ». Avant, le nom restait en attente : rien n'existait tant qu'un tracé
+       n'avait pas abouti, et « ajouter au parcours en cours » demandait où verser
+       les lieux — alors que la réponse venait d'être donnée. */
+    function creerFicheVide(nom){
+      try{
+        var arr = JSON.parse(localStorage.getItem('the_saved')||'[]');
+        if(!Array.isArray(arr)) arr = [];
+        var id = 'it'+Date.now();
+        nom = (typeof nomUnique==='function') ? nomUnique(nom, id) : nom;
+        arr.unshift({ id:id, cree:Date.now(), title:nom, forme:'oneway', mode:'compose',
+                      origin:null, tour:{titre:nom, soustitre:''}, steps:[] });
+        try{ window.THEnomEnAttente=nom; sessionStorage.setItem('the_nom_attente', nom); }catch(e){}
+        localStorage.setItem('the_saved', JSON.stringify(arr));
+        localStorage.setItem('the_encours', id);      // c'est LUI, le parcours en cours
+        return id;
+      }catch(e){ return null; }
+    }
+    function composerNouveau(){
+      if(window.THEnomEnAttente){ composerOuvrir(); return; }
+      if(!window.THEdemanderNom){ composerOuvrir(); return; }
+      THEdemanderNom(T2('itin.nom.demande'),
+                     T2('itin.nom.compose'),
+                     function(nom){ window.THEnomEnAttente=nom;
+                       try{ sessionStorage.setItem('the_nom_attente', nom); }catch(e){}
+                       creerFicheVide(nom);          // elle existe dès maintenant
+                       composerOuvrir(); });
+    }
+    if(go) go.onclick=function(){
+      window.__surpriseRegle=false;                    // on quitte le tirage
+      if(!window.THEcomposeChoisir){ composerNouveau(); return; }
+      THEcomposeChoisir(composerNouveau, function(rec){
+        /* on OUVRE la fiche, on ne la décrète pas « actif au démarrage » */
+        location.href='itineraire.html?ouvrir='+encodeURIComponent((rec&&rec.id)||'');
+      });
+    };
+  })();
+  </script>
+
+  <div id="itiModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(20,15,10,.55);align-items:center;justify-content:center;padding:18px">
+    <div style="background:#fffdf8;border-radius:12px;max-width:420px;width:100%;padding:20px;position:relative;max-height:80vh;overflow:auto">
+      <button id="itiX" type="button" aria-label="Fermer" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:19px;cursor:pointer;color:#8a7c66">✕</button>
+      <div id="itiTitre" style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin-bottom:12px" data-i18n="menu.mes.itineraires">Itinéraires sauvegardés</div>
+      <div id="itiListe"></div>
+    </div>
+  </div>
+  <script>
+  /* QUATRIÈME OPTION — « Mes itinéraires ».
+     Les trois premières CRÉENT ; celle-ci RETROUVE. Elle ouvre une fenêtre plutôt
+     qu'une liste dépliée : on peut mener de front un itinéraire composé, une
+     surprise et un voyage libre, et c'est leur NOM qui les distingue. Zéro
+     itinéraire n'est pas une anomalie : on le dit simplement. */
+  (function(){
+    var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var mod=document.getElementById('itiModal'), liste=document.getElementById('itiListe'),
+        btn=document.getElementById('mMes');
+    if(!mod||!liste||!btn) return;
+    document.getElementById('itiTitre').textContent=T('menu.mes.itineraires');
+    function lire(){ try{ var a=JSON.parse(localStorage.getItem('the_saved')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+    function actif(){ try{ return localStorage.getItem('the_actif')||''; }catch(e){ return ''; } }
+    function remplir(){
+      var arr=lire(); liste.innerHTML='';
+      if(!arr.length){
+        var v=document.createElement('div');
+        v.style.cssText='color:#8a7c66;font-size:15px;line-height:1.6';
+        v.textContent=T('menu.aucun.itineraire');
+        liste.appendChild(v); return;
+      }
+      /* DEUX FAMILLES, PAS UN TAS. Un voyage libre et un itinéraire composé ne
+         se mènent pas pareil : on les range sous leur propre titre au lieu de
+         les mêler et d'obliger à lire chaque ligne pour les distinguer. */
+      function titreGroupe(txt){
+        var h=document.createElement('div');
+        h.style.cssText='font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#a8884f;margin:14px 0 4px';
+        h.textContent=txt; liste.appendChild(h);
+      }
+      var libres=arr.filter(function(r){ return r && r.mode==='libre'; });
+      var composes=arr.filter(function(r){ return !r || r.mode!=='libre'; });
+      var ordonne=[];
+      if(libres.length){ ordonne.push({t:T('itin.groupe.libres'), l:libres}); }
+      if(composes.length){ ordonne.push({t:T('itin.groupe.composes'), l:composes}); }
+      ordonne.forEach(function(g){
+        if(ordonne.length>1) titreGroupe(g.t);
+        g.l.slice(0,20).forEach(function(r){
+        var nb=(r.steps&&r.steps.length)||0;
+        var a=document.createElement('a');
+        a.href='itineraire.html?ouvrir='+encodeURIComponent(r.id||'');
+        a.style.cssText='display:flex;gap:10px;align-items:center;padding:11px 4px;border-bottom:1px solid #efe7d8;text-decoration:none;color:inherit';
+        a.innerHTML='<span style="font-size:19px">'+(r.mode==='libre'?'🎒':(r.mode==='surprise'?'🎲':(r.mode==='circuit'?'✨':'🧭')))+'</span>'
+          + '<span style="flex:1"><b>'+String(r.title||T('menu.itineraire.sans.nom')).replace(/[<>&]/g,'')+'</b>'
+          + '<br><small style="color:#8a7c66">'
+          + (window.THEdatePuce?THEdatePuce(r):'')
+          + (r.mode==='libre' ? T('menu.voyage.libre')+(nb?' · '+nb:'') : nb+' '+T('menu.etapes'))
+          + '</small></span>';
+        /* Étoile « celui-ci est mon voyage en cours » : à la réouverture de
+           l'application on retombe dessus, sans jamais y être enfermé. */
+        var et=document.createElement('button');
+        et.type='button';
+        et.title=T('itin.actif.aide');
+        et.style.cssText='background:none;border:none;font-size:19px;cursor:pointer;padding:4px 6px;opacity:'
+          + (actif()===r.id ? '1' : '.28');
+        et.textContent='★';
+        et.onclick=function(ev){ ev.preventDefault(); ev.stopPropagation();
+          try{ if(actif()===r.id) localStorage.removeItem('the_actif');
+               else localStorage.setItem('the_actif', r.id); }catch(e){}
+          remplir(); };
+        a.appendChild(et);
+        /* Supprimer : un itinéraire d'essai ne doit pas encombrer la liste à vie.
+           On demande confirmation — c'est définitif, carnet compris. */
+        var sup=document.createElement('button');
+        sup.type='button';
+        sup.title=T('itin.supprimer');
+        sup.style.cssText='background:none;border:none;font-size:17px;cursor:pointer;padding:4px 6px;opacity:.45';
+        sup.textContent='🗑';
+        sup.onclick=function(ev){ ev.preventDefault(); ev.stopPropagation();
+          var q=T('itin.supprimer.sur').replace('{n}', r.title||'');
+          if(!confirm(q)) return;
+          try{
+            var reste=lire().filter(function(x){ return x.id!==r.id; });
+            localStorage.setItem('the_saved', JSON.stringify(reste));
+            if(actif()===r.id) localStorage.removeItem('the_actif');
+            Object.keys(localStorage).forEach(function(k){
+              if(k.indexOf('the-cap:'+r.id+'#')===0) localStorage.removeItem(k);   // son carnet
+            });
+          }catch(e){}
+          remplir(); };
+        a.appendChild(sup);
+        liste.appendChild(a);
+        });
+      });
+    }
+    function ouvrir(){ remplir(); mod.style.display='flex'; }
+    function fermer(){ mod.style.display='none'; }
+    btn.addEventListener('click', ouvrir);
+
+    /* Le menu propose « Itinéraires sauvegardés » et pointe sur ?mes=1. Ce
+       paramètre n'était lu nulle part : on atterrissait sur l'écran des façons
+       de partir, et il fallait deviner qu'une sixième carte menait à la liste.
+       Une entrée de menu doit mener où son nom l'annonce, directement. */
+    try{
+      if(new URLSearchParams(location.search).get('mes')) setTimeout(ouvrir, 60);
+    }catch(e){}
+    document.getElementById('itiX').onclick=fermer;
+    mod.addEventListener('click', function(e){ if(e.target===mod) fermer(); });
+    window.THEitineraires={ouvrir:ouvrir};
+  })();
+  </script>
+
+  <script>
+  /* CINQUIÈME OPTION — les circuits déjà tracés.
+     Ils existaient, mais enfouis au milieu du formulaire de Composer : on ne les
+     voyait qu'après avoir choisi de composer, alors qu'ils sont une façon de partir
+     à part entière — la plus simple. Ils ont donc leur carte. */
+  (function(){
+    /* LES CIRCUITS ONT LEUR PAGE
+       Ils s'empilaient en pastilles au milieu de l'écran des façons de partir :
+       dix-huit parcours en vrac, sans durée ni propos. Chacun a sa fiche
+       ailleurs ; ici on ne fait qu'ouvrir la porte. */
+    var btn=document.getElementById('mPropos'); if(!btn) return;
+    btn.addEventListener('click', function(){
+        if(!window.THEcircuitChoisir){ location.href='circuits.html'; return; }
+        THEcircuitChoisir(
+          function(){ location.href='circuits.html'; },                    // en choisir un
+          function(rec){ location.href='itineraire.html?ouvrir='+encodeURIComponent((rec&&rec.id)||''); });
+      });
+  })();
+  </script>
+
+  <script>
+  /* « À QUEL ITINÉRAIRE AJOUTER ? »
+     Cocher des lieux sur la carte ou dans la liste puis « ajouter » versait
+     toujours dans l'itinéraire COURANT, sans le dire. Dès qu'on en mène
+     plusieurs — un composé, une surprise, un voyage libre — il faut choisir.
+     On réutilise la fenêtre « Mes itinéraires », plus « Nouvel itinéraire ». */
+  window.THEchoisirCible = function(apres){
+    var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    window.__cibleExplicite=false;
+    var _rendre=apres;
+    apres=function(rec){ window.__cibleExplicite=true; window.__cibleAjout=rec||null; _rendre(rec); };
+    var arr=[]; try{ var a=JSON.parse(localStorage.getItem('the_saved')||'[]'); arr=Array.isArray(a)?a:[]; }catch(e){}
+    if(!arr.length){ apres(null); return; }
+    var mod=document.getElementById('itiModal'), liste=document.getElementById('itiListe'),
+        titre=document.getElementById('itiTitre');
+    if(!mod||!liste){ apres(null); return; }
+    titre.textContent=T('itin.ajouter.a.quel');
+    liste.innerHTML='';
+    function ligne(txt, sous, ic, cb){
+      var b=document.createElement('button'); b.type='button';
+      b.style.cssText='display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:11px 4px;'
+        + 'border:none;border-bottom:1px solid #efe7d8;background:none;font:inherit;cursor:pointer';
+      b.innerHTML='<span style="font-size:19px">'+ic+'</span><span><b>'+txt+'</b>'
+        + (sous?'<br><small style="color:#8a7c66">'+sous+'</small>':'')+'</span>';
+      b.onclick=function(){ mod.style.display='none'; cb(); };
+      liste.appendChild(b);
+    }
+    arr.slice(0,20).forEach(function(r){
+      var nb=(r.steps&&r.steps.length)||0;
+      ligne(String(r.title||T('menu.itineraire.sans.nom')).replace(/[<>&]/g,''),
+            (window.THEdatePuce?THEdatePuce(r):'')+(r.mode==='libre' ? T('menu.voyage.libre')+(nb?' · '+nb:'') : nb+' '+T('menu.etapes')),
+            (r.mode==='libre'?'🎒':(r.mode==='surprise'?'🎲':(r.mode==='circuit'?'✨':'🧭'))), function(){ apres(r); });
+    });
+    ligne(T('menu.nouvel.itineraire'), '', '＋', function(){ apres(null); });
+    mod.style.display='flex';
+  };
+
+    /* VOYAGE LIBRE : ON DEMANDE D'ABORD S'IL EST NEUF OU S'IL REPREND
+       Cliquer sur « Voyage libre » lançait aussitôt la création d'un nouveau
+       voyage : celui qu'on avait commencé la veille était introuvable par là.
+       On propose donc les deux, et les voyages libres déjà enregistrés sont
+       listés à part — ils se reconnaissent à leur mode, pas à leur nom. */
+    /* Un seul sélecteur pour toutes les façons de partir. « garder » dit quelles
+       fiches ce mode-là peut reprendre : un voyage libre ne rouvre pas un
+       itinéraire composé, et l'inverse non plus. */
+    window.THEchoisirDepart = function(opts, neuf, reprendre){
+      opts=opts||{};
+      var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      var arr=[]; try{ var a=JSON.parse(localStorage.getItem('the_saved')||'[]'); arr=Array.isArray(a)?a:[]; }catch(e){}
+      var siens=arr.filter(opts.garder || function(){ return true; });
+      if(!siens.length){ neuf(); return; }                 // rien à reprendre : on va droit au but
+      var mod=document.getElementById('itiModal'), liste=document.getElementById('itiListe'),
+          titre=document.getElementById('itiTitre');
+      if(!mod||!liste){ neuf(); return; }
+      titre.textContent=opts.titre||'';
+      liste.innerHTML='';
+      function ligne(txt, sous, ic, cb){
+        var b=document.createElement('button'); b.type='button';
+        b.style.cssText='display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:11px 4px;'
+          + 'border:none;border-bottom:1px solid #efe7d8;background:none;font:inherit;cursor:pointer';
+        b.innerHTML='<span style="font-size:19px">'+ic+'</span><span style="flex:1"><b>'+txt+'</b>'
+          + (sous?'<br><small style="color:#8a7c66">'+sous+'</small>':'')+'</span>';
+        b.onclick=function(){ mod.style.display='none'; cb(); };
+        liste.appendChild(b);
+      }
+      ligne(opts.libelleNeuf||'', opts.sousNeuf||'', '＋', neuf);
+      siens.slice(0,20).forEach(function(r){
+        var nb=(r.steps&&r.steps.length)||0;
+        var sous=(window.THEdatePuce?THEdatePuce(r):'')
+               + (nb ? nb+' '+T('itin.libre.etapes') : T('itin.libre.reprendre.sous'));
+        ligne(String(r.title||T('menu.itineraire.sans.nom')).replace(/[<>&]/g,''),
+              sous, (r.mode==='libre'?'🎒':(r.mode==='surprise'?'🎲':(r.mode==='circuit'?'✨':(opts.icone||'🧭')))),
+              function(){ reprendre(r); });
+      });
+      mod.style.display='flex';
+    };
+
+    window.THElibreChoisir = function(neuf, reprendre){
+      var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      THEchoisirDepart({
+        titre:'🎒 '+T('itin.libre.choix.titre'), icone:'🎒',
+        garder:function(r){ return r && r.mode==='libre'; },
+        libelleNeuf:T('itin.libre.nouveau'),
+        sousNeuf:T('itin.libre.nouveau.sous')
+      }, neuf, reprendre);
+    };
+    window.THEcircuitChoisir = function(neuf, reprendre){
+      var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      THEchoisirDepart({
+        titre:'✨ '+T('itin.circuit.choix.titre'), icone:'✨',
+        garder:function(r){ return r && r.mode==='circuit'; },
+        libelleNeuf:T('itin.circuit.nouveau'),
+        sousNeuf:T('itin.circuit.nouveau.sous')
+      }, neuf, reprendre);
+    };
+    window.THEsurpriseChoisir = function(neuf, reprendre){
+      var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      THEchoisirDepart({
+        titre:'🎲 '+T('itin.surprise.choix.titre'), icone:'🎲',
+        garder:function(r){ return r && r.mode==='surprise'; },
+        libelleNeuf:T('itin.surprise.nouveau'),
+        sousNeuf:T('itin.surprise.nouveau.sous')
+      }, neuf, reprendre);
+    };
+    window.THEcomposeChoisir = function(neuf, reprendre){
+      var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+      THEchoisirDepart({
+        titre:'🧭 '+T('itin.compose.choix.titre'), icone:'🧭',
+        /* Chaque façon de partir ne rouvre QUE les siens : le voyage libre ne
+           propose que des voyages libres, Composer que des itinéraires composés.
+           Les avoir mélangés ici était mon erreur — la raison pour laquelle le
+           choix ne s'affichait pas était ailleurs (l'ouverture automatique).
+           Les fiches d'avant ce jour n'ont pas de mode : elles restent ici. */
+        /* ni les voyages libres, ni les surprises : chacun a sa porte.
+           Les fiches d'avant ce jour n'ont pas de mode et restent ici. */
+        garder:function(r){ return r && r.mode!=='libre' && r.mode!=='surprise' && r.mode!=='circuit'; },
+        libelleNeuf:T('itin.compose.nouveau'),
+        sousNeuf:T('itin.compose.nouveau.sous')
+      }, neuf, reprendre);
+    };
+  </script>
+  <script src="brique-modes.js" defer></script>
+
+  <style>
+    /* Le bouton de confirmation d'« Autour de moi » existait mais, désactivé, il se
+       confondait avec le fond : on ne voyait pas qu'il fallait d'abord choisir un
+       lieu. Il reste visible et dit ce qu'il attend. */
+    #autourGo:disabled{background:#efe4d0;color:#8a7c66;border-color:#e3d8c4;cursor:default;opacity:1}
+    #autourAnnuler:hover{background:#f3eee3;color:#3a2c20}
+  </style>
+  <div id="autourModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(20,15,10,.55);align-items:center;justify-content:center;padding:18px">
+    <div style="background:#fffdf8;border-radius:12px;max-width:440px;width:100%;padding:20px;position:relative;max-height:82vh;overflow:auto">
+      <button id="autourX" type="button" aria-label="Fermer" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:19px;cursor:pointer;color:#8a7c66">✕</button>
+      <div id="autourTitre" style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:21px;margin-bottom:4px" data-i18n="autour.titre">Autour de moi</div>
+      <div id="autourDe" style="font-size:13.5px;color:#a8884f;margin-bottom:12px"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="autourRayons"></div>
+      <div id="autourAide" style="font-size:13.5px;color:#8a7c66;line-height:1.55;margin-bottom:10px" data-i18n="autour.choisir">Touchez les lieux à ajouter — ils deviendront des étapes, dans cet ordre.</div>
+      <div id="autourListe"></div>
+      <div id="autourPied" style="position:sticky;bottom:0;background:#fffdf8;padding-top:12px;margin-top:4px">
+        <button id="autourGo" type="button" disabled style="width:100%;border:1px solid #e3d8c4;background:#a8884f;color:#fff;border-radius:8px;padding:12px;font:inherit;font-size:15px;cursor:pointer"></button>
+        <button id="autourAnnuler" type="button" data-i18n="autour.annuler" style="width:100%;margin-top:8px;border:1px solid #e3d8c4;background:#fff;color:#6b5c45;border-radius:8px;padding:12px;font:inherit;font-size:15px;cursor:pointer">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* « QU'Y A-T-IL AUTOUR DE MOI ? » depuis une étape.
+     L'en-tête du voyage libre le PROMETTAIT — « ou découvrez ce qui est près de
+     vous » — sans qu'aucun bouton ne le fasse : la fonction n'existait qu'en page
+     séparée, avant d'avoir commencé. C'est pourtant le pont entre le voyage libre
+     et Composer : je pose ma position, je demande dans un rayon, on me propose des
+     lieux sourcés, j'en choisis un et il devient une étape. */
+  (function(){
+    var T=function(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; };
+    var RAYONS=[2,5,10,25,50];
+    var mod=document.getElementById('autourModal'); if(!mod) return;
+    var CHOISIS=[];        // lieux cochés, ajoutés en une fois
+    var liste=document.getElementById('autourListe'), rayons=document.getElementById('autourRayons'),
+        deQui=document.getElementById('autourDe');
+    var centre=null, label='', rayon=10;
+
+    function fermer(){ mod.style.display='none'; }
+    document.getElementById('autourX').onclick=fermer;
+    var _an=document.getElementById('autourAnnuler'); if(_an) _an.onclick=fermer;
+    mod.addEventListener('click', function(e){ if(e.target===mod) fermer(); });
+    document.getElementById('autourTitre').textContent=T('autour.titre');
+
+    function dejaLa(nom){
+      try{ return (LASTRES.route||[]).some(function(s){ return norm(s.p.nom)===norm(nom); }); }catch(e){ return false; }
+    }
+    function remplir(){
+      liste.innerHTML='';
+      rayons.innerHTML='';
+      RAYONS.forEach(function(r){
+        var b=document.createElement('button'); b.type='button';
+        b.textContent=r+' km';
+        b.style.cssText='padding:6px 12px;border-radius:20px;border:1px solid '+(r===rayon?'#a8884f':'#e3d8c4')
+          + ';background:'+(r===rayon?'#a8884f':'none')+';color:'+(r===rayon?'#2b2318':'#6b5a39')
+          + ';font:inherit;font-size:14px;cursor:pointer';
+        b.onclick=function(){ rayon=r; remplir(); };
+        rayons.appendChild(b);
+      });
+      if(!centre || typeof SITES==='undefined' || !SITES.length){
+        liste.textContent=T('autour.rien'); return;
+      }
+      var proches=SITES.map(function(s){ return {s:s, d:haversine(centre, s.c)}; })
+        .filter(function(x){ return x.d<=rayon && !dejaLa(x.s.p.nom); })
+        .sort(function(a,b){ return a.d-b.d; }).slice(0,25);
+      if(!proches.length){
+        var v=document.createElement('div');
+        v.style.cssText='color:#8a7c66;font-size:15px;line-height:1.6';
+        v.textContent=T('autour.rien.rayon');
+        liste.appendChild(v); return;
+      }
+      /* CHOISIR PLUSIEURS LIEUX D'UN COUP
+         La fenêtre se refermait à chaque ajout : pour poser cinq haltes il fallait
+         la rouvrir cinq fois. On coche ce qu'on veut, on ajoute en une fois, et les
+         lieux entrent comme des étapes SUCCESSIVES — dans l'ordre proposé, du plus
+         proche au plus loin. Cet ordre est celui du voyageur : on ne le recalcule
+         pas derrière son dos, il le remanie lui-même avec ↑ ↓ et complète chaque
+         étape à sa guise (date, note, photos, visites). */
+      proches.forEach(function(x){
+        var b=document.createElement('button'); b.type='button';
+        var pris=false;
+        function peindre(){
+          b.style.cssText='display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:10px 4px;'
+            + 'border:none;border-bottom:1px solid #efe7d8;font:inherit;cursor:pointer;'
+            + (pris?'background:#f6efe2':'background:none');
+          b.querySelector('.autour-coche').textContent = pris ? '☑' : '☐';
+        }
+        b.innerHTML='<span style="font-size:18px">'+(x.s.genre==='nature'?'🌿':'🏛️')+'</span>'
+          + '<span style="flex:1"><b>'+String(x.s.p.nom||'').replace(/[<>&]/g,'')+'</b>'
+          + '<br><small style="color:#8a7c66">'+x.d.toFixed(1)+' km'
+          + (x.s.p.type?' · '+String(x.s.p.type).replace(/[<>&]/g,''):'')+'</small></span>'
+          + '<span class="autour-coche" style="color:#a8884f;font-weight:700;font-size:19px">☐</span>';
+        peindre();
+        b.onclick=function(){
+          pris=!pris;
+          if(pris) CHOISIS.push(x.s); else CHOISIS=CHOISIS.filter(function(y){ return y!==x.s; });
+          peindre(); majPied();
+        };
+        liste.appendChild(b);
+      });
+      majPied();
+    }
+
+    function majPied(){
+      var go=document.getElementById('autourGo'); if(!go) return;
+      go.disabled = !CHOISIS.length;
+      go.style.opacity = CHOISIS.length ? '1' : '.45';
+      go.textContent = CHOISIS.length
+        ? T('autour.ajouter').split('{n}').join(CHOISIS.length)
+        : T('autour.ajouter.aucun');
+    }
+
+    (function(){
+      var go=document.getElementById('autourGo'); if(!go) return;
+      go.onclick=function(){
+        if(!CHOISIS.length || typeof LASTRES==='undefined' || !LASTRES) return;
+        var suite=(LASTRES.route||[]).map(function(y){ var o={}; for(var k in y) o[k]=y[k]; return o; });
+        CHOISIS.forEach(function(s){ var o={}; for(var k in s) o[k]=s[k]; suite.push(o); });
+        CHOISIS=[];
+        fermer();
+        var base={}; for(var k in LASTRES) base[k]=LASTRES[k];
+        base.route=suite; base.manualOrder=true;      // l'ordre choisi est respecté
+        render(LASTORIGIN, base);
+        try{ localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(e){}
+        if(typeof showGuide==='function') showGuide(T('autour.ajoutes'), 8000);
+      };
+    })();
+
+    window.THEautour=function(coord, nom){
+      CHOISIS=[];        // une nouvelle recherche repart d'une sélection vide
+      centre=coord||(LASTORIGIN&&LASTORIGIN.coord); label=nom||'';
+      deQui.textContent=label ? ('📍 '+label) : '';
+      if(!centre){ return; }
+      remplir(); mod.style.display='flex';
+    };
+
+    /* Bouton d'accès : à côté de « J'ai fait une halte ici », donc visible dans
+       tous les modes une fois un itinéraire ouvert. */
+    function poser(){
+      var h=document.getElementById('haltebtn');
+      if(!h || document.getElementById('autourbtn')) return;
+      var b=document.createElement('button');
+      b.id='autourbtn'; b.type='button';
+      b.textContent='🔎 '+T('autour.bouton');
+      b.style.cssText=h.style.cssText;
+      b.onclick=function(){
+        if(navigator.geolocation) navigator.geolocation.getCurrentPosition(
+          function(p){ THEautour([p.coords.longitude,p.coords.latitude], T('autour.ma.position')); },
+          function(){ THEautour(null, (LASTORIGIN&&LASTORIGIN.label)||''); },
+          {enableHighAccuracy:true, timeout:8000, maximumAge:120000});
+        else THEautour(null, (LASTORIGIN&&LASTORIGIN.label)||'');
+      };
+      h.parentNode.insertBefore(b, h.nextSibling);
+    }
+    var t=setInterval(function(){ poser(); }, 700);
+    setTimeout(function(){ clearInterval(t); }, 20000);
+  })();
+  </script>
+  <script src="brique-qr.js" defer></script>
+  <script src="brique-meteo.js" defer></script>
+  <script src="brique-decouvrir-lieu.js" defer></script>
+  <script src="brique-etape.js" defer></script>
+  <script src="brique-partage-lieu.js" defer></script>
+
+  <script>
+  /* VOYAGE LIBRE — on commence par UNE ÉTAPE, pas par un écran vide.
+     Le voyage libre s'ouvrait sur zéro étape : le carnet de chaque étape
+     (médias, carte postale, Maps) n'avait alors rien à quoi s'accrocher, et
+     tout se retrouvait dans des blocs séparés en bas de page. On appelle donc
+     la brique de saisie dès le départ, puis à chaque « ajouter une étape » :
+     chaque étape naît avec son nom, sa position — adresse ou GPS — sa note et
+     ses dates, et porte ensuite ses propres fonctions.
+     Rien n'est à valider : l'itinéraire est enregistré au fur et à mesure. */
+  (function(){
+    function T(k){ var v=(window.THEi18n&&THEi18n.ui&&THEi18n.ui(k)); return (v&&v!==k)?v:''; }
+
+
+    /* RENONCEMENT À LA PREMIÈRE ÉTAPE — on nomme un voyage libre, la saisie
+       s'ouvre, on ferme sans rien saisir : le voyage n'a jamais commencé. La
+       fiche vide restait pourtant dans « Itinéraires sauvegardés », où elle
+       n'avait rien à faire. On la retire, et on revient aux cartes. */
+    document.addEventListener('the:etape:annule', function(e){
+      if(!e.detail || !e.detail.premiere) return;
+      var id=window.THElibreId; if(!id) return;
+      try{
+        var arr=readSaved(), garde=[];
+        for(var i=0;i<arr.length;i++){
+          var r=arr[i];
+          if(r.id===id && (!r.steps || !r.steps.length)) continue;   // la fiche vide, et elle seule
+          garde.push(r);
+        }
+        if(garde.length!==arr.length){
+          writeSaved(garde); renderSaved();
+          try{ if(localStorage.getItem('the_actif')===id) localStorage.removeItem('the_actif'); }catch(e2){}
+          try{ localStorage.removeItem('the_current'); }catch(e3){}
+          window.THElibreId=null;
+          location.href='itineraire.html';                            // retour aux façons de partir
+        }
+      }catch(err){}
+    });
+
+    document.addEventListener('the:etape', function(e){
+      var x=e.detail; if(!x||!x.coord) return;
+      if(typeof LASTRES==='undefined' || !LASTRES) return;
+      var quand=[x.arrivee, x.heure].filter(Boolean).join(' ');
+      var stop={ c:x.coord, layer:'perso', genre:'perso', halte:true, htype:'', quand:quand,
+        p:{ nom:x.nom, type:'Étape', gouvernorat:'', description:x.note||'',
+            source:x.adresse ? ('Position : OpenStreetMap — '+x.adresse) : 'Position GPS relevée sur place',
+            a_voir:'', conseil:'' } };
+      /* Si l'étape naît comme VISITE d'une autre, le planificateur nous l'a dit
+         avant d'ouvrir l'écran : on lui colle son rôle dès sa création, sinon
+         elle arrive comme une étape ordinaire et le lien avec sa base est perdu. */
+      try{ if(window.__planAppliquerMetaEnAttente) window.__planAppliquerMetaEnAttente(stop); }catch(err){}
+      var base0=(LASTRES.route||[]).map(function(s){ var o={}; for(var k in s) o[k]=s[k]; return o; });
+      var items;
+      if(x.index!=null && base0[x.index]){
+        /* CORRIGER UNE ÉTAPE, CE N'EST PAS LA REMPLACER PAR UNE HALTE.
+           On posait à sa place le `stop` neuf fabriqué plus haut — type « Étape »,
+           genre « perso », halte:true. Une étape du patrimoine y perdait son type,
+           sa région, son époque, ses champs de trajet : l'affichage sortait
+           « à ~NaN km de l'étape précédente » et « trajet ~NaNh », et la carte la
+           traitait comme une halte ajoutée à la main.
+           On garde donc l'étape telle qu'elle est, et on ne réécrit QUE ce que le
+           voyageur a touché : son nom, sa note, sa position, sa date. */
+        var anc=base0[x.index];
+        var maj={}; for(var _k in anc) maj[_k]=anc[_k];
+        maj.p={}; for(var _p in anc.p) maj.p[_p]=anc.p[_p];
+        if(x.nom)  maj.p.nom = x.nom;
+        if(x.note!=null && x.note!=='') maj.p.description = x.note;
+        if(x.coord && x.coord.length===2) maj.c = x.coord;
+        if(x.adresse) maj.p.source = 'Position : OpenStreetMap — '+x.adresse;
+        maj.quand = (stop.quand || anc.quand || '');
+        base0[x.index]=maj; items=base0;
+        /* La date vit dans « the_dates », sous la clé du carnet de l'étape — pas
+           dans l'objet du parcours. Sans cela le champ « 📅 Quand ? » restait vide
+           alors que la date venait d'être saisie. */
+        try{
+          if(x.arrivee){
+            /* La clé se calcule par la POSITION dans le parcours. Or l'étape
+               corrigée n'y est pas encore replacée au moment où l'on écrit :
+               placeKey() cherchait avec indexOf, ne trouvait rien, et rangeait la
+               date sous « <référence>#0 » — une case que personne ne relit. On
+               construit donc la clé avec l'index connu. */
+            var _c=itiRef()+'#'+(x.index+1);
+            /* DEUX MAGASINS DE DATE COEXISTENT, ET C'EST LE PLANIFICATEUR QUI
+               AFFICHE. « the_dates » sert au module de dates ; la ligne « 📅 Quand ? »
+               visible sous chaque étape est posée par roadtrip-plan.js, qui lit
+               « the_plan_meta ». UN SEUL MAGASIN : celui du planificateur. */
+            var _m=JSON.parse(localStorage.getItem('the_plan_meta')||'{}')||{};
+            _m[_c]=Object.assign(_m[_c]||{}, { date:x.arrivee });
+            localStorage.setItem('the_plan_meta', JSON.stringify(_m));
+          }
+        }catch(err){}
+      } else if(x.apres!=null && x.apres>=-1 && x.apres<base0.length){
+        /* L'ordre choisi par le voyageur l'emporte : on insère À SA PLACE et on ne
+           réordonne pas. Un voyage libre suit le chemin réellement parcouru, pas le
+           plus court. */
+        base0.splice(x.apres+1, 0, stop); items=base0; x._ordreImpose=true;
+      } else { items=base0.concat([stop]); }
+      var origine = LASTORIGIN && LASTORIGIN.coord ? LASTORIGIN : {coord:x.coord, label:x.nom};
+      var base={}; for(var k in LASTRES) base[k]=LASTRES[k];
+      base.route = (x._ordreImpose || x.index!=null || (typeof nearestOrder!=='function'))
+        ? items : nearestOrder(origine.coord, items, null);
+      render(origine, base);
+      try{ localStorage.setItem('the_current', JSON.stringify(recordFromCurrent())); }catch(err){}
+      /* la fiche enregistrée suit, sans bouton : c'est un voyage qui se remplit */
+      try{
+        /* Le bon carnet, pas celui du dernier voyage libre : un itinéraire
+           composé a son propre identifiant. Et il garde SON mode — l'écraser
+           avec « libre » transformait un parcours composé en voyage libre à
+           la première étape ajoutée. */
+        var arr=readSaved(),
+            id=(LASTRES.mode==='libre' ? (window.THElibreId||LASTRES._id) : LASTRES._id);
+        var trouve=false;
+        for(var i=0;i<arr.length;i++){ if(arr[i].id===id){ var r=recordFromCurrent(); r.id=id; r.mode=arr[i].mode||LASTRES.mode||''; r.title=arr[i].title||r.title; r.cree=arr[i].cree||Date.now(); arr[i]=r; trouve=true; break; } }
+        if(!trouve && id){ var r2=recordFromCurrent(); r2.id=id; r2.mode=LASTRES.mode||''; r2.cree=Date.now(); arr.unshift(r2); }
+        writeSaved(arr); renderSaved();
+      }catch(err){}
+    });
+
+
+    /* LES GESTES D'UNE ÉTAPE — DÉCLARÉS, PAS DESSINÉS
+       La page posait sa propre rangée de boutons pendant que le planificateur
+       posait la sienne : deux décorateurs pour une seule carte, et des gestes
+       éparpillés. La page se contente désormais de DIRE ce qu'elle sait faire ;
+       le planificateur les place dans l'unique rangée de la carte, sur le
+       modèle du RoadTrip (le fréquent en clair, le rare dans « Modifier »). */
+    window.THEactionsEtape = [
+      { id:'partager', principal:true,
+        label:function(){ return '🔗 '+T('itin.etape.partager'); },
+        run:function(i){
+          var s=(LASTRES.route||[])[i]; if(!s) return;
+          var lien='https://www.openstreetmap.org/?mlat='+s.c[1]+'&mlon='+s.c[0]+'#map=16/'+s.c[1]+'/'+s.c[0];
+          var txt=s.p.nom+(s.p.description?' — '+s.p.description:'');
+          if(navigator.share){ navigator.share({title:s.p.nom, text:txt, url:lien}).catch(function(){}); return; }
+          if(navigator.clipboard&&navigator.clipboard.writeText){
+            navigator.clipboard.writeText(txt+String.fromCharCode(10)+lien).then(function(){ THEtoast(T('itin.etape.partage.copie')); });
+            return;
+          }
+          prompt(T('itin.etape.partager'), txt+' '+lien);
+        } },
+      { id:'editer',
+        label:function(){ return '✏️ '+T('itin.etape.modifier'); },
+        run:function(i){
+          var s=(LASTRES.route||[])[i]; if(!s||!window.THEetape) return;
+          var q=String(s.quand||'').split(' ');
+          THEetape.ouvrir({ valeurs:{ index:i, nom:s.p.nom, note:s.p.description||'',
+            coord:s.c, adresse:'', arrivee:q[0]||'', heure:q[1]||'' } });
+        } },
+      { id:'meteo',
+        label:function(){ return T('itin.meteo'); },
+        run:function(i){
+          var s=(LASTRES.route||[])[i]; if(!s||!s.c) return;
+          if(window.HMeteo) HMeteo.ouvrir({lat:s.c[1], lon:s.c[0], nom:s.p.nom});
+        } },
+      /* AUTOUR DE CETTE ÉTAPE — pas autour de moi.
+         Le bouton « ce qu'il y a autour » existait, mais un seul, global, centré
+         sur la position du voyageur. Or on prépare souvent depuis chez soi : ce
+         qu'on veut savoir, c'est ce qui entoure Dougga, pas ce qui entoure son
+         salon. La fenêtre acceptait déjà un centre — on lui donne l'étape. */
+      /* 📖 DÉCOUVRIR CE LIEU — le geste du RoadTrip qui manquait ici.
+         Une étape que le voyageur a posée (un hôtel, une adresse, un café)
+         n'a aucune description : on va en chercher une SOURCÉE et on propose
+         de la reprendre dans son carnet. On n'invente rien. */
+      { id:'decouvrir',
+        label:function(){ return T('itin.etape.decouvrir'); },
+        run:function(i){
+          var s=(LASTRES.route||[])[i]; if(!s||!window.HDecouvrir) return;
+          HDecouvrir.ouvrir({ nom:s.p.nom, lat:s.c&&s.c[1], lon:s.c&&s.c[0],
+            surPlace:function(txt){
+              /* on l'écrit dans le carnet de CETTE étape, là où le voyageur écrit */
+              try{
+                var cle=(typeof placeKey==='function') ? placeKey(s) : s.p.nom;
+                var vieux=localStorage.getItem('the-note-'+cle)||'';
+                localStorage.setItem('the-note-'+cle, vieux ? (vieux+'\n\n'+txt) : txt);
+              }catch(e){}
+              render(LASTORIGIN, LASTRES);
+            } });
+        } },
+      { id:'autour',
+        label:function(){ return T('itin.etape.autour'); },
+        run:function(i){
+          var s=(LASTRES.route||[])[i]; if(!s||!s.c) return;
+          if(window.THEautour) THEautour(s.c, s.p.nom);
+        } }
+    ];
+
+    /* Bouton « ajouter une étape », posé à côté de la halte : même geste, en mode libre */
+    function poser(){
+      var h=document.getElementById('haltebtn');
+      if(!h || document.getElementById('betAdd')) return;
+      /* « Ajouter une étape » n'appartient PAS au seul voyage libre : un circuit
+         tout tracé et un itinéraire composé se remanient de la même façon —
+         c'est le même format, seule la façon de le remplir au départ change. */
+      if(!(typeof LASTRES!=='undefined' && LASTRES)) return;
+      var b=document.createElement('button');
+      b.id='betAdd'; b.type='button';
+      b.textContent='➕ '+T('itin.etape.ajouter');
+      b.style.cssText=h.style.cssText;
+      b.onclick=function(){ if(window.THEetape) THEetape.ouvrir({premiere:false,
+        etapes:(LASTRES&&LASTRES.route||[]).map(function(s){ return {nom:s.p.nom}; })}); };
+      h.parentNode.insertBefore(b, h);
+
+      /* Le lieu trouvé ailleurs — un hôtel dans Google Maps, un restaurant dans
+         Waze — se colle ici. Sur Android l'application apparaît aussi dans la
+         feuille de partage ; sur iPhone, le collage est la seule porte, d'où ce
+         bouton qui existe partout. */
+      if(window.HPartage && !document.getElementById('betColler')){
+        var c=document.createElement('button');
+        c.id='betColler'; c.type='button';
+        c.textContent='🔗 '+T('itin.lien.coller');
+        c.style.cssText=h.style.cssText;
+        c.onclick=function(){ HPartage.ouvrir(); };
+        h.parentNode.insertBefore(c, h);
+      }
+    }
+    setInterval(poser, 900);
+
+    /* Arrivée depuis la feuille de partage du système : le lieu est déjà dans
+       l'adresse. On le traite dès que la brique est là, une seule fois. */
+    (function attendrePartage(n){
+      if(window.HPartage){ HPartage.auDemarrage(); return; }
+      if(n>40) return;                       // ~6 s : au-delà, la brique manque
+      setTimeout(function(){ attendrePartage(n+1); }, 150);
+    })(0);
+
+    /* Au lancement d'un voyage libre : la première étape tout de suite. */
+    if(typeof startLibre==='function'){
+      var origine=startLibre;
+      window.startLibre=function(){
+        var r=origine.apply(this, arguments);
+        setTimeout(function(){ if(window.THEetape) THEetape.ouvrir({premiere:true}); }, 900);
+        return r;
+      };
+      /* On demande d'abord : neuf, ou l'un de ceux déjà commencés ? Sans cela,
+         un voyage libre entamé la veille n'était atteignable que par « Mes
+         itinéraires », alors que sa place est ici. */
+      var mL=document.getElementById('mLibre');
+      if(mL) mL.onclick=function(){
+        requirePass(uiT('itin.feature.libre'), function(){
+          if(!window.THElibreChoisir){ window.startLibre(); return; }
+          THElibreChoisir(
+            function(){ window.startLibre(); },                       // un nouveau
+            function(rec){                                            // on en reprend un
+              /* on OUVRE la fiche, on ne la décrète pas « actif au démarrage » :
+                 l'étoile de la liste reste le seul geste qui fixe ça. */
+              location.href='itineraire.html?ouvrir='+encodeURIComponent((rec&&rec.id)||'');
+            });
+        });
+      };
+    }
+  })();
+  </script>
+<script src="the-etape.js" defer></script>
+<script src="the-adresse.js" defer></script>
+<script src="the-journal.js" defer></script>
+<script src="the-souvenir.js" defer></script>
+<script src="the-print.js" defer></script>
 </body>
 </html>

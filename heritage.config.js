@@ -29,7 +29,7 @@
     support:      "contact@threshold-analytics.com",   // e-mail contact/signalement (briques contact/note) — vide = brique masquée
     description:  "Découvrir le patrimoine de la Norvège : sites historiques, fjords, art rupestre et héritage viking, hors-ligne.",   // phrase PWA/SEO, ex. "Découvrir le patrimoine du Portugal…" — À REMPLIR
     // --- noms interpolés dans l'interface (ui.*.json) — PAR LANGUE ------------
-    pays: { fr: "Norvège", en: "Norway" },   // nom du pays par langue, ex. {fr:"Portugal", en:"Portugal"} — À REMPLIR
+    pays: { fr: "Norvège", en: "Norway", nb: "Norge" },   // nom du pays par langue, ex. {fr:"Portugal", en:"Portugal"} — À REMPLIR
     paysLe:       { fr: "la Norvège", en: "Norway", nb: "Norge" },   // nom AVEC article (token __LE_PAYS__) : "le Portugal" / "la Croatie" / "l'Italie"
     langueNat: { fr: "Norvégien", en: "Norwegian" },   // nom de la langue nationale par langue, ex. {fr:"Portugais", en:"Portuguese"}
     langNatCode:  "nb",   // CODE de la langue nationale (ISO) pour le sélecteur/drapeau — À REMPLIR.
